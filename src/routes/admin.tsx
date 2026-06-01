@@ -8,7 +8,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const sections = [
+const sections: { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/site-settings", label: "Site Settings", icon: Settings },
   { to: "/admin/page-content", label: "Page Content", icon: FileText },
@@ -19,7 +19,7 @@ const sections = [
   { to: "/admin/insights", label: "Insights / Blog", icon: BookOpen },
   { to: "/admin/testimonials", label: "Testimonials", icon: Quote },
   { to: "/admin/submissions", label: "Contact Inbox", icon: Inbox },
-] as const;
+];
 
 function AdminLayout() {
   const { isAdmin, loading, user } = useIsAdmin();
