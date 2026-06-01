@@ -1,0 +1,48 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import * as Icons from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { PageHero } from "@/components/page-hero";
+
+export const Route = createFileRoute("/industries")({
+  head: () => ({
+    meta: [
+      { title: "Industries We Serve" },
+      { name: "description", content: "Recruiting across tech, finance, healthcare, industrial, consumer, and professional services." },
+    ],
+  }),
+  component: IndustriesPage,
+});
+
+function IndustriesPage() {
+  const { data } = useQuery({
+    queryKey: ["industries"],
+    queryFn: async () => {
+      const { data } = await supabase.from("industries").select("*").eq("published", true).order("sort_order");
+      return data ?? [];
+    },
+  });
+  const Lucide = Icons as unknown as Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>>;
+
+  return (
+    <>
+      <PageHero eyebrow="Industries" title="Sector expertise that compounds." subtitle="We don't generalize. Each practice is led by partners with decades inside the industry." />
+      <section className="container mx-auto px-4 py-20">
+        <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">
+          {data?.map((ind) => {
+            const Icon = (ind.icon && Lucide[ind.icon]) || Icons.Building2;
+            return (
+              <div key={ind.id} className="flex flex-col gap-3 bg-background p-8">
+                <div className="flex h-11 w-11 items-center justify-center border border-border">
+                  <Icon className="h-5 w-5" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-display text-xl font-bold">{ind.label}</h3>
+                <p className="text-sm text-muted-foreground">{ind.description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </>
+  );
+}
