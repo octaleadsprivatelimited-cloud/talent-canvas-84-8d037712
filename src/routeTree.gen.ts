@@ -17,6 +17,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
@@ -24,11 +25,21 @@ import { Route as JobsIndexRouteImport } from './routes/jobs.index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as CompaniesIndexRouteImport } from './routes/companies.index'
 import { Route as CaseStudiesIndexRouteImport } from './routes/case-studies.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as JobsSlugRouteImport } from './routes/jobs.$slug'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as CompaniesSlugRouteImport } from './routes/companies.$slug'
 import { Route as CaseStudiesSlugRouteImport } from './routes/case-studies.$slug'
+import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
+import { Route as AdminTeamRouteImport } from './routes/admin.team'
+import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
+import { Route as AdminSiteSettingsRouteImport } from './routes/admin.site-settings'
+import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminPageContentRouteImport } from './routes/admin.page-content'
+import { Route as AdminInsightsRouteImport } from './routes/admin.insights'
+import { Route as AdminIndustriesRouteImport } from './routes/admin.industries'
+import { Route as AdminCaseStudiesRouteImport } from './routes/admin.case-studies'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -70,6 +81,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -105,6 +121,11 @@ const CaseStudiesIndexRoute = CaseStudiesIndexRouteImport.update({
   path: '/case-studies/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/services/$slug',
   path: '/services/$slug',
@@ -130,10 +151,56 @@ const CaseStudiesSlugRoute = CaseStudiesSlugRouteImport.update({
   path: '/case-studies/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTeamRoute = AdminTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSubmissionsRoute = AdminSubmissionsRouteImport.update({
+  id: '/submissions',
+  path: '/submissions',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteSettingsRoute = AdminSiteSettingsRouteImport.update({
+  id: '/site-settings',
+  path: '/site-settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPageContentRoute = AdminPageContentRouteImport.update({
+  id: '/page-content',
+  path: '/page-content',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInsightsRoute = AdminInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminIndustriesRoute = AdminIndustriesRouteImport.update({
+  id: '/industries',
+  path: '/industries',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCaseStudiesRoute = AdminCaseStudiesRouteImport.update({
+  id: '/case-studies',
+  path: '/case-studies',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/industries': typeof IndustriesRoute
@@ -142,11 +209,21 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
+  '/admin/case-studies': typeof AdminCaseStudiesRoute
+  '/admin/industries': typeof AdminIndustriesRoute
+  '/admin/insights': typeof AdminInsightsRoute
+  '/admin/page-content': typeof AdminPageContentRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/site-settings': typeof AdminSiteSettingsRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
+  '/admin/team': typeof AdminTeamRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/case-studies/$slug': typeof CaseStudiesSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/case-studies/': typeof CaseStudiesIndexRoute
   '/companies/': typeof CompaniesIndexRoute
   '/insights/': typeof InsightsIndexRoute
@@ -164,11 +241,21 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
+  '/admin/case-studies': typeof AdminCaseStudiesRoute
+  '/admin/industries': typeof AdminIndustriesRoute
+  '/admin/insights': typeof AdminInsightsRoute
+  '/admin/page-content': typeof AdminPageContentRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/site-settings': typeof AdminSiteSettingsRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
+  '/admin/team': typeof AdminTeamRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/case-studies/$slug': typeof CaseStudiesSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/case-studies': typeof CaseStudiesIndexRoute
   '/companies': typeof CompaniesIndexRoute
   '/insights': typeof InsightsIndexRoute
@@ -179,6 +266,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/industries': typeof IndustriesRoute
@@ -187,11 +275,21 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
+  '/admin/case-studies': typeof AdminCaseStudiesRoute
+  '/admin/industries': typeof AdminIndustriesRoute
+  '/admin/insights': typeof AdminInsightsRoute
+  '/admin/page-content': typeof AdminPageContentRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/site-settings': typeof AdminSiteSettingsRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
+  '/admin/team': typeof AdminTeamRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/case-studies/$slug': typeof CaseStudiesSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/case-studies/': typeof CaseStudiesIndexRoute
   '/companies/': typeof CompaniesIndexRoute
   '/insights/': typeof InsightsIndexRoute
@@ -203,6 +301,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/contact'
     | '/dashboard'
     | '/industries'
@@ -211,11 +310,21 @@ export interface FileRouteTypes {
     | '/signup'
     | '/team'
     | '/terms'
+    | '/admin/case-studies'
+    | '/admin/industries'
+    | '/admin/insights'
+    | '/admin/page-content'
+    | '/admin/services'
+    | '/admin/site-settings'
+    | '/admin/submissions'
+    | '/admin/team'
+    | '/admin/testimonials'
     | '/case-studies/$slug'
     | '/companies/$slug'
     | '/insights/$slug'
     | '/jobs/$slug'
     | '/services/$slug'
+    | '/admin/'
     | '/case-studies/'
     | '/companies/'
     | '/insights/'
@@ -233,11 +342,21 @@ export interface FileRouteTypes {
     | '/signup'
     | '/team'
     | '/terms'
+    | '/admin/case-studies'
+    | '/admin/industries'
+    | '/admin/insights'
+    | '/admin/page-content'
+    | '/admin/services'
+    | '/admin/site-settings'
+    | '/admin/submissions'
+    | '/admin/team'
+    | '/admin/testimonials'
     | '/case-studies/$slug'
     | '/companies/$slug'
     | '/insights/$slug'
     | '/jobs/$slug'
     | '/services/$slug'
+    | '/admin'
     | '/case-studies'
     | '/companies'
     | '/insights'
@@ -247,6 +366,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/contact'
     | '/dashboard'
     | '/industries'
@@ -255,11 +375,21 @@ export interface FileRouteTypes {
     | '/signup'
     | '/team'
     | '/terms'
+    | '/admin/case-studies'
+    | '/admin/industries'
+    | '/admin/insights'
+    | '/admin/page-content'
+    | '/admin/services'
+    | '/admin/site-settings'
+    | '/admin/submissions'
+    | '/admin/team'
+    | '/admin/testimonials'
     | '/case-studies/$slug'
     | '/companies/$slug'
     | '/insights/$slug'
     | '/jobs/$slug'
     | '/services/$slug'
+    | '/admin/'
     | '/case-studies/'
     | '/companies/'
     | '/insights/'
@@ -270,6 +400,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   IndustriesRoute: typeof IndustriesRoute
@@ -348,6 +479,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -397,6 +535,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaseStudiesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/services/$slug': {
       id: '/services/$slug'
       path: '/services/$slug'
@@ -432,12 +577,104 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaseStudiesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/testimonials': {
+      id: '/admin/testimonials'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminTestimonialsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/team': {
+      id: '/admin/team'
+      path: '/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AdminTeamRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/submissions': {
+      id: '/admin/submissions'
+      path: '/submissions'
+      fullPath: '/admin/submissions'
+      preLoaderRoute: typeof AdminSubmissionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site-settings': {
+      id: '/admin/site-settings'
+      path: '/site-settings'
+      fullPath: '/admin/site-settings'
+      preLoaderRoute: typeof AdminSiteSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/page-content': {
+      id: '/admin/page-content'
+      path: '/page-content'
+      fullPath: '/admin/page-content'
+      preLoaderRoute: typeof AdminPageContentRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/insights': {
+      id: '/admin/insights'
+      path: '/insights'
+      fullPath: '/admin/insights'
+      preLoaderRoute: typeof AdminInsightsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/industries': {
+      id: '/admin/industries'
+      path: '/industries'
+      fullPath: '/admin/industries'
+      preLoaderRoute: typeof AdminIndustriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/case-studies': {
+      id: '/admin/case-studies'
+      path: '/case-studies'
+      fullPath: '/admin/case-studies'
+      preLoaderRoute: typeof AdminCaseStudiesRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminCaseStudiesRoute: typeof AdminCaseStudiesRoute
+  AdminIndustriesRoute: typeof AdminIndustriesRoute
+  AdminInsightsRoute: typeof AdminInsightsRoute
+  AdminPageContentRoute: typeof AdminPageContentRoute
+  AdminServicesRoute: typeof AdminServicesRoute
+  AdminSiteSettingsRoute: typeof AdminSiteSettingsRoute
+  AdminSubmissionsRoute: typeof AdminSubmissionsRoute
+  AdminTeamRoute: typeof AdminTeamRoute
+  AdminTestimonialsRoute: typeof AdminTestimonialsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminCaseStudiesRoute: AdminCaseStudiesRoute,
+  AdminIndustriesRoute: AdminIndustriesRoute,
+  AdminInsightsRoute: AdminInsightsRoute,
+  AdminPageContentRoute: AdminPageContentRoute,
+  AdminServicesRoute: AdminServicesRoute,
+  AdminSiteSettingsRoute: AdminSiteSettingsRoute,
+  AdminSubmissionsRoute: AdminSubmissionsRoute,
+  AdminTeamRoute: AdminTeamRoute,
+  AdminTestimonialsRoute: AdminTestimonialsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   IndustriesRoute: IndustriesRoute,
