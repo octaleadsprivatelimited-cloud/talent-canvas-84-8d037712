@@ -10,8 +10,9 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   const navItems = [
-    { to: "/jobs", label: "Find Jobs" },
-    { to: "/companies", label: "Companies" },
+    { to: "/", label: "Services", hash: "services" },
+    { to: "/companies", label: "Clients" },
+    { to: "/jobs", label: "Open Roles" },
   ] as const;
 
   return (
