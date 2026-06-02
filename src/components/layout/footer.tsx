@@ -4,7 +4,7 @@ import { useSiteSettings } from "@/hooks/use-site-settings";
 
 export function Footer() {
   const { data: site } = useSiteSettings();
-  const brand = site?.brand_name ?? "Acme Talent";
+  const brand = site?.brand_name ?? "Virelix Consulting";
 
   return (
     <footer className="border-t border-border bg-surface">

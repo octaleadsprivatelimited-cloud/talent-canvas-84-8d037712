@@ -22,7 +22,7 @@ export function Header() {
   const { data: site } = useSiteSettings();
   const [open, setOpen] = useState(false);
 
-  const brand = site?.brand_name ?? "Acme Talent";
+  const brand = site?.brand_name ?? "Virelix Consulting";
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
