@@ -51,8 +51,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Hireloop — Find your next role" },
-      { name: "description", content: "Modern recruiting platform connecting candidates with great companies." },
+      { title: "Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions" },
+      { name: "description", content: "Delaware-headquartered global talent acquisition, workforce solutions, training and business consulting — across the USA and India." },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),
