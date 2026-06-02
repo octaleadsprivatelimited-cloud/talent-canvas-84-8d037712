@@ -27,11 +27,11 @@ import heroHandshake from "@/assets/hero-handshake.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Hireloop — Executive Search & Talent Solutions" },
+      { title: "Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions" },
       {
         name: "description",
         content:
-          "Hireloop is a global recruiting agency placing exceptional talent with ambitious companies. Executive search, contract staffing, and RPO.",
+          "Virelix Consulting is a Delaware-headquartered global talent acquisition, workforce solutions, training and business consulting firm with operations across the USA and India.",
       },
     ],
   }),
@@ -41,32 +41,32 @@ export const Route = createFileRoute("/")({
 const services = [
   {
     icon: Target,
-    title: "Executive Search",
-    desc: "Retained search for C-suite, VP, and Director roles across high-growth industries.",
+    title: "Executive Search & Leadership Hiring",
+    desc: "Retained search for C-suite, VP, and Director roles led by senior consultants with deep sector expertise.",
   },
   {
-    icon: Users,
-    title: "Contract Staffing",
-    desc: "Vetted contractors and interim leaders deployed in days, not months.",
+    icon: Cpu,
+    title: "IT & Non-IT Recruitment",
+    desc: "Specialist hiring across technology, engineering, finance, sales, operations, and support functions.",
   },
   {
     icon: Briefcase,
-    title: "RPO & Embedded Teams",
-    desc: "We embed senior recruiters inside your team to scale hiring without the overhead.",
+    title: "RPO & Workforce Solutions",
+    desc: "Embedded recruiters and end-to-end hiring operations that scale with your business.",
   },
   {
     icon: TrendingUp,
-    title: "Talent Advisory",
-    desc: "Compensation benchmarking, org design, and talent strategy from people who've done it.",
+    title: "Consulting & Professional Training",
+    desc: "Workforce planning, talent mapping, business consulting, and career development programs.",
   },
 ];
 
 const industries = [
-  { icon: Cpu, label: "Technology & SaaS" },
-  { icon: Banknote, label: "Financial Services" },
-  { icon: Stethoscope, label: "Healthcare & Life Sciences" },
-  { icon: Factory, label: "Industrial & Energy" },
-  { icon: ShoppingBag, label: "Consumer & Retail" },
+  { icon: Cpu, label: "Information Technology" },
+  { icon: Stethoscope, label: "Healthcare" },
+  { icon: Factory, label: "Engineering & Manufacturing" },
+  { icon: Banknote, label: "Finance & Accounting" },
+  { icon: ShoppingBag, label: "Retail & E-Commerce" },
   { icon: Building2, label: "Professional Services" },
 ];
 
@@ -74,58 +74,58 @@ const process = [
   {
     step: "01",
     icon: Search,
-    title: "Discover",
-    desc: "We dig into your business, culture, and the real shape of the role — beyond the JD.",
+    title: "Discovery & Workforce Planning",
+    desc: "We align with your business objectives, workforce challenges, and long-term hiring goals.",
   },
   {
     step: "02",
     icon: Users,
-    title: "Source & Assess",
-    desc: "A dedicated partner runs a calibrated search and presents a shortlist of 4–6 in 14 days.",
+    title: "Talent Mapping & Sourcing",
+    desc: "Market research, targeted sourcing, screening, and shortlisting through our global network.",
   },
   {
     step: "03",
     icon: Handshake,
-    title: "Close & Onboard",
-    desc: "We manage offers, references, and the first 90 days — with a placement guarantee.",
+    title: "Interview, Offer & Onboarding",
+    desc: "Coordinated interviews, offer management, and onboarding support for a smooth start.",
   },
 ];
 
 const stats = [
-  { value: "1,800+", label: "Placements made" },
-  { value: "94%", label: "Offer acceptance" },
-  { value: "21d", label: "Avg. shortlist" },
-  { value: "65", label: "Countries" },
+  { value: "USA", label: "Delaware HQ" },
+  { value: "2", label: "Continents — USA & India" },
+  { value: "10+", label: "Industries served" },
+  { value: "24/7", label: "Recruitment delivery" },
 ];
 
 const testimonials = [
   {
     quote:
-      "Hireloop placed our VP of Engineering in under five weeks. The shortlist quality was the best I've seen in 15 years of hiring.",
-    name: "Maya Chen",
-    role: "Chief People Officer, Nimbus Labs",
+      "Virelix delivered a senior shortlist faster than any partner we've worked with — quality candidates, deeply aligned with our culture.",
+    name: "Talent Leader",
+    role: "US Technology Client",
   },
   {
     quote:
-      "They feel like an extension of our team. Honest, fast, and they push back when we're wrong — exactly what we needed.",
-    name: "Daniel Ortiz",
-    role: "Co-founder & CEO, Helix Health",
+      "Their RPO team integrated with us seamlessly. We scaled hiring without adding internal overhead.",
+    name: "Head of People",
+    role: "Healthcare Client",
   },
   {
     quote:
-      "We scaled from 40 to 180 in 18 months with their embedded RPO model. Could not have done it with an agency on commission.",
-    name: "Priya Raman",
-    role: "VP Talent, Atlas Robotics",
+      "Transparent, responsive, and outcome-driven. Virelix feels like an extension of our hiring team.",
+    name: "VP Operations",
+    role: "Financial Services Client",
   },
 ];
 
 const clients = [
-  "NIMBUS LABS",
-  "HELIX HEALTH",
-  "ATLAS ROBOTICS",
-  "NORTHWIND",
-  "KESTREL CAPITAL",
-  "VANTAGE AI",
+  "DELAWARE, USA",
+  "GLOBAL DELIVERY",
+  "USA + INDIA",
+  "RPO",
+  "EXECUTIVE SEARCH",
+  "WORKFORCE SOLUTIONS",
 ];
 
 function Index() {
@@ -142,26 +142,26 @@ function Index() {
             {/* LEFT: copy */}
             <div className="lg:col-span-7">
               <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
-                <span>Global Recruiting Agency</span>
+                <span>Global Talent & Workforce Solutions</span>
                 <span className="h-px w-8 bg-accent/50" />
-                <span className="text-primary-foreground/60">Est. 2014</span>
+                <span className="text-primary-foreground/60">Delaware, USA</span>
               </div>
 
               <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tight text-primary-foreground md:text-7xl lg:text-[5.5rem]">
-                We find the
+                Building
                 <br />
-                people who
+                high-performing
                 <br />
                 <span className="relative inline-block">
-                  <span className="relative z-10 text-accent">move markets.</span>
+                  <span className="relative z-10 text-accent">teams.</span>
                   <span className="absolute -bottom-1 left-0 right-0 z-0 h-3 bg-accent/20" />
                 </span>
               </h1>
 
               <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/75">
-                A specialist recruiting agency for ambitious companies in tech, healthcare,
-                finance and industrial sectors. Retained search, embedded RPO and on-demand
-                staffing — under one roof.
+                Virelix Consulting connects high-growth organizations with exceptional talent
+                through strategic recruitment, workforce solutions, business consulting, and
+                professional training — delivered across the USA and India.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -171,17 +171,17 @@ function Index() {
                   asChild
                   className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
                 >
-                  <Link to="/signup">
-                    Hire with us <ArrowUpRight className="ml-1 h-5 w-5" />
+                  <Link to="/contact">
+                    Hire with Virelix <ArrowUpRight className="ml-1 h-5 w-5" />
                   </Link>
                 </Button>
                 <Link
-                  to="/jobs"
+                  to="/services"
                   className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-primary-foreground"
                 >
                   <PlayCircle className="h-5 w-5 text-accent" />
                   <span className="border-b border-transparent pb-0.5 transition group-hover:border-accent">
-                    View open roles
+                    Explore our services
                   </span>
                 </Link>
               </div>
@@ -217,9 +217,9 @@ function Index() {
 
                 {/* Floating stat card */}
                 <div className="absolute -right-4 top-8 hidden border-l-4 border-accent bg-background px-5 py-4 shadow-xl sm:block md:-right-8">
-                  <p className="font-display text-3xl font-bold text-foreground">94%</p>
+                  <p className="font-display text-3xl font-bold text-foreground">USA + IN</p>
                   <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Offer accept rate
+                    Global delivery model
                   </p>
                 </div>
               </div>
@@ -316,9 +316,9 @@ function Index() {
                 className="relative aspect-[4/5] w-full object-cover shadow-xl"
               />
               <div className="absolute -bottom-6 -right-4 max-w-[220px] border-l-4 border-accent bg-background p-5 shadow-xl md:-right-8">
-                <p className="font-display text-2xl font-bold">1,800+</p>
+                <p className="font-display text-2xl font-bold">USA + India</p>
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Successful placements across 65 countries
+                  Global delivery across two continents
                 </p>
               </div>
             </div>
@@ -380,18 +380,18 @@ function Index() {
 
         <div className="mt-12 grid gap-8 border-l-4 border-accent bg-card p-8 md:grid-cols-2 md:items-center md:p-10">
           <div>
-            <h3 className="font-display text-2xl font-bold">Our placement guarantee</h3>
+            <h3 className="font-display text-2xl font-bold">Why organizations choose Virelix</h3>
             <p className="mt-2 text-muted-foreground">
-              Every retained search comes with a 90-day replacement guarantee. If it doesn't work
-              out, we run the search again — on us.
+              A Delaware-headquartered partner with global delivery — combining quality,
+              speed, and cost efficiency across every engagement.
             </p>
           </div>
           <ul className="grid gap-3 sm:grid-cols-2">
             {[
-              "Dedicated senior partner",
-              "Weekly progress reporting",
-              "Diversity-first sourcing",
-              "Transparent flat fees",
+              "USA headquartered",
+              "Global talent network",
+              "Industry-specific expertise",
+              "Dedicated recruitment specialists",
             ].map((item) => (
               <li key={item} className="flex items-start gap-2 text-sm font-medium">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -447,11 +447,11 @@ function Index() {
           <div className="relative grid gap-8 md:grid-cols-2 md:items-center">
             <div>
               <h2 className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl">
-                Let's talk about your next hire.
+                Let's build your next high-performing team.
               </h2>
               <p className="mt-4 max-w-lg text-primary-foreground/80">
-                Tell us about the role — we'll come back within one business day with a plan,
-                timeline, and a flat-fee quote.
+                Share your hiring or workforce need — a Virelix consultant will respond within
+                one business day with a tailored plan.
               </p>
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
@@ -461,7 +461,7 @@ function Index() {
                 asChild
                 className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
               >
-                <Link to="/signup">Book an intro call</Link>
+                <Link to="/contact">Contact Virelix</Link>
               </Button>
               <Button
                 size="lg"
@@ -469,7 +469,7 @@ function Index() {
                 asChild
                 className="rounded-none border-primary-foreground/30 bg-transparent px-7 py-6 text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
-                <Link to="/jobs">Browse open roles</Link>
+                <Link to="/services">Our services</Link>
               </Button>
             </div>
           </div>
