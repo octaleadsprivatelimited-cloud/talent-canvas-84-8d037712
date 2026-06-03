@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/page-hero";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({ meta: [{ title: "Privacy Policy" }, { name: "description", content: "How we collect, use, and protect data." }] }),
   component: () => (
     <>
+      <DynamicSeo pageKey="privacy" fallbackTitle="Privacy Policy" fallbackDescription="How we collect, use, and protect data." />
       <PageHero eyebrow="Legal" title="Privacy Policy" subtitle="Last updated: June 2026" />
       <section className="container mx-auto max-w-3xl space-y-6 px-4 py-16 text-foreground/90">
         <p>We collect only the data we need to deliver our recruiting services: contact details you submit, the roles you discuss with us, and the candidate information you share with our consultants.</p>
