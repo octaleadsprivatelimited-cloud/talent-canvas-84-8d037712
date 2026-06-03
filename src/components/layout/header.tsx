@@ -25,13 +25,13 @@ export function Header() {
   const brand = site?.brand_name ?? "Virelix Consulting";
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
+    <header className="sticky top-0 z-40 w-full border-b border-border/50 glass">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2 font-display text-lg font-bold tracking-tight">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-hero">
+        <Link to="/" className="group flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight">
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-hero shadow-glow transition-transform duration-300 group-hover:scale-105">
             <Briefcase className="h-4 w-4 text-primary-foreground" strokeWidth={2.5} />
           </div>
-          <span>{brand}</span>
+          <span className="text-gradient">{brand}</span>
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">
