@@ -107,7 +107,7 @@ function ServicesPage() {
                 params={{ slug: s.slug }}
                 className="group flex flex-col bg-background transition-colors hover:bg-surface"
               >
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
+                <div className="relative mx-auto aspect-[3/2] w-full max-w-md overflow-hidden bg-muted md:aspect-[4/3]">
                   <img
                     src={img.src}
                     srcSet={img.srcSet}
