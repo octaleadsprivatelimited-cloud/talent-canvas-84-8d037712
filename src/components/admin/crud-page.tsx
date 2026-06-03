@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,19 +39,18 @@ export function CrudPage<T extends Row>({
   const [editing, setEditing] = useState<T | null>(null);
   const [open, setOpen] = useState(false);
 
-  const reload = async () => {
+  const reload = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabaseAny.from(table).select("*").order(orderBy, { ascending: asc });
     if (error) toast.error(error.message);
     setRows((data as T[]) ?? []);
     setLoading(false);
     qc.invalidateQueries({ queryKey: [queryKey] });
-  };
+  }, [table, orderBy, asc, qc, queryKey]);
 
-  // initial load
-  if (rows === null && loading) {
+  useEffect(() => {
     reload();
-  }
+  }, [reload]);
 
   const openNew = () => { setEditing({ id: "" } as T); setOpen(true); };
   const openEdit = (row: T) => { setEditing({ ...row }); setOpen(true); };
