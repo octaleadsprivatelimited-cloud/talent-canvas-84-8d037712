@@ -5,13 +5,24 @@ export type LayoutId = "hero-features" | "split-content" | "longform" | "landing
 
 export type LayoutContent = Record<string, unknown>;
 
+export type RepeaterSubField = {
+  key: string;
+  label: string;
+  type: "text" | "textarea" | "url";
+  rows?: number;
+  placeholder?: string;
+};
+
 export type LayoutFieldDef = {
   key: string;
   label: string;
-  type: "text" | "textarea" | "url" | "array" | "json";
+  type: "text" | "textarea" | "url" | "repeater";
   rows?: number;
   placeholder?: string;
   help?: string;
+  // for type === "repeater"
+  itemLabel?: string;
+  itemFields?: RepeaterSubField[];
 };
 
 export type LayoutMeta = {
