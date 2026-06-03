@@ -459,10 +459,12 @@ function Index() {
           <div className="absolute inset-y-0 left-0 w-2 bg-accent" />
           <div className="relative grid gap-8 md:grid-cols-2 md:items-center">
             <div>
-              <h2 className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl">
+              <h2 className="font-display text-4xl font-bold tracking-tight text-gradient-hero-foreground md:text-5xl">
                 {copy.cta_heading}
               </h2>
-              <p className="mt-4 max-w-lg text-primary-foreground/80">{copy.cta_description}</p>
+              <p className="mt-4 max-w-lg text-gradient-hero-foreground/80">
+                {copy.cta_description}
+              </p>
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
               <Button
@@ -477,7 +479,7 @@ function Index() {
                 size="lg"
                 variant="outline"
                 asChild
-                className="rounded-none border-primary-foreground/30 bg-transparent px-7 py-6 text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                className="rounded-none border-gradient-hero-foreground/30 bg-transparent px-7 py-6 text-base text-gradient-hero-foreground hover:bg-gradient-hero-foreground/10 hover:text-gradient-hero-foreground"
               >
                 <a href={copy.cta_secondary_to}>{copy.cta_secondary_label}</a>
               </Button>

@@ -74,9 +74,11 @@ function EditorialHero() {
             <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
               <span>Global Talent & Workforce Solutions</span>
               <span className="hidden h-px w-8 bg-accent/50 sm:block" />
-              <span className="hidden text-primary-foreground/60 sm:inline">Delaware, USA</span>
+              <span className="hidden text-gradient-hero-foreground/60 sm:inline">
+                Delaware, USA
+              </span>
             </div>
-            <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tight text-primary-foreground md:text-7xl lg:text-[5.5rem]">
+            <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tight text-gradient-hero-foreground md:text-7xl lg:text-[5.5rem]">
               Building
               <br />
               high-performing
@@ -86,7 +88,7 @@ function EditorialHero() {
                 <span className="absolute -bottom-1 left-0 right-0 z-0 h-3 bg-accent/20" />
               </span>
             </h1>
-            <p className="mt-8 max-w-xl text-base leading-relaxed text-primary-foreground/75 md:text-lg">
+            <p className="mt-8 max-w-xl text-base leading-relaxed text-gradient-hero-foreground/75 md:text-lg">
               Virelix Consulting connects high-growth organizations with exceptional talent through
               strategic recruitment, workforce solutions, business consulting, and professional
               training — delivered across the USA and India.
@@ -104,7 +106,7 @@ function EditorialHero() {
               </Button>
               <Link
                 to="/services"
-                className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-primary-foreground"
+                className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gradient-hero-foreground"
               >
                 <PlayCircle className="h-5 w-5 text-accent" />
                 <span className="border-b border-transparent pb-0.5 transition group-hover:border-accent">
@@ -127,28 +129,28 @@ function EditorialHero() {
             </div>
           </div>
         </div>
-        <div className="relative mt-16 grid grid-cols-2 divide-y divide-primary-foreground/10 border-y-2 border-accent/40 md:mt-20 md:grid-cols-4 md:divide-x md:divide-y-0">
+        <div className="relative mt-16 grid grid-cols-2 divide-y divide-gradient-hero-foreground/10 border-y-2 border-accent/40 md:mt-20 md:grid-cols-4 md:divide-x md:divide-y-0">
           {stats.map((s) => (
             <div key={s.label} className="px-4 py-5 md:px-8 md:py-8">
-              <p className="font-display text-3xl font-bold text-primary-foreground md:text-5xl">
+              <p className="font-display text-3xl font-bold text-gradient-hero-foreground md:text-5xl">
                 {s.value}
               </p>
-              <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground/60 md:text-xs">
+              <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-gradient-hero-foreground/60 md:text-xs">
                 {s.label}
               </p>
             </div>
           ))}
         </div>
       </div>
-      <div className="mt-0 border-t border-primary-foreground/10 bg-primary-foreground/[0.04] py-5">
+      <div className="mt-0 border-t border-gradient-hero-foreground/10 bg-gradient-hero-foreground/[0.04] py-5">
         <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-8 gap-y-3 px-4">
-          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary-foreground/40">
+          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-gradient-hero-foreground/40">
             Trusted by
           </span>
           {clients.map((c) => (
             <span
               key={c}
-              className="font-display text-[10px] font-bold tracking-[0.18em] text-primary-foreground/55 md:text-xs"
+              className="font-display text-[10px] font-bold tracking-[0.18em] text-gradient-hero-foreground/55 md:text-xs"
             >
               {c}
             </span>
