@@ -15,6 +15,7 @@ export type SiteSettings = {
   primary_color: string | null;
   accent_color: string | null;
   footer_about: string | null;
+  home_theme: string | null;
 };
 
 export function useSiteSettings() {
