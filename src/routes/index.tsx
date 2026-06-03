@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -18,11 +19,52 @@ import {
   Quote,
   Star,
   PlayCircle,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroTeam from "@/assets/hero-team.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import heroHandshake from "@/assets/hero-handshake.jpg";
+
+const heroSlides = [
+  {
+    eyebrow: "Global Talent & Workforce Solutions",
+    location: "Delaware, USA",
+    title: ["Building", "high-performing", "teams."],
+    accentWord: "teams.",
+    description:
+      "Virelix Consulting connects high-growth organizations with exceptional talent through strategic recruitment, workforce solutions, and consulting — delivered across the USA and India.",
+    ctaPrimary: { label: "Hire with Virelix", to: "/contact" },
+    ctaSecondary: { label: "Explore our services", to: "/services" },
+    image: heroTeam,
+    badge: { value: "USA + IN", label: "Global delivery model" },
+  },
+  {
+    eyebrow: "Executive Search & Leadership Hiring",
+    location: "C-Suite • VP • Director",
+    title: ["Leaders who", "move your", "business."],
+    accentWord: "business.",
+    description:
+      "Retained executive search led by senior consultants with deep sector expertise — placing transformational leaders across technology, healthcare, and financial services.",
+    ctaPrimary: { label: "Start an executive search", to: "/contact" },
+    ctaSecondary: { label: "See our approach", to: "/services" },
+    image: heroPortrait,
+    badge: { value: "C-Suite", label: "Retained search practice" },
+  },
+  {
+    eyebrow: "RPO & Workforce Solutions",
+    location: "Scale on demand",
+    title: ["Recruitment", "that scales", "with you."],
+    accentWord: "with you.",
+    description:
+      "Embedded recruiters and end-to-end hiring operations that flex with your headcount plan — scale up, ramp down, and stay efficient through every cycle.",
+    ctaPrimary: { label: "Plan your RPO", to: "/contact" },
+    ctaSecondary: { label: "Explore workforce solutions", to: "/services" },
+    image: heroHandshake,
+    badge: { value: "10x", label: "Faster time-to-hire" },
+  },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
