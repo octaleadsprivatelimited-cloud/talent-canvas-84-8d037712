@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -18,11 +19,52 @@ import {
   Quote,
   Star,
   PlayCircle,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroTeam from "@/assets/hero-team.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import heroHandshake from "@/assets/hero-handshake.jpg";
+
+const heroSlides = [
+  {
+    eyebrow: "Global Talent & Workforce Solutions",
+    location: "Delaware, USA",
+    title: ["Building", "high-performing", "teams."],
+    accentWord: "teams.",
+    description:
+      "Virelix Consulting connects high-growth organizations with exceptional talent through strategic recruitment, workforce solutions, and consulting — delivered across the USA and India.",
+    ctaPrimary: { label: "Hire with Virelix", to: "/contact" },
+    ctaSecondary: { label: "Explore our services", to: "/services" },
+    image: heroTeam,
+    badge: { value: "USA + IN", label: "Global delivery model" },
+  },
+  {
+    eyebrow: "Executive Search & Leadership Hiring",
+    location: "C-Suite • VP • Director",
+    title: ["Leaders who", "move your", "business."],
+    accentWord: "business.",
+    description:
+      "Retained executive search led by senior consultants with deep sector expertise — placing transformational leaders across technology, healthcare, and financial services.",
+    ctaPrimary: { label: "Start an executive search", to: "/contact" },
+    ctaSecondary: { label: "See our approach", to: "/services" },
+    image: heroPortrait,
+    badge: { value: "C-Suite", label: "Retained search practice" },
+  },
+  {
+    eyebrow: "RPO & Workforce Solutions",
+    location: "Scale on demand",
+    title: ["Recruitment", "that scales", "with you."],
+    accentWord: "with you.",
+    description:
+      "Embedded recruiters and end-to-end hiring operations that flex with your headcount plan — scale up, ramp down, and stay efficient through every cycle.",
+    ctaPrimary: { label: "Plan your RPO", to: "/contact" },
+    ctaSecondary: { label: "Explore workforce solutions", to: "/services" },
+    image: heroHandshake,
+    badge: { value: "10x", label: "Faster time-to-hire" },
+  },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -129,105 +171,149 @@ const clients = [
 ];
 
 function Index() {
+  const [slide, setSlide] = useState(0);
+  const total = heroSlides.length;
+  const go = (i: number) => setSlide(((i % total) + total) % total);
+
+  useEffect(() => {
+    const id = setInterval(() => setSlide((s) => (s + 1) % total), 6500);
+    return () => clearInterval(id);
+  }, [total]);
+
   return (
     <>
-      {/* ============== HERO ============== */}
+      {/* ============== HERO SLIDER ============== */}
       <section className="relative overflow-hidden bg-gradient-hero">
         {/* sharp accent grid */}
         <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:64px_64px]" />
         <div className="absolute -right-32 -top-32 h-96 w-96 bg-accent/20 blur-3xl" />
 
         <div className="container relative mx-auto px-4 pb-0 pt-16 md:pt-24">
-          <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
-            {/* LEFT: copy */}
-            <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
-                <span>Global Talent & Workforce Solutions</span>
-                <span className="h-px w-8 bg-accent/50" />
-                <span className="text-primary-foreground/60">Delaware, USA</span>
-              </div>
+          {/* Slide track */}
+          <div className="relative overflow-hidden">
+            <div
+              className="flex transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)]"
+              style={{ transform: `translateX(-${slide * 100}%)` }}
+            >
+              {heroSlides.map((s, idx) => (
+                <div key={idx} className="w-full shrink-0">
+                  <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
+                    {/* LEFT: copy */}
+                    <div className="lg:col-span-7">
+                      <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                        <span>{s.eyebrow}</span>
+                        <span className="h-px w-8 bg-accent/50" />
+                        <span className="text-primary-foreground/60">{s.location}</span>
+                      </div>
 
-              <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tight text-primary-foreground md:text-7xl lg:text-[5.5rem]">
-                Building
-                <br />
-                high-performing
-                <br />
-                <span className="relative inline-block">
-                  <span className="relative z-10 text-accent">teams.</span>
-                  <span className="absolute -bottom-1 left-0 right-0 z-0 h-3 bg-accent/20" />
-                </span>
-              </h1>
+                      <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tight text-primary-foreground md:text-7xl lg:text-[5.5rem]">
+                        {s.title.map((line, i) =>
+                          line === s.accentWord ? (
+                            <span key={i} className="relative inline-block">
+                              <span className="relative z-10 text-accent">{line}</span>
+                              <span className="absolute -bottom-1 left-0 right-0 z-0 h-3 bg-accent/20" />
+                            </span>
+                          ) : (
+                            <span key={i}>
+                              {line}
+                              <br />
+                            </span>
+                          ),
+                        )}
+                      </h1>
 
-              <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/75">
-                Virelix Consulting connects high-growth organizations with exceptional talent
-                through strategic recruitment, workforce solutions, business consulting, and
-                professional training — delivered across the USA and India.
-              </p>
+                      <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/75">
+                        {s.description}
+                      </p>
 
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  asChild
-                  className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
-                >
-                  <Link to="/contact">
-                    Hire with Virelix <ArrowUpRight className="ml-1 h-5 w-5" />
-                  </Link>
-                </Button>
-                <Link
-                  to="/services"
-                  className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-primary-foreground"
-                >
-                  <PlayCircle className="h-5 w-5 text-accent" />
-                  <span className="border-b border-transparent pb-0.5 transition group-hover:border-accent">
-                    Explore our services
-                  </span>
-                </Link>
-              </div>
+                      <div className="mt-10 flex flex-wrap items-center gap-4">
+                        <Button
+                          size="lg"
+                          variant="secondary"
+                          asChild
+                          className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
+                        >
+                          <Link to={s.ctaPrimary.to}>
+                            {s.ctaPrimary.label} <ArrowUpRight className="ml-1 h-5 w-5" />
+                          </Link>
+                        </Button>
+                        <Link
+                          to={s.ctaSecondary.to}
+                          className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-primary-foreground"
+                        >
+                          <PlayCircle className="h-5 w-5 text-accent" />
+                          <span className="border-b border-transparent pb-0.5 transition group-hover:border-accent">
+                            {s.ctaSecondary.label}
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* RIGHT: image */}
+                    <div className="lg:col-span-5">
+                      <div className="relative aspect-[4/5] w-full">
+                        <div className="absolute -left-4 -top-4 h-32 w-32 bg-accent md:-left-6 md:-top-6 md:h-40 md:w-40" />
+                        <div className="absolute -bottom-4 -right-4 h-24 w-24 border-4 border-accent md:-bottom-6 md:-right-6 md:h-32 md:w-32" />
+                        <img
+                          src={s.image}
+                          alt={s.eyebrow}
+                          width={1280}
+                          height={1600}
+                          className="relative h-full w-full object-cover shadow-2xl"
+                        />
+                        <div className="absolute -right-4 top-8 hidden border-l-4 border-accent bg-background px-5 py-4 shadow-xl sm:block md:-right-8">
+                          <p className="font-display text-3xl font-bold text-foreground">
+                            {s.badge.value}
+                          </p>
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                            {s.badge.label}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
+          </div>
 
-            {/* RIGHT: image collage */}
-            <div className="lg:col-span-5">
-              <div className="relative aspect-[4/5] w-full">
-                {/* Accent geometric block behind */}
-                <div className="absolute -left-4 -top-4 h-32 w-32 bg-accent md:-left-6 md:-top-6 md:h-40 md:w-40" />
-                <div className="absolute -bottom-4 -right-4 h-24 w-24 border-4 border-accent md:-bottom-6 md:-right-6 md:h-32 md:w-32" />
-
-                {/* Main image */}
-                <img
-                  src={heroTeam}
-                  alt="Hireloop recruiting consultants collaborating"
-                  width={1280}
-                  height={1600}
-                  className="relative h-full w-full object-cover shadow-2xl"
+          {/* Slider controls */}
+          <div className="mt-12 flex items-center justify-between gap-6 border-t border-primary-foreground/10 pt-6">
+            <div className="flex items-center gap-3">
+              {heroSlides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => go(i)}
+                  aria-label={`Go to slide ${i + 1}`}
+                  className={`h-[3px] transition-all ${
+                    i === slide ? "w-12 bg-accent" : "w-6 bg-primary-foreground/30 hover:bg-primary-foreground/60"
+                  }`}
                 />
-
-                {/* Floating portrait card */}
-                <div className="absolute -left-6 bottom-12 hidden w-44 overflow-hidden border-4 border-background shadow-xl sm:block md:-left-10 md:w-52">
-                  <img
-                    src={heroPortrait}
-                    alt="Senior consultant"
-                    width={400}
-                    height={400}
-                    className="aspect-square w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-
-                {/* Floating stat card */}
-                <div className="absolute -right-4 top-8 hidden border-l-4 border-accent bg-background px-5 py-4 shadow-xl sm:block md:-right-8">
-                  <p className="font-display text-3xl font-bold text-foreground">USA + IN</p>
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Global delivery model
-                  </p>
-                </div>
-              </div>
+              ))}
+              <span className="ml-3 font-display text-xs font-bold tracking-[0.2em] text-primary-foreground/60">
+                {String(slide + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => go(slide - 1)}
+                aria-label="Previous slide"
+                className="flex h-12 w-12 items-center justify-center border border-primary-foreground/20 text-primary-foreground transition hover:border-accent hover:bg-accent hover:text-accent-foreground"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => go(slide + 1)}
+                aria-label="Next slide"
+                className="flex h-12 w-12 items-center justify-center border border-primary-foreground/20 text-primary-foreground transition hover:border-accent hover:bg-accent hover:text-accent-foreground"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
             </div>
           </div>
 
           {/* Stat strip — sharp bar */}
-          <div className="relative mt-20 grid grid-cols-2 divide-y divide-primary-foreground/10 border-y-2 border-accent/40 md:mt-24 md:grid-cols-4 md:divide-x md:divide-y-0">
+          <div className="relative mt-12 grid grid-cols-2 divide-y divide-primary-foreground/10 border-y-2 border-accent/40 md:mt-16 md:grid-cols-4 md:divide-x md:divide-y-0">
             {stats.map((s) => (
               <div key={s.label} className="px-6 py-6 md:px-8 md:py-8">
                 <p className="font-display text-4xl font-bold text-primary-foreground md:text-5xl">
@@ -258,6 +344,7 @@ function Index() {
           </div>
         </div>
       </section>
+
 
       {/* ============== SERVICES ============== */}
       <section className="container mx-auto px-4 py-20 md:py-28">
