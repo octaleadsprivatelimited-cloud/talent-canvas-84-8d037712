@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
-export const Route = createFileRoute("/industries")({
+export const Route = createFileRoute("/industries/")({
   head: () => ({
     meta: [
       { title: "Industries We Serve" },

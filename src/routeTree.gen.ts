@@ -13,7 +13,6 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
@@ -21,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as JobsIndexRouteImport } from './routes/jobs.index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
+import { Route as IndustriesIndexRouteImport } from './routes/industries.index'
 import { Route as CompaniesIndexRouteImport } from './routes/companies.index'
 import { Route as CaseStudiesIndexRouteImport } from './routes/case-studies.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -65,11 +65,6 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndustriesRoute = IndustriesRouteImport.update({
-  id: '/industries',
-  path: '/industries',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -103,6 +98,11 @@ const JobsIndexRoute = JobsIndexRouteImport.update({
 const InsightsIndexRoute = InsightsIndexRouteImport.update({
   id: '/insights/',
   path: '/insights/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesIndexRoute = IndustriesIndexRouteImport.update({
+  id: '/industries/',
+  path: '/industries/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompaniesIndexRoute = CompaniesIndexRouteImport.update({
@@ -226,7 +226,6 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
-  '/industries': typeof IndustriesRouteWithChildren
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/team': typeof TeamRoute
@@ -254,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/case-studies/': typeof CaseStudiesIndexRoute
   '/companies/': typeof CompaniesIndexRoute
+  '/industries/': typeof IndustriesIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/jobs/': typeof JobsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -262,7 +262,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/industries': typeof IndustriesRouteWithChildren
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/team': typeof TeamRoute
@@ -290,6 +289,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/case-studies': typeof CaseStudiesIndexRoute
   '/companies': typeof CompaniesIndexRoute
+  '/industries': typeof IndustriesIndexRoute
   '/insights': typeof InsightsIndexRoute
   '/jobs': typeof JobsIndexRoute
   '/services': typeof ServicesIndexRoute
@@ -300,7 +300,6 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
-  '/industries': typeof IndustriesRouteWithChildren
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/team': typeof TeamRoute
@@ -328,6 +327,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/case-studies/': typeof CaseStudiesIndexRoute
   '/companies/': typeof CompaniesIndexRoute
+  '/industries/': typeof IndustriesIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/jobs/': typeof JobsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -339,7 +339,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/contact'
-    | '/industries'
     | '/login'
     | '/privacy'
     | '/team'
@@ -367,6 +366,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/case-studies/'
     | '/companies/'
+    | '/industries/'
     | '/insights/'
     | '/jobs/'
     | '/services/'
@@ -375,7 +375,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
-    | '/industries'
     | '/login'
     | '/privacy'
     | '/team'
@@ -403,6 +402,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/case-studies'
     | '/companies'
+    | '/industries'
     | '/insights'
     | '/jobs'
     | '/services'
@@ -412,7 +412,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/contact'
-    | '/industries'
     | '/login'
     | '/privacy'
     | '/team'
@@ -440,6 +439,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/case-studies/'
     | '/companies/'
+    | '/industries/'
     | '/insights/'
     | '/jobs/'
     | '/services/'
@@ -450,7 +450,6 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
-  IndustriesRoute: typeof IndustriesRouteWithChildren
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
   TeamRoute: typeof TeamRoute
@@ -463,6 +462,7 @@ export interface RootRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
   CaseStudiesIndexRoute: typeof CaseStudiesIndexRoute
   CompaniesIndexRoute: typeof CompaniesIndexRoute
+  IndustriesIndexRoute: typeof IndustriesIndexRoute
   InsightsIndexRoute: typeof InsightsIndexRoute
   JobsIndexRoute: typeof JobsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -496,13 +496,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/industries': {
-      id: '/industries'
-      path: '/industries'
-      fullPath: '/industries'
-      preLoaderRoute: typeof IndustriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -552,6 +545,13 @@ declare module '@tanstack/react-router' {
       path: '/insights'
       fullPath: '/insights/'
       preLoaderRoute: typeof InsightsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries/': {
+      id: '/industries/'
+      path: '/industries'
+      fullPath: '/industries/'
+      preLoaderRoute: typeof IndustriesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/companies/': {
@@ -754,24 +754,11 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
-interface IndustriesRouteChildren {
-  IndustriesSlugRoute: typeof IndustriesSlugRoute
-}
-
-const IndustriesRouteChildren: IndustriesRouteChildren = {
-  IndustriesSlugRoute: IndustriesSlugRoute,
-}
-
-const IndustriesRouteWithChildren = IndustriesRoute._addFileChildren(
-  IndustriesRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
-  IndustriesRoute: IndustriesRouteWithChildren,
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
   TeamRoute: TeamRoute,
@@ -784,6 +771,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesSlugRoute: ServicesSlugRoute,
   CaseStudiesIndexRoute: CaseStudiesIndexRoute,
   CompaniesIndexRoute: CompaniesIndexRoute,
+  IndustriesIndexRoute: IndustriesIndexRoute,
   InsightsIndexRoute: InsightsIndexRoute,
   JobsIndexRoute: JobsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
