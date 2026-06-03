@@ -25,6 +25,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { HomeHero, type ThemeKey } from "@/components/home-themes";
 import { useSiteSettings } from "@/hooks/use-site-settings";
+import { usePageContent } from "@/hooks/use-page-content";
+import { HOMEPAGE_DEFAULTS } from "@/lib/homepage-defaults";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { DynamicSeo } from "@/components/dynamic-seo";
 import heroTeam from "@/assets/hero-team.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import heroHandshake from "@/assets/hero-handshake.jpg";
@@ -184,6 +189,25 @@ const sectionLabels: Record<(typeof sectionIds)[number], string> = {
 
 function Index() {
   const { data: settings } = useSiteSettings();
+  const { data: copy } = usePageContent("home", HOMEPAGE_DEFAULTS);
+  const { data: dbTestimonials } = useQuery({
+    queryKey: ["testimonials", "published"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("testimonials")
+        .select("id, quote, author_name, author_role, company")
+        .eq("published", true)
+        .order("sort_order");
+      return data ?? [];
+    },
+  });
+  const liveTestimonials = (dbTestimonials && dbTestimonials.length > 0)
+    ? dbTestimonials.map((t) => ({
+        quote: t.quote,
+        name: t.author_name,
+        role: [t.author_role, t.company].filter(Boolean).join(" · "),
+      }))
+    : testimonials;
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string>("hero");
 
@@ -218,6 +242,7 @@ function Index() {
       ref={scrollerRef}
       className="relative h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth [scroll-behavior:smooth]"
     >
+      <DynamicSeo pageKey="home" fallbackTitle="Strategic Talent Acquisition & Workforce Solutions" fallbackDescription="Delaware-headquartered global talent acquisition and workforce solutions." />
       {/* Side dot nav */}
       <nav
         aria-label="Section navigation"
@@ -262,18 +287,15 @@ function Index() {
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              What we do
+              {copy.services_eyebrow}
             </div>
             <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-              Services built around how you{" "}
-              <span className="text-primary">actually hire.</span>
+              {copy.services_heading}{" "}
+              <span className="text-primary">{copy.services_heading_accent}</span>
             </h2>
           </div>
           <div className="md:col-span-5">
-            <p className="text-muted-foreground">
-              Whether you're filling one critical seat or scaling by 10x, we plug in the right
-              model for the moment — and stand behind the work.
-            </p>
+            <p className="text-muted-foreground">{copy.services_intro}</p>
           </div>
         </div>
 
@@ -314,24 +336,21 @@ function Index() {
                 className="relative aspect-[4/5] w-full object-cover shadow-xl"
               />
               <div className="absolute -bottom-6 -right-4 max-w-[220px] border-l-4 border-accent bg-background p-5 shadow-xl md:-right-8">
-                <p className="font-display text-2xl font-bold">USA + India</p>
+                <p className="font-display text-2xl font-bold">{copy.industries_badge_value}</p>
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Global delivery across two continents
+                  {copy.industries_badge_label}
                 </p>
               </div>
             </div>
 
             <div className="lg:col-span-7">
               <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-                Industries
+                {copy.industries_eyebrow}
               </div>
               <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-                Deep specialization in the sectors shaping the next decade.
+                {copy.industries_heading}
               </h2>
-              <p className="mt-4 text-muted-foreground">
-                Our consultants come from the industries they recruit for — that means real
-                conversations with candidates and shortlists that land.
-              </p>
+              <p className="mt-4 text-muted-foreground">{copy.industries_intro}</p>
 
               <div className="mt-8 grid gap-px bg-border sm:grid-cols-2">
                 {industries.map((i) => (
@@ -355,11 +374,11 @@ function Index() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             <span className="h-px w-8 bg-primary" />
-            How we work
+            {copy.process_eyebrow}
             <span className="h-px w-8 bg-primary" />
           </div>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-            A search process measured in <span className="text-primary">weeks, not quarters.</span>
+            {copy.process_heading} <span className="text-primary">{copy.process_heading_accent}</span>
           </h2>
         </div>
 
@@ -378,19 +397,11 @@ function Index() {
 
         <div className="mt-12 grid gap-8 border-l-4 border-accent bg-card p-8 md:grid-cols-2 md:items-center md:p-10">
           <div>
-            <h3 className="font-display text-2xl font-bold">Why organizations choose Virelix</h3>
-            <p className="mt-2 text-muted-foreground">
-              A Delaware-headquartered partner with global delivery — combining quality,
-              speed, and cost efficiency across every engagement.
-            </p>
+            <h3 className="font-display text-2xl font-bold">{copy.why_heading}</h3>
+            <p className="mt-2 text-muted-foreground">{copy.why_intro}</p>
           </div>
           <ul className="grid gap-3 sm:grid-cols-2">
-            {[
-              "USA headquartered",
-              "Global talent network",
-              "Industry-specific expertise",
-              "Dedicated recruitment specialists",
-            ].map((item) => (
+            {copy.why_bullets.map((item) => (
               <li key={item} className="flex items-start gap-2 text-sm font-medium">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                 <span>{item}</span>
@@ -405,15 +416,15 @@ function Index() {
         <div className="container mx-auto px-4">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              Client stories
+              {copy.testimonials_eyebrow}
             </div>
             <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-              What it's like to work with us.
+              {copy.testimonials_heading}
             </h2>
           </div>
 
           <div className="mt-12 grid gap-0 border-t border-l border-border md:grid-cols-3">
-            {testimonials.map((t) => (
+            {liveTestimonials.map((t) => (
               <figure
                 key={t.name}
                 className="flex flex-col border-b border-r border-border bg-card p-8"
@@ -445,11 +456,10 @@ function Index() {
           <div className="relative grid gap-8 md:grid-cols-2 md:items-center">
             <div>
               <h2 className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl">
-                Let's build your next high-performing team.
+                {copy.cta_heading}
               </h2>
               <p className="mt-4 max-w-lg text-primary-foreground/80">
-                Share your hiring or workforce need — a Virelix consultant will respond within
-                one business day with a tailored plan.
+                {copy.cta_description}
               </p>
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
@@ -459,7 +469,7 @@ function Index() {
                 asChild
                 className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
               >
-                <Link to="/contact">Contact Virelix</Link>
+                <a href={copy.cta_primary_to}>{copy.cta_primary_label}</a>
               </Button>
               <Button
                 size="lg"
@@ -467,7 +477,7 @@ function Index() {
                 asChild
                 className="rounded-none border-primary-foreground/30 bg-transparent px-7 py-6 text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
-                <Link to="/services">Our services</Link>
+                <a href={copy.cta_secondary_to}>{copy.cta_secondary_label}</a>
               </Button>
             </div>
           </div>

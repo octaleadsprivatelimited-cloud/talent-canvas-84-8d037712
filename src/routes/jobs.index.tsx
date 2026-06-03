@@ -5,6 +5,7 @@ import { JobCard, type JobCardData } from "@/components/jobs/job-card";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 export const Route = createFileRoute("/jobs/")({
   head: () => ({ meta: [{ title: "Jobs — Hireloop" }, { name: "description", content: "Browse open roles." }] }),
@@ -32,6 +33,7 @@ function JobsPage() {
 
   return (
     <div className="container mx-auto px-4 py-10">
+      <DynamicSeo pageKey="jobs" fallbackTitle="Jobs" fallbackDescription="Browse open roles." />
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold md:text-4xl">All open roles</h1>
         <p className="mt-2 text-muted-foreground">{data?.length ?? 0} jobs available right now</p>

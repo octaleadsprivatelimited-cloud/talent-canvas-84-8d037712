@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Linkedin, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHero } from "@/components/page-hero";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 export const Route = createFileRoute("/team")({
   head: () => ({
@@ -25,6 +26,7 @@ function TeamPage() {
 
   return (
     <>
+      <DynamicSeo pageKey="team" fallbackTitle="Our Team" fallbackDescription="Meet the partners and consultants behind our practice." />
       <PageHero eyebrow="Our team" title="Partners and consultants you'll actually talk to." subtitle="No layered account management. The person on your first call leads your search." />
       <section className="container mx-auto px-4 py-20">
         <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">

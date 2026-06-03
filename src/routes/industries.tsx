@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import * as Icons from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHero } from "@/components/page-hero";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 export const Route = createFileRoute("/industries")({
   head: () => ({
@@ -26,6 +27,7 @@ function IndustriesPage() {
 
   return (
     <>
+      <DynamicSeo pageKey="industries" fallbackTitle="Industries We Serve" fallbackDescription="Recruiting across tech, finance, healthcare, industrial, consumer, and professional services." />
       <PageHero eyebrow="Industries" title="Sector expertise that compounds." subtitle="We don't generalize. Each practice is led by partners with decades inside the industry." />
       <section className="container mx-auto px-4 py-20">
         <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">

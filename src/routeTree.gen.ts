@@ -35,10 +35,12 @@ import { Route as AdminTeamRouteImport } from './routes/admin.team'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
 import { Route as AdminSiteSettingsRouteImport } from './routes/admin.site-settings'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminSeoRouteImport } from './routes/admin.seo'
 import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminPageContentRouteImport } from './routes/admin.page-content'
 import { Route as AdminInsightsRouteImport } from './routes/admin.insights'
 import { Route as AdminIndustriesRouteImport } from './routes/admin.industries'
+import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
 import { Route as AdminDiagnosticsRouteImport } from './routes/admin.diagnostics'
 import { Route as AdminCaseStudiesRouteImport } from './routes/admin.case-studies'
 
@@ -172,6 +174,11 @@ const AdminServicesRoute = AdminServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSeoRoute = AdminSeoRouteImport.update({
+  id: '/seo',
+  path: '/seo',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPagesRoute = AdminPagesRouteImport.update({
   id: '/pages',
   path: '/pages',
@@ -190,6 +197,11 @@ const AdminInsightsRoute = AdminInsightsRouteImport.update({
 const AdminIndustriesRoute = AdminIndustriesRouteImport.update({
   id: '/industries',
   path: '/industries',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHomepageRoute = AdminHomepageRouteImport.update({
+  id: '/homepage',
+  path: '/homepage',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminDiagnosticsRoute = AdminDiagnosticsRouteImport.update({
@@ -215,10 +227,12 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin/case-studies': typeof AdminCaseStudiesRoute
   '/admin/diagnostics': typeof AdminDiagnosticsRoute
+  '/admin/homepage': typeof AdminHomepageRoute
   '/admin/industries': typeof AdminIndustriesRoute
   '/admin/insights': typeof AdminInsightsRoute
   '/admin/page-content': typeof AdminPageContentRoute
   '/admin/pages': typeof AdminPagesRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/site-settings': typeof AdminSiteSettingsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
@@ -248,10 +262,12 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin/case-studies': typeof AdminCaseStudiesRoute
   '/admin/diagnostics': typeof AdminDiagnosticsRoute
+  '/admin/homepage': typeof AdminHomepageRoute
   '/admin/industries': typeof AdminIndustriesRoute
   '/admin/insights': typeof AdminInsightsRoute
   '/admin/page-content': typeof AdminPageContentRoute
   '/admin/pages': typeof AdminPagesRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/site-settings': typeof AdminSiteSettingsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
@@ -283,10 +299,12 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/admin/case-studies': typeof AdminCaseStudiesRoute
   '/admin/diagnostics': typeof AdminDiagnosticsRoute
+  '/admin/homepage': typeof AdminHomepageRoute
   '/admin/industries': typeof AdminIndustriesRoute
   '/admin/insights': typeof AdminInsightsRoute
   '/admin/page-content': typeof AdminPageContentRoute
   '/admin/pages': typeof AdminPagesRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/site-settings': typeof AdminSiteSettingsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
@@ -319,10 +337,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/case-studies'
     | '/admin/diagnostics'
+    | '/admin/homepage'
     | '/admin/industries'
     | '/admin/insights'
     | '/admin/page-content'
     | '/admin/pages'
+    | '/admin/seo'
     | '/admin/services'
     | '/admin/site-settings'
     | '/admin/submissions'
@@ -352,10 +372,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/case-studies'
     | '/admin/diagnostics'
+    | '/admin/homepage'
     | '/admin/industries'
     | '/admin/insights'
     | '/admin/page-content'
     | '/admin/pages'
+    | '/admin/seo'
     | '/admin/services'
     | '/admin/site-settings'
     | '/admin/submissions'
@@ -386,10 +408,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/case-studies'
     | '/admin/diagnostics'
+    | '/admin/homepage'
     | '/admin/industries'
     | '/admin/insights'
     | '/admin/page-content'
     | '/admin/pages'
+    | '/admin/seo'
     | '/admin/services'
     | '/admin/site-settings'
     | '/admin/submissions'
@@ -616,6 +640,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/seo': {
+      id: '/admin/seo'
+      path: '/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AdminSeoRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/pages': {
       id: '/admin/pages'
       path: '/pages'
@@ -644,6 +675,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndustriesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/homepage': {
+      id: '/admin/homepage'
+      path: '/homepage'
+      fullPath: '/admin/homepage'
+      preLoaderRoute: typeof AdminHomepageRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/diagnostics': {
       id: '/admin/diagnostics'
       path: '/diagnostics'
@@ -664,10 +702,12 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminCaseStudiesRoute: typeof AdminCaseStudiesRoute
   AdminDiagnosticsRoute: typeof AdminDiagnosticsRoute
+  AdminHomepageRoute: typeof AdminHomepageRoute
   AdminIndustriesRoute: typeof AdminIndustriesRoute
   AdminInsightsRoute: typeof AdminInsightsRoute
   AdminPageContentRoute: typeof AdminPageContentRoute
   AdminPagesRoute: typeof AdminPagesRoute
+  AdminSeoRoute: typeof AdminSeoRoute
   AdminServicesRoute: typeof AdminServicesRoute
   AdminSiteSettingsRoute: typeof AdminSiteSettingsRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
@@ -679,10 +719,12 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminCaseStudiesRoute: AdminCaseStudiesRoute,
   AdminDiagnosticsRoute: AdminDiagnosticsRoute,
+  AdminHomepageRoute: AdminHomepageRoute,
   AdminIndustriesRoute: AdminIndustriesRoute,
   AdminInsightsRoute: AdminInsightsRoute,
   AdminPageContentRoute: AdminPageContentRoute,
   AdminPagesRoute: AdminPagesRoute,
+  AdminSeoRoute: AdminSeoRoute,
   AdminServicesRoute: AdminServicesRoute,
   AdminSiteSettingsRoute: AdminSiteSettingsRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
@@ -718,13 +760,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

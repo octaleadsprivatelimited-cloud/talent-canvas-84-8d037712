@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { getServiceImage } from "@/lib/service-images";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 type Service = {
   id: string;
@@ -97,6 +98,7 @@ function ServicesPage() {
 
   return (
     <section className="min-h-screen w-full bg-[#fcfbf9] py-20 px-6 md:px-12 md:py-32">
+      <DynamicSeo pageKey="services" fallbackTitle={PAGE_TITLE} fallbackDescription={PAGE_DESCRIPTION} />
       <div className="mx-auto w-full max-w-6xl">
         {/* Editorial Header */}
         <div className="mb-20 flex flex-col gap-10 md:mb-32 md:flex-row md:items-end md:justify-between md:gap-12">
