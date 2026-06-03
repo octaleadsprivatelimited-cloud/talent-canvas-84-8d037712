@@ -142,7 +142,7 @@ function ServiceDetail() {
       />
       <section className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
-          <div className="relative aspect-[4/3] w-full max-w-lg overflow-hidden border border-border bg-muted">
+          <div className="relative aspect-[4/3] w-full max-w-sm overflow-hidden border border-border bg-muted">
             <img
               src={img.src}
               srcSet={img.srcSet}
