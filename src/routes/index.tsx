@@ -30,6 +30,7 @@ import { HOMEPAGE_DEFAULTS } from "@/lib/homepage-defaults";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/firebase/client";
 import { DynamicSeo } from "@/components/dynamic-seo";
+import { JobCard, type JobCardData } from "@/components/jobs/job-card";
 import heroTeam from "@/assets/hero-team.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import heroHandshake from "@/assets/hero-handshake.jpg";
@@ -177,19 +178,107 @@ const clients = [
   "WORKFORCE SOLUTIONS",
 ];
 
-const sectionIds = ["hero", "services", "industries", "process", "testimonials", "cta"] as const;
+const sectionIds = [
+  "hero",
+  "services",
+  "industries",
+  "process",
+  "careers",
+  "scale",
+  "testimonials",
+  "cta",
+] as const;
 const sectionLabels: Record<(typeof sectionIds)[number], string> = {
   hero: "Intro",
   services: "Services",
   industries: "Industries",
   process: "Process",
+  careers: "Careers",
+  scale: "Scale",
   testimonials: "Stories",
   cta: "Contact",
 };
 
+const detailedServices = [
+  {
+    title: "Flexible Placement & Temporary Staffing",
+    subtitle: "Scale your operations dynamically while minimizing risk and administrative burden.",
+    desc: "We manage your flexible staffing end to end, from sourcing and screening to onboarding, payroll, and compliance. Our flexible recruitment solutions help you scale your workforce quickly, respond to seasonal demand, and reduce risk. With access to qualified talent across industries, we ensure you have the right people in place exactly when you need them.",
+    icon: Users,
+    bullets: [
+      "End-to-end payroll & statutory compliance in US & India",
+      "Dynamic headcount scaling for peak seasonal periods",
+      "Robust contractor onboarding & localized support hubs",
+      "Reduced long-term employment risk and fixed overheads",
+    ],
+    stat: "48h",
+    statLabel: "Average turnaround time for flexible placements",
+  },
+  {
+    title: "Permanent Placement & Executive Search",
+    subtitle:
+      "Secure high-performing leaders and specialists aligned to your organizational culture.",
+    desc: "Hiring for the long term takes more than filling a vacancy. Our permanent recruitment services combine targeted sourcing, structured assessment, and cultural fit evaluation to secure professionals who stay and perform. From specialist roles to volume hiring, we deliver permanent talent aligned to your strategy, values, and future growth plans.",
+    icon: Target,
+    bullets: [
+      "Retained search methodology for C-Suite, VP, and Director level roles",
+      "Competency-based assessment frameworks for precise candidate vetting",
+      "Access to highly qualified passive candidates globally",
+      "90-day placement guarantee for leadership roles",
+    ],
+    stat: "96%",
+    statLabel: "First-year retention rate for permanent placements",
+  },
+  {
+    title: "Embedded RPO & Workforce Outsourcing",
+    subtitle: "Streamline operations with dedicated talent acquisition teams and process control.",
+    desc: "Streamline operations with tailored workforce management solutions. Through RPO or integrated HR outsourcing, we manage recruitment, administration, and workforce processes for you. Our outsourcing models improve efficiency, ensure compliance, and give you greater cost control, so you can stay focused on your core business and strategic growth.",
+    icon: Briefcase,
+    bullets: [
+      "Dedicated onsite/nearshore recruiters acting as your brand ambassadors",
+      "ATS integration, recruitment branding, and pipeline analytics setup",
+      "Up to 50% savings on traditional third-party agency expenditures",
+      "Standardized service level agreements (SLAs) for time-to-hire",
+    ],
+    stat: "40%+",
+    statLabel: "Average reduction in recruitment cycle times",
+  },
+  {
+    title: "Upskilling, Training & Workforce Development",
+    subtitle: "Close critical skills gaps and prepare your internal teams for future demands.",
+    desc: "Workforce performance depends on continuous development. Our training and upskilling programs help close critical skills gaps, improve productivity, and prepare your teams for change. From targeted reskilling initiatives to large-scale workforce development programs, we design practical learning solutions aligned to your business objectives.",
+    icon: TrendingUp,
+    bullets: [
+      "Targeted technical bootcamps and leadership development coaching",
+      "Organization design consulting and salary benchmarking metrics",
+      "Comprehensive digital transformation readiness training",
+      "Strategic talent mapping aligned with technology roadmaps",
+    ],
+    stat: "15k+",
+    statLabel: "Professionals trained and certified globally",
+  },
+];
+
 function Index() {
   const { data: settings } = useSiteSettings();
   const { data: copy } = usePageContent("home", HOMEPAGE_DEFAULTS);
+  const [activeService, setActiveService] = useState(0);
+
+  const { data: dbJobs } = useQuery({
+    queryKey: ["jobs", "featured-home"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("jobs")
+        .select(
+          "id,slug,title,location,work_mode,job_type,salary_min,salary_max,salary_currency,featured,created_at,companies(name,slug,logo_url,industry)",
+        )
+        .eq("status", "published")
+        .eq("featured", true)
+        .limit(3);
+      return data as unknown as JobCardData[];
+    },
+  });
+
   const { data: dbTestimonials } = useQuery({
     queryKey: ["testimonials", "published"],
     queryFn: async () => {
@@ -286,7 +375,10 @@ function Index() {
       <HomeHero theme={(settings?.home_theme as ThemeKey) ?? "editorial"} />
 
       {/* ============== SERVICES ============== */}
-      <section id="services" className="container mx-auto snap-start px-4 py-20 md:py-28">
+      <section
+        id="services"
+        className="container mx-auto flex min-h-screen snap-start flex-col justify-center px-4 py-20 md:py-28"
+      >
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -302,25 +394,92 @@ function Index() {
           </div>
         </div>
 
-        <div className="mt-12 grid gap-0 border-t border-l border-border md:grid-cols-2 lg:grid-cols-4">
-          {services.map((s, i) => (
-            <div
-              key={s.title}
-              className="group relative border-b border-r border-border bg-card p-8 transition hover:bg-primary hover:text-primary-foreground"
-            >
-              <span className="font-display text-xs font-bold tracking-wider text-muted-foreground group-hover:text-primary-foreground/60">
-                0{i + 1}
-              </span>
-              <div className="mt-6 flex h-12 w-12 items-center justify-center bg-primary/10 text-primary group-hover:bg-primary-foreground/10 group-hover:text-accent">
-                <s.icon className="h-6 w-6" />
-              </div>
-              <h3 className="mt-6 font-display text-xl font-bold">{s.title}</h3>
-              <p className="mt-3 text-sm text-muted-foreground group-hover:text-primary-foreground/80">
-                {s.desc}
-              </p>
-              <ArrowUpRight className="absolute right-6 top-6 h-5 w-5 -translate-y-1 translate-x-1 opacity-0 transition group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100" />
+        {/* Tabbed Interactive Showcase (Adecco-style) */}
+        <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_2fr] items-start">
+          {/* Tabs Column */}
+          <div className="flex flex-col gap-2 border-l border-border">
+            {detailedServices.map((ds, idx) => {
+              const isActive = activeService === idx;
+              return (
+                <button
+                  key={ds.title}
+                  onClick={() => setActiveService(idx)}
+                  className={`group relative text-left py-4 px-6 border-l-2 -ml-[2px] transition duration-300 ${
+                    isActive
+                      ? "border-primary bg-surface/50 text-foreground font-semibold"
+                      : "border-transparent text-muted-foreground hover:text-foreground hover:bg-surface/20"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`text-[10px] font-bold ${isActive ? "text-primary" : "text-muted-foreground/60"}`}
+                    >
+                      0{idx + 1}
+                    </span>
+                    <span className="text-sm uppercase tracking-wider">
+                      {ds.title.split(" & ")[0]}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Tab Panel */}
+          <div className="border border-border bg-card p-8 md:p-10 relative overflow-hidden transition-all duration-500">
+            <div className="absolute right-6 top-6 opacity-[0.03] text-primary group-hover:opacity-[0.05]">
+              {(() => {
+                const Icon = detailedServices[activeService].icon;
+                return <Icon className="h-40 w-40" />;
+              })()}
             </div>
-          ))}
+
+            <div className="relative">
+              <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+                {(() => {
+                  const Icon = detailedServices[activeService].icon;
+                  return <Icon className="h-4 w-4" />;
+                })()}
+                Solution Overview
+              </div>
+              <h3 className="mt-4 font-display text-2xl font-bold md:text-3xl">
+                {detailedServices[activeService].title}
+              </h3>
+              <p className="mt-1 text-sm text-muted-foreground italic">
+                {detailedServices[activeService].subtitle}
+              </p>
+
+              <p className="mt-6 text-sm text-foreground/80 leading-relaxed max-w-2xl">
+                {detailedServices[activeService].desc}
+              </p>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                {detailedServices[activeService].bullets.map((bullet) => (
+                  <div key={bullet} className="flex gap-2.5 items-start">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary mt-0.5" />
+                    <span className="text-xs text-muted-foreground">{bullet}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-border flex flex-wrap gap-8 items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="font-display text-3xl font-bold text-accent">
+                    {detailedServices[activeService].stat}
+                  </div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground leading-tight max-w-[140px]">
+                    {detailedServices[activeService].statLabel}
+                  </div>
+                </div>
+                <Link
+                  to="/services"
+                  className="text-xs font-bold uppercase tracking-wider text-primary hover:underline inline-flex items-center gap-1.5"
+                >
+                  Explore solutions portfolio <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -412,6 +571,135 @@ function Index() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* ============== FEATURED JOBS SECTION (Adecco-style career board) ============== */}
+      <section
+        id="careers"
+        className="container mx-auto flex min-h-screen snap-start flex-col justify-center px-4 py-20 md:py-28 border-t border-border"
+      >
+        <div className="grid gap-10 md:grid-cols-12 md:items-end">
+          <div className="md:col-span-7">
+            <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+              Careers
+            </div>
+            <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
+              Explore active <span className="text-primary">career opportunities</span>.
+            </h2>
+          </div>
+          <div className="md:col-span-5 text-right">
+            <Link
+              to="/jobs"
+              className="text-sm font-semibold text-primary hover:underline inline-flex items-center gap-1.5"
+            >
+              View all open positions <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-12">
+          {dbJobs && dbJobs.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {dbJobs.map((j) => (
+                <JobCard key={j.id} job={j} />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-xl border border-border bg-card p-10 text-center text-muted-foreground">
+              No active job openings listed right now. Check back soon or register with us.
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ============== GLOBAL PRESENCE & PHILOSOPHY (Adecco Group style) ============== */}
+      <section
+        id="scale"
+        className="flex min-h-screen snap-start flex-col justify-center bg-foreground text-background py-20 md:py-28"
+      >
+        <div className="container mx-auto px-4">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div>
+              <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                Our Scale
+              </div>
+              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl text-background">
+                A global infrastructure with local delivery.
+              </h2>
+              <p className="mt-6 text-background/80 leading-relaxed text-lg">
+                Virelix Consulting acts as a strategic bridge between high-demand Western markets
+                and global talent hubs. Headquartered in Delaware, USA, with state-of-the-art
+                delivery centers in Hyderabad, India, we provide round-the-clock sourcing,
+                compliance engineering, and operations management.
+              </p>
+
+              <div className="mt-10 grid grid-cols-2 gap-8">
+                <div>
+                  <h4 className="font-display text-5xl font-bold text-accent">24/7</h4>
+                  <p className="mt-2 text-xs uppercase tracking-wider text-background/60">
+                    Continuous search operations
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-display text-5xl font-bold text-accent">100%</h4>
+                  <p className="mt-2 text-xs uppercase tracking-wider text-background/60">
+                    Compliance & payroll coverage
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-display text-5xl font-bold text-accent">30+</h4>
+                  <p className="mt-2 text-xs uppercase tracking-wider text-background/60">
+                    US States & Indian UTs served
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-display text-5xl font-bold text-accent">15k+</h4>
+                  <p className="mt-2 text-xs uppercase tracking-wider text-background/60">
+                    Candidates vetted annually
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6 bg-background/5 p-8 md:p-12 border border-background/10">
+              <h3 className="font-display text-2xl font-bold text-background">
+                A more human approach to sourcing.
+              </h3>
+              <p className="text-background/70 leading-relaxed">
+                We believe that the best teams aren't just built on algorithms. We combine automated
+                sourcing pipelines with authentic, peer-level technical assessments.
+              </p>
+              <div className="space-y-4 pt-4">
+                <div className="flex gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-accent/20 text-accent">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h5 className="font-semibold text-background">
+                      Diversity & Inclusion Sourcing
+                    </h5>
+                    <p className="text-sm text-background/60 mt-1">
+                      We employ blind vetting and demographic-neutral pipelines to ensure equal
+                      opportunity and wider access.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-accent/20 text-accent">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h5 className="font-semibold text-background">Strict Verification</h5>
+                    <p className="text-sm text-background/60 mt-1">
+                      Every candidate is technical-screened and background-verified prior to client
+                      presentation.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

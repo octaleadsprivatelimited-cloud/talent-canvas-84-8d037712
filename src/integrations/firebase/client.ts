@@ -69,12 +69,14 @@ class FirebaseQueryBuilder {
   private operation: "select" | "insert" | "update" | "delete" | "upsert" = "select";
   private payload: any = null;
   private upsertOptions?: { onConflict?: string };
+  private selectFields?: string;
 
   constructor(collectionName: string) {
     this.collectionName = collectionName;
   }
 
   select(fields?: string, options?: { count?: "exact" | "planned" | "estimated"; head?: boolean }) {
+    this.selectFields = fields;
     if (options?.count === "exact" || options?.head) {
       this.isCountOnly = true;
     }
@@ -185,6 +187,28 @@ class FirebaseQueryBuilder {
         // Apply limit in-memory
         if (this.limitCount !== undefined) {
           data = data.slice(0, this.limitCount);
+        }
+
+        // Resolve simple relationships like companies(...) or companies(*) in-memory
+        const selectStr = this.selectFields || "";
+        if (selectStr.includes("companies") && this.collectionName === "jobs") {
+          try {
+            const compRef = collection(db, "companies");
+            const compSnapshot = await getDocs(compRef);
+            const companiesList = compSnapshot.docs.map((d) => ({
+              id: d.id,
+              ...d.data(),
+            }));
+
+            data = data.map((job) => {
+              const company =
+                companiesList.find((c) => c.id === job.company_id || c.slug === job.company_id) ||
+                null;
+              return { ...job, companies: company };
+            });
+          } catch (e) {
+            console.error("Failed to join companies:", e);
+          }
         }
 
         return { data, error: null };
