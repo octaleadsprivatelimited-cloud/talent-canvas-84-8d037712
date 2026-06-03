@@ -64,7 +64,11 @@ function AdminLayout() {
           ))}
         </nav>
       </aside>
-      <div className="min-w-0"><Outlet /></div>
+      <div className="min-w-0">
+        <ErrorBoundary label="AdminLayout">
+          <Outlet />
+        </ErrorBoundary>
+      </div>
     </div>
   );
 }
