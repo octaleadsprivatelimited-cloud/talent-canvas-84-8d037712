@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { LayoutDashboard, Settings, Sparkles, Building2, Users, BookOpen, MessageSquare, Inbox, FileText, Quote, Activity, LayoutTemplate } from "lucide-react";
+import { LayoutDashboard, Settings, Sparkles, Building2, Users, BookOpen, MessageSquare, Inbox, FileText, Quote, Activity, LayoutTemplate, Home, Search } from "lucide-react";
 import { ErrorBoundary } from "@/components/error-boundary";
 
 export const Route = createFileRoute("/admin")({
@@ -10,8 +10,10 @@ export const Route = createFileRoute("/admin")({
 const sections: { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/site-settings", label: "Site Settings", icon: Settings },
-  { to: "/admin/page-content", label: "Page Content", icon: FileText },
-  { to: "/admin/pages", label: "Pages", icon: LayoutTemplate },
+  { to: "/admin/homepage", label: "Homepage", icon: Home },
+  { to: "/admin/seo", label: "Page SEO", icon: Search },
+  { to: "/admin/page-content", label: "Other Pages", icon: FileText },
+  { to: "/admin/pages", label: "Custom Pages", icon: LayoutTemplate },
   { to: "/admin/services", label: "Services", icon: Sparkles },
   { to: "/admin/industries", label: "Industries", icon: Building2 },
   { to: "/admin/team", label: "Team", icon: Users },

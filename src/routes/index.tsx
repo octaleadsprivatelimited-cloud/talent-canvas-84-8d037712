@@ -25,6 +25,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { HomeHero, type ThemeKey } from "@/components/home-themes";
 import { useSiteSettings } from "@/hooks/use-site-settings";
+import { usePageContent } from "@/hooks/use-page-content";
+import { HOMEPAGE_DEFAULTS } from "@/lib/homepage-defaults";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { DynamicSeo } from "@/components/dynamic-seo";
 import heroTeam from "@/assets/hero-team.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import heroHandshake from "@/assets/hero-handshake.jpg";
@@ -184,6 +189,25 @@ const sectionLabels: Record<(typeof sectionIds)[number], string> = {
 
 function Index() {
   const { data: settings } = useSiteSettings();
+  const { data: copy } = usePageContent("home", HOMEPAGE_DEFAULTS);
+  const { data: dbTestimonials } = useQuery({
+    queryKey: ["testimonials", "published"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("testimonials")
+        .select("id, quote, author_name, author_role, company")
+        .eq("published", true)
+        .order("sort_order");
+      return data ?? [];
+    },
+  });
+  const liveTestimonials = (dbTestimonials && dbTestimonials.length > 0)
+    ? dbTestimonials.map((t) => ({
+        quote: t.quote,
+        name: t.author_name,
+        role: [t.author_role, t.company].filter(Boolean).join(" · "),
+      }))
+    : testimonials;
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string>("hero");
 
