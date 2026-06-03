@@ -172,7 +172,7 @@ const clients = [
 
 function Index() {
   return (
-    <div className="snap-y snap-mandatory">
+    <div className="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth">
       {/* ============== HERO ============== */}
       <section className="relative snap-start overflow-hidden bg-gradient-hero">
         {/* sharp accent grid */}
