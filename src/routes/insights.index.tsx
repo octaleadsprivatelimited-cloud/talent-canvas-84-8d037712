@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHero } from "@/components/page-hero";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 export const Route = createFileRoute("/insights/")({
   head: () => ({
@@ -24,6 +25,7 @@ function InsightsIndex() {
 
   return (
     <>
+      <DynamicSeo pageKey="insights" fallbackTitle="Insights & Research" fallbackDescription="Hiring research, compensation benchmarks, and operating playbooks." />
       <PageHero eyebrow="Insights" title="Hiring data, playbooks, and field notes." subtitle="What we're learning from 100+ active searches every quarter." />
       <section className="container mx-auto px-4 py-20">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">

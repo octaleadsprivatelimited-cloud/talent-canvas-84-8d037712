@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowUpRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHero } from "@/components/page-hero";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 export const Route = createFileRoute("/case-studies/")({
   head: () => ({
@@ -25,6 +26,7 @@ function CaseStudiesIndex() {
 
   return (
     <>
+      <DynamicSeo pageKey="case-studies" fallbackTitle="Case Studies" fallbackDescription="How we've helped companies build leadership teams and ship outcomes." />
       <PageHero eyebrow="Case studies" title="The work, in our clients' words." subtitle="Outcomes-first stories from the searches we've run." />
       <section className="container mx-auto px-4 py-20">
         <div className="grid gap-px bg-border md:grid-cols-2">

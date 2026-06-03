@@ -64,6 +64,7 @@ function ContactPage() {
 
   return (
     <>
+      <DynamicSeo pageKey="contact" fallbackTitle="Contact Us" fallbackDescription="Tell us about your hiring need. We respond within one business day." />
       <PageHero eyebrow="Contact" title={page?.title ?? "Let's talk about your next hire"} subtitle={page?.subtitle ?? "Tell us what you're building. We'll respond within one business day."} />
       <section className="container mx-auto grid gap-12 px-4 py-16 lg:grid-cols-[2fr_1fr]">
         <form

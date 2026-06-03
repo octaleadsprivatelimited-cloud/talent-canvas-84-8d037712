@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Building2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 export const Route = createFileRoute("/companies/")({
   head: () => ({ meta: [{ title: "Companies — Hireloop" }] }),
@@ -20,6 +21,7 @@ function CompaniesPage() {
 
   return (
     <div className="container mx-auto px-4 py-10">
+      <DynamicSeo pageKey="companies" fallbackTitle="Companies" fallbackDescription="Browse companies hiring through our network." />
       <h1 className="font-display text-3xl font-bold md:text-4xl">Companies hiring</h1>
       <p className="mt-2 text-muted-foreground">{data?.length ?? 0} companies on Hireloop</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
