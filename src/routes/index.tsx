@@ -372,7 +372,7 @@ function Index() {
 
 
       {/* ============== SERVICES ============== */}
-      <section className="container mx-auto snap-start px-4 py-20 md:py-28">
+      <section id="services" className="container mx-auto snap-start px-4 py-20 md:py-28">
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -414,7 +414,7 @@ function Index() {
       </section>
 
       {/* ============== IMAGE + INDUSTRIES SPLIT ============== */}
-      <section className="snap-start bg-surface py-20 md:py-28">
+      <section id="industries" className="snap-start bg-surface py-20 md:py-28">
         <div className="container mx-auto px-4">
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="relative lg:col-span-5">
@@ -465,7 +465,7 @@ function Index() {
       </section>
 
       {/* ============== PROCESS ============== */}
-      <section className="container mx-auto snap-start px-4 py-20 md:py-28">
+      <section id="process" className="container mx-auto snap-start px-4 py-20 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             <span className="h-px w-8 bg-primary" />
@@ -515,7 +515,7 @@ function Index() {
       </section>
 
       {/* ============== TESTIMONIALS ============== */}
-      <section className="snap-start bg-surface py-20 md:py-28">
+      <section id="testimonials" className="snap-start bg-surface py-20 md:py-28">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -552,7 +552,7 @@ function Index() {
       </section>
 
       {/* ============== CTA ============== */}
-      <section className="container mx-auto snap-start px-4 py-20 md:py-28">
+      <section id="cta" className="container mx-auto snap-start px-4 py-20 md:py-28">
         <div className="relative overflow-hidden bg-gradient-hero p-10 md:p-16">
           <div className="absolute -right-20 -top-20 h-72 w-72 bg-accent/15 blur-3xl" />
           <div className="absolute inset-y-0 left-0 w-2 bg-accent" />
