@@ -11,11 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TeamRouteImport } from './routes/team'
-import { Route as SignupRouteImport } from './routes/signup'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndustriesRouteImport } from './routes/industries'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
@@ -51,11 +49,6 @@ const TeamRoute = TeamRouteImport.update({
   path: '/team',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -69,11 +62,6 @@ const LoginRoute = LoginRouteImport.update({
 const IndustriesRoute = IndustriesRouteImport.update({
   id: '/industries',
   path: '/industries',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -202,11 +190,9 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRoute
   '/industries': typeof IndustriesRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
-  '/signup': typeof SignupRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
   '/admin/case-studies': typeof AdminCaseStudiesRoute
@@ -234,11 +220,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRoute
   '/industries': typeof IndustriesRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
-  '/signup': typeof SignupRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
   '/admin/case-studies': typeof AdminCaseStudiesRoute
@@ -268,11 +252,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRoute
   '/industries': typeof IndustriesRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
-  '/signup': typeof SignupRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
   '/admin/case-studies': typeof AdminCaseStudiesRoute
@@ -303,11 +285,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/contact'
-    | '/dashboard'
     | '/industries'
     | '/login'
     | '/privacy'
-    | '/signup'
     | '/team'
     | '/terms'
     | '/admin/case-studies'
@@ -335,11 +315,9 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
-    | '/dashboard'
     | '/industries'
     | '/login'
     | '/privacy'
-    | '/signup'
     | '/team'
     | '/terms'
     | '/admin/case-studies'
@@ -368,11 +346,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/contact'
-    | '/dashboard'
     | '/industries'
     | '/login'
     | '/privacy'
-    | '/signup'
     | '/team'
     | '/terms'
     | '/admin/case-studies'
@@ -402,11 +378,9 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
-  DashboardRoute: typeof DashboardRoute
   IndustriesRoute: typeof IndustriesRoute
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
-  SignupRoute: typeof SignupRoute
   TeamRoute: typeof TeamRoute
   TermsRoute: typeof TermsRoute
   CaseStudiesSlugRoute: typeof CaseStudiesSlugRoute
@@ -437,13 +411,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -463,13 +430,6 @@ declare module '@tanstack/react-router' {
       path: '/industries'
       fullPath: '/industries'
       preLoaderRoute: typeof IndustriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -676,11 +636,9 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
-  DashboardRoute: DashboardRoute,
   IndustriesRoute: IndustriesRoute,
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
-  SignupRoute: SignupRoute,
   TeamRoute: TeamRoute,
   TermsRoute: TermsRoute,
   CaseStudiesSlugRoute: CaseStudiesSlugRoute,
@@ -697,3 +655,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
