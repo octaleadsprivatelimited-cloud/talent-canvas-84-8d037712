@@ -24,15 +24,7 @@ const sections: { to: string; label: string; icon: typeof LayoutDashboard; exact
 ];
 
 function AdminLayout() {
-  const { isAdmin, loading, user } = useIsAdmin();
   const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate({ to: "/login", search: { redirect: location.href } });
-    }
-  }, [loading, user, location.href, navigate]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -40,18 +32,6 @@ function AdminLayout() {
       sessionStorage.setItem("admin:last-route", location.pathname);
     }
   }, [location.pathname]);
-
-  if (loading) {
-    return <div className="flex h-[60vh] items-center justify-center"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
-  }
-
-  if (!user) {
-    return <div className="container mx-auto px-4 py-20 text-center">Please <Link to="/login" className="text-primary underline">sign in</Link> to access the admin panel.</div>;
-  }
-
-  if (!isAdmin) {
-    return <NotAdmin userId={user.id} />;
-  }
 
   return (
     <div className="container mx-auto grid gap-8 px-4 py-10 lg:grid-cols-[240px_1fr]">
