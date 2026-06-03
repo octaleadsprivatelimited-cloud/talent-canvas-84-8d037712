@@ -13,6 +13,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeApplier } from "@/components/theme-applier";
 import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
