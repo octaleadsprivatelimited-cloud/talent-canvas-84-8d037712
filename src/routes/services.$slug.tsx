@@ -1,12 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowRight, Check } from "lucide-react";
-import * as Icons from "lucide-react";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { PageHero } from "@/components/page-hero";
 import { Button } from "@/components/ui/button";
 import { getServiceImage } from "@/lib/service-images";
-
 
 type Service = {
   id: string;
@@ -62,6 +59,10 @@ export const Route = createFileRoute("/services/$slug")({
       ],
       links: [
         { rel: "canonical", href: `/services/${params.slug}` },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap",
+        },
       ],
       scripts: s
         ? [
@@ -125,91 +126,150 @@ function ServiceDetail() {
   const { data } = useSuspenseQuery(serviceQuery(slug));
   if (!data) return null;
 
-  const Lucide = Icons as unknown as Record<
-    string,
-    React.ComponentType<{ className?: string }>
-  >;
-  const Icon = (data.icon && Lucide[data.icon]) || Icons.Sparkles;
-
   const img = getServiceImage(data.slug);
+  const serif = { fontFamily: "'Playfair Display', serif" };
 
   return (
-    <>
-      <PageHero
-        eyebrow="Service"
-        title={data.title}
-        subtitle={data.summary ?? undefined}
-      />
-      <section className="container mx-auto px-4 py-12 md:py-16">
-        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
-          <div className="relative aspect-[4/3] w-full max-w-sm overflow-hidden border border-border bg-muted">
-            <img
-              src={img.src}
-              srcSet={img.srcSet}
-              sizes="(min-width: 1024px) 500px, 100vw"
-              alt={data.title}
-              decoding="async"
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="max-w-xl">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center border border-border">
-              <Icon className="h-5 w-5" />
-            </div>
-            <h2 className="font-display text-2xl font-bold md:text-3xl">{data.title}</h2>
-            <p className="mt-3 text-muted-foreground">{data.summary}</p>
-          </div>
-        </div>
-      </section>
-      <section className="container mx-auto grid gap-12 px-4 py-16 lg:grid-cols-[2fr_1fr]">
-        <div>
-          <div className="mb-6 flex h-14 w-14 items-center justify-center border border-border">
-            <Icon className="h-6 w-6" />
-          </div>
-          <div className="prose prose-lg max-w-none whitespace-pre-line text-foreground/90">
-            {data.body}
-          </div>
-
-          {data.features && data.features.length > 0 && (
-            <div className="mt-10">
-              <h2 className="mb-4 font-display text-xl font-semibold">
-                What's included
-              </h2>
-              <ul className="grid gap-3 sm:grid-cols-2">
-                {data.features.map((f, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-2 border border-border p-4"
-                  >
-                    <Check className="mt-0.5 h-4 w-4 text-primary" />
-                    <span className="text-sm">{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-        <aside className="h-fit border border-border bg-surface p-6">
-          <h3 className="font-display text-lg font-bold">
-            Start a conversation
-          </h3>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Share your hiring or workforce need — a Virelix consultant will
-            respond within one business day with next steps.
-          </p>
-          <Button asChild className="mt-5 w-full">
-            <Link to="/contact">
-              Contact Virelix <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+    <main className="min-h-screen bg-[#fcfbf9]">
+      {/* Editorial hero */}
+      <section className="px-6 pt-20 pb-12 md:px-12 md:pt-32 md:pb-20">
+        <div className="mx-auto max-w-6xl">
           <Link
             to="/services"
-            className="mt-4 block text-center text-xs text-muted-foreground hover:text-foreground"
+            className="mb-10 inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400 transition-colors hover:text-slate-900"
           >
-            ← All services
+            <ArrowLeft className="h-3 w-3" /> All practices
           </Link>
-        </aside>
+
+          <div className="grid items-end gap-12 lg:grid-cols-[1fr_auto]">
+            <div className="max-w-3xl">
+              <div className="mb-6 flex items-center gap-4">
+                <span className="h-px w-8 bg-slate-900" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+                  Service Practice
+                </span>
+              </div>
+              <h1
+                className="text-4xl font-medium leading-[0.95] tracking-tight text-slate-900 md:text-6xl lg:text-7xl"
+                style={serif}
+              >
+                {data.title.split(" ").map((word, i, arr) =>
+                  i === Math.floor(arr.length / 2) ? (
+                    <span key={i} className="italic text-slate-500">
+                      {word}{" "}
+                    </span>
+                  ) : (
+                    <span key={i}>{word} </span>
+                  ),
+                )}
+              </h1>
+              {data.summary && (
+                <p className="mt-8 max-w-xl border-l border-slate-200 pl-6 text-base leading-relaxed text-slate-500 md:text-lg">
+                  {data.summary}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
       </section>
-    </>
+
+      {/* Editorial image — offset, layered */}
+      <section className="px-6 pb-16 md:px-12 md:pb-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="relative mx-auto max-w-3xl">
+            <div className="absolute -inset-4 -z-10 translate-x-6 translate-y-6 border border-slate-200/80" />
+            <div className="relative aspect-[16/10] overflow-hidden shadow-2xl">
+              <img
+                src={img.src}
+                srcSet={img.srcSet}
+                sizes="(min-width: 1024px) 768px, 100vw"
+                alt={data.title}
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <span className="mt-4 block text-right text-[9px] uppercase italic tracking-[0.2em] text-slate-400">
+              Practice Study · Virelix
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Body + features + sidebar */}
+      <section className="px-6 pb-24 md:px-12 md:pb-32">
+        <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[2fr_1fr]">
+          <div>
+            <div className="mb-8 flex items-center gap-4">
+              <span className="h-px w-8 bg-slate-900" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+                Overview
+              </span>
+            </div>
+            {data.body && (
+              <div className="whitespace-pre-line text-lg leading-relaxed text-slate-700 [&>*+*]:mt-6">
+                {data.body}
+              </div>
+            )}
+
+            {data.features && data.features.length > 0 && (
+              <div className="mt-16">
+                <div className="mb-8 flex items-center gap-4">
+                  <span className="h-px w-8 bg-slate-900" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+                    What's included
+                  </span>
+                </div>
+                <ul className="divide-y divide-slate-200 border-y border-slate-200">
+                  {data.features.map((f, i) => (
+                    <li
+                      key={i}
+                      className="group flex items-start gap-6 py-5 transition-colors hover:bg-white"
+                    >
+                      <span className="text-[10px] font-semibold tabular-nums tracking-widest text-slate-400">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-slate-900" />
+                      <span className="flex-1 text-base text-slate-700" style={serif}>
+                        {f}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          <aside className="h-fit border border-slate-200 bg-white p-8 lg:sticky lg:top-24">
+            <div className="mb-6 flex items-center gap-4">
+              <span className="h-px w-8 bg-slate-900" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+                Engage
+              </span>
+            </div>
+            <h3 className="text-2xl font-medium text-slate-900" style={serif}>
+              Start a <span className="italic text-slate-500">conversation</span>
+            </h3>
+            <p className="mt-4 text-sm leading-relaxed text-slate-500">
+              Share your hiring or workforce need — a Virelix consultant will
+              respond within one business day with next steps.
+            </p>
+            <Button
+              asChild
+              className="mt-6 w-full rounded-none bg-slate-900 py-6 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-slate-800"
+            >
+              <Link to="/contact">
+                Contact Virelix <ArrowRight className="ml-3 h-4 w-4" />
+              </Link>
+            </Button>
+            <Link
+              to="/services"
+              className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 hover:text-slate-900"
+            >
+              ← Back to all practices
+            </Link>
+          </aside>
+        </div>
+      </section>
+    </main>
   );
 }
