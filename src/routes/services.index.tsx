@@ -87,13 +87,13 @@ const IMAGE_VARIANTS = [
   { right: "right-[5%]", top: "-bottom-16", w: "w-64", h: "h-64" },
 ];
 
-const BG_VARIANTS = ["bg-[#f4f2ef]", "bg-[#eceae6]", "bg-[#f0ede8]"];
+const BG_VARIANTS = ["bg-muted/40", "bg-muted/20", "bg-muted/30"];
 
 function ServicesPage() {
   const { data } = useSuspenseQuery(servicesQuery);
 
   return (
-    <section className="min-h-screen w-full bg-[#fcfbf9] py-20 px-6 md:px-12 md:py-32">
+    <section className="min-h-screen w-full bg-background py-20 px-6 md:px-12 md:py-32">
       <DynamicSeo
         pageKey="services"
         fallbackTitle={PAGE_TITLE}
@@ -104,12 +104,12 @@ function ServicesPage() {
         <div className="mb-20 flex flex-col gap-10 md:mb-32 md:flex-row md:items-end md:justify-between md:gap-12">
           <div className="max-w-2xl">
             <div className="mb-6 flex items-center gap-4 md:mb-8">
-              <span className="h-px w-8 bg-slate-900" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+              <span className="h-px w-8 bg-foreground" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
                 Capabilities
               </span>
             </div>
-            <h1 className="text-5xl font-light leading-[0.9] tracking-tighter text-slate-900 md:text-7xl lg:text-8xl">
+            <h1 className="text-5xl font-light leading-[0.9] tracking-tighter text-foreground md:text-7xl lg:text-8xl">
               Our{" "}
               <span className="italic" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Service
@@ -117,14 +117,14 @@ function ServicesPage() {
               Practices
             </h1>
           </div>
-          <p className="max-w-xs border-l border-slate-200 pl-6 text-base leading-relaxed text-slate-500 md:pl-8 md:text-lg">
+          <p className="max-w-xs border-l border-border pl-6 text-base leading-relaxed text-muted-foreground md:pl-8 md:text-lg">
             Strategic talent solutions engineered for high-growth enterprises and global leadership
             teams.
           </p>
         </div>
 
         {/* Editorial List */}
-        <div className="border-t border-slate-200">
+        <div className="border-t border-border">
           {data.map((s, i) => {
             const img = getServiceImage(s.slug);
             const num = String(i + 1).padStart(2, "0");
@@ -137,7 +137,7 @@ function ServicesPage() {
                 key={s.id}
                 to="/services/$slug"
                 params={{ slug: s.slug }}
-                className="group relative block overflow-hidden border-b border-slate-200 py-12 transition-all duration-700 md:py-20"
+                className="group relative block overflow-hidden border-b border-border py-12 transition-all duration-700 md:py-20"
               >
                 {/* Sliding background layers */}
                 <div
@@ -148,7 +148,7 @@ function ServicesPage() {
                   }`}
                 />
                 <div
-                  className={`absolute inset-0 bg-white transition-transform duration-1000 delay-75 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+                  className={`absolute inset-0 bg-card transition-transform duration-1000 delay-75 ease-[cubic-bezier(0.23,1,0.32,1)] ${
                     fromLeft
                       ? "-translate-x-full group-hover:translate-x-0"
                       : "translate-x-full group-hover:translate-x-0"
@@ -157,24 +157,24 @@ function ServicesPage() {
 
                 {/* Row content */}
                 <div className="relative z-20 flex flex-col items-baseline gap-6 md:flex-row md:gap-16 lg:gap-24">
-                  <span className="text-xs font-semibold tabular-nums tracking-widest text-slate-400 transition-colors duration-500 group-hover:text-slate-900">
+                  <span className="text-xs font-semibold tabular-nums tracking-widest text-muted-foreground/70 transition-colors duration-500 group-hover:text-foreground">
                     {num}
                   </span>
                   <div className="flex-1">
                     <h2
-                      className="text-3xl font-medium tracking-tight text-slate-900 transition-transform duration-500 ease-out group-hover:translate-x-4 md:text-5xl lg:text-6xl"
+                      className="text-3xl font-medium tracking-tight text-foreground transition-transform duration-500 ease-out group-hover:translate-x-4 md:text-5xl lg:text-6xl"
                       style={{ fontFamily: "'Playfair Display', serif" }}
                     >
                       {s.title}
                     </h2>
                     <div className="max-h-0 overflow-hidden opacity-0 transition-all duration-700 ease-in-out group-hover:max-h-48 group-hover:opacity-100">
-                      <p className="mt-6 max-w-md text-base leading-relaxed text-slate-500 transition-transform duration-700 delay-100 group-hover:translate-x-8 md:mt-8 md:text-lg">
+                      <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground transition-transform duration-700 delay-100 group-hover:translate-x-8 md:mt-8 md:text-lg">
                         {s.summary}
                       </p>
                     </div>
                   </div>
                   <div className="hidden md:block">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 transition-all duration-500 group-hover:border-slate-900 group-hover:bg-slate-900 group-hover:text-white">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-border transition-all duration-500 group-hover:border-foreground group-hover:bg-foreground group-hover:text-background">
                       <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:-rotate-45" />
                     </div>
                   </div>
@@ -184,7 +184,7 @@ function ServicesPage() {
                 <div
                   className={`pointer-events-none absolute z-30 hidden opacity-0 transition-all duration-1000 group-hover:opacity-100 lg:block ${variant.right} ${variant.top} ${variant.w} ${variant.h}`}
                 >
-                  <div className="absolute -inset-4 -z-10 translate-x-4 translate-y-24 border border-slate-200/60 transition-transform duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-12 group-hover:translate-y-8" />
+                  <div className="absolute -inset-4 -z-10 translate-x-4 translate-y-24 border border-border/60 transition-transform duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-12 group-hover:translate-y-8" />
                   <div className="relative h-full w-full translate-y-32 overflow-hidden shadow-2xl transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:-translate-x-4 group-hover:translate-y-4">
                     <img
                       src={img.src}
@@ -196,7 +196,7 @@ function ServicesPage() {
                       className="h-full w-full scale-110 object-cover grayscale transition-all duration-1000 group-hover:scale-100 group-hover:grayscale-0"
                     />
                   </div>
-                  <span className="absolute -bottom-8 right-0 translate-y-12 text-[9px] uppercase italic tracking-[0.2em] text-slate-400 transition-transform duration-500 ease-out group-hover:-translate-y-4">
+                  <span className="absolute -bottom-8 right-0 translate-y-12 text-[9px] uppercase italic tracking-[0.2em] text-muted-foreground/70 transition-transform duration-500 ease-out group-hover:-translate-y-4">
                     Practice {num}
                   </span>
                 </div>
@@ -209,18 +209,18 @@ function ServicesPage() {
         <div className="mt-20 flex flex-col items-start justify-between gap-8 md:mt-32 md:flex-row md:items-center">
           <div className="flex items-center gap-6">
             <div className="flex gap-1.5">
-              <div className="h-1 w-1 rounded-full bg-slate-900" />
-              <div className="h-1 w-1 rounded-full bg-slate-300" />
-              <div className="h-1 w-1 rounded-full bg-slate-200" />
+              <div className="h-1 w-1 rounded-full bg-foreground" />
+              <div className="h-1 w-1 rounded-full bg-muted-foreground/40" />
+              <div className="h-1 w-1 rounded-full bg-muted-foreground/20" />
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">
               Ten practices · USA & India
             </span>
           </div>
           <Button
             asChild
             size="lg"
-            className="rounded-none bg-slate-900 px-8 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-slate-800"
+            className="rounded-none bg-foreground text-background px-8 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-foreground/90"
           >
             <Link to="/contact">
               Talk to a Virelix consultant

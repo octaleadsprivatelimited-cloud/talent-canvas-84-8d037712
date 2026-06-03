@@ -124,13 +124,13 @@ function ServiceDetail() {
   const serif = { fontFamily: "'Playfair Display', serif" };
 
   return (
-    <main className="min-h-screen bg-[#fcfbf9]">
+    <main className="min-h-screen bg-background">
       {/* Editorial hero */}
       <section className="px-6 pt-20 pb-12 md:px-12 md:pt-32 md:pb-20">
         <div className="mx-auto max-w-6xl">
           <Link
             to="/services"
-            className="mb-10 inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400 transition-colors hover:text-slate-900"
+            className="mb-10 inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70 transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-3 w-3" /> All practices
           </Link>
@@ -138,18 +138,18 @@ function ServiceDetail() {
           <div className="grid items-end gap-12 lg:grid-cols-[1fr_auto]">
             <div className="max-w-3xl">
               <div className="mb-6 flex items-center gap-4">
-                <span className="h-px w-8 bg-slate-900" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+                <span className="h-px w-8 bg-foreground" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
                   Service Practice
                 </span>
               </div>
               <h1
-                className="text-4xl font-medium leading-[0.95] tracking-tight text-slate-900 md:text-6xl lg:text-7xl"
+                className="text-4xl font-medium leading-[0.95] tracking-tight text-foreground md:text-6xl lg:text-7xl"
                 style={serif}
               >
                 {data.title.split(" ").map((word, i, arr) =>
                   i === Math.floor(arr.length / 2) ? (
-                    <span key={i} className="italic text-slate-500">
+                    <span key={i} className="italic text-muted-foreground">
                       {word}{" "}
                     </span>
                   ) : (
@@ -158,7 +158,7 @@ function ServiceDetail() {
                 )}
               </h1>
               {data.summary && (
-                <p className="mt-8 max-w-xl border-l border-slate-200 pl-6 text-base leading-relaxed text-slate-500 md:text-lg">
+                <p className="mt-8 max-w-xl border-l border-border/80 pl-6 text-base leading-relaxed text-muted-foreground md:text-lg">
                   {data.summary}
                 </p>
               )}
@@ -171,7 +171,7 @@ function ServiceDetail() {
       <section className="px-6 pb-16 md:px-12 md:pb-24">
         <div className="mx-auto max-w-6xl">
           <div className="relative mx-auto max-w-3xl">
-            <div className="absolute -inset-4 -z-10 translate-x-6 translate-y-6 border border-slate-200/80" />
+            <div className="absolute -inset-4 -z-10 translate-x-6 translate-y-6 border border-border/80" />
             <div className="relative aspect-[16/10] overflow-hidden shadow-2xl">
               <img
                 src={img.src}
@@ -182,7 +182,7 @@ function ServiceDetail() {
                 className="h-full w-full object-cover"
               />
             </div>
-            <span className="mt-4 block text-right text-[9px] uppercase italic tracking-[0.2em] text-slate-400">
+            <span className="mt-4 block text-right text-[9px] uppercase italic tracking-[0.2em] text-muted-foreground/70">
               Practice Study · Virelix
             </span>
           </div>
@@ -194,13 +194,13 @@ function ServiceDetail() {
         <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[2fr_1fr]">
           <div>
             <div className="mb-8 flex items-center gap-4">
-              <span className="h-px w-8 bg-slate-900" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+              <span className="h-px w-8 bg-foreground" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
                 Overview
               </span>
             </div>
             {data.body && (
-              <div className="whitespace-pre-line text-lg leading-relaxed text-slate-700 [&>*+*]:mt-6">
+              <div className="whitespace-pre-line text-lg leading-relaxed text-foreground/80 [&>*+*]:mt-6">
                 {data.body}
               </div>
             )}
@@ -208,22 +208,22 @@ function ServiceDetail() {
             {data.features && data.features.length > 0 && (
               <div className="mt-16">
                 <div className="mb-8 flex items-center gap-4">
-                  <span className="h-px w-8 bg-slate-900" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+                  <span className="h-px w-8 bg-foreground" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
                     What's included
                   </span>
                 </div>
-                <ul className="divide-y divide-slate-200 border-y border-slate-200">
+                <ul className="divide-y divide-border border-y border-border">
                   {data.features.map((f, i) => (
                     <li
                       key={i}
-                      className="group flex items-start gap-6 py-5 transition-colors hover:bg-white"
+                      className="group flex items-start gap-6 py-5 transition-colors hover:bg-card/50"
                     >
-                      <span className="text-[10px] font-semibold tabular-nums tracking-widest text-slate-400">
+                      <span className="text-[10px] font-semibold tabular-nums tracking-widest text-muted-foreground/70">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <Check className="mt-1 h-4 w-4 shrink-0 text-slate-900" />
-                      <span className="flex-1 text-base text-slate-700" style={serif}>
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-foreground" />
+                      <span className="flex-1 text-base text-foreground/80" style={serif}>
                         {f}
                       </span>
                     </li>
@@ -233,23 +233,23 @@ function ServiceDetail() {
             )}
           </div>
 
-          <aside className="h-fit border border-slate-200 bg-white p-8 lg:sticky lg:top-24">
+          <aside className="h-fit border border-border bg-card p-8 lg:sticky lg:top-24">
             <div className="mb-6 flex items-center gap-4">
-              <span className="h-px w-8 bg-slate-900" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+              <span className="h-px w-8 bg-foreground" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
                 Engage
               </span>
             </div>
-            <h3 className="text-2xl font-medium text-slate-900" style={serif}>
-              Start a <span className="italic text-slate-500">conversation</span>
+            <h3 className="text-2xl font-medium text-foreground" style={serif}>
+              Start a <span className="italic text-muted-foreground">conversation</span>
             </h3>
-            <p className="mt-4 text-sm leading-relaxed text-slate-500">
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               Share your hiring or workforce need — a Virelix consultant will respond within one
               business day with next steps.
             </p>
             <Button
               asChild
-              className="mt-6 w-full rounded-none bg-slate-900 py-6 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-slate-800"
+              className="mt-6 w-full rounded-none bg-foreground text-background py-6 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-foreground/90"
             >
               <Link to="/contact">
                 Contact Virelix <ArrowRight className="ml-3 h-4 w-4" />
@@ -257,7 +257,7 @@ function ServiceDetail() {
             </Button>
             <Link
               to="/services"
-              className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 hover:text-slate-900"
+              className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-foreground"
             >
               ← Back to all practices
             </Link>

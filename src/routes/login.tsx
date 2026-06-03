@@ -106,30 +106,30 @@ function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#fcfbf9] px-6 py-24 md:px-12">
+    <main className="min-h-screen bg-background px-6 py-24 md:px-12">
       <div className="mx-auto flex max-w-md flex-col">
         <div className="mb-6 flex items-center gap-4">
-          <span className="h-px w-8 bg-slate-900" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
+          <span className="h-px w-8 bg-foreground" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
             Admin access
           </span>
         </div>
         <h1
-          className="text-4xl font-medium leading-[1.05] tracking-tight text-slate-900 md:text-5xl"
+          className="text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          Sign in to <span className="italic text-slate-500">Virelix</span>
+          Sign in to <span className="italic text-muted-foreground">Virelix</span>
         </h1>
-        <p className="mt-5 text-base leading-relaxed text-slate-500">
+        <p className="mt-5 text-base leading-relaxed text-muted-foreground">
           Restricted area. Sign in with email & password, or use Google.
         </p>
 
-        <div className="mt-10 border border-slate-200 bg-white p-8">
+        <div className="mt-10 border border-border bg-card p-8">
           <form onSubmit={submitEmail} className="space-y-4">
             <div>
               <Label
                 htmlFor="email"
-                className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500"
+                className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground"
               >
                 Email
               </Label>
@@ -139,14 +139,14 @@ function LoginPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 rounded-none border-slate-300"
+                className="mt-2 rounded-none border-border"
                 required
               />
             </div>
             <div>
               <Label
                 htmlFor="password"
-                className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500"
+                className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground"
               >
                 Password
               </Label>
@@ -156,7 +156,7 @@ function LoginPage() {
                 autoComplete={mode === "signup" ? "new-password" : "current-password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-2 rounded-none border-slate-300"
+                className="mt-2 rounded-none border-border"
                 minLength={6}
                 required
               />
@@ -164,30 +164,32 @@ function LoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full rounded-none bg-slate-900 py-6 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-slate-800"
+              className="w-full rounded-none bg-foreground text-background py-6 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-foreground/90"
             >
               {loading ? "Please wait…" : mode === "signup" ? "Create account" : "Sign in"}
             </Button>
             <button
               type="button"
               onClick={() => setMode(mode === "signup" ? "signin" : "signup")}
-              className="w-full text-center text-[10px] uppercase tracking-[0.3em] text-slate-500 hover:text-slate-900"
+              className="w-full text-center text-[10px] uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-foreground"
             >
               {mode === "signup" ? "Have an account? Sign in" : "No account? Create one"}
             </button>
           </form>
 
           <div className="my-6 flex items-center gap-3">
-            <span className="h-px flex-1 bg-slate-200" />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-slate-400">or</span>
-            <span className="h-px flex-1 bg-slate-200" />
+            <span className="h-px flex-1 bg-border" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/70">
+              or
+            </span>
+            <span className="h-px flex-1 bg-border" />
           </div>
 
           <Button
             onClick={signInWithGoogle}
             disabled={loading}
             variant="outline"
-            className="w-full rounded-none border-slate-300 py-6 text-[11px] font-bold uppercase tracking-[0.3em]"
+            className="w-full rounded-none border-border py-6 text-[11px] font-bold uppercase tracking-[0.3em]"
           >
             Continue with Google
           </Button>
