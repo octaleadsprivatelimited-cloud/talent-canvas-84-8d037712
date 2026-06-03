@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useMemo } from "react";
-import { Pencil, Plus, Trash2, ExternalLink } from "lucide-react";
+import { Pencil, Plus, Trash2, ExternalLink, ArrowUp, ArrowDown, X } from "lucide-react";
 import { supabaseAny } from "@/lib/supabase-any";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LAYOUTS, getLayout, type LayoutId, type LayoutContent } from "@/lib/page-layouts";
+import { LAYOUTS, getLayout, type LayoutId, type LayoutContent, type RepeaterSubField } from "@/lib/page-layouts";
 
 export const Route = createFileRoute("/admin/pages")({
   component: AdminPages,
@@ -41,48 +41,39 @@ type Draft = {
   seo_description: string;
   published: boolean;
   sort_order: number;
-  // raw JSON text for fields of type "json" so users can edit freely
-  jsonRaw: Record<string, string>;
 };
 
 function emptyDraft(layout: LayoutId = "hero-features"): Draft {
   const meta = getLayout(layout);
-  const jsonRaw: Record<string, string> = {};
-  for (const f of meta.fields) {
-    if (f.type === "json") jsonRaw[f.key] = JSON.stringify(meta.sample[f.key] ?? [], null, 2);
-  }
   return {
     id: "",
     slug: "",
     title: "",
     layout,
-    content: { ...meta.sample },
+    content: JSON.parse(JSON.stringify(meta.sample)),
     seo_description: "",
     published: true,
     sort_order: 0,
-    jsonRaw,
   };
 }
 
 function toDraft(row: PageRow): Draft {
-  const meta = getLayout(row.layout);
-  const jsonRaw: Record<string, string> = {};
-  for (const f of meta.fields) {
-    if (f.type === "json") {
-      jsonRaw[f.key] = JSON.stringify(row.content?.[f.key] ?? [], null, 2);
-    }
-  }
   return {
     id: row.id,
     slug: row.slug,
     title: row.title,
     layout: row.layout,
-    content: { ...row.content },
+    content: { ...(row.content ?? {}) },
     seo_description: row.seo_description ?? "",
     published: row.published,
     sort_order: row.sort_order ?? 0,
-    jsonRaw,
   };
+}
+
+function emptyItem(fields: RepeaterSubField[]): Record<string, string> {
+  const o: Record<string, string> = {};
+  for (const f of fields) o[f.key] = "";
+  return o;
 }
 
 function AdminPages() {
@@ -119,25 +110,20 @@ function AdminPages() {
   const switchLayout = (next: LayoutId) => {
     if (!draft) return;
     const meta = getLayout(next);
-    const jsonRaw: Record<string, string> = {};
     const content: LayoutContent = {};
     for (const f of meta.fields) {
       const existing = draft.content[f.key];
-      const value = existing !== undefined ? existing : meta.sample[f.key];
-      content[f.key] = value;
-      if (f.type === "json") jsonRaw[f.key] = JSON.stringify(value ?? [], null, 2);
+      content[f.key] = existing !== undefined ? existing : (meta.sample[f.key] as unknown);
     }
-    setDraft({ ...draft, layout: next, content, jsonRaw });
+    setDraft({ ...draft, layout: next, content });
   };
 
   const setField = (key: string, value: unknown) => {
     if (!draft) return;
     setDraft({ ...draft, content: { ...draft.content, [key]: value } });
   };
-  const setJsonRaw = (key: string, raw: string) => {
-    if (!draft) return;
-    setDraft({ ...draft, jsonRaw: { ...draft.jsonRaw, [key]: raw } });
-  };
+
+  const updateRepeater = (key: string, next: Record<string, string>[]) => setField(key, next);
 
   const save = async () => {
     if (!draft) return;
@@ -145,24 +131,11 @@ function AdminPages() {
       toast.error("Title and slug are required.");
       return;
     }
-    const meta = getLayout(draft.layout);
-    const content: LayoutContent = { ...draft.content };
-    for (const f of meta.fields) {
-      if (f.type === "json") {
-        const raw = draft.jsonRaw[f.key] ?? "";
-        try {
-          content[f.key] = raw.trim() === "" ? [] : JSON.parse(raw);
-        } catch {
-          toast.error(`${f.label} must be valid JSON`);
-          return;
-        }
-      }
-    }
     const payload = {
       slug: draft.slug.trim().toLowerCase(),
       title: draft.title.trim(),
       layout: draft.layout,
-      content,
+      content: draft.content,
       seo_description: draft.seo_description.trim() || null,
       published: draft.published,
       sort_order: Number(draft.sort_order) || 0,
@@ -199,7 +172,7 @@ function AdminPages() {
         <div>
           <h1 className="font-display text-3xl font-bold">Pages</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Build standalone pages on <code>/p/&lt;slug&gt;</code> using one of {LAYOUTS.length} designed layouts.
+            Build standalone pages on <code>/p/&lt;slug&gt;</code> using one of {LAYOUTS.length} designed layouts. No code required.
           </p>
         </div>
         <Button onClick={openNew}>
@@ -348,17 +321,102 @@ function AdminPages() {
                 <div className="space-y-4">
                   {layoutMeta.fields.map((f) => {
                     const val = draft.content[f.key];
-                    if (f.type === "json") {
+                    if (f.type === "repeater") {
+                      const sub = f.itemFields ?? [];
+                      const items = Array.isArray(val) ? (val as Record<string, string>[]) : [];
                       return (
-                        <div key={f.key} className="space-y-1.5">
+                        <div key={f.key} className="space-y-2">
                           <Label>{f.label}</Label>
-                          <Textarea
-                            rows={f.rows ?? 8}
-                            className="font-mono text-xs"
-                            value={draft.jsonRaw[f.key] ?? ""}
-                            onChange={(e) => setJsonRaw(f.key, e.target.value)}
-                          />
-                          {f.help && <p className="text-xs text-muted-foreground">{f.help}</p>}
+                          <div className="space-y-3">
+                            {items.length === 0 && (
+                              <p className="rounded border border-dashed border-border p-4 text-center text-xs text-muted-foreground">
+                                No {f.label.toLowerCase()} yet. Click “Add” below.
+                              </p>
+                            )}
+                            {items.map((item, idx) => (
+                              <div key={idx} className="rounded border border-border bg-surface/40 p-3">
+                                <div className="mb-2 flex items-center justify-between">
+                                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                    {f.itemLabel ?? "Item"} {idx + 1}
+                                  </p>
+                                  <div className="flex items-center gap-1">
+                                    <Button
+                                      type="button"
+                                      variant="ghost"
+                                      size="sm"
+                                      disabled={idx === 0}
+                                      onClick={() => {
+                                        const next = [...items];
+                                        [next[idx - 1], next[idx]] = [next[idx], next[idx - 1]];
+                                        updateRepeater(f.key, next);
+                                      }}
+                                    >
+                                      <ArrowUp className="h-3.5 w-3.5" />
+                                    </Button>
+                                    <Button
+                                      type="button"
+                                      variant="ghost"
+                                      size="sm"
+                                      disabled={idx === items.length - 1}
+                                      onClick={() => {
+                                        const next = [...items];
+                                        [next[idx + 1], next[idx]] = [next[idx], next[idx + 1]];
+                                        updateRepeater(f.key, next);
+                                      }}
+                                    >
+                                      <ArrowDown className="h-3.5 w-3.5" />
+                                    </Button>
+                                    <Button
+                                      type="button"
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => updateRepeater(f.key, items.filter((_, i) => i !== idx))}
+                                    >
+                                      <X className="h-3.5 w-3.5 text-destructive" />
+                                    </Button>
+                                  </div>
+                                </div>
+                                <div className="grid gap-3">
+                                  {sub.map((sf) => (
+                                    <div key={sf.key} className="space-y-1">
+                                      <Label className="text-xs">{sf.label}</Label>
+                                      {sf.type === "textarea" ? (
+                                        <Textarea
+                                          rows={sf.rows ?? 2}
+                                          placeholder={sf.placeholder}
+                                          value={item[sf.key] ?? ""}
+                                          onChange={(e) => {
+                                            const next = [...items];
+                                            next[idx] = { ...next[idx], [sf.key]: e.target.value };
+                                            updateRepeater(f.key, next);
+                                          }}
+                                        />
+                                      ) : (
+                                        <Input
+                                          type={sf.type === "url" ? "url" : "text"}
+                                          placeholder={sf.placeholder}
+                                          value={item[sf.key] ?? ""}
+                                          onChange={(e) => {
+                                            const next = [...items];
+                                            next[idx] = { ...next[idx], [sf.key]: e.target.value };
+                                            updateRepeater(f.key, next);
+                                          }}
+                                        />
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => updateRepeater(f.key, [...items, emptyItem(sub)])}
+                          >
+                            <Plus className="mr-1 h-3.5 w-3.5" /> Add {f.itemLabel ?? "item"}
+                          </Button>
                         </div>
                       );
                     }
