@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { getServiceImage } from "@/lib/service-images";
 
@@ -31,17 +31,13 @@ const serviceQuery = (slug: string) =>
 
 export const Route = createFileRoute("/services/$slug")({
   loader: async ({ params, context }) => {
-    const data = await context.queryClient.ensureQueryData(
-      serviceQuery(params.slug),
-    );
+    const data = await context.queryClient.ensureQueryData(serviceQuery(params.slug));
     if (!data) throw notFound();
     return data;
   },
   head: ({ params, loaderData }) => {
     const s = loaderData as Service | undefined;
-    const title = s
-      ? `${s.title} — Virelix Consulting`
-      : "Service — Virelix Consulting";
+    const title = s ? `${s.title} — Virelix Consulting` : "Service — Virelix Consulting";
     const description =
       s?.summary ??
       "Specialist recruitment and workforce solutions delivered by Virelix Consulting.";
@@ -115,9 +111,7 @@ export const Route = createFileRoute("/services/$slug")({
     </div>
   ),
   notFoundComponent: () => (
-    <div className="container mx-auto px-4 py-20 text-center">
-      Service not found.
-    </div>
+    <div className="container mx-auto px-4 py-20 text-center">Service not found.</div>
   ),
 });
 
@@ -250,8 +244,8 @@ function ServiceDetail() {
               Start a <span className="italic text-slate-500">conversation</span>
             </h3>
             <p className="mt-4 text-sm leading-relaxed text-slate-500">
-              Share your hiring or workforce need — a Virelix consultant will
-              respond within one business day with next steps.
+              Share your hiring or workforce need — a Virelix consultant will respond within one
+              business day with next steps.
             </p>
             <Button
               asChild

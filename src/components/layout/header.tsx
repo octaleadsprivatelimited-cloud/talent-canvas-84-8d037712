@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useSiteSettings } from "@/hooks/use-site-settings";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 
 const navItems = [
   { to: "/services", label: "Services" },
@@ -27,7 +27,10 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/50 glass">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="group flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight">
+        <Link
+          to="/"
+          className="group flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight"
+        >
           <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-hero shadow-glow transition-transform duration-300 group-hover:scale-105">
             <Briefcase className="h-4 w-4 text-primary-foreground" strokeWidth={2.5} />
           </div>
@@ -54,9 +57,13 @@ export function Header() {
             </Button>
           )}
           {user ? (
-            <Button variant="outline" size="sm" onClick={() => supabase.auth.signOut()}>Sign out</Button>
+            <Button variant="outline" size="sm" onClick={() => supabase.auth.signOut()}>
+              Sign out
+            </Button>
           ) : (
-            <Button size="sm" asChild><Link to="/contact">Hire with us</Link></Button>
+            <Button size="sm" asChild>
+              <Link to="/contact">Hire with us</Link>
+            </Button>
           )}
         </div>
 
@@ -66,7 +73,7 @@ export function Header() {
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background lg:hidden">
+        <div className="absolute left-0 right-0 top-full border-b border-border bg-background/95 backdrop-blur-md lg:hidden">
           <div className="container mx-auto flex flex-col gap-1 px-4 py-3">
             {navItems.map((item) => (
               <Link
@@ -85,7 +92,9 @@ export function Header() {
                 </Button>
               )}
               {user ? (
-                <Button variant="ghost" onClick={() => supabase.auth.signOut()}>Sign out</Button>
+                <Button variant="ghost" onClick={() => supabase.auth.signOut()}>
+                  Sign out
+                </Button>
               ) : (
                 <Button asChild onClick={() => setOpen(false)}>
                   <Link to="/contact">Hire with us</Link>

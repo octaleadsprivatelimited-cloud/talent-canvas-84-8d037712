@@ -249,7 +249,9 @@ function HeroFeatures({ content }: { content: LayoutContent }) {
             {asString(content.headline, "Untitled page")}
           </h1>
           {asString(content.subhead) && (
-            <p className="mt-5 max-w-2xl text-lg text-muted-foreground">{asString(content.subhead)}</p>
+            <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
+              {asString(content.subhead)}
+            </p>
           )}
           <div className="mt-8">
             <CtaButton href={asString(content.cta_href)} label={asString(content.cta_label)} />
@@ -281,7 +283,9 @@ function SplitContent({ content }: { content: LayoutContent }) {
             {asString(content.headline, "Untitled page")}
           </h1>
           {asString(content.subhead) && (
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{asString(content.subhead)}</p>
+            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+              {asString(content.subhead)}
+            </p>
           )}
         </div>
       </section>
@@ -292,7 +296,9 @@ function SplitContent({ content }: { content: LayoutContent }) {
               <h2 className="font-display text-3xl font-bold tracking-tight">{s.title}</h2>
               <p className="mt-4 whitespace-pre-line text-muted-foreground">{s.body}</p>
             </div>
-            <div className={`aspect-[4/3] overflow-hidden border border-border bg-surface ${i % 2 === 1 ? "md:order-1" : ""}`}>
+            <div
+              className={`aspect-[4/3] overflow-hidden border border-border bg-surface ${i % 2 === 1 ? "md:order-1" : ""}`}
+            >
               {s.image_url ? (
                 <img src={s.image_url} alt={s.title ?? ""} className="h-full w-full object-cover" />
               ) : (
@@ -321,7 +327,11 @@ function Longform({ content }: { content: LayoutContent }) {
         {asString(content.headline, "Untitled page")}
       </h1>
       {asString(content.cover_url) && (
-        <img src={asString(content.cover_url)} alt="" className="mt-10 aspect-[16/9] w-full object-cover" />
+        <img
+          src={asString(content.cover_url)}
+          alt=""
+          className="mt-10 aspect-[16/9] w-full object-cover"
+        />
       )}
       <div className="prose prose-neutral mt-10 max-w-none text-base leading-relaxed text-foreground">
         {body.split(/\n\n+/).map((p, i) => (
@@ -344,7 +354,9 @@ function LandingCta({ content }: { content: LayoutContent }) {
             {asString(content.headline, "Untitled page")}
           </h1>
           {asString(content.subhead) && (
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">{asString(content.subhead)}</p>
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
+              {asString(content.subhead)}
+            </p>
           )}
         </div>
       </section>
@@ -353,7 +365,9 @@ function LandingCta({ content }: { content: LayoutContent }) {
           {stats.map((s, i) => (
             <div key={i} className="bg-background p-10 text-center">
               <p className="font-display text-4xl font-bold text-primary">{s.value}</p>
-              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">{s.label}</p>
+              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                {s.label}
+              </p>
             </div>
           ))}
         </section>
@@ -369,7 +383,10 @@ function LandingCta({ content }: { content: LayoutContent }) {
               <p className="mt-3 text-base opacity-90">{asString(content.cta_body)}</p>
             )}
           </div>
-          <CtaButton href={asString(content.cta_href)} label={asString(content.cta_label, "Contact us")} />
+          <CtaButton
+            href={asString(content.cta_href)}
+            label={asString(content.cta_label, "Contact us")}
+          />
         </div>
       </section>
     </>
@@ -386,7 +403,9 @@ function Gallery({ content }: { content: LayoutContent }) {
             {asString(content.headline, "Untitled page")}
           </h1>
           {asString(content.subhead) && (
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{asString(content.subhead)}</p>
+            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+              {asString(content.subhead)}
+            </p>
           )}
         </div>
       </section>

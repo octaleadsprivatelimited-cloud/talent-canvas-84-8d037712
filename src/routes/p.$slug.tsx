@@ -1,6 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 import { RenderLayout, type LayoutId, type LayoutContent } from "@/lib/page-layouts";
 
 type CustomPage = {

@@ -1,6 +1,22 @@
-import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { LayoutDashboard, Settings, Sparkles, Building2, Users, BookOpen, MessageSquare, Inbox, FileText, Quote, Activity, LayoutTemplate, Home, Search } from "lucide-react";
+import { useIsAdmin } from "@/hooks/use-is-admin";
+import {
+  LayoutDashboard,
+  Settings,
+  Sparkles,
+  Building2,
+  Users,
+  BookOpen,
+  MessageSquare,
+  Inbox,
+  FileText,
+  Quote,
+  Activity,
+  LayoutTemplate,
+  Home,
+  Search,
+} from "lucide-react";
 import { ErrorBoundary } from "@/components/error-boundary";
 
 export const Route = createFileRoute("/admin")({
@@ -26,6 +42,8 @@ const sections: { to: string; label: string; icon: typeof LayoutDashboard; exact
 
 function AdminLayout() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { isAdmin, loading } = useIsAdmin();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -34,10 +52,32 @@ function AdminLayout() {
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (!loading && isAdmin === false) {
+      navigate({ to: "/login" });
+    }
+  }, [isAdmin, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto flex h-[400px] items-center justify-center px-4">
+        <div className="text-sm font-semibold uppercase tracking-wider text-muted-foreground animate-pulse">
+          Verifying administrator status…
+        </div>
+      </div>
+    );
+  }
+
+  if (isAdmin === false) {
+    return null;
+  }
+
   return (
     <div className="container mx-auto grid gap-8 px-4 py-10 lg:grid-cols-[240px_1fr]">
       <aside className="h-fit border border-border bg-surface p-3 lg:sticky lg:top-20">
-        <p className="px-3 pb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Admin</p>
+        <p className="px-3 pb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Admin
+        </p>
         <nav className="flex flex-col gap-1">
           {sections.map((s) => (
             <Link
@@ -60,4 +100,3 @@ function AdminLayout() {
     </div>
   );
 }
-

@@ -16,7 +16,13 @@ export const Route = createFileRoute("/admin/case-studies")({
         { key: "cover_url", label: "Cover image URL", type: "url" },
         { key: "summary", label: "Summary", type: "textarea", rows: 2 },
         { key: "body", label: "Body", type: "textarea", rows: 10 },
-        { key: "results", label: "Results (JSON array)", type: "json", rows: 6, placeholder: '[{"label":"Hires","value":"3"}]' },
+        {
+          key: "results",
+          label: "Results (JSON array)",
+          type: "json",
+          rows: 6,
+          placeholder: '[{"label":"Hires","value":"3"}]',
+        },
         { key: "sort_order", label: "Sort order", type: "number" },
         { key: "published", label: "Published", type: "boolean" },
       ]}

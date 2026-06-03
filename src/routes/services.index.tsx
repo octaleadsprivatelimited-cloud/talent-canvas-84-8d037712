@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { getServiceImage } from "@/lib/service-images";
 import { DynamicSeo } from "@/components/dynamic-seo";
@@ -87,18 +87,18 @@ const IMAGE_VARIANTS = [
   { right: "right-[5%]", top: "-bottom-16", w: "w-64", h: "h-64" },
 ];
 
-const BG_VARIANTS = [
-  "bg-[#f4f2ef]",
-  "bg-[#eceae6]",
-  "bg-[#f0ede8]",
-];
+const BG_VARIANTS = ["bg-[#f4f2ef]", "bg-[#eceae6]", "bg-[#f0ede8]"];
 
 function ServicesPage() {
   const { data } = useSuspenseQuery(servicesQuery);
 
   return (
     <section className="min-h-screen w-full bg-[#fcfbf9] py-20 px-6 md:px-12 md:py-32">
-      <DynamicSeo pageKey="services" fallbackTitle={PAGE_TITLE} fallbackDescription={PAGE_DESCRIPTION} />
+      <DynamicSeo
+        pageKey="services"
+        fallbackTitle={PAGE_TITLE}
+        fallbackDescription={PAGE_DESCRIPTION}
+      />
       <div className="mx-auto w-full max-w-6xl">
         {/* Editorial Header */}
         <div className="mb-20 flex flex-col gap-10 md:mb-32 md:flex-row md:items-end md:justify-between md:gap-12">
@@ -111,17 +111,15 @@ function ServicesPage() {
             </div>
             <h1 className="text-5xl font-light leading-[0.9] tracking-tighter text-slate-900 md:text-7xl lg:text-8xl">
               Our{" "}
-              <span
-                className="italic"
-                style={{ fontFamily: "'Playfair Display', serif" }}
-              >
+              <span className="italic" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Service
               </span>{" "}
               Practices
             </h1>
           </div>
           <p className="max-w-xs border-l border-slate-200 pl-6 text-base leading-relaxed text-slate-500 md:pl-8 md:text-lg">
-            Strategic talent solutions engineered for high-growth enterprises and global leadership teams.
+            Strategic talent solutions engineered for high-growth enterprises and global leadership
+            teams.
           </p>
         </div>
 

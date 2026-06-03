@@ -15,7 +15,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LAYOUTS, getLayout, type LayoutId, type LayoutContent, type RepeaterSubField } from "@/lib/page-layouts";
+import {
+  LAYOUTS,
+  getLayout,
+  type LayoutId,
+  type LayoutContent,
+  type RepeaterSubField,
+} from "@/lib/page-layouts";
 
 export const Route = createFileRoute("/admin/pages")({
   component: AdminPages,
@@ -172,7 +178,8 @@ function AdminPages() {
         <div>
           <h1 className="font-display text-3xl font-bold">Pages</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Build standalone pages on <code>/p/&lt;slug&gt;</code> using one of {LAYOUTS.length} designed layouts. No code required.
+            Build standalone pages on <code>/p/&lt;slug&gt;</code> using one of {LAYOUTS.length}{" "}
+            designed layouts. No code required.
           </p>
         </div>
         <Button onClick={openNew}>
@@ -276,7 +283,10 @@ function AdminPages() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
                   <Label>Title *</Label>
-                  <Input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
+                  <Input
+                    value={draft.title}
+                    onChange={(e) => setDraft({ ...draft, title: e.target.value })}
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label>Slug *</Label>
@@ -299,7 +309,9 @@ function AdminPages() {
                   <Input
                     type="number"
                     value={draft.sort_order}
-                    onChange={(e) => setDraft({ ...draft, sort_order: Number(e.target.value) || 0 })}
+                    onChange={(e) =>
+                      setDraft({ ...draft, sort_order: Number(e.target.value) || 0 })
+                    }
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -334,7 +346,10 @@ function AdminPages() {
                               </p>
                             )}
                             {items.map((item, idx) => (
-                              <div key={idx} className="rounded border border-border bg-surface/40 p-3">
+                              <div
+                                key={idx}
+                                className="rounded border border-border bg-surface/40 p-3"
+                              >
                                 <div className="mb-2 flex items-center justify-between">
                                   <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                                     {f.itemLabel ?? "Item"} {idx + 1}
@@ -370,7 +385,12 @@ function AdminPages() {
                                       type="button"
                                       variant="ghost"
                                       size="sm"
-                                      onClick={() => updateRepeater(f.key, items.filter((_, i) => i !== idx))}
+                                      onClick={() =>
+                                        updateRepeater(
+                                          f.key,
+                                          items.filter((_, i) => i !== idx),
+                                        )
+                                      }
                                     >
                                       <X className="h-3.5 w-3.5 text-destructive" />
                                     </Button>

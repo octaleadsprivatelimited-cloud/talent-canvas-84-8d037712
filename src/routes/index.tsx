@@ -28,7 +28,7 @@ import { useSiteSettings } from "@/hooks/use-site-settings";
 import { usePageContent } from "@/hooks/use-page-content";
 import { HOMEPAGE_DEFAULTS } from "@/lib/homepage-defaults";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 import { DynamicSeo } from "@/components/dynamic-seo";
 import heroTeam from "@/assets/hero-team.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
@@ -201,13 +201,14 @@ function Index() {
       return data ?? [];
     },
   });
-  const liveTestimonials = (dbTestimonials && dbTestimonials.length > 0)
-    ? dbTestimonials.map((t) => ({
-        quote: t.quote,
-        name: t.author_name,
-        role: [t.author_role, t.company].filter(Boolean).join(" · "),
-      }))
-    : testimonials;
+  const liveTestimonials =
+    dbTestimonials && dbTestimonials.length > 0
+      ? dbTestimonials.map((t) => ({
+          quote: t.quote,
+          name: t.author_name,
+          role: [t.author_role, t.company].filter(Boolean).join(" · "),
+        }))
+      : testimonials;
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string>("hero");
 
@@ -242,7 +243,11 @@ function Index() {
       ref={scrollerRef}
       className="relative h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth [scroll-behavior:smooth]"
     >
-      <DynamicSeo pageKey="home" fallbackTitle="Strategic Talent Acquisition & Workforce Solutions" fallbackDescription="Delaware-headquartered global talent acquisition and workforce solutions." />
+      <DynamicSeo
+        pageKey="home"
+        fallbackTitle="Strategic Talent Acquisition & Workforce Solutions"
+        fallbackDescription="Delaware-headquartered global talent acquisition and workforce solutions."
+      />
       {/* Side dot nav */}
       <nav
         aria-label="Section navigation"
@@ -279,8 +284,6 @@ function Index() {
 
       {/* ============== HERO (theme-driven) ============== */}
       <HomeHero theme={(settings?.home_theme as ThemeKey) ?? "editorial"} />
-
-
 
       {/* ============== SERVICES ============== */}
       <section id="services" className="container mx-auto snap-start px-4 py-20 md:py-28">
@@ -378,7 +381,8 @@ function Index() {
             <span className="h-px w-8 bg-primary" />
           </div>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-            {copy.process_heading} <span className="text-primary">{copy.process_heading_accent}</span>
+            {copy.process_heading}{" "}
+            <span className="text-primary">{copy.process_heading_accent}</span>
           </h2>
         </div>
 
@@ -458,9 +462,7 @@ function Index() {
               <h2 className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl">
                 {copy.cta_heading}
               </h2>
-              <p className="mt-4 max-w-lg text-primary-foreground/80">
-                {copy.cta_description}
-              </p>
+              <p className="mt-4 max-w-lg text-primary-foreground/80">{copy.cta_description}</p>
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
               <Button

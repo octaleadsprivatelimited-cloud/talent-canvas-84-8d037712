@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueries } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
@@ -31,7 +31,9 @@ function AdminDashboard() {
   return (
     <div>
       <h1 className="font-display text-3xl font-bold">Dashboard</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Manage every piece of content on the public site.</p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Manage every piece of content on the public site.
+      </p>
       <div className="mt-8 grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-4">
         {counters.map((c, i) => (
           <Link key={c.key} to={c.to} className="bg-background p-5 hover:bg-surface">

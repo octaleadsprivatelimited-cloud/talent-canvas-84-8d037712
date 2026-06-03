@@ -1,17 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Inbox, Mail, Phone, Building2, Clock, Trash2, Search } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -40,26 +34,20 @@ type Submission = {
   created_at: string;
 };
 
-const STATUS_META: Record<
-  SubStatus,
-  { label: string; className: string; dot: string }
-> = {
+const STATUS_META: Record<SubStatus, { label: string; className: string; dot: string }> = {
   new: {
     label: "New",
-    className:
-      "border-primary/30 bg-primary/10 text-primary",
+    className: "border-primary/30 bg-primary/10 text-primary",
     dot: "bg-primary",
   },
   in_progress: {
     label: "In progress",
-    className:
-      "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300",
+    className: "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300",
     dot: "bg-amber-500",
   },
   resolved: {
     label: "Resolved",
-    className:
-      "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+    className: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
     dot: "bg-emerald-500",
   },
 };
@@ -101,10 +89,7 @@ function SubmissionsAdmin() {
   const setStatus = async (id: string, status: SubStatus) => {
     const prev = rows;
     setRows((r) => r.map((x) => (x.id === id ? { ...x, status } : x)));
-    const { error } = await supabase
-      .from("contact_submissions")
-      .update({ status })
-      .eq("id", id);
+    const { error } = await supabase.from("contact_submissions").update({ status }).eq("id", id);
     if (error) {
       toast.error(error.message);
       setRows(prev);
@@ -150,9 +135,7 @@ function SubmissionsAdmin() {
       {/* Header */}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl font-bold tracking-tight">
-            Contact Inbox
-          </h1>
+          <h1 className="font-display text-3xl font-bold tracking-tight">Contact Inbox</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Inquiries submitted from the public contact form.
           </p>
@@ -184,9 +167,7 @@ function SubmissionsAdmin() {
                   {meta.label}
                 </p>
               </div>
-              <p className="mt-2 font-display text-2xl font-bold">
-                {counts[k]}
-              </p>
+              <p className="mt-2 font-display text-2xl font-bold">{counts[k]}</p>
             </button>
           );
         })}
@@ -232,9 +213,7 @@ function SubmissionsAdmin() {
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
               <Inbox className="h-6 w-6" />
             </div>
-            <p className="mt-4 font-display text-lg font-semibold">
-              No submissions
-            </p>
+            <p className="mt-4 font-display text-lg font-semibold">No submissions</p>
             <p className="mt-1 text-sm text-muted-foreground">
               {rows.length === 0
                 ? "When a visitor sends a message, it will appear here."
@@ -253,9 +232,7 @@ function SubmissionsAdmin() {
               >
                 <CardHeader className="flex flex-row flex-wrap items-start justify-between gap-3 space-y-0 pb-3">
                   <div className="min-w-0">
-                    <CardTitle className="font-display text-lg">
-                      {r.name}
-                    </CardTitle>
+                    <CardTitle className="font-display text-lg">{r.name}</CardTitle>
                     <CardDescription className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
                       <span className="inline-flex items-center gap-1">
                         <Mail className="h-3 w-3" />
@@ -286,17 +263,11 @@ function SubmissionsAdmin() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className={cn("gap-1.5 font-medium", meta.className)}
-                    >
+                    <Badge variant="outline" className={cn("gap-1.5 font-medium", meta.className)}>
                       <span className={cn("h-1.5 w-1.5 rounded-full", meta.dot)} />
                       {meta.label}
                     </Badge>
-                    <Select
-                      value={r.status}
-                      onValueChange={(v) => setStatus(r.id, v as SubStatus)}
-                    >
+                    <Select value={r.status} onValueChange={(v) => setStatus(r.id, v as SubStatus)}>
                       <SelectTrigger className="h-8 w-36 text-xs">
                         <SelectValue />
                       </SelectTrigger>
@@ -320,9 +291,7 @@ function SubmissionsAdmin() {
 
                 <CardContent className="space-y-2 pt-0">
                   {r.subject && (
-                    <p className="text-sm font-semibold text-foreground">
-                      {r.subject}
-                    </p>
+                    <p className="text-sm font-semibold text-foreground">{r.subject}</p>
                   )}
                   <p className="whitespace-pre-line text-sm leading-relaxed text-foreground/85">
                     {r.message}

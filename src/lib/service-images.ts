@@ -23,8 +23,6 @@ export function getServiceImage(slug: string | null | undefined) {
   const id = (slug && PHOTO_IDS[slug]) || FALLBACK;
   return {
     src: build(id, 1200),
-    srcSet: [400, 640, 960, 1200, 1600]
-      .map((w) => `${build(id, w)} ${w}w`)
-      .join(", "),
+    srcSet: [400, 640, 960, 1200, 1600].map((w) => `${build(id, w)} ${w}w`).join(", "),
   };
 }

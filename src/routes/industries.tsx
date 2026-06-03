@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import * as Icons from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
@@ -9,7 +9,11 @@ export const Route = createFileRoute("/industries")({
   head: () => ({
     meta: [
       { title: "Industries We Serve" },
-      { name: "description", content: "Recruiting across tech, finance, healthcare, industrial, consumer, and professional services." },
+      {
+        name: "description",
+        content:
+          "Recruiting across tech, finance, healthcare, industrial, consumer, and professional services.",
+      },
     ],
   }),
   component: IndustriesPage,
@@ -19,16 +23,31 @@ function IndustriesPage() {
   const { data } = useQuery({
     queryKey: ["industries"],
     queryFn: async () => {
-      const { data } = await supabase.from("industries").select("*").eq("published", true).order("sort_order");
+      const { data } = await supabase
+        .from("industries")
+        .select("*")
+        .eq("published", true)
+        .order("sort_order");
       return data ?? [];
     },
   });
-  const Lucide = Icons as unknown as Record<string, React.ComponentType<{ className?: string; strokeWidth?: number }>>;
+  const Lucide = Icons as unknown as Record<
+    string,
+    React.ComponentType<{ className?: string; strokeWidth?: number }>
+  >;
 
   return (
     <>
-      <DynamicSeo pageKey="industries" fallbackTitle="Industries We Serve" fallbackDescription="Recruiting across tech, finance, healthcare, industrial, consumer, and professional services." />
-      <PageHero eyebrow="Industries" title="Sector expertise that compounds." subtitle="We don't generalize. Each practice is led by partners with decades inside the industry." />
+      <DynamicSeo
+        pageKey="industries"
+        fallbackTitle="Industries We Serve"
+        fallbackDescription="Recruiting across tech, finance, healthcare, industrial, consumer, and professional services."
+      />
+      <PageHero
+        eyebrow="Industries"
+        title="Sector expertise that compounds."
+        subtitle="We don't generalize. Each practice is led by partners with decades inside the industry."
+      />
       <section className="container mx-auto px-4 py-20">
         <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">
           {data?.map((ind) => {

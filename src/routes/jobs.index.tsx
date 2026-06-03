@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 import { JobCard, type JobCardData } from "@/components/jobs/job-card";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -8,7 +8,9 @@ import { useState } from "react";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
 export const Route = createFileRoute("/jobs/")({
-  head: () => ({ meta: [{ title: "Jobs — Hireloop" }, { name: "description", content: "Browse open roles." }] }),
+  head: () => ({
+    meta: [{ title: "Jobs — Hireloop" }, { name: "description", content: "Browse open roles." }],
+  }),
   component: JobsPage,
 });
 
@@ -19,7 +21,9 @@ function JobsPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("jobs")
-        .select("id,slug,title,location,work_mode,job_type,salary_min,salary_max,salary_currency,featured,created_at,companies(name,slug,logo_url,industry)")
+        .select(
+          "id,slug,title,location,work_mode,job_type,salary_min,salary_max,salary_currency,featured,created_at,companies(name,slug,logo_url,industry)",
+        )
         .eq("status", "published")
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -27,8 +31,11 @@ function JobsPage() {
     },
   });
 
-  const filtered = data?.filter((j) =>
-    !q || j.title.toLowerCase().includes(q.toLowerCase()) || j.companies?.name.toLowerCase().includes(q.toLowerCase())
+  const filtered = data?.filter(
+    (j) =>
+      !q ||
+      j.title.toLowerCase().includes(q.toLowerCase()) ||
+      j.companies?.name.toLowerCase().includes(q.toLowerCase()),
   );
 
   return (
@@ -40,13 +47,20 @@ function JobsPage() {
       </div>
       <div className="mb-6 flex items-center gap-2 rounded-xl border border-border bg-card p-2">
         <Search className="ml-2 h-4 w-4 text-muted-foreground" />
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by title or company" className="border-0 focus-visible:ring-0" />
+        <Input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search by title or company"
+          className="border-0 focus-visible:ring-0"
+        />
       </div>
       {isLoading ? (
         <p className="text-muted-foreground">Loading…</p>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {filtered?.map((j) => <JobCard key={j.id} job={j} />)}
+          {filtered?.map((j) => (
+            <JobCard key={j.id} job={j} />
+          ))}
         </div>
       )}
     </div>

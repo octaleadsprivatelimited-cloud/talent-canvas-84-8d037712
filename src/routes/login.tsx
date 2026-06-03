@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+import { supabase } from "@/integrations/firebase/client";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/login")({
@@ -22,8 +21,17 @@ async function routeAfterAuth(userId: string, navigate: ReturnType<typeof useNav
   if (roleRow) {
     navigate({ to: "/admin" });
   } else {
-    // First user can claim admin via the diagnostics/admin claim flow.
-    navigate({ to: "/admin" });
+    const { data: allRoles } = await supabase.from("user_roles").select("id").limit(1);
+    if (allRoles && allRoles.length === 0) {
+      await supabase.from("user_roles").insert({
+        user_id: userId,
+        role: "admin",
+      });
+      navigate({ to: "/admin" });
+    } else {
+      toast.error("Access denied: You do not have administrator privileges.");
+      await supabase.auth.signOut();
+    }
   }
 }
 
@@ -49,11 +57,16 @@ function LoginPage() {
 
   const signInWithGoogle = async () => {
     setLoading(true);
-    const res = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin + "/login",
-    });
-    if (res.error) {
-      toast.error("Google sign-in failed");
+    try {
+      const res = await supabase.auth.signInWithPopupGoogle();
+      if (res.error) throw res.error;
+      if (res.user) {
+        await routeAfterAuth(res.user.uid, navigate);
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Google sign-in failed";
+      toast.error(msg);
+    } finally {
       setLoading(false);
     }
   };
@@ -114,7 +127,12 @@ function LoginPage() {
         <div className="mt-10 border border-slate-200 bg-white p-8">
           <form onSubmit={submitEmail} className="space-y-4">
             <div>
-              <Label htmlFor="email" className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">Email</Label>
+              <Label
+                htmlFor="email"
+                className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500"
+              >
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -126,7 +144,12 @@ function LoginPage() {
               />
             </div>
             <div>
-              <Label htmlFor="password" className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">Password</Label>
+              <Label
+                htmlFor="password"
+                className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500"
+              >
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"

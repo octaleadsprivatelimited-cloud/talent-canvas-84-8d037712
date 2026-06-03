@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Check } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
@@ -9,7 +9,10 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About Us" },
-      { name: "description", content: "Our mission, values, and how we work with companies to build leadership teams." },
+      {
+        name: "description",
+        content: "Our mission, values, and how we work with companies to build leadership teams.",
+      },
     ],
   }),
   component: AboutPage,
@@ -19,7 +22,11 @@ function AboutPage() {
   const { data: page } = useQuery({
     queryKey: ["page_content", "about"],
     queryFn: async () => {
-      const { data } = await supabase.from("page_content").select("content").eq("page_key", "about").maybeSingle();
+      const { data } = await supabase
+        .from("page_content")
+        .select("content")
+        .eq("page_key", "about")
+        .maybeSingle();
       return (data?.content as Record<string, unknown>) ?? {};
     },
   });
@@ -32,13 +39,17 @@ function AboutPage() {
   const operatingInRaw = page?.operating_in;
   const operatingIn = Array.isArray(operatingInRaw)
     ? (operatingInRaw as string[]).filter(Boolean).join(" and ")
-    : (typeof operatingInRaw === "string" && operatingInRaw.trim())
+    : typeof operatingInRaw === "string" && operatingInRaw.trim()
       ? operatingInRaw
       : "India and USA";
 
   return (
     <>
-      <DynamicSeo pageKey="about" fallbackTitle="About Us" fallbackDescription="Our mission, values, and how we work with companies to build leadership teams." />
+      <DynamicSeo
+        pageKey="about"
+        fallbackTitle="About Us"
+        fallbackDescription="Our mission, values, and how we work with companies to build leadership teams."
+      />
       <PageHero eyebrow="Our story" title={title} subtitle={intro} />
       <section className="container mx-auto grid gap-12 px-4 py-20 md:grid-cols-2">
         <div>
@@ -46,10 +57,15 @@ function AboutPage() {
           <h2 className="mt-3 font-display text-3xl font-bold leading-tight">{mission}</h2>
         </div>
         <div className="space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">What we stand for</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+            What we stand for
+          </p>
           <ul className="space-y-3">
             {values.map((v, i) => (
-              <li key={i} className="flex items-start gap-3 border-l-2 border-primary bg-surface p-4">
+              <li
+                key={i}
+                className="flex items-start gap-3 border-l-2 border-primary bg-surface p-4"
+              >
                 <Check className="mt-0.5 h-5 w-5 text-primary" />
                 <span className="font-medium">{v}</span>
               </li>

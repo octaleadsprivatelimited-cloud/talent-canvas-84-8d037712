@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Building2, Globe, MapPin } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 import { JobCard, type JobCardData } from "@/components/jobs/job-card";
 
 export const Route = createFileRoute("/companies/$slug")({
@@ -13,7 +13,11 @@ function CompanyDetail() {
   const { data: company } = useQuery({
     queryKey: ["company", slug],
     queryFn: async () => {
-      const { data, error } = await supabase.from("companies").select("*").eq("slug", slug).maybeSingle();
+      const { data, error } = await supabase
+        .from("companies")
+        .select("*")
+        .eq("slug", slug)
+        .maybeSingle();
       if (error) throw error;
       return data;
     },
@@ -25,7 +29,9 @@ function CompanyDetail() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("jobs")
-        .select("id,slug,title,location,work_mode,job_type,salary_min,salary_max,salary_currency,featured,created_at,companies(name,slug,logo_url,industry)")
+        .select(
+          "id,slug,title,location,work_mode,job_type,salary_min,salary_max,salary_currency,featured,created_at,companies(name,slug,logo_url,industry)",
+        )
         .eq("company_id", company!.id)
         .eq("status", "published");
       if (error) throw error;
@@ -47,8 +53,18 @@ function CompanyDetail() {
             {company.tagline && <p className="mt-1 text-muted-foreground">{company.tagline}</p>}
             <div className="mt-3 flex flex-wrap gap-4 text-sm text-muted-foreground">
               {company.industry && <span>{company.industry}</span>}
-              {company.location && <span className="flex items-center gap-1"><MapPin className="h-4 w-4" />{company.location}</span>}
-              {company.website && <a href={company.website} className="flex items-center gap-1 hover:text-primary"><Globe className="h-4 w-4" />Website</a>}
+              {company.location && (
+                <span className="flex items-center gap-1">
+                  <MapPin className="h-4 w-4" />
+                  {company.location}
+                </span>
+              )}
+              {company.website && (
+                <a href={company.website} className="flex items-center gap-1 hover:text-primary">
+                  <Globe className="h-4 w-4" />
+                  Website
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -57,9 +73,18 @@ function CompanyDetail() {
 
       <h2 className="mt-10 font-display text-2xl font-bold">Open roles ({jobs?.length ?? 0})</h2>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
-        {jobs?.map((j) => <JobCard key={j.id} job={j} />)}
+        {jobs?.map((j) => (
+          <JobCard key={j.id} job={j} />
+        ))}
       </div>
-      {jobs && jobs.length === 0 && <p className="mt-4 text-muted-foreground">No open roles right now. <Link to="/jobs" className="text-primary underline">Browse all jobs</Link></p>}
+      {jobs && jobs.length === 0 && (
+        <p className="mt-4 text-muted-foreground">
+          No open roles right now.{" "}
+          <Link to="/jobs" className="text-primary underline">
+            Browse all jobs
+          </Link>
+        </p>
+      )}
     </div>
   );
 }

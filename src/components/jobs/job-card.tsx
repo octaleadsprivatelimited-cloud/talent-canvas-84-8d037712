@@ -53,7 +53,11 @@ export function JobCard({ job }: { job: JobCardData }) {
         <div className="flex items-start gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
             {job.companies?.logo_url ? (
-              <img src={job.companies.logo_url} alt="" className="h-full w-full rounded-lg object-cover" />
+              <img
+                src={job.companies.logo_url}
+                alt=""
+                className="h-full w-full rounded-lg object-cover"
+              />
             ) : (
               <Building2 className="h-5 w-5" />
             )}
@@ -69,15 +73,26 @@ export function JobCard({ job }: { job: JobCardData }) {
         </div>
         <div className="mt-4 flex flex-wrap gap-3 text-xs text-muted-foreground">
           {job.location && (
-            <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" />{job.location}</span>
+            <span className="flex items-center gap-1.5">
+              <MapPin className="h-3.5 w-3.5" />
+              {job.location}
+            </span>
           )}
-          <span className="flex items-center gap-1.5 capitalize"><Briefcase className="h-3.5 w-3.5" />{job.job_type.replace("_", " ")}</span>
+          <span className="flex items-center gap-1.5 capitalize">
+            <Briefcase className="h-3.5 w-3.5" />
+            {job.job_type.replace("_", " ")}
+          </span>
           {salary && (
-            <span className="flex items-center gap-1.5"><DollarSign className="h-3.5 w-3.5" />{salary}</span>
+            <span className="flex items-center gap-1.5">
+              <DollarSign className="h-3.5 w-3.5" />
+              {salary}
+            </span>
           )}
         </div>
         <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3">
-          <Badge variant="secondary" className="capitalize">{job.work_mode}</Badge>
+          <Badge variant="secondary" className="capitalize">
+            {job.work_mode}
+          </Badge>
           <span className="text-xs text-muted-foreground">{timeAgo(job.created_at)}</span>
         </div>
       </Card>

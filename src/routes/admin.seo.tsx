@@ -66,7 +66,8 @@ function SeoAdmin() {
     <div className="max-w-4xl">
       <h1 className="font-display text-3xl font-bold">Page SEO</h1>
       <p className="mt-1 text-sm text-muted-foreground">
-        Customize the browser tab title, search description, and social share image for every public page.
+        Customize the browser tab title, search description, and social share image for every public
+        page.
       </p>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[200px_1fr]">
@@ -76,7 +77,9 @@ function SeoAdmin() {
               key={p.key}
               onClick={() => setActive(p.key)}
               className={`flex items-center justify-between rounded-sm px-3 py-2 text-left text-sm transition ${
-                active === p.key ? "bg-background font-semibold text-primary" : "hover:bg-background"
+                active === p.key
+                  ? "bg-background font-semibold text-primary"
+                  : "hover:bg-background"
               }`}
             >
               <span>{p.label}</span>
@@ -110,7 +113,9 @@ function SeoAdmin() {
                   placeholder="A short, compelling summary shown in search results."
                   maxLength={180}
                 />
-                <p className="text-xs text-muted-foreground">{row.description.length}/160 recommended</p>
+                <p className="text-xs text-muted-foreground">
+                  {row.description.length}/160 recommended
+                </p>
               </div>
 
               <div className="space-y-1.5">

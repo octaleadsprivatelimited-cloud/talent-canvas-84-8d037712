@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/firebase/client";
 /**
  * Untyped Supabase client for admin CRUD operations where we work with
  * dynamic table names that the generated types don't allow.

@@ -38,19 +38,28 @@ function SiteSettingsAdmin() {
   const [previewTheme, setPreviewTheme] = useState<ThemeKey>("editorial");
 
   useEffect(() => {
-    supabaseAny.from("site_settings").select("*").limit(1).maybeSingle().then(({ data }: { data: Record<string, string> | null }) => {
-      if (data) { setRow(data); setId(data.id); }
-      else setRow({ home_theme: "editorial" });
-      const t = ((data?.home_theme as ThemeKey) || "editorial");
-      setSavedTheme(t);
-      setPreviewTheme(t);
-      setLoading(false);
-    });
+    supabaseAny
+      .from("site_settings")
+      .select("*")
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }: { data: Record<string, string> | null }) => {
+        if (data) {
+          setRow(data);
+          setId(data.id);
+        } else setRow({ home_theme: "editorial" });
+        const t = (data?.home_theme as ThemeKey) || "editorial";
+        setSavedTheme(t);
+        setPreviewTheme(t);
+        setLoading(false);
+      });
   }, []);
 
   // Apply live preview; restore saved theme when leaving the page
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("lovable:preview-theme", { detail: { theme: previewTheme } }));
+    window.dispatchEvent(
+      new CustomEvent("lovable:preview-theme", { detail: { theme: previewTheme } }),
+    );
   }, [previewTheme]);
   useEffect(() => {
     return () => {
@@ -66,7 +75,10 @@ function SiteSettingsAdmin() {
     const { data, error } = id
       ? await supabaseAny.from("site_settings").update(payload).eq("id", id).select().maybeSingle()
       : await supabaseAny.from("site_settings").insert(payload).select().maybeSingle();
-    if (error) { toast.error(error.message); return false; }
+    if (error) {
+      toast.error(error.message);
+      return false;
+    }
     if (data && !id) setId((data as { id: string }).id);
     qc.invalidateQueries({ queryKey: ["site_settings"] });
     return true;
@@ -101,7 +113,9 @@ function SiteSettingsAdmin() {
   return (
     <div className="max-w-4xl">
       <h1 className="font-display text-3xl font-bold">Site Settings</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Brand, contact, and the home page theme that visitors see.</p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Brand, contact, and the home page theme that visitors see.
+      </p>
 
       {/* ============= HOME THEME PICKER ============= */}
       <section className="mt-8 rounded-lg border border-border bg-surface/40 p-5">
@@ -109,12 +123,17 @@ function SiteSettingsAdmin() {
           <div>
             <Label className="text-base font-semibold">Site Theme</Label>
             <p className="mt-1 text-xs text-muted-foreground">
-              Click a theme to <span className="font-semibold">preview it live across every page</span> — header, footer, hero, jobs, companies, blog, and custom pages. Save when you’re happy.
+              Click a theme to{" "}
+              <span className="font-semibold">preview it live across every page</span> — header,
+              footer, hero, jobs, companies, blog, and custom pages. Save when you’re happy.
             </p>
           </div>
           <div className="flex items-center gap-3 text-xs">
             <span className="text-muted-foreground">
-              Live preview: <span className="font-semibold text-foreground">{THEMES.find((t) => t.key === activeTheme)?.name}</span>
+              Live preview:{" "}
+              <span className="font-semibold text-foreground">
+                {THEMES.find((t) => t.key === activeTheme)?.name}
+              </span>
             </span>
             {isDirty && (
               <span className="rounded-full bg-amber-500/15 px-2 py-0.5 font-semibold text-amber-700 dark:text-amber-300">
@@ -134,7 +153,9 @@ function SiteSettingsAdmin() {
                 type="button"
                 onClick={() => previewPick(t.key)}
                 className={`group relative overflow-hidden rounded-lg border text-left transition ${
-                  isActive ? "border-primary ring-2 ring-primary/40" : "border-border hover:border-primary/60"
+                  isActive
+                    ? "border-primary ring-2 ring-primary/40"
+                    : "border-border hover:border-primary/60"
                 }`}
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
@@ -166,7 +187,9 @@ function SiteSettingsAdmin() {
 
         <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-border pt-4">
           <Button onClick={applyTheme} disabled={!isDirty}>
-            {isDirty ? `Apply “${THEMES.find((t) => t.key === activeTheme)?.name}” site-wide` : "Theme applied"}
+            {isDirty
+              ? `Apply “${THEMES.find((t) => t.key === activeTheme)?.name}” site-wide`
+              : "Theme applied"}
           </Button>
           <Button variant="outline" onClick={discardPreview} disabled={!isDirty}>
             Discard preview
@@ -183,9 +206,16 @@ function SiteSettingsAdmin() {
           <div key={f.key} className="space-y-1.5">
             <Label>{f.label}</Label>
             {f.type === "textarea" ? (
-              <Textarea rows={3} value={row[f.key] ?? ""} onChange={(e) => setRow({ ...row, [f.key]: e.target.value })} />
+              <Textarea
+                rows={3}
+                value={row[f.key] ?? ""}
+                onChange={(e) => setRow({ ...row, [f.key]: e.target.value })}
+              />
             ) : (
-              <Input value={row[f.key] ?? ""} onChange={(e) => setRow({ ...row, [f.key]: e.target.value })} />
+              <Input
+                value={row[f.key] ?? ""}
+                onChange={(e) => setRow({ ...row, [f.key]: e.target.value })}
+              />
             )}
           </div>
         ))}

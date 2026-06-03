@@ -15,7 +15,11 @@ type SeoContent = {
  *
  * Falls back to whatever the route's static head() already set.
  */
-export function DynamicSeo({ pageKey, fallbackTitle, fallbackDescription }: {
+export function DynamicSeo({
+  pageKey,
+  fallbackTitle,
+  fallbackDescription,
+}: {
   pageKey: string;
   fallbackTitle?: string;
   fallbackDescription?: string;
@@ -45,7 +49,14 @@ export function DynamicSeo({ pageKey, fallbackTitle, fallbackDescription }: {
       setMeta("property", "og:image", ogImage);
       setMeta("name", "twitter:image", ogImage);
     }
-  }, [data.title, data.description, data.og_image, fallbackTitle, fallbackDescription, settings?.brand_name]);
+  }, [
+    data.title,
+    data.description,
+    data.og_image,
+    fallbackTitle,
+    fallbackDescription,
+    settings?.brand_name,
+  ]);
 
   return null;
 }
