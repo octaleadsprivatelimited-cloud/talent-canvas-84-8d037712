@@ -500,6 +500,7 @@ export type Database = {
           contact_phone: string | null
           created_at: string
           footer_about: string | null
+          home_theme: string
           id: string
           logo_url: string | null
           primary_color: string | null
@@ -517,6 +518,7 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           footer_about?: string | null
+          home_theme?: string
           id?: string
           logo_url?: string | null
           primary_color?: string | null
@@ -534,6 +536,7 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           footer_about?: string | null
+          home_theme?: string
           id?: string
           logo_url?: string | null
           primary_color?: string | null

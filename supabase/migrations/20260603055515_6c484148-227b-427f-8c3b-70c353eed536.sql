@@ -1,0 +1,1 @@
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS home_theme text NOT NULL DEFAULT 'editorial';
