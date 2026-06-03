@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Loader2, LayoutDashboard, Settings, Sparkles, Building2, Users, BookOpen, MessageSquare, Inbox, FileText, Quote } from "lucide-react";
+import { Loader2, LayoutDashboard, Settings, Sparkles, Building2, Users, BookOpen, MessageSquare, Inbox, FileText, Quote, Activity } from "lucide-react";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { supabase } from "@/integrations/supabase/client";
 
