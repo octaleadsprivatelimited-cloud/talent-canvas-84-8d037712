@@ -424,7 +424,7 @@ function Index() {
           </div>
 
           <div className="mt-12 grid gap-0 border-t border-l border-border md:grid-cols-3">
-            {testimonials.map((t) => (
+            {liveTestimonials.map((t) => (
               <figure
                 key={t.name}
                 className="flex flex-col border-b border-r border-border bg-card p-8"
@@ -456,11 +456,10 @@ function Index() {
           <div className="relative grid gap-8 md:grid-cols-2 md:items-center">
             <div>
               <h2 className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl">
-                Let's build your next high-performing team.
+                {copy.cta_heading}
               </h2>
               <p className="mt-4 max-w-lg text-primary-foreground/80">
-                Share your hiring or workforce need — a Virelix consultant will respond within
-                one business day with a tailored plan.
+                {copy.cta_description}
               </p>
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
@@ -470,7 +469,7 @@ function Index() {
                 asChild
                 className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
               >
-                <Link to="/contact">Contact Virelix</Link>
+                <a href={copy.cta_primary_to}>{copy.cta_primary_label}</a>
               </Button>
               <Button
                 size="lg"
@@ -478,7 +477,7 @@ function Index() {
                 asChild
                 className="rounded-none border-primary-foreground/30 bg-transparent px-7 py-6 text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
-                <Link to="/services">Our services</Link>
+                <a href={copy.cta_secondary_to}>{copy.cta_secondary_label}</a>
               </Button>
             </div>
           </div>
