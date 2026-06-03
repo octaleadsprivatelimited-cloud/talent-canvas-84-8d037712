@@ -75,11 +75,53 @@ function DiagnosticsPage() {
         cta_secondary_to: "/services",
       };
 
-      await supabase.from("page_content").upsert({
-        id: "homepage",
-        title: "Homepage Layout",
-        content: JSON.stringify(homepageDefaults),
-      });
+      await supabase.from("page_content").upsert(
+        {
+          page_key: "home",
+          title: "Homepage Layout",
+          content: homepageDefaults,
+        },
+        { onConflict: "page_key" },
+      );
+
+      const aboutDefaults = {
+        title: "A global force in workforce consulting",
+        intro:
+          "Virelix Consulting was founded to bridge the gap between global enterprises and tier-one professional talent. Through a continuous USA-India delivery pipeline, we provide scale, speed, and exceptional execution across every engagement.",
+        mission:
+          "To make global hiring frictionless, compliant, and human-centric — empowering organizations to scale high-performing teams without borders.",
+        values: [
+          "Authentic Vetting: We screen candidates peer-to-peer, ensuring technical and cultural alignment before presentation.",
+          "Global-Local Delivery: Headquartered in Delaware with operations in Hyderabad, driving round-the-clock sourcing efficiency.",
+          "Regulatory Excellence: 100% compliant international payroll, immigration, and labor classification safeguards.",
+          "Demographic Inclusivity: Leveraging unbiased, demographic-neutral pipelines to maximize opportunity for diverse talent.",
+        ],
+        operating_in: ["United States", "India"],
+      };
+
+      await supabase.from("page_content").upsert(
+        {
+          page_key: "about",
+          title: "About Page Layout",
+          content: aboutDefaults,
+        },
+        { onConflict: "page_key" },
+      );
+
+      const contactDefaults = {
+        title: "Let's build your next team",
+        subtitle:
+          "Get in touch with a specialist consultant. We respond to all hiring inquiries within one business day.",
+      };
+
+      await supabase.from("page_content").upsert(
+        {
+          page_key: "contact",
+          title: "Contact Page Layout",
+          content: contactDefaults,
+        },
+        { onConflict: "page_key" },
+      );
 
       // 3. Seed services
       const services = [
@@ -246,14 +288,26 @@ function DiagnosticsPage() {
         {
           id: "team-1",
           name: "Alex Mercer",
-          role: "Managing Director",
+          role_title: "Managing Director",
           bio: "15+ years experience in global executive talent acquisitions.",
+          photo_url:
+            "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&h=500&q=80",
+          published: true,
+          sort_order: 1,
+          email: "alex@virelix.com",
+          linkedin: "https://linkedin.com/in/alex-mercer",
         },
         {
           id: "team-2",
           name: "Jessica Taylor",
-          role: "Principal Tech Recruiter",
+          role_title: "Principal Tech Recruiter",
           bio: "Ex-Google staffing leader specializing in AI and cloud engineering talent.",
+          photo_url:
+            "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&h=500&q=80",
+          published: true,
+          sort_order: 2,
+          email: "jessica@virelix.com",
+          linkedin: "https://linkedin.com/in/jessica-taylor",
         },
       ];
 
