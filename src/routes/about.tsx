@@ -53,7 +53,7 @@ function AboutPage() {
           {[
             { k: "Founded", v: "2008" },
             { k: "Placements", v: "1,800+" },
-            { k: "Countries", v: "65" },
+            { k: "Operating in", v: "India and USA" },
             { k: "Retention @ 18mo", v: "92%" },
           ].map((s) => (
             <div key={s.k}>
