@@ -41,9 +41,16 @@ function CaseStudyDetail() {
         subtitle={data.summary ?? undefined}
       />
       <section className="container mx-auto grid gap-12 px-4 py-16 lg:grid-cols-[2fr_1fr]">
-        <article className="prose prose-lg max-w-none whitespace-pre-line text-foreground/90">
-          {data.body}
-        </article>
+        <div className="space-y-8">
+          {data.cover_url && (
+            <div className="overflow-hidden border border-border">
+              <img src={data.cover_url} alt="" className="aspect-[16/9] w-full object-cover" />
+            </div>
+          )}
+          <article className="prose prose-lg max-w-none whitespace-pre-line text-foreground/90">
+            {data.body}
+          </article>
+        </div>
         <aside className="h-fit space-y-px border border-border bg-border">
           {results.map((r, i) => (
             <div key={i} className="bg-surface p-5">

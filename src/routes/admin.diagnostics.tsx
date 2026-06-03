@@ -267,9 +267,78 @@ function DiagnosticsPage() {
           id: "case-1",
           title: "Scaling a Unicorn Startup Engineering Team",
           slug: "scaling-unicorn-startup",
-          challenge: "Filling 45 key engineering vacancies in 90 days.",
-          solution: "Implemented embedded RPO delivery model and global talent sourcers.",
-          results: "Reduced time-to-hire by 40% and filled all open slots on time.",
+          client: "Vix Tech Corp",
+          industry: "Technology & Software",
+          cover_url:
+            "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=70",
+          summary:
+            "How we designed and executed an embedded RPO strategy to hire 45 software engineers in 90 days.",
+          body: `### Background & Challenge
+Vix Tech Corp, a fast-scaling tech platform, secured their Series B funding and needed to double their engineering team. They faced severe recruitment bottlenecking and high agency fees. The goal was to hire 45 high-caliber software engineers, including senior cloud architects and frontend leads, within 90 days.
+
+### The Solution
+We deployed an embedded Recruitment Process Outsourcing (RPO) team comprising three senior recruiters and two sourcers. Our team fully integrated into Vix Tech’s Slack, Jira, and ATS systems. We established a structured vetting pipeline, streamlined interview processes, and leveraged our global talent network across the USA and India.
+
+### Results
+Within 90 days, we successfully filled all 45 engineering positions. The embedded model allowed us to build a sustainable talent pipeline and reduce recruitment agency spend by over 60%. Time-to-hire dropped from 48 days to 26 days.`,
+          results: [
+            { label: "Hires Completed", value: "45" },
+            { label: "Avg. Time to Hire", value: "26 Days" },
+            { label: "Cost Savings", value: "62%" },
+          ],
+          sort_order: 1,
+          published: true,
+        },
+        {
+          id: "case-2",
+          title: "C-Suite Recruiting for a National Logistics Leader",
+          slug: "c-suite-logistics-recruiting",
+          client: "Delaware Supply Chain",
+          industry: "Logistics & Supply Chain",
+          cover_url:
+            "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=70",
+          summary:
+            "Placing a Chief Operating Officer (COO) and VP of Logistics within a tight 60-day schedule.",
+          body: `### Background & Challenge
+Delaware Supply Chain, a national logistics operator, faced a sudden vacancy in their Chief Operating Officer position during a period of rapid expansion. They needed an experienced operational leader who could oversee 12 distribution centers and manage a team of 400+ personnel.
+
+### The Solution
+We launched a target-focused executive search engagement. Our senior partners conducted extensive talent mapping across competing tier-one logistics and supply chain enterprises in North America. We identified 18 highly qualified passive candidates, conducting detailed competency-based assessments and cultural alignment evaluations.
+
+### Results
+We presented a shortlist of 4 qualified candidates within 25 days. The chosen candidate, a seasoned logistics VP, accepted the COO offer and started onboarding within 50 days of contract signing. We subsequently placed their new VP of Logistics, compounding their operational leadership.`,
+          results: [
+            { label: "Positions Placed", value: "2" },
+            { label: "Search Duration", value: "42 Days" },
+            { label: "Candidate Fit Rate", value: "100%" },
+          ],
+          sort_order: 2,
+          published: true,
+        },
+        {
+          id: "case-3",
+          title: "Building the Future of Medical Devices",
+          slug: "medical-device-engineering",
+          client: "BioPulse Diagnostics",
+          industry: "Healthcare & Life Sciences",
+          cover_url:
+            "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=1200&q=70",
+          summary:
+            "Sourcing and placing highly specialized hardware and embedded software engineers for clinical diagnostic tools.",
+          body: `### Background & Challenge
+BioPulse Diagnostics was developing a next-generation clinical diagnostic tool. They required a team of 6 specialist engineers with experience in FDA-regulated embedded software and microfluidics. These roles had been open for over six months due to the extreme scarcity of regional talent.
+
+### The Solution
+We initiated a global talent search utilizing our delivery hubs in both the USA and India. By searching globally, we identified candidates with the precise scientific credentials required. We managed the entire interview logistics, technical screen coordination, and immigration/relocation compliance.
+
+### Results
+All 6 engineering seats were filled within 75 days, with 4 US-based hires and 2 offshore senior systems developers. The product launch timeline remained on schedule, and BioPulse successfully completed its FDA submission.`,
+          results: [
+            { label: "Specialists Placed", value: "6" },
+            { label: "Relocation Rate", value: "100%" },
+            { label: "Retention (1 yr)", value: "95%" },
+          ],
+          sort_order: 3,
           published: true,
         },
       ];
@@ -284,11 +353,65 @@ function DiagnosticsPage() {
           id: "post-1",
           title: "Navigating the Executive Talent Search in 2026",
           slug: "navigating-executive-search-2026",
-          summary: "Key changes in leadership hiring trends post hybrid-work stabilization.",
-          content:
-            "Deep analysis of executive candidate motivations and compensation package dynamics.",
+          category: "Executive Search",
+          cover_url:
+            "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=70",
+          excerpt:
+            "Key changes in leadership hiring trends post hybrid-work stabilization, and how top organizations secure Tier-1 talent.",
+          body: `### The Evolution of Executive Recruitment
+As we move through 2026, the landscape of executive search has fundamentally transformed. Hybrid-work models have stabilized, but candidate expectations around autonomy, equity, and strategic impact have reached new heights. Standard recruiting approaches no longer yield Tier-1 leaders.
+
+### Cultural Alignment Over Credentials
+While technical capabilities and previous portfolios are important, our placements show that cultural alignment and adaptive intelligence are the primary drivers of executive longevity. Organizations must look beyond resumes to evaluate leadership style under pressure.
+
+### Decisive Executive Search Playbook
+1. **Accelerate Decision Timelines**: Top executive talent is often considering multiple options. Excessive delays in your interview loop will cause candidates to drop out.
+2. **Offer Real Autonomy**: Executives want ownership of their strategic mandates.
+3. **Leverage Expert Search Partners**: Engage specialized recruiters who maintain ongoing relationships with passive executive networks.`,
           published: true,
-          created_at: new Date().toISOString(),
+          published_at: "2026-06-01T10:00:00Z",
+        },
+        {
+          id: "post-2",
+          title: "RPO vs. Contingent Recruiting: Which Model Fits Your Scale?",
+          slug: "rpo-vs-contingent-recruiting",
+          category: "Recruitment Strategy",
+          cover_url:
+            "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=70",
+          excerpt:
+            "An operational comparison between embedded RPO and contingent placements for high-growth hiring.",
+          body: `### Choosing Your Hiring Vehicle
+Scaling companies often face a dilemma: should they engage traditional contingent search agencies or invest in an embedded Recruitment Process Outsourcing (RPO) solution? The answer depends entirely on your target scale, budget, and internal capability.
+
+### The Contingent Model: Tactical Speed
+Contingent recruiting is transaction-focused. You pay a percentage of the candidate's salary only when they are successfully placed. This is ideal for sporadic hires or highly specialized roles where you need instant support without ongoing commitment.
+
+### The Embedded RPO Model: Strategic Scale
+An RPO partner embeds directly into your organization, functioning as your internal talent acquisition department. They configure ATS systems, build candidate pipelines, manage employer branding, and coordinate interview processes. This model excels when you need to hire 15+ employees over a defined period, dropping cost-per-hire by up to 50% compared to contingent agencies.`,
+          published: true,
+          published_at: "2026-06-02T12:00:00Z",
+        },
+        {
+          id: "post-3",
+          title: "USA-India Global Delivery: The Strategic Advantage",
+          slug: "usa-india-global-delivery-advantage",
+          category: "Workforce Solutions",
+          cover_url:
+            "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=70",
+          excerpt:
+            "How leveraging global delivery hubs across North America and South Asia drives 24/7 sourcing efficiency.",
+          body: `### Sourcing Around the Clock
+In today's fast-moving business climate, speed is the ultimate competitive advantage. By establishing global delivery hubs in both the USA (Delaware) and India (Hyderabad), Virelix Consulting implements a continuous 24/7 sourcing cycle.
+
+### How Global Delivery Works
+1. **USA Leadership**: Client alignment, executive search qualification, and final hiring metrics are managed by our local USA partners.
+2. **Offshore Sourcing Excellence**: Our team in India handles initial search list preparation, resume screening, and scheduling overnight.
+3. **Continuous Cycle**: When the US team begins their day, they receive qualified shortlists and candidate profiles vetted overnight.
+
+### Key Outcomes
+This model reduces search cycle times by 30-40%. Additionally, it allows our clients to access highly technical talent globally, resolving domestic staffing deficits in areas like AI, cloud engineering, and clinical research.`,
+          published: true,
+          published_at: "2026-06-03T09:00:00Z",
         },
       ];
 

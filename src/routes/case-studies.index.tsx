@@ -44,22 +44,35 @@ function CaseStudiesIndex() {
         subtitle="Outcomes-first stories from the searches we've run."
       />
       <section className="container mx-auto px-4 py-20">
-        <div className="grid gap-px bg-border md:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {data?.map((cs) => (
             <Link
               key={cs.id}
               to="/case-studies/$slug"
               params={{ slug: cs.slug }}
-              className="group flex flex-col gap-4 bg-background p-8 hover:bg-surface"
+              className="group flex flex-col overflow-hidden border border-border bg-card transition duration-300 hover:border-primary hover:shadow-lg"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                {cs.client} {cs.industry && `· ${cs.industry}`}
-              </p>
-              <h3 className="font-display text-2xl font-bold leading-tight">{cs.title}</h3>
-              <p className="text-muted-foreground">{cs.summary}</p>
-              <div className="mt-auto flex items-center gap-2 text-sm font-medium text-primary">
-                Read case{" "}
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              {cs.cover_url && (
+                <div className="aspect-[16/10] overflow-hidden">
+                  <img
+                    src={cs.cover_url}
+                    alt=""
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                </div>
+              )}
+              <div className="flex flex-1 flex-col p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                  {cs.client} {cs.industry && `· ${cs.industry}`}
+                </p>
+                <h3 className="mt-3 font-display text-xl font-bold leading-tight group-hover:text-primary">
+                  {cs.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{cs.summary}</p>
+                <div className="mt-auto pt-6 flex items-center gap-2 text-sm font-medium text-primary">
+                  Read case{" "}
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </div>
               </div>
             </Link>
           ))}
