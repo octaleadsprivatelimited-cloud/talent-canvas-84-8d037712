@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHero } from "@/components/page-hero";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -37,6 +38,7 @@ function AboutPage() {
 
   return (
     <>
+      <DynamicSeo pageKey="about" fallbackTitle="About Us" fallbackDescription="Our mission, values, and how we work with companies to build leadership teams." />
       <PageHero eyebrow="Our story" title={title} subtitle={intro} />
       <section className="container mx-auto grid gap-12 px-4 py-20 md:grid-cols-2">
         <div>
