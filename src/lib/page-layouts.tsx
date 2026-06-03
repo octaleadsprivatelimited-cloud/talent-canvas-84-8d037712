@@ -80,10 +80,14 @@ export const LAYOUTS: LayoutMeta[] = [
       { key: "subhead", label: "Subhead", type: "textarea", rows: 2 },
       {
         key: "sections",
-        label: "Sections (JSON array)",
-        type: "json",
-        rows: 12,
-        help: '[{"title":"Step 1","body":"…","image_url":"https://…"}, …]',
+        label: "Sections",
+        type: "repeater",
+        itemLabel: "Section",
+        itemFields: [
+          { key: "title", label: "Title", type: "text" },
+          { key: "body", label: "Body", type: "textarea", rows: 3 },
+          { key: "image_url", label: "Image URL", type: "url" },
+        ],
       },
     ],
     sample: {
