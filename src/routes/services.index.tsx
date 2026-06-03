@@ -5,6 +5,8 @@ import * as Icons from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHero } from "@/components/page-hero";
 import { Button } from "@/components/ui/button";
+import { getServiceImage } from "@/lib/service-images";
+
 
 type Service = {
   id: string;
