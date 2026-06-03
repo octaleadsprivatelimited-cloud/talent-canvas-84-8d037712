@@ -1,9 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { queryOptions, useSuspenseQuery, useQuery } from "@tanstack/react-query";
+import { ArrowLeft, ArrowRight, Check, ChevronDown, ChevronUp, FileText, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { getServiceImage } from "@/lib/service-images";
+import { useState } from "react";
 
 type Service = {
   id: string;
@@ -115,10 +116,125 @@ export const Route = createFileRoute("/services/$slug")({
   ),
 });
 
+const SERVICE_ADDITIONS: Record<
+  string,
+  {
+    stats: { value: string; label: string }[];
+    faqs: { q: string; a: string }[];
+  }
+> = {
+  "executive-search": {
+    stats: [
+      { value: "96%", label: "1-Year Leadership Retention" },
+      { value: "42 Days", label: "Average Search Cycle" },
+      { value: "180+", label: "C-Level Placements" },
+    ],
+    faqs: [
+      {
+        q: "How long does a typical executive search take?",
+        a: "Most leadership assignments are completed in 45 to 60 days from kickoff to signed offer, with initial shortlist presentation within 21 days.",
+      },
+      {
+        q: "Do you offer a placement guarantee?",
+        a: "Yes. All of our retained executive searches include a 180-day placement guarantee. If a leader exits within that period, we redo the search at zero additional professional fees.",
+      },
+      {
+        q: "How do you source passive executive talent?",
+        a: "We perform deep, target-focused talent mapping across competing tier-one enterprises globally. We leverage proprietary direct outreach networks and trust relationships built over decades.",
+      },
+    ],
+  },
+  "it-recruitment": {
+    stats: [
+      { value: "48 Hours", label: "Average Shortlist Delivery" },
+      { value: "450+", label: "Tech Engineers Placed" },
+      { value: "94%", label: "Placement Success Rate" },
+    ],
+    faqs: [
+      {
+        q: "What geographical regions do you support?",
+        a: "We have recruiting hubs operating in the United States and India, enabling us to support local, remote, and offshore sourcing requirements.",
+      },
+      {
+        q: "What is your vetting process?",
+        a: "Candidates undergo a peer-to-peer technical assessment, custom culture-fit questions, and previous employer reference validation prior to submittal.",
+      },
+      {
+        q: "Do you handle contract-to-hire arrangements?",
+        a: "Yes. We offer flexible permanent, contract, and contract-to-hire staffing models to align with your project timelines and budget requirements.",
+      },
+    ],
+  },
+  "rpo-workforce-solutions": {
+    stats: [
+      { value: "62%", label: "Agency Fee Cost Reduction" },
+      { value: "26 Days", label: "Average Time-to-Hire" },
+      { value: "100%", label: "SLA Sourcing Compliance" },
+    ],
+    faqs: [
+      {
+        q: "What is the typical contract length for an RPO engagement?",
+        a: "Our RPO partnerships range from 3-month seasonal scale-ups to multi-year embedded operations, customized to your hiring forecasts.",
+      },
+      {
+        q: "How does your pricing model work?",
+        a: "RPO features a combination of a fixed monthly management fee and a reduced success fee per hire, reducing hiring costs by up to 50% compared to contingent agencies.",
+      },
+      {
+        q: "Will you use our existing Applicant Tracking System (ATS)?",
+        a: "Yes, our embedded recruitment teams are fully trained across all major systems (Greenhouse, Lever, Workday) and can also help configure and optimize your instance.",
+      },
+    ],
+  },
+  "consulting-training": {
+    stats: [
+      { value: "15k+", label: "Professionals Certified" },
+      { value: "30%+", label: "Client Sourcing Speed Gain" },
+      { value: "24/7", label: "Strategic Account Management" },
+    ],
+    faqs: [
+      {
+        q: "Can training bootcamps be customized for our tech stack?",
+        a: "Absolutely. We build bespoke curriculum covering modern technologies (Cloud Architecture, SRE, Cybersecurity, AI/ML engineering) aligned to your stack.",
+      },
+      {
+        q: "What data do you use for salary benchmarking?",
+        a: "We compile active, localized compensation data across tech hubs in the USA and India, cross-referenced with recent placement metrics.",
+      },
+      {
+        q: "How do you align training programs with business impact?",
+        a: "We perform an initial skills-gap analysis with your engineering leaders and measure post-training certification and project velocity improvements.",
+      },
+    ],
+  },
+};
+
 function ServiceDetail() {
   const { slug } = Route.useParams();
   const { data } = useSuspenseQuery(serviceQuery(slug));
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const { data: caseStudies } = useQuery({
+    queryKey: ["case_studies", "published"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("case_studies")
+        .select("*")
+        .eq("published", true);
+      return data ?? [];
+    },
+  });
+
   if (!data) return null;
+
+  const additions = SERVICE_ADDITIONS[data.slug];
+  const relatedCaseStudies = (caseStudies ?? []).filter((cs) => {
+    if (data.slug === "executive-search") return cs.slug.includes("c-suite") || cs.slug.includes("search");
+    if (data.slug === "it-recruitment") return cs.slug.includes("medical") || cs.slug.includes("unicorn");
+    if (data.slug === "rpo-workforce-solutions") return cs.slug.includes("unicorn") || cs.slug.includes("rpo");
+    if (data.slug === "consulting-training") return cs.slug.includes("training") || cs.slug.includes("unicorn") || cs.slug.includes("medical");
+    return false;
+  });
 
   const img = getServiceImage(data.slug);
   const serif = { fontFamily: "'Playfair Display', serif" };
@@ -200,8 +316,22 @@ function ServiceDetail() {
               </span>
             </div>
             {data.body && (
-              <div className="whitespace-pre-line text-lg leading-relaxed text-foreground/80 [&>*+*]:mt-6">
+              <div className="whitespace-pre-line text-base leading-relaxed text-foreground/80 [&>*+*]:mt-6">
                 {data.body}
+              </div>
+            )}
+
+            {/* Sourcing Stats */}
+            {additions?.stats && (
+              <div className="mt-16 grid grid-cols-1 gap-6 border-t border-border pt-12 sm:grid-cols-3">
+                {additions.stats.map((stat, i) => (
+                  <div key={i} className="border border-border/60 bg-card p-6">
+                    <div className="font-display text-3xl font-bold text-accent">{stat.value}</div>
+                    <div className="mt-2 text-xs uppercase tracking-wider text-muted-foreground leading-tight">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
 
@@ -229,6 +359,78 @@ function ServiceDetail() {
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+
+            {/* Related Success Stories */}
+            {relatedCaseStudies.length > 0 && (
+              <div className="mt-16 border-t border-border pt-12">
+                <div className="mb-8 flex items-center gap-4">
+                  <span className="h-px w-8 bg-foreground" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                    Success Stories
+                  </span>
+                </div>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {relatedCaseStudies.map((cs) => (
+                    <Link
+                      key={cs.id}
+                      to="/case-studies/$slug"
+                      params={{ slug: cs.slug }}
+                      className="group border border-border bg-card p-6 transition hover:bg-surface/50"
+                    >
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-accent">{cs.client}</div>
+                      <h4 className="mt-2 font-display text-lg font-bold group-hover:text-primary transition">
+                        {cs.title}
+                      </h4>
+                      <p className="mt-2 text-xs text-muted-foreground line-clamp-2">
+                        {cs.summary}
+                      </p>
+                      <span className="mt-4 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary group-hover:underline">
+                        Read Case Study <ArrowUpRight className="h-3.5 w-3.5" />
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* FAQs Accordion */}
+            {additions?.faqs && additions.faqs.length > 0 && (
+              <div className="mt-16 border-t border-border pt-12">
+                <div className="mb-8 flex items-center gap-4">
+                  <span className="h-px w-8 bg-foreground" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                    Frequently Asked Questions
+                  </span>
+                </div>
+                <div className="space-y-4">
+                  {additions.faqs.map((faq, i) => {
+                    const isOpen = openFaq === i;
+                    return (
+                      <div key={i} className="border border-border bg-card transition-all duration-300">
+                        <button
+                          onClick={() => setOpenFaq(isOpen ? null : i)}
+                          className="flex w-full items-center justify-between p-6 text-left"
+                        >
+                          <span className="font-display text-base font-bold text-foreground">
+                            {faq.q}
+                          </span>
+                          {isOpen ? (
+                            <ChevronUp className="h-4 w-4 text-primary" />
+                          ) : (
+                            <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                          )}
+                        </button>
+                        {isOpen && (
+                          <div className="border-t border-border p-6 text-sm leading-relaxed text-muted-foreground bg-surface/20">
+                            {faq.a}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>
