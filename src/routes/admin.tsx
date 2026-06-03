@@ -19,6 +19,7 @@ const sections: { to: string; label: string; icon: typeof LayoutDashboard; exact
   { to: "/admin/insights", label: "Insights / Blog", icon: BookOpen },
   { to: "/admin/testimonials", label: "Testimonials", icon: Quote },
   { to: "/admin/submissions", label: "Contact Inbox", icon: Inbox },
+  { to: "/admin/diagnostics", label: "Diagnostics", icon: Activity },
 ];
 
 function AdminLayout() {
