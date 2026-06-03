@@ -25,6 +25,7 @@ import { Route as CompaniesIndexRouteImport } from './routes/companies.index'
 import { Route as CaseStudiesIndexRouteImport } from './routes/case-studies.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as PSlugRouteImport } from './routes/p.$slug'
 import { Route as JobsSlugRouteImport } from './routes/jobs.$slug'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as CompaniesSlugRouteImport } from './routes/companies.$slug'
@@ -34,6 +35,7 @@ import { Route as AdminTeamRouteImport } from './routes/admin.team'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
 import { Route as AdminSiteSettingsRouteImport } from './routes/admin.site-settings'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminPageContentRouteImport } from './routes/admin.page-content'
 import { Route as AdminInsightsRouteImport } from './routes/admin.insights'
 import { Route as AdminIndustriesRouteImport } from './routes/admin.industries'
@@ -120,6 +122,11 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PSlugRoute = PSlugRouteImport.update({
+  id: '/p/$slug',
+  path: '/p/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JobsSlugRoute = JobsSlugRouteImport.update({
   id: '/jobs/$slug',
   path: '/jobs/$slug',
@@ -165,6 +172,11 @@ const AdminServicesRoute = AdminServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPagesRoute = AdminPagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPageContentRoute = AdminPageContentRouteImport.update({
   id: '/page-content',
   path: '/page-content',
@@ -206,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/admin/industries': typeof AdminIndustriesRoute
   '/admin/insights': typeof AdminInsightsRoute
   '/admin/page-content': typeof AdminPageContentRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/site-settings': typeof AdminSiteSettingsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
@@ -215,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/companies/$slug': typeof CompaniesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
+  '/p/$slug': typeof PSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/case-studies/': typeof CaseStudiesIndexRoute
@@ -237,6 +251,7 @@ export interface FileRoutesByTo {
   '/admin/industries': typeof AdminIndustriesRoute
   '/admin/insights': typeof AdminInsightsRoute
   '/admin/page-content': typeof AdminPageContentRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/site-settings': typeof AdminSiteSettingsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
@@ -246,6 +261,7 @@ export interface FileRoutesByTo {
   '/companies/$slug': typeof CompaniesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
+  '/p/$slug': typeof PSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/admin': typeof AdminIndexRoute
   '/case-studies': typeof CaseStudiesIndexRoute
@@ -270,6 +286,7 @@ export interface FileRoutesById {
   '/admin/industries': typeof AdminIndustriesRoute
   '/admin/insights': typeof AdminInsightsRoute
   '/admin/page-content': typeof AdminPageContentRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/site-settings': typeof AdminSiteSettingsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
@@ -279,6 +296,7 @@ export interface FileRoutesById {
   '/companies/$slug': typeof CompaniesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
+  '/p/$slug': typeof PSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/case-studies/': typeof CaseStudiesIndexRoute
@@ -304,6 +322,7 @@ export interface FileRouteTypes {
     | '/admin/industries'
     | '/admin/insights'
     | '/admin/page-content'
+    | '/admin/pages'
     | '/admin/services'
     | '/admin/site-settings'
     | '/admin/submissions'
@@ -313,6 +332,7 @@ export interface FileRouteTypes {
     | '/companies/$slug'
     | '/insights/$slug'
     | '/jobs/$slug'
+    | '/p/$slug'
     | '/services/$slug'
     | '/admin/'
     | '/case-studies/'
@@ -335,6 +355,7 @@ export interface FileRouteTypes {
     | '/admin/industries'
     | '/admin/insights'
     | '/admin/page-content'
+    | '/admin/pages'
     | '/admin/services'
     | '/admin/site-settings'
     | '/admin/submissions'
@@ -344,6 +365,7 @@ export interface FileRouteTypes {
     | '/companies/$slug'
     | '/insights/$slug'
     | '/jobs/$slug'
+    | '/p/$slug'
     | '/services/$slug'
     | '/admin'
     | '/case-studies'
@@ -367,6 +389,7 @@ export interface FileRouteTypes {
     | '/admin/industries'
     | '/admin/insights'
     | '/admin/page-content'
+    | '/admin/pages'
     | '/admin/services'
     | '/admin/site-settings'
     | '/admin/submissions'
@@ -376,6 +399,7 @@ export interface FileRouteTypes {
     | '/companies/$slug'
     | '/insights/$slug'
     | '/jobs/$slug'
+    | '/p/$slug'
     | '/services/$slug'
     | '/admin/'
     | '/case-studies/'
@@ -399,6 +423,7 @@ export interface RootRouteChildren {
   CompaniesSlugRoute: typeof CompaniesSlugRoute
   InsightsSlugRoute: typeof InsightsSlugRoute
   JobsSlugRoute: typeof JobsSlugRoute
+  PSlugRoute: typeof PSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   CaseStudiesIndexRoute: typeof CaseStudiesIndexRoute
   CompaniesIndexRoute: typeof CompaniesIndexRoute
@@ -521,6 +546,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/p/$slug': {
+      id: '/p/$slug'
+      path: '/p/$slug'
+      fullPath: '/p/$slug'
+      preLoaderRoute: typeof PSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/jobs/$slug': {
       id: '/jobs/$slug'
       path: '/jobs/$slug'
@@ -584,6 +616,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/pages': {
+      id: '/admin/pages'
+      path: '/pages'
+      fullPath: '/admin/pages'
+      preLoaderRoute: typeof AdminPagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/page-content': {
       id: '/admin/page-content'
       path: '/page-content'
@@ -628,6 +667,7 @@ interface AdminRouteChildren {
   AdminIndustriesRoute: typeof AdminIndustriesRoute
   AdminInsightsRoute: typeof AdminInsightsRoute
   AdminPageContentRoute: typeof AdminPageContentRoute
+  AdminPagesRoute: typeof AdminPagesRoute
   AdminServicesRoute: typeof AdminServicesRoute
   AdminSiteSettingsRoute: typeof AdminSiteSettingsRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
@@ -642,6 +682,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminIndustriesRoute: AdminIndustriesRoute,
   AdminInsightsRoute: AdminInsightsRoute,
   AdminPageContentRoute: AdminPageContentRoute,
+  AdminPagesRoute: AdminPagesRoute,
   AdminServicesRoute: AdminServicesRoute,
   AdminSiteSettingsRoute: AdminSiteSettingsRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
@@ -666,6 +707,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompaniesSlugRoute: CompaniesSlugRoute,
   InsightsSlugRoute: InsightsSlugRoute,
   JobsSlugRoute: JobsSlugRoute,
+  PSlugRoute: PSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   CaseStudiesIndexRoute: CaseStudiesIndexRoute,
   CompaniesIndexRoute: CompaniesIndexRoute,
