@@ -128,10 +128,13 @@ export const LAYOUTS: LayoutMeta[] = [
       { key: "subhead", label: "Subhead", type: "textarea", rows: 2 },
       {
         key: "stats",
-        label: "Stats (JSON array)",
-        type: "json",
-        rows: 6,
-        help: '[{"value":"120+","label":"Clients"}, …]',
+        label: "Stats",
+        type: "repeater",
+        itemLabel: "Stat",
+        itemFields: [
+          { key: "value", label: "Value", type: "text", placeholder: "120+" },
+          { key: "label", label: "Label", type: "text", placeholder: "Clients" },
+        ],
       },
       { key: "cta_headline", label: "CTA headline", type: "text" },
       { key: "cta_body", label: "CTA body", type: "textarea", rows: 2 },
