@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
-export const Route = createFileRoute("/industries/")({
+export const Route = createFileRoute("/industries_/")({
   head: () => ({
     meta: [
       { title: "Industries We Serve" },
@@ -55,7 +55,7 @@ function IndustriesPage() {
             return (
               <Link
                 key={ind.id}
-                to="/industries/$slug"
+                to="/industries_/$slug"
                 params={{ slug: ind.slug }}
                 className="flex flex-col gap-3 bg-background p-8 hover:bg-surface/50 transition group"
               >

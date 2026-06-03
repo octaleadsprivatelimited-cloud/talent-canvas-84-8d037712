@@ -74,7 +74,7 @@ const relatedDataQuery = () =>
     },
   });
 
-export const Route = createFileRoute("/industries/$slug")({
+export const Route = createFileRoute("/industries_/$slug")({
   loader: async ({ params, context }) => {
     const data = await context.queryClient.ensureQueryData(industryQuery(params.slug));
     if (!data) throw notFound();
