@@ -140,18 +140,27 @@ function ServiceDetail() {
         title={data.title}
         subtitle={data.summary ?? undefined}
       />
-      <div className="container mx-auto px-4 pt-8">
-        <div className="relative aspect-[21/9] w-full overflow-hidden border border-border bg-muted sm:aspect-[16/7] md:aspect-[21/8]">
-          <img
-            src={img.src}
-            srcSet={img.srcSet}
-            sizes="(min-width: 1024px) 1100px, 100vw"
-            alt={data.title}
-            decoding="async"
-            className="h-full w-full object-cover"
-          />
+      <section className="container mx-auto px-4 py-12 md:py-16">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="relative aspect-[4/3] w-full max-w-lg overflow-hidden border border-border bg-muted">
+            <img
+              src={img.src}
+              srcSet={img.srcSet}
+              sizes="(min-width: 1024px) 500px, 100vw"
+              alt={data.title}
+              decoding="async"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="max-w-xl">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center border border-border">
+              <Icon className="h-5 w-5" />
+            </div>
+            <h2 className="font-display text-2xl font-bold md:text-3xl">{data.title}</h2>
+            <p className="mt-3 text-muted-foreground">{data.summary}</p>
+          </div>
         </div>
-      </div>
+      </section>
       <section className="container mx-auto grid gap-12 px-4 py-16 lg:grid-cols-[2fr_1fr]">
         <div>
           <div className="mb-6 flex h-14 w-14 items-center justify-center border border-border">
