@@ -59,21 +59,3 @@ function AdminLayout() {
   );
 }
 
-function NotAdmin({ userId }: { userId: string }) {
-  const promote = async () => {
-    const { data, error } = await supabase.rpc("promote_to_admin_if_first", { _user_id: userId });
-    if (error) { alert(error.message); return; }
-    if (data) { window.location.reload(); }
-    else { alert("An admin already exists. Ask an existing admin to grant you the role."); }
-  };
-  return (
-    <div className="container mx-auto max-w-lg px-4 py-20 text-center">
-      <h1 className="font-display text-3xl font-bold">Admin access required</h1>
-      <p className="mt-3 text-muted-foreground">Your account doesn't have the admin role yet.</p>
-      <button onClick={promote} className="mt-6 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">
-        Claim first-admin (only works if no admin exists)
-      </button>
-      <p className="mt-3 text-xs text-muted-foreground">If an admin already exists, ask them to add you in the Users section.</p>
-    </div>
-  );
-}
