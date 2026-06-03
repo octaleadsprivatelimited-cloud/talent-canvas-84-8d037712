@@ -2,7 +2,7 @@
 @source "../src";
 @import "tw-animate-css";
 
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=JetBrains+Mono:wght@500;700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -123,6 +123,135 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 12%);
   --ring: oklch(0.68 0.22 275);
+}
+
+/* =========================================================
+   THEMES — apply via data-theme on <html>.
+   Each theme overrides the semantic color tokens + display
+   font so the entire site re-skins (header, footer, cards,
+   buttons, hero, etc.) without per-page changes.
+   ========================================================= */
+
+/* 1. Editorial Bold (default — explicit so toggling back works) */
+html[data-theme="editorial"] {
+  --background: oklch(0.985 0.005 270);
+  --foreground: oklch(0.16 0.04 270);
+  --surface: oklch(0.975 0.008 270);
+  --primary: oklch(0.28 0.13 275);
+  --primary-foreground: oklch(0.99 0.005 270);
+  --accent: oklch(0.62 0.22 275);
+  --accent-foreground: oklch(0.99 0.005 270);
+  --border: oklch(0.92 0.012 270);
+  --gradient-hero: linear-gradient(135deg, oklch(0.12 0.04 270) 0%, oklch(0.18 0.08 275) 45%, oklch(0.35 0.18 278) 100%);
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+}
+
+/* 2. Minimal Mono — calm grayscale */
+html[data-theme="mono"] {
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.12 0 0);
+  --surface: oklch(0.965 0 0);
+  --surface-elevated: oklch(1 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.12 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.12 0 0);
+  --primary: oklch(0.14 0 0);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-glow: oklch(0.35 0 0);
+  --secondary: oklch(0.94 0 0);
+  --secondary-foreground: oklch(0.14 0 0);
+  --muted: oklch(0.94 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+  --accent: oklch(0.20 0 0);
+  --accent-foreground: oklch(0.99 0 0);
+  --border: oklch(0.88 0 0);
+  --input: oklch(0.88 0 0);
+  --ring: oklch(0.20 0 0);
+  --gradient-hero: linear-gradient(135deg, oklch(0.05 0 0) 0%, oklch(0.18 0 0) 100%);
+  --gradient-accent: linear-gradient(135deg, oklch(0.14 0 0), oklch(0.40 0 0));
+  --font-display: "Inter", sans-serif;
+}
+
+/* 3. Aurora Gradient — vivid cyan + fuchsia on dark navy */
+html[data-theme="aurora"] {
+  --background: oklch(0.13 0.05 280);
+  --foreground: oklch(0.98 0.005 270);
+  --surface: oklch(0.17 0.06 280);
+  --surface-elevated: oklch(0.21 0.07 280);
+  --card: oklch(0.18 0.06 280);
+  --card-foreground: oklch(0.98 0.005 270);
+  --popover: oklch(0.18 0.06 280);
+  --popover-foreground: oklch(0.98 0.005 270);
+  --primary: oklch(0.75 0.18 200);
+  --primary-foreground: oklch(0.13 0.05 280);
+  --primary-glow: oklch(0.78 0.20 330);
+  --secondary: oklch(0.25 0.08 285);
+  --secondary-foreground: oklch(0.98 0.005 270);
+  --muted: oklch(0.22 0.06 285);
+  --muted-foreground: oklch(0.75 0.04 280);
+  --accent: oklch(0.72 0.22 330);
+  --accent-foreground: oklch(0.13 0.05 280);
+  --border: oklch(1 0 0 / 0.12);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(0.75 0.18 200);
+  --gradient-hero: linear-gradient(135deg, oklch(0.10 0.05 280) 0%, oklch(0.20 0.10 290) 50%, oklch(0.30 0.18 330) 100%);
+  --gradient-accent: linear-gradient(135deg, oklch(0.75 0.18 200), oklch(0.72 0.22 330));
+  --font-display: "Space Grotesk", sans-serif;
+}
+
+/* 4. Magazine Split — editorial cream + serif */
+html[data-theme="magazine"] {
+  --background: oklch(0.97 0.012 75);
+  --foreground: oklch(0.14 0.02 50);
+  --surface: oklch(0.955 0.015 75);
+  --surface-elevated: oklch(1 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.14 0.02 50);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.14 0.02 50);
+  --primary: oklch(0.20 0.05 30);
+  --primary-foreground: oklch(0.97 0.012 75);
+  --primary-glow: oklch(0.55 0.18 35);
+  --secondary: oklch(0.92 0.02 75);
+  --secondary-foreground: oklch(0.20 0.05 30);
+  --muted: oklch(0.92 0.02 75);
+  --muted-foreground: oklch(0.42 0.03 50);
+  --accent: oklch(0.55 0.18 35);
+  --accent-foreground: oklch(0.99 0.005 75);
+  --border: oklch(0.86 0.02 75);
+  --input: oklch(0.86 0.02 75);
+  --ring: oklch(0.55 0.18 35);
+  --gradient-hero: linear-gradient(135deg, oklch(0.20 0.05 30) 0%, oklch(0.30 0.08 40) 100%);
+  --gradient-accent: linear-gradient(135deg, oklch(0.55 0.18 35), oklch(0.65 0.18 60));
+  --font-display: "Playfair Display", "Space Grotesk", serif;
+}
+
+/* 5. Dark Noir — luxury black + warm gold */
+html[data-theme="noir"] {
+  --background: oklch(0.08 0.005 60);
+  --foreground: oklch(0.96 0.01 80);
+  --surface: oklch(0.12 0.005 60);
+  --surface-elevated: oklch(0.16 0.008 60);
+  --card: oklch(0.13 0.008 60);
+  --card-foreground: oklch(0.96 0.01 80);
+  --popover: oklch(0.13 0.008 60);
+  --popover-foreground: oklch(0.96 0.01 80);
+  --primary: oklch(0.82 0.14 85);
+  --primary-foreground: oklch(0.08 0.005 60);
+  --primary-glow: oklch(0.88 0.14 90);
+  --secondary: oklch(0.18 0.01 60);
+  --secondary-foreground: oklch(0.96 0.01 80);
+  --muted: oklch(0.18 0.01 60);
+  --muted-foreground: oklch(0.72 0.03 80);
+  --accent: oklch(0.82 0.14 85);
+  --accent-foreground: oklch(0.08 0.005 60);
+  --border: oklch(1 0 0 / 0.10);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: oklch(0.82 0.14 85);
+  --gradient-hero: linear-gradient(135deg, oklch(0.05 0 0) 0%, oklch(0.12 0.01 60) 100%);
+  --gradient-accent: linear-gradient(135deg, oklch(0.82 0.14 85), oklch(0.88 0.14 90));
+  --font-display: "Space Grotesk", sans-serif;
 }
 
 @layer base {

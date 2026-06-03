@@ -34,13 +34,28 @@ function SiteSettingsAdmin() {
   const [row, setRow] = useState<Record<string, string> | null>(null);
   const [id, setId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [savedTheme, setSavedTheme] = useState<ThemeKey>("editorial");
+  const [previewTheme, setPreviewTheme] = useState<ThemeKey>("editorial");
 
   useEffect(() => {
     supabaseAny.from("site_settings").select("*").limit(1).maybeSingle().then(({ data }: { data: Record<string, string> | null }) => {
       if (data) { setRow(data); setId(data.id); }
       else setRow({ home_theme: "editorial" });
+      const t = ((data?.home_theme as ThemeKey) || "editorial");
+      setSavedTheme(t);
+      setPreviewTheme(t);
       setLoading(false);
     });
+  }, []);
+
+  // Apply live preview; restore saved theme when leaving the page
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("lovable:preview-theme", { detail: { theme: previewTheme } }));
+  }, [previewTheme]);
+  useEffect(() => {
+    return () => {
+      window.dispatchEvent(new CustomEvent("lovable:preview-theme", { detail: { theme: null } }));
+    };
   }, []);
 
   const persist = async (next: Record<string, string>) => {
@@ -62,16 +77,26 @@ function SiteSettingsAdmin() {
     if (await persist(row)) toast.success("Site settings saved");
   };
 
-  const pickTheme = async (key: ThemeKey) => {
-    if (!row) return;
-    const next = { ...row, home_theme: key };
-    setRow(next);
-    if (await persist(next)) toast.success(`Theme set to ${THEMES.find((t) => t.key === key)?.name}`);
+  const previewPick = (key: ThemeKey) => {
+    setPreviewTheme(key);
   };
+
+  const applyTheme = async () => {
+    if (!row) return;
+    const next = { ...row, home_theme: previewTheme };
+    setRow(next);
+    if (await persist(next)) {
+      setSavedTheme(previewTheme);
+      toast.success(`Theme set to ${THEMES.find((t) => t.key === previewTheme)?.name}`);
+    }
+  };
+
+  const discardPreview = () => setPreviewTheme(savedTheme);
 
   if (loading || !row) return <div className="text-muted-foreground">Loading…</div>;
 
-  const activeTheme = (row.home_theme as ThemeKey) || "editorial";
+  const activeTheme = previewTheme;
+  const isDirty = previewTheme !== savedTheme;
 
   return (
     <div className="max-w-4xl">
@@ -80,22 +105,34 @@ function SiteSettingsAdmin() {
 
       {/* ============= HOME THEME PICKER ============= */}
       <section className="mt-8 rounded-lg border border-border bg-surface/40 p-5">
-        <div className="flex items-baseline justify-between gap-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
           <div>
-            <Label className="text-base font-semibold">Home Page Theme</Label>
-            <p className="mt-1 text-xs text-muted-foreground">Pick a design — it applies to the home page hero instantly. All themes are fully responsive.</p>
+            <Label className="text-base font-semibold">Site Theme</Label>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Click a theme to <span className="font-semibold">preview it live across every page</span> — header, footer, hero, jobs, companies, blog, and custom pages. Save when you’re happy.
+            </p>
           </div>
-          <span className="text-xs text-muted-foreground">Selected: <span className="font-semibold text-foreground">{THEMES.find((t) => t.key === activeTheme)?.name}</span></span>
+          <div className="flex items-center gap-3 text-xs">
+            <span className="text-muted-foreground">
+              Live preview: <span className="font-semibold text-foreground">{THEMES.find((t) => t.key === activeTheme)?.name}</span>
+            </span>
+            {isDirty && (
+              <span className="rounded-full bg-amber-500/15 px-2 py-0.5 font-semibold text-amber-700 dark:text-amber-300">
+                Unsaved
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {THEMES.map((t) => {
             const isActive = activeTheme === t.key;
+            const isSaved = savedTheme === t.key;
             return (
               <button
                 key={t.key}
                 type="button"
-                onClick={() => pickTheme(t.key)}
+                onClick={() => previewPick(t.key)}
                 className={`group relative overflow-hidden rounded-lg border text-left transition ${
                   isActive ? "border-primary ring-2 ring-primary/40" : "border-border hover:border-primary/60"
                 }`}
@@ -112,6 +149,11 @@ function SiteSettingsAdmin() {
                       <Check className="h-4 w-4" />
                     </div>
                   )}
+                  {isSaved && !isActive && (
+                    <div className="absolute left-2 top-2 rounded-full bg-background/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-foreground shadow">
+                      Saved
+                    </div>
+                  )}
                 </div>
                 <div className="p-3">
                   <p className="font-display text-sm font-bold">{t.name}</p>
@@ -120,6 +162,18 @@ function SiteSettingsAdmin() {
               </button>
             );
           })}
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-border pt-4">
+          <Button onClick={applyTheme} disabled={!isDirty}>
+            {isDirty ? `Apply “${THEMES.find((t) => t.key === activeTheme)?.name}” site-wide` : "Theme applied"}
+          </Button>
+          <Button variant="outline" onClick={discardPreview} disabled={!isDirty}>
+            Discard preview
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            Preview is local to your browser until you save.
+          </p>
         </div>
       </section>
 
