@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Loader2, LayoutDashboard, Settings, Sparkles, Building2, Users, BookOpen, MessageSquare, Inbox, FileText, Quote, Activity } from "lucide-react";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { supabase } from "@/integrations/supabase/client";
+import { ErrorBoundary } from "@/components/error-boundary";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
