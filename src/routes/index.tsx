@@ -183,6 +183,7 @@ const sectionLabels: Record<(typeof sectionIds)[number], string> = {
 };
 
 function Index() {
+  const { data: settings } = useSiteSettings();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string>("hero");
 
