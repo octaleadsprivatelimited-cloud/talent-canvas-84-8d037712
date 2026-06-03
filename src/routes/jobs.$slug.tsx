@@ -29,7 +29,7 @@ function JobDetail() {
   });
 
   const apply = async () => {
-    if (!user) { window.location.href = "/login"; return; }
+    if (!user) { window.location.href = "/contact"; return; }
     if (!job) return;
     const { error } = await supabase.from("applications").insert({ job_id: job.id, candidate_id: user.id });
     if (error) toast.error(error.message);

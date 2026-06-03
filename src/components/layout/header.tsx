@@ -56,10 +56,7 @@ export function Header() {
           {user ? (
             <Button variant="outline" size="sm" onClick={() => supabase.auth.signOut()}>Sign out</Button>
           ) : (
-            <>
-              <Button variant="ghost" size="sm" asChild><Link to="/login">Sign in</Link></Button>
-              <Button size="sm" asChild><Link to="/contact">Hire with us</Link></Button>
-            </>
+            <Button size="sm" asChild><Link to="/contact">Hire with us</Link></Button>
           )}
         </div>
 
@@ -90,14 +87,9 @@ export function Header() {
               {user ? (
                 <Button variant="ghost" onClick={() => supabase.auth.signOut()}>Sign out</Button>
               ) : (
-                <>
-                  <Button variant="outline" asChild onClick={() => setOpen(false)}>
-                    <Link to="/login">Sign in</Link>
-                  </Button>
-                  <Button asChild onClick={() => setOpen(false)}>
-                    <Link to="/contact">Hire with us</Link>
-                  </Button>
-                </>
+                <Button asChild onClick={() => setOpen(false)}>
+                  <Link to="/contact">Hire with us</Link>
+                </Button>
               )}
             </div>
           </div>
