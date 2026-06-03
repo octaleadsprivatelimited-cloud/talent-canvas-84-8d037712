@@ -105,33 +105,33 @@ function ServicesPage() {
                 key={s.id}
                 to="/services/$slug"
                 params={{ slug: s.slug }}
-                className="group flex flex-col bg-background transition-colors hover:bg-surface"
+                className="group flex flex-col bg-background transition-colors hover:bg-surface sm:flex-row"
               >
-                <div className="relative mx-auto aspect-[3/2] w-full max-w-md overflow-hidden bg-muted md:aspect-[4/3]">
+                <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-muted sm:aspect-square sm:w-44 md:w-52">
                   <img
                     src={img.src}
                     srcSet={img.srcSet}
-                    sizes="(min-width: 768px) 50vw, 100vw"
+                    sizes="(min-width: 768px) 208px, 100vw"
                     alt={s.title}
                     loading="lazy"
                     decoding="async"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center border border-background/40 bg-background/90 backdrop-blur">
-                    <Icon className="h-5 w-5" strokeWidth={1.5} />
+                  <div className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center border border-background/40 bg-background/90 backdrop-blur">
+                    <Icon className="h-4 w-4" strokeWidth={1.5} />
                   </div>
                 </div>
-                <div className="flex flex-1 flex-col gap-4 p-6 sm:p-8">
+                <div className="flex flex-1 flex-col gap-3 p-5 sm:p-6">
                   <div className="flex items-start justify-between gap-3">
-                    <h2 className="font-display text-xl font-bold sm:text-2xl">{s.title}</h2>
+                    <h2 className="font-display text-lg font-bold sm:text-xl">{s.title}</h2>
                     <ArrowUpRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
                   </div>
-                  <p className="text-muted-foreground">{s.summary}</p>
+                  <p className="text-sm text-muted-foreground">{s.summary}</p>
                   {s.features && s.features.length > 0 && (
-                    <ul className="mt-2 space-y-2">
-                      {s.features.slice(0, 4).map((f, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm">
-                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {f}
+                    <ul className="mt-1 space-y-1.5">
+                      {s.features.slice(0, 3).map((f, i) => (
+                        <li key={i} className="flex items-start gap-2 text-xs">
+                          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" /> {f}
                         </li>
                       ))}
                     </ul>
