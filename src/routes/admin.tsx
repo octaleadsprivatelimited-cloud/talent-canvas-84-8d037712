@@ -34,6 +34,13 @@ function AdminLayout() {
     }
   }, [loading, user, location.href, navigate]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (location.pathname.startsWith("/admin")) {
+      sessionStorage.setItem("admin:last-route", location.pathname);
+    }
+  }, [location.pathname]);
+
   if (loading) {
     return <div className="flex h-[60vh] items-center justify-center"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
