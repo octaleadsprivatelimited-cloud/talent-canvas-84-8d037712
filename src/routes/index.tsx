@@ -242,6 +242,7 @@ function Index() {
       ref={scrollerRef}
       className="relative h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth [scroll-behavior:smooth]"
     >
+      <DynamicSeo pageKey="home" fallbackTitle="Strategic Talent Acquisition & Workforce Solutions" fallbackDescription="Delaware-headquartered global talent acquisition and workforce solutions." />
       {/* Side dot nav */}
       <nav
         aria-label="Section navigation"
@@ -286,18 +287,15 @@ function Index() {
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              What we do
+              {copy.services_eyebrow}
             </div>
             <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-              Services built around how you{" "}
-              <span className="text-primary">actually hire.</span>
+              {copy.services_heading}{" "}
+              <span className="text-primary">{copy.services_heading_accent}</span>
             </h2>
           </div>
           <div className="md:col-span-5">
-            <p className="text-muted-foreground">
-              Whether you're filling one critical seat or scaling by 10x, we plug in the right
-              model for the moment — and stand behind the work.
-            </p>
+            <p className="text-muted-foreground">{copy.services_intro}</p>
           </div>
         </div>
 
@@ -338,24 +336,21 @@ function Index() {
                 className="relative aspect-[4/5] w-full object-cover shadow-xl"
               />
               <div className="absolute -bottom-6 -right-4 max-w-[220px] border-l-4 border-accent bg-background p-5 shadow-xl md:-right-8">
-                <p className="font-display text-2xl font-bold">USA + India</p>
+                <p className="font-display text-2xl font-bold">{copy.industries_badge_value}</p>
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Global delivery across two continents
+                  {copy.industries_badge_label}
                 </p>
               </div>
             </div>
 
             <div className="lg:col-span-7">
               <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-                Industries
+                {copy.industries_eyebrow}
               </div>
               <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-                Deep specialization in the sectors shaping the next decade.
+                {copy.industries_heading}
               </h2>
-              <p className="mt-4 text-muted-foreground">
-                Our consultants come from the industries they recruit for — that means real
-                conversations with candidates and shortlists that land.
-              </p>
+              <p className="mt-4 text-muted-foreground">{copy.industries_intro}</p>
 
               <div className="mt-8 grid gap-px bg-border sm:grid-cols-2">
                 {industries.map((i) => (
@@ -379,11 +374,11 @@ function Index() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             <span className="h-px w-8 bg-primary" />
-            How we work
+            {copy.process_eyebrow}
             <span className="h-px w-8 bg-primary" />
           </div>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-            A search process measured in <span className="text-primary">weeks, not quarters.</span>
+            {copy.process_heading} <span className="text-primary">{copy.process_heading_accent}</span>
           </h2>
         </div>
 
@@ -402,19 +397,11 @@ function Index() {
 
         <div className="mt-12 grid gap-8 border-l-4 border-accent bg-card p-8 md:grid-cols-2 md:items-center md:p-10">
           <div>
-            <h3 className="font-display text-2xl font-bold">Why organizations choose Virelix</h3>
-            <p className="mt-2 text-muted-foreground">
-              A Delaware-headquartered partner with global delivery — combining quality,
-              speed, and cost efficiency across every engagement.
-            </p>
+            <h3 className="font-display text-2xl font-bold">{copy.why_heading}</h3>
+            <p className="mt-2 text-muted-foreground">{copy.why_intro}</p>
           </div>
           <ul className="grid gap-3 sm:grid-cols-2">
-            {[
-              "USA headquartered",
-              "Global talent network",
-              "Industry-specific expertise",
-              "Dedicated recruitment specialists",
-            ].map((item) => (
+            {copy.why_bullets.map((item) => (
               <li key={item} className="flex items-start gap-2 text-sm font-medium">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                 <span>{item}</span>
@@ -429,10 +416,10 @@ function Index() {
         <div className="container mx-auto px-4">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              Client stories
+              {copy.testimonials_eyebrow}
             </div>
             <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-              What it's like to work with us.
+              {copy.testimonials_heading}
             </h2>
           </div>
 
