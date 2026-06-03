@@ -203,6 +203,96 @@ function IndustryDetailComponent() {
     return true;
   });
 
+  const defaultBenefits: Record<string, { title: string; description: string }[]> = {
+    "technology-software": [
+      {
+        title: "Accelerated Product Velocity",
+        description:
+          "By sourcing pre-vetted senior software architects and machine learning engineers, we help clients hit critical development milestones and ship features ahead of schedule.",
+      },
+      {
+        title: "Reduced Sourcing Cost & Agency Fee Overhead",
+        description:
+          "Our scalable embedded RPO model integrates recruiters directly into your internal teams, reducing contingent recruitment costs by up to 60%.",
+      },
+      {
+        title: "Expert Peer-to-Peer Technical Vetting",
+        description:
+          "Every candidate undergoes deep technical screening led by our in-house systems developers, ensuring shortlists are immediately ready for final hiring loops.",
+      },
+    ],
+    "healthcare-lifesciences": [
+      {
+        title: "FDA & Regulatory Compliance Safeguards",
+        description:
+          "We source scientific talent familiar with GxP, HIPAA, and FDA regulatory frameworks, ensuring zero compliance friction in clinical drug trials or medical device launches.",
+      },
+      {
+        title: "Niche Scientific & Clinical Networks",
+        description:
+          "Direct relationship lines into passive networks of bioinformatics specialists, clinical research coordinators, and biomedical engineers.",
+      },
+      {
+        title: "Rigorous Background & Credentialing Audits",
+        description:
+          "Full compliance reviews, credential verification, license checks, and background screening processed before candidates are introduced.",
+      },
+    ],
+    "financial-services": [
+      {
+        title: "Algorithmic & Quantitative Vetting",
+        description:
+          "Vetting candidates on advanced mathematics, distributed system infrastructure, and quantitative risk modeling tools to protect asset portfolios.",
+      },
+      {
+        title: "Secure & Compliant Sourcing",
+        description:
+          "Thorough verification of regulatory histories, financial licenses, and credit ratings for personnel in sensitive fiduciary roles.",
+      },
+      {
+        title: "Real-time Compensation Audits",
+        description:
+          "Sourcing talent with localized intelligence on salary benchmarks, regulatory changes, and candidate pool distributions.",
+      },
+    ],
+    "logistics-supply-chain": [
+      {
+        title: "Operational Business Continuity",
+        description:
+          "Prevent logistics or transport bottlenecks by rapidly replacing fleet directors, systems managers, and procurement leads.",
+      },
+      {
+        title: "Systems Optimization & Resiliency",
+        description:
+          "Placing candidates skilled in Warehouse Management Systems (WMS), Enterprise Resource Planning (ERP), and risk mitigation frameworks.",
+      },
+      {
+        title: "Scalable Sourcing & Flex Capacity",
+        description:
+          "Scaling our sourcing pipeline up or down to align with seasonal peaks, facility expansions, or logistics network mergers.",
+      },
+    ],
+  };
+
+  const benefits = (industry.detail_content as any)?.client_benefits ||
+    defaultBenefits[slug] || [
+      {
+        title: "Strategic Talent Alignment",
+        description:
+          "We match specialist candidates with the technical maturity and organizational culture of your team.",
+      },
+      {
+        title: "Reduced Sourcing Cycles",
+        description:
+          "Our overnight candidate vetting cycle guarantees qualified shortlists are ready within days, not weeks.",
+      },
+      {
+        title: "Mitigated Hiring Risks",
+        description:
+          "Comprehensive background screening and reference vetting protects your team from bad placement hires.",
+      },
+    ];
+
   return (
     <main className="min-h-screen bg-background">
       {/* Editorial Header Section */}
@@ -259,6 +349,45 @@ function IndustryDetailComponent() {
                 <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
                   {s.label}
                 </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Client value proposition / How we help section */}
+      <section className="px-6 pt-20 pb-4 md:px-12 md:pt-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12">
+            <div className="mb-4 flex items-center gap-4">
+              <span className="h-px w-8 bg-foreground" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                Client Impact
+              </span>
+            </div>
+            <h2 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              How We Support Our Partners
+            </h2>
+            <p className="mt-4 max-w-2xl text-muted-foreground text-sm">
+              We align our search methodology with your business goals, offering tailored talent
+              acquisition solutions designed to solve critical operational challenges in the{" "}
+              {industry.label} sector.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {benefits.map((b, idx) => (
+              <div
+                key={idx}
+                className="border border-border bg-card p-8 flex flex-col gap-4 rounded-lg relative overflow-hidden group hover:border-primary/50 transition-all duration-300"
+              >
+                <span className="text-3xl font-light text-primary/30 group-hover:text-primary transition duration-300">
+                  0{idx + 1}
+                </span>
+                <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition duration-300">
+                  {b.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{b.description}</p>
               </div>
             ))}
           </div>
