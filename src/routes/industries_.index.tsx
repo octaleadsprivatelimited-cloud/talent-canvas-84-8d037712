@@ -32,7 +32,7 @@ export const Route = createFileRoute("/industries_/")({
 });
 
 function IndustriesPage() {
-  const [activeCategory, setActiveCategory] = useState<"ALL" | "TECH" | "FINANCE" | "HEALTH">("ALL");
+  const [activeCategory, setActiveCategory] = useState<string>("ALL");
 
   const { data } = useQuery({
     queryKey: ["industries"],
@@ -46,15 +46,35 @@ function IndustriesPage() {
     },
   });
 
-  const getIcon = (iconName: string) => {
-    switch (iconName) {
-      case "cpu": return Cpu;
-      case "heart": return Heart;
-      case "wallet": return Wallet;
-      case "truck": return Truck;
-      default: return Building2;
+  const getIndustryBgImage = (slug: string) => {
+    const s = slug.toLowerCase();
+    if (s.includes("tech")) {
+      return "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&h=300&q=80";
     }
+    if (s.includes("health") || s.includes("life")) {
+      return "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=400&h=300&q=80";
+    }
+    if (s.includes("finance") || s.includes("bank")) {
+      return "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=400&h=300&q=80";
+    }
+    if (s.includes("logistics") || s.includes("truck") || s.includes("supply")) {
+      return "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=400&h=300&q=80";
+    }
+    // Fallback for custom user industries (like "Industries")
+    return "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&h=300&q=80";
   };
+
+  const getTabLabel = (label: string) => {
+    if (label.includes("Technology")) return "TECH";
+    if (label.includes("Financial")) return "FINANCE";
+    if (label.includes("Healthcare")) return "HEALTH";
+    if (label.includes("Logistics")) return "LOGISTICS";
+    return label.toUpperCase().split(" ")[0]; // e.g. "INDUSTRIES"
+  };
+
+  const filtered = activeCategory === "ALL"
+    ? data
+    : data?.filter((i: any) => i.id === activeCategory);
 
   return (
     <div className="min-h-screen bg-[#F5F3EF] pb-24">
@@ -107,119 +127,57 @@ function IndustriesPage() {
                 Every sector, ready to scale. Select a category below to explore our targeted recruitment pipelines and talent networks.
               </p>
 
-              {/* Tabs Switcher */}
+              {/* Dynamic Tabs Switcher based on existing DB industries */}
               <div className="flex flex-wrap gap-2 pt-2">
-                {[
-                  { key: "ALL", label: "ALL" },
-                  { key: "TECH", label: "TECH" },
-                  { key: "FINANCE", label: "FINANCE" },
-                  { key: "HEALTH", label: "HEALTH" },
-                ].map((tab) => {
-                  const isActive = activeCategory === tab.key;
-                  return (
-                    <button
-                      key={tab.key}
-                      onClick={() => setActiveCategory(tab.key as any)}
-                      className={`px-4 py-2 rounded-full text-[10px] font-extrabold uppercase tracking-widest transition-all duration-300 ${
-                        isActive
-                          ? "bg-[#0D0C0A] text-white shadow-sm"
-                          : "bg-[#D5D2C9]/60 text-[#605553] hover:bg-[#D5D2C9]"
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  );
-                })}
+                <button
+                  onClick={() => setActiveCategory("ALL")}
+                  className={`px-4 py-2 rounded-full text-[10px] font-extrabold uppercase tracking-widest transition-all duration-300 ${
+                    activeCategory === "ALL"
+                      ? "bg-[#0D0C0A] text-white shadow-sm"
+                      : "bg-[#D5D2C9]/60 text-[#605553] hover:bg-[#D5D2C9]"
+                  }`}
+                >
+                  ALL
+                </button>
+                {data?.map((ind: any) => (
+                  <button
+                    key={ind.id}
+                    onClick={() => setActiveCategory(ind.id)}
+                    className={`px-4 py-2 rounded-full text-[10px] font-extrabold uppercase tracking-widest transition-all duration-300 ${
+                      activeCategory === ind.id
+                        ? "bg-[#0D0C0A] text-white shadow-sm"
+                        : "bg-[#D5D2C9]/60 text-[#605553] hover:bg-[#D5D2C9]"
+                    }`}
+                  >
+                    {getTabLabel(ind.label)}
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Inner Sector Cards Grid */}
             <div className="mt-8 bg-[#EAE8E3]/60 border border-[#D5D2C9]/50 rounded-2xl p-4 flex-1 flex flex-col justify-center">
               <div className="grid gap-3 grid-cols-2">
-                
-                {/* Tech Card */}
-                {(activeCategory === "ALL" || activeCategory === "TECH") && (
+                {filtered?.map((ind: any) => (
                   <Link
+                    key={ind.id}
                     to="/industries/$slug"
-                    params={{ slug: data?.find((i: any) => i.slug.includes("tech"))?.slug || "technology-software" }}
+                    params={{ slug: ind.slug }}
                     className="relative aspect-square rounded-xl overflow-hidden group shadow-sm bg-zinc-800"
                   >
                     <img
-                      src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&h=300&q=80"
-                      alt="Technology"
+                      src={getIndustryBgImage(ind.slug)}
+                      alt={ind.label}
                       className="h-full w-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute bottom-2.5 left-2.5 right-2.5">
-                      <span className="inline-block text-[8px] font-bold tracking-widest bg-white/10 text-white backdrop-blur-md px-2 py-1 rounded uppercase">
-                        Tech
+                      <span className="inline-block text-[8px] font-bold tracking-widest bg-white/10 text-white backdrop-blur-md px-2 py-1 rounded uppercase truncate max-w-full">
+                        {getTabLabel(ind.label)}
                       </span>
                     </div>
                   </Link>
-                )}
-
-                {/* Finance Card */}
-                {(activeCategory === "ALL" || activeCategory === "FINANCE") && (
-                  <Link
-                    to="/industries/$slug"
-                    params={{ slug: data?.find((i: any) => i.slug.includes("finan"))?.slug || "financial-services" }}
-                    className="relative aspect-square rounded-xl overflow-hidden group shadow-sm bg-zinc-800"
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=400&h=300&q=80"
-                      alt="Finance"
-                      className="h-full w-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute bottom-2.5 left-2.5 right-2.5">
-                      <span className="inline-block text-[8px] font-bold tracking-widest bg-white/10 text-white backdrop-blur-md px-2 py-1 rounded uppercase">
-                        Finance
-                      </span>
-                    </div>
-                  </Link>
-                )}
-
-                {/* Health Card */}
-                {(activeCategory === "ALL" || activeCategory === "HEALTH") && (
-                  <Link
-                    to="/industries/$slug"
-                    params={{ slug: data?.find((i: any) => i.slug.includes("health"))?.slug || "healthcare-lifesciences" }}
-                    className="relative aspect-square rounded-xl overflow-hidden group shadow-sm bg-zinc-800"
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=400&h=300&q=80"
-                      alt="Healthcare"
-                      className="h-full w-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute bottom-2.5 left-2.5 right-2.5">
-                      <span className="inline-block text-[8px] font-bold tracking-widest bg-white/10 text-white backdrop-blur-md px-2 py-1 rounded uppercase">
-                        Health
-                      </span>
-                    </div>
-                  </Link>
-                )}
-
-                {/* Logistics Card (only in ALL mode) */}
-                {activeCategory === "ALL" && (
-                  <Link
-                    to="/industries/$slug"
-                    params={{ slug: data?.find((i: any) => i.slug.includes("logis"))?.slug || "logistics-supply-chain" }}
-                    className="relative aspect-square rounded-xl overflow-hidden group shadow-sm bg-zinc-800"
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=400&h=300&q=80"
-                      alt="Logistics"
-                      className="h-full w-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute bottom-2.5 left-2.5 right-2.5">
-                      <span className="inline-block text-[8px] font-bold tracking-widest bg-white/10 text-white backdrop-blur-md px-2 py-1 rounded uppercase">
-                        Logistics
-                      </span>
-                    </div>
-                  </Link>
-                )}
+                ))}
               </div>
             </div>
           </div>
@@ -371,52 +329,6 @@ function IndustriesPage() {
             </div>
           </div>
 
-        </div>
-      </section>
-
-      {/* Secondary Section: Complete Dynamic Sector Index */}
-      <section className="container mx-auto px-4 mt-16">
-        <div className="border-t border-[#D5D2C9]/60 pt-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-            <div>
-              <h2 className="font-display text-2xl font-bold text-[#2E1310]">
-                All Sectors We Support
-              </h2>
-              <p className="text-sm text-[#605553] mt-1">
-                Browse our comprehensive index of active hiring practices and recruitment solutions.
-              </p>
-            </div>
-            <div className="text-[#605553] text-xs font-semibold">
-              Showing {data?.length || 0} active practices
-            </div>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {data?.map((ind: any) => {
-              const Icon = getIcon(ind.icon);
-              return (
-                <Link
-                  key={ind.id}
-                  to="/industries/$slug"
-                  params={{ slug: ind.slug }}
-                  className="flex items-center gap-4 bg-white/70 hover:bg-white border border-[#D5D2C9]/40 hover:border-[#D5D2C9] rounded-2xl p-5 transition shadow-sm group"
-                >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#E5E2DA] rounded-xl text-[#2E1310] group-hover:bg-[#2E1310] group-hover:text-white transition">
-                    <Icon className="h-5 w-5" strokeWidth={1.5} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-[#2E1310] truncate text-sm">
-                      {ind.label}
-                    </h3>
-                    <p className="text-xs text-[#605553] truncate mt-0.5">
-                      {ind.description}
-                    </p>
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-[#605553]/50 group-hover:text-[#2E1310] group-hover:translate-x-0.5 transition shrink-0" />
-                </Link>
-              );
-            })}
-          </div>
         </div>
       </section>
     </div>
