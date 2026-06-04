@@ -42,7 +42,7 @@ function TeamPage() {
       />
       <section className="container mx-auto px-4 py-20">
         <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
-          {data?.map((m) => (
+          {data?.map((m: any) => (
             <div key={m.id} className="bg-background p-6">
               <div className="aspect-[4/5] w-full overflow-hidden bg-surface">
                 {m.photo_url ? (

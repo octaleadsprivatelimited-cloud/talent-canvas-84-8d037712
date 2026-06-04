@@ -32,7 +32,7 @@ function CompaniesPage() {
       <h1 className="font-display text-3xl font-bold md:text-4xl">Companies hiring</h1>
       <p className="mt-2 text-muted-foreground">{data?.length ?? 0} companies on Hireloop</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {data?.map((c) => (
+        {data?.map((c: any) => (
           <Link
             key={c.id}
             to="/companies/$slug"
