@@ -539,6 +539,8 @@ export type Database = {
           contact_phone: string | null
           created_at: string
           footer_about: string | null
+          hero_video_poster_url: string | null
+          hero_video_url: string | null
           home_theme: string
           id: string
           logo_url: string | null
@@ -557,6 +559,8 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           footer_about?: string | null
+          hero_video_poster_url?: string | null
+          hero_video_url?: string | null
           home_theme?: string
           id?: string
           logo_url?: string | null
@@ -575,6 +579,8 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           footer_about?: string | null
+          hero_video_poster_url?: string | null
+          hero_video_url?: string | null
           home_theme?: string
           id?: string
           logo_url?: string | null
