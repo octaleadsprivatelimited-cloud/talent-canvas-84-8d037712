@@ -121,11 +121,12 @@ function EditorialHero() {
             <div className="relative mx-auto aspect-[4/5] w-full max-w-sm lg:max-w-none">
               <div className="absolute -left-4 -top-4 h-24 w-24 bg-accent md:h-40 md:w-40" />
               <div className="absolute -bottom-4 -right-4 h-20 w-20 border-4 border-accent md:h-32 md:w-32" />
-              <img
-                src={heroTeam}
-                alt="Virelix consultants"
-                width={1280}
-                height={1600}
+              <video
+                src="/hero-video.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
                 className="relative h-full w-full object-cover shadow-2xl"
               />
             </div>
@@ -483,7 +484,7 @@ function HeroVideo({
   fallbackImg: string;
 }) {
   const { data: settings } = useSiteSettings();
-  const videoUrl = settings?.hero_video_url || null;
+  const videoUrl = settings?.hero_video_url || "/hero-video.mp4";
   const posterUrl = settings?.hero_video_poster_url || poster || fallbackImg;
   if (!videoUrl) {
     return (
