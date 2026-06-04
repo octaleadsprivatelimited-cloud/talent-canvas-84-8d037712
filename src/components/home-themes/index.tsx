@@ -67,91 +67,66 @@ function EditorialHero() {
     "WORKFORCE SOLUTIONS",
   ];
   return (
-    <section id="hero" className="relative snap-start overflow-hidden bg-gradient-hero">
+    <section id="hero" className="relative snap-start overflow-hidden bg-gradient-hero min-h-screen flex flex-col justify-between py-16 md:py-24">
       {/* Background Image */}
       <div className="absolute inset-0 pointer-events-none select-none z-0">
         <img
           src="/hero-bg.jpg"
           alt=""
-          className="h-full w-full object-cover opacity-[0.14] mix-blend-luminosity filter blur-[0.5px]"
+          className="h-full w-full object-cover opacity-[0.22] mix-blend-luminosity filter blur-[0.3px]"
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/90" />
       </div>
       <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:64px_64px]" />
       <div className="absolute -right-32 -top-32 h-96 w-96 bg-accent/20 blur-3xl z-0" />
-      <div className="container relative mx-auto px-4 pb-0 pt-16 md:pt-24 z-10">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
-          <div className="lg:col-span-6">
-            <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
-              <span>Global Talent & Workforce Solutions</span>
-              <span className="hidden h-px w-8 bg-accent/50 sm:block" />
-              <span className="hidden text-gradient-hero-foreground/60 sm:inline">
-                Delaware, USA
-              </span>
-            </div>
-            <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tight text-gradient-hero-foreground md:text-7xl lg:text-[5.5rem]">
-              Building
-              <br />
-              high-performing
-              <br />
-              <span className="relative inline-block">
-                <span className="relative z-10 text-accent">teams.</span>
-                <span className="absolute -bottom-1 left-0 right-0 z-0 h-3 bg-accent/20" />
-              </span>
-            </h1>
-            <p className="mt-8 max-w-xl text-base leading-relaxed text-gradient-hero-foreground/75 md:text-lg">
-              Virelix Consulting connects high-growth organizations with exceptional talent through
-              strategic recruitment, workforce solutions, business consulting, and professional
-              training — delivered across the USA and India.
-            </p>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Button
-                size="lg"
-                variant="secondary"
-                asChild
-                className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
-              >
-                <Link to="/contact">
-                  Hire with Virelix <ArrowUpRight className="ml-1 h-5 w-5" />
-                </Link>
-              </Button>
-              <Link
-                to="/services"
-                className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gradient-hero-foreground"
-              >
-                <PlayCircle className="h-5 w-5 text-accent" />
-                <span className="border-b border-transparent pb-0.5 transition group-hover:border-accent">
-                  Explore our services
-                </span>
+      <div className="container relative mx-auto px-4 z-10 my-auto">
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
+            <span>Global Talent & Workforce Solutions</span>
+            <span className="hidden h-px w-8 bg-accent/50 sm:block" />
+            <span className="hidden text-gradient-hero-foreground/60 sm:inline">
+              Delaware, USA
+            </span>
+          </div>
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tight text-gradient-hero-foreground md:text-7xl lg:text-[5.5rem]">
+            Building
+            <br />
+            high-performing
+            <br />
+            <span className="relative inline-block">
+              <span className="relative z-10 text-accent">teams.</span>
+              <span className="absolute -bottom-1 left-0 right-0 z-0 h-3 bg-accent/20" />
+            </span>
+          </h1>
+          <p className="mt-8 max-w-xl text-base leading-relaxed text-gradient-hero-foreground/75 md:text-lg">
+            Virelix Consulting connects high-growth organizations with exceptional talent through
+            strategic recruitment, workforce solutions, business consulting, and professional
+            training — delivered across the USA and India.
+          </p>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <Button
+              size="lg"
+              variant="secondary"
+              asChild
+              className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
+            >
+              <Link to="/contact">
+                Hire with Virelix <ArrowUpRight className="ml-1 h-5 w-5" />
               </Link>
-            </div>
+            </Button>
+            <Link
+              to="/services"
+              className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gradient-hero-foreground"
+            >
+              <PlayCircle className="h-5 w-5 text-accent" />
+              <span className="border-b border-transparent pb-0.5 transition group-hover:border-accent">
+                Explore our services
+              </span>
+            </Link>
           </div>
-          <div className="lg:col-span-6">
-            <div className="relative mx-auto aspect-video w-full max-w-xl lg:max-w-none">
-              <video
-                src="/hero-video.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="relative h-full w-full object-cover shadow-2xl"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="relative mt-16 grid grid-cols-2 divide-y divide-gradient-hero-foreground/10 border-y-2 border-accent/40 md:mt-20 md:grid-cols-4 md:divide-x md:divide-y-0">
-          {stats.map((s) => (
-            <div key={s.label} className="px-4 py-5 md:px-8 md:py-8">
-              <p className="font-display text-3xl font-bold text-gradient-hero-foreground md:text-5xl">
-                {s.value}
-              </p>
-              <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-gradient-hero-foreground/60 md:text-xs">
-                {s.label}
-              </p>
-            </div>
-          ))}
         </div>
       </div>
-      <div className="mt-0 border-t border-gradient-hero-foreground/10 bg-gradient-hero-foreground/[0.04] py-5">
+      <div className="mt-0 border-t border-gradient-hero-foreground/10 bg-gradient-hero-foreground/[0.04] py-5 z-10">
         <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-8 gap-y-3 px-4">
           <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-gradient-hero-foreground/40">
             Trusted by
