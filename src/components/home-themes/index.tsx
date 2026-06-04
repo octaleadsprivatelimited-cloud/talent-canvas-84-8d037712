@@ -128,8 +128,6 @@ function EditorialHero() {
           </div>
           <div className="lg:col-span-6">
             <div className="relative mx-auto aspect-video w-full max-w-xl lg:max-w-none">
-              <div className="absolute -left-4 -top-4 h-16 w-16 bg-accent md:h-24 md:w-24" />
-              <div className="absolute -bottom-4 -right-4 h-12 w-12 border-4 border-accent md:h-20 md:w-20" />
               <video
                 src="/hero-video.mp4"
                 autoPlay
