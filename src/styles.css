@@ -280,6 +280,148 @@ html[data-theme="noir"] {
   --font-display: "Space Grotesk", sans-serif;
 }
 
+/* 6. Cinema Reel — full-bleed dark cinematic */
+html[data-theme="cinema"] {
+  --background: oklch(0.08 0 0);
+  --foreground: oklch(0.97 0 0);
+  --surface: oklch(0.12 0 0);
+  --surface-elevated: oklch(0.16 0 0);
+  --card: oklch(0.14 0 0);
+  --card-foreground: oklch(0.97 0 0);
+  --popover: oklch(0.14 0 0);
+  --popover-foreground: oklch(0.97 0 0);
+  --primary: oklch(0.97 0 0);
+  --primary-foreground: oklch(0.08 0 0);
+  --primary-glow: oklch(0.7 0 0);
+  --secondary: oklch(0.18 0 0);
+  --secondary-foreground: oklch(0.97 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.08 0 0);
+  --border: oklch(1 0 0 / 0.12);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(0.97 0 0);
+  --gradient-hero: linear-gradient(135deg, oklch(0.03 0 0) 0%, oklch(0.1 0 0) 100%);
+  --gradient-hero-foreground: oklch(0.99 0 0);
+  --gradient-accent: linear-gradient(135deg, oklch(0.97 0 0), oklch(0.7 0 0));
+  --font-display: "Playfair Display", "Space Grotesk", serif;
+}
+
+/* 7. Pulse Split — modern tech with electric primary */
+html[data-theme="pulse"] {
+  --background: oklch(0.99 0.005 230);
+  --foreground: oklch(0.14 0.03 240);
+  --surface: oklch(0.97 0.01 230);
+  --surface-elevated: oklch(1 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.14 0.03 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.14 0.03 240);
+  --primary: oklch(0.55 0.22 250);
+  --primary-foreground: oklch(0.99 0.005 230);
+  --primary-glow: oklch(0.7 0.2 220);
+  --secondary: oklch(0.95 0.015 230);
+  --secondary-foreground: oklch(0.2 0.05 240);
+  --muted: oklch(0.95 0.015 230);
+  --muted-foreground: oklch(0.45 0.02 240);
+  --accent: oklch(0.7 0.2 220);
+  --accent-foreground: oklch(0.1 0.04 240);
+  --border: oklch(0.9 0.012 230);
+  --input: oklch(0.9 0.012 230);
+  --ring: oklch(0.55 0.22 250);
+  --gradient-hero: linear-gradient(135deg, oklch(0.1 0.04 250) 0%, oklch(0.25 0.15 240) 100%);
+  --gradient-hero-foreground: oklch(0.99 0.005 230);
+  --gradient-accent: linear-gradient(135deg, oklch(0.55 0.22 250), oklch(0.7 0.2 200));
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+}
+
+/* 8. Terracotta Warm — sandstone + sage */
+html[data-theme="terracotta"] {
+  --background: oklch(0.97 0.018 70);
+  --foreground: oklch(0.2 0.04 40);
+  --surface: oklch(0.95 0.025 70);
+  --surface-elevated: oklch(0.99 0.012 70);
+  --card: oklch(0.99 0.012 70);
+  --card-foreground: oklch(0.2 0.04 40);
+  --popover: oklch(0.99 0.012 70);
+  --popover-foreground: oklch(0.2 0.04 40);
+  --primary: oklch(0.42 0.1 35);
+  --primary-foreground: oklch(0.97 0.018 70);
+  --primary-glow: oklch(0.6 0.14 40);
+  --secondary: oklch(0.9 0.04 80);
+  --secondary-foreground: oklch(0.25 0.06 35);
+  --muted: oklch(0.92 0.025 75);
+  --muted-foreground: oklch(0.4 0.04 50);
+  --accent: oklch(0.55 0.13 35);
+  --accent-foreground: oklch(0.98 0.012 70);
+  --border: oklch(0.85 0.03 70);
+  --input: oklch(0.85 0.03 70);
+  --ring: oklch(0.55 0.13 35);
+  --gradient-hero: linear-gradient(135deg, oklch(0.42 0.1 35) 0%, oklch(0.55 0.13 60) 100%);
+  --gradient-hero-foreground: oklch(0.97 0.018 70);
+  --gradient-accent: linear-gradient(135deg, oklch(0.55 0.13 35), oklch(0.6 0.1 140));
+  --gradient-subtle: linear-gradient(180deg, oklch(0.97 0.018 70), oklch(0.94 0.03 75));
+  --font-display: "Playfair Display", serif;
+}
+
+/* 9. Glass Aurora — iridescent pastel */
+html[data-theme="glass"] {
+  --background: oklch(0.97 0.02 310);
+  --foreground: oklch(0.18 0.05 280);
+  --surface: oklch(0.95 0.025 310);
+  --surface-elevated: oklch(1 0 0);
+  --card: oklch(1 0 0 / 0.6);
+  --card-foreground: oklch(0.18 0.05 280);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.05 280);
+  --primary: oklch(0.55 0.2 295);
+  --primary-foreground: oklch(0.98 0.01 310);
+  --primary-glow: oklch(0.72 0.18 320);
+  --secondary: oklch(0.93 0.03 310);
+  --secondary-foreground: oklch(0.22 0.07 290);
+  --muted: oklch(0.94 0.025 310);
+  --muted-foreground: oklch(0.45 0.04 290);
+  --accent: oklch(0.72 0.18 200);
+  --accent-foreground: oklch(0.15 0.04 280);
+  --border: oklch(0.88 0.03 310);
+  --input: oklch(0.88 0.03 310);
+  --ring: oklch(0.55 0.2 295);
+  --gradient-hero: linear-gradient(135deg, oklch(0.75 0.15 295) 0%, oklch(0.78 0.13 200) 100%);
+  --gradient-hero-foreground: oklch(0.15 0.04 280);
+  --gradient-accent: linear-gradient(135deg, oklch(0.72 0.18 320), oklch(0.72 0.18 200));
+  --font-display: "Space Grotesk", sans-serif;
+}
+
+/* 10. Brutalist Pop — yellow + black */
+html[data-theme="brutalist"] {
+  --background: oklch(0.95 0.18 100);
+  --foreground: oklch(0.1 0 0);
+  --surface: oklch(0.95 0.18 100);
+  --surface-elevated: oklch(1 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.1 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.1 0 0);
+  --primary: oklch(0.1 0 0);
+  --primary-foreground: oklch(0.95 0.18 100);
+  --primary-glow: oklch(0.3 0 0);
+  --secondary: oklch(1 0 0);
+  --secondary-foreground: oklch(0.1 0 0);
+  --muted: oklch(0.92 0.16 100);
+  --muted-foreground: oklch(0.2 0.02 90);
+  --accent: oklch(0.1 0 0);
+  --accent-foreground: oklch(0.95 0.18 100);
+  --border: oklch(0.1 0 0);
+  --input: oklch(0.1 0 0);
+  --ring: oklch(0.1 0 0);
+  --radius: 0rem;
+  --gradient-hero: linear-gradient(135deg, oklch(0.95 0.18 100) 0%, oklch(0.92 0.18 95) 100%);
+  --gradient-hero-foreground: oklch(0.1 0 0);
+  --gradient-accent: linear-gradient(135deg, oklch(0.1 0 0), oklch(0.3 0 0));
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
