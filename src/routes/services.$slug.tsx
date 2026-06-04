@@ -240,7 +240,18 @@ function ServiceDetail() {
   const serif = { fontFamily: "'Playfair Display', serif" };
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background relative overflow-hidden">
+      {/* Background watermark */}
+      <div className="absolute inset-0 -z-10 h-[65vh] w-full overflow-hidden opacity-[0.04] dark:opacity-[0.07] pointer-events-none">
+        <img
+          src={img.src}
+          srcSet={img.srcSet}
+          alt=""
+          className="h-full w-full object-cover filter blur-[1px] mix-blend-luminosity"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
+      </div>
+
       {/* Editorial hero */}
       <section className="px-6 pt-20 pb-12 md:px-12 md:pt-32 md:pb-20">
         <div className="mx-auto max-w-6xl">

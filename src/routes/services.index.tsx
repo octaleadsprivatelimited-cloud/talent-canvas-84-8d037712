@@ -154,6 +154,14 @@ function ServicesPage() {
                       : "translate-x-full group-hover:translate-x-0"
                   }`}
                 />
+                {/* Mobile/Tablet backdrop image */}
+                <div className="absolute inset-0 z-0 opacity-[0.03] dark:opacity-[0.06] transition-opacity duration-500 lg:hidden group-hover:opacity-[0.08]">
+                  <img
+                    src={img.src}
+                    alt=""
+                    className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
+                  />
+                </div>
 
                 {/* Row content */}
                 <div className="relative z-20 flex flex-col items-baseline gap-6 md:flex-row md:gap-16 lg:gap-24">

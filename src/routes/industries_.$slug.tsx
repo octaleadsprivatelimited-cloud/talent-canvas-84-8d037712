@@ -5,6 +5,19 @@ import * as Icons from "lucide-react";
 import { supabase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 
+const INDUSTRY_PHOTOS: Record<string, string> = {
+  "technology-software": "photo-1519389950473-47ba0277781c",
+  "healthcare-lifesciences": "photo-1576091160550-2173dba999ef",
+  "financial-services": "photo-1559526324-4b87b5e36e44",
+  "logistics-supply-chain": "photo-1586528116311-ad8dd3c8310d",
+};
+const FALLBACK_PHOTO = "photo-1486406146926-c627a92ad1ab";
+
+function getIndustryImage(slug: string | null | undefined) {
+  const id = (slug && INDUSTRY_PHOTOS[slug]) || FALLBACK_PHOTO;
+  return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=70`;
+}
+
 type IndustryDetail = {
   hero_title: string;
   hero_subtitle: string;
@@ -294,7 +307,17 @@ function IndustryDetailComponent() {
     ];
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background relative overflow-hidden">
+      {/* Background watermark */}
+      <div className="absolute inset-0 -z-10 h-[65vh] w-full overflow-hidden opacity-[0.04] dark:opacity-[0.07] pointer-events-none">
+        <img
+          src={getIndustryImage(industry.slug)}
+          alt=""
+          className="h-full w-full object-cover filter blur-[1px] mix-blend-luminosity"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
+      </div>
+
       {/* Editorial Header Section */}
       <section className="px-6 pt-20 pb-12 md:px-12 md:pt-32 md:pb-20">
         <div className="mx-auto max-w-6xl">

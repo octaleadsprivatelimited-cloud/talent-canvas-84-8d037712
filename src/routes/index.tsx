@@ -31,6 +31,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/firebase/client";
 import { DynamicSeo } from "@/components/dynamic-seo";
 import { JobCard, type JobCardData } from "@/components/jobs/job-card";
+import { getServiceImage } from "@/lib/service-images";
 import heroTeam from "@/assets/hero-team.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import heroHandshake from "@/assets/hero-handshake.jpg";
@@ -377,8 +378,18 @@ function Index() {
       {/* ============== SERVICES ============== */}
       <section
         id="services"
-        className="container mx-auto flex min-h-screen snap-start flex-col justify-center px-4 py-20 md:py-28"
+        className="relative w-full snap-start py-20 md:py-28 overflow-hidden"
       >
+        {/* Section background image */}
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=70"
+            alt=""
+            className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        </div>
+        <div className="container mx-auto flex min-h-[80vh] flex-col justify-center px-4">
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -425,9 +436,21 @@ function Index() {
             })}
           </div>
 
-          {/* Active Tab Panel */}
-          <div className="border border-border bg-card p-8 md:p-10 relative overflow-hidden transition-all duration-500">
-            <div className="absolute right-6 top-6 opacity-[0.03] text-primary group-hover:opacity-[0.05]">
+          <div className="border border-border bg-card p-8 md:p-10 relative overflow-hidden transition-all duration-500 group">
+            {/* Dynamic service background watermark */}
+            <div className="absolute inset-0 -z-10 transition-opacity duration-700 pointer-events-none">
+              <img
+                src={(() => {
+                  const slugs = ["contract-staffing", "executive-search", "rpo", "training"];
+                  return getServiceImage(slugs[activeService]).src;
+                })()}
+                alt=""
+                className="h-full w-full object-cover opacity-[0.04] dark:opacity-[0.07] mix-blend-luminosity filter blur-[1px] transition-all duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-card" />
+            </div>
+
+            <div className="absolute right-6 top-6 opacity-[0.04] text-primary group-hover:opacity-[0.07] transition-opacity duration-300">
               {(() => {
                 const Icon = detailedServices[activeService].icon;
                 return <Icon className="h-40 w-40" />;
@@ -481,10 +504,20 @@ function Index() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* ============== IMAGE + INDUSTRIES SPLIT ============== */}
-      <section id="industries" className="snap-start bg-surface py-20 md:py-28">
+      <section id="industries" className="relative w-full snap-start bg-surface py-20 md:py-28 overflow-hidden">
+        {/* Section background image */}
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=70"
+            alt=""
+            className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-surface via-transparent to-surface" />
+        </div>
         <div className="container mx-auto px-4">
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="relative lg:col-span-5">
@@ -532,7 +565,17 @@ function Index() {
       </section>
 
       {/* ============== PROCESS ============== */}
-      <section id="process" className="container mx-auto snap-start px-4 py-20 md:py-28">
+      <section id="process" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
+        {/* Section background image */}
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1920&q=70"
+            alt=""
+            className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        </div>
+        <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             <span className="h-px w-8 bg-primary" />
@@ -572,13 +615,24 @@ function Index() {
             ))}
           </ul>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* ============== FEATURED JOBS SECTION (Adecco-style career board) ============== */}
       <section
         id="careers"
-        className="container mx-auto flex min-h-screen snap-start flex-col justify-center px-4 py-20 md:py-28 border-t border-border"
+        className="relative w-full snap-start py-20 md:py-28 border-t border-border overflow-hidden"
       >
+        {/* Section background image */}
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1920&q=70"
+            alt=""
+            className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        </div>
+        <div className="container mx-auto flex min-h-[80vh] flex-col justify-center px-4">
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -611,13 +665,23 @@ function Index() {
             </div>
           )}
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* ============== GLOBAL PRESENCE & PHILOSOPHY (Adecco Group style) ============== */}
       <section
         id="scale"
-        className="flex min-h-screen snap-start flex-col justify-center bg-foreground text-background py-20 md:py-28"
+        className="relative w-full snap-start bg-foreground text-background py-20 md:py-28 overflow-hidden"
       >
+        {/* Section background image */}
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.08] pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1920&q=70"
+            alt=""
+            className="h-full w-full object-cover mix-blend-overlay filter blur-[1px]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-foreground via-transparent to-foreground" />
+        </div>
         <div className="container mx-auto px-4">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
@@ -704,7 +768,16 @@ function Index() {
       </section>
 
       {/* ============== TESTIMONIALS ============== */}
-      <section id="testimonials" className="snap-start bg-surface py-20 md:py-28">
+      <section id="testimonials" className="relative w-full snap-start bg-surface py-20 md:py-28 overflow-hidden">
+        {/* Section background image */}
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1920&q=70"
+            alt=""
+            className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-surface via-transparent to-surface" />
+        </div>
         <div className="container mx-auto px-4">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -741,8 +814,18 @@ function Index() {
       </section>
 
       {/* ============== CTA ============== */}
-      <section id="cta" className="container mx-auto snap-start px-4 py-20 md:py-28">
-        <div className="relative overflow-hidden bg-gradient-hero p-10 md:p-16">
+      <section id="cta" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
+        {/* Section background image */}
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.02] dark:opacity-[0.04] pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1920&q=70"
+            alt=""
+            className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        </div>
+        <div className="container mx-auto px-4">
+          <div className="relative overflow-hidden bg-gradient-hero p-10 md:p-16">
           <div className="absolute -right-20 -top-20 h-72 w-72 bg-accent/15 blur-3xl" />
           <div className="absolute inset-y-0 left-0 w-2 bg-accent" />
           <div className="relative grid gap-8 md:grid-cols-2 md:items-center">
@@ -774,7 +857,8 @@ function Index() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
     </div>
   );
 }
