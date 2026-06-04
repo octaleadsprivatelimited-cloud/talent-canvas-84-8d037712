@@ -10,13 +10,13 @@ export function useAuth() {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, s) => {
-      setSession(s);
-      setUser(s?.user ?? null);
+    } = supabase.auth.onAuthStateChange((_event: string, s: any) => {
+      setSession(s as Session | null);
+      setUser((s?.user ?? null) as User | null);
     });
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
+    supabase.auth.getSession().then(({ data }: { data: any }) => {
+      setSession((data.session ?? null) as Session | null);
+      setUser((data.session?.user ?? null) as User | null);
       setLoading(false);
     });
     return () => subscription.unsubscribe();

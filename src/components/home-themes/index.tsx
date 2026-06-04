@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, PlayCircle, Sparkles, Star } from "lucide-react";
+import { ArrowRight, ArrowUpRight, PlayCircle, Play, Sparkles, Star, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 
 import heroTeam from "@/assets/hero-team.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
@@ -9,40 +10,41 @@ import themeMono from "@/assets/theme-mono.jpg";
 import themeAurora from "@/assets/theme-aurora.jpg";
 import themeMagazine from "@/assets/theme-magazine.jpg";
 import themeNoir from "@/assets/theme-noir.jpg";
+import themeCinema from "@/assets/theme-cinema.jpg";
+import themePulse from "@/assets/theme-pulse.jpg";
+import themeTerracotta from "@/assets/theme-terracotta.jpg";
+import themeGlass from "@/assets/theme-glass.jpg";
+import themeBrutalist from "@/assets/theme-brutalist.jpg";
 
-export type ThemeKey = "editorial" | "mono" | "aurora" | "magazine" | "noir";
+export type ThemeKey =
+  | "editorial"
+  | "mono"
+  | "aurora"
+  | "magazine"
+  | "noir"
+  | "cinema"
+  | "pulse"
+  | "terracotta"
+  | "glass"
+  | "brutalist";
 
-export const THEMES: { key: ThemeKey; name: string; tagline: string; preview: string }[] = [
-  {
-    key: "editorial",
-    name: "Editorial Bold",
-    tagline: "Sharp, angular, magazine-style collage.",
-    preview: heroTeam,
-  },
-  {
-    key: "mono",
-    name: "Minimal Mono",
-    tagline: "Calm monochrome with oversized typography.",
-    preview: themeMono,
-  },
-  {
-    key: "aurora",
-    name: "Aurora Gradient",
-    tagline: "Vibrant gradient, glassy cards, modern tech.",
-    preview: themeAurora,
-  },
-  {
-    key: "magazine",
-    name: "Magazine Split",
-    tagline: "Full-bleed cinematic editorial split.",
-    preview: themeMagazine,
-  },
-  {
-    key: "noir",
-    name: "Dark Noir",
-    tagline: "Luxury black with warm gold accents.",
-    preview: themeNoir,
-  },
+export const THEMES: {
+  key: ThemeKey;
+  name: string;
+  tagline: string;
+  preview: string;
+  hasVideo?: boolean;
+}[] = [
+  { key: "editorial", name: "Editorial Bold", tagline: "Sharp, angular, magazine-style collage.", preview: heroTeam },
+  { key: "mono", name: "Minimal Mono", tagline: "Calm monochrome with oversized typography.", preview: themeMono },
+  { key: "aurora", name: "Aurora Gradient", tagline: "Vibrant gradient, glassy cards, modern tech.", preview: themeAurora },
+  { key: "magazine", name: "Magazine Split", tagline: "Full-bleed cinematic editorial split.", preview: themeMagazine },
+  { key: "noir", name: "Dark Noir", tagline: "Luxury black with warm gold accents.", preview: themeNoir },
+  { key: "cinema", name: "Cinema Reel", tagline: "Full-bleed video hero, dramatic serif overlay.", preview: themeCinema, hasVideo: true },
+  { key: "pulse", name: "Pulse Split", tagline: "Split layout with looping video panel.", preview: themePulse, hasVideo: true },
+  { key: "terracotta", name: "Terracotta Warm", tagline: "Earthy sandstone palette with sage accents.", preview: themeTerracotta },
+  { key: "glass", name: "Glass Aurora", tagline: "Iridescent pastel glassmorphism.", preview: themeGlass },
+  { key: "brutalist", name: "Brutalist Pop", tagline: "High contrast yellow + black, no apologies.", preview: themeBrutalist },
 ];
 
 const stats = [
@@ -468,6 +470,298 @@ function NoirHero() {
 
 /* ================================================================= */
 
+/* =================================================================
+   6. CINEMA REEL — full-bleed video background, dark cinematic overlay
+   ================================================================= */
+function HeroVideo({
+  className,
+  poster,
+  fallbackImg,
+}: {
+  className?: string;
+  poster?: string | null;
+  fallbackImg: string;
+}) {
+  const { data: settings } = useSiteSettings();
+  const videoUrl = settings?.hero_video_url || null;
+  const posterUrl = settings?.hero_video_poster_url || poster || fallbackImg;
+  if (!videoUrl) {
+    return (
+      <img
+        src={posterUrl}
+        alt=""
+        aria-hidden
+        className={className}
+        loading="eager"
+      />
+    );
+  }
+  return (
+    <video
+      className={className}
+      src={videoUrl}
+      poster={posterUrl}
+      autoPlay
+      muted
+      loop
+      playsInline
+    />
+  );
+}
+
+function CinemaHero() {
+  return (
+    <section id="hero" className="relative min-h-screen snap-start overflow-hidden bg-black text-white">
+      <HeroVideo
+        fallbackImg={themeCinema}
+        className="absolute inset-0 h-full w-full object-cover opacity-70"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black" />
+      <div className="absolute inset-0 [background-image:linear-gradient(180deg,transparent_85%,rgba(0,0,0,0.6))]" />
+      <div className="container relative mx-auto flex min-h-screen flex-col justify-end px-4 pb-20 pt-32 md:pb-28">
+        <div className="max-w-4xl">
+          <span className="inline-flex items-center gap-2 border border-white/30 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.35em] text-white/90 backdrop-blur">
+            <Play className="h-3 w-3 fill-white" /> Now Streaming · A Virelix Production
+          </span>
+          <h1 className="mt-6 font-display text-6xl font-bold leading-[0.9] tracking-tight md:text-8xl lg:text-[7rem]">
+            <em className="font-serif italic">Talent,</em>
+            <br />
+            in motion.
+          </h1>
+          <p className="mt-6 max-w-xl text-base text-white/75 md:text-lg">
+            A cinematic look at how Virelix Consulting builds teams that move markets — shot across the USA and India.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <Button asChild size="lg" className="rounded-none bg-white px-7 text-black hover:bg-white/90">
+              <Link to="/contact">
+                Book a screening <ArrowUpRight className="ml-1 h-4 w-4" />
+              </Link>
+            </Button>
+            <Link to="/services" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-white/80 hover:text-white">
+              <PlayCircle className="h-5 w-5" /> Watch the trailer
+            </Link>
+          </div>
+        </div>
+        <div className="mt-12 grid grid-cols-2 gap-px border-t border-white/15 pt-6 md:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.label} className="px-2 py-4">
+              <p className="font-display text-3xl font-bold md:text-4xl">{s.value}</p>
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =================================================================
+   7. PULSE SPLIT — text left, looping video frame right
+   ================================================================= */
+function PulseHero() {
+  return (
+    <section id="hero" className="relative min-h-screen snap-start overflow-hidden bg-background">
+      <div className="grid min-h-screen lg:grid-cols-12">
+        <div className="flex flex-col justify-center p-8 md:p-14 lg:col-span-6 lg:p-20">
+          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary">
+            <span className="mr-2 inline-block h-2 w-2 animate-pulse rounded-full bg-primary align-middle" />
+            Live · Global Talent Network
+          </p>
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[1] tracking-tight md:text-7xl">
+            Hire at the
+            <br />
+            <span className="bg-gradient-accent bg-clip-text text-transparent">speed of growth.</span>
+          </h1>
+          <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
+            Embedded RPO, executive search, and workforce design — wired into your operating cadence.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Button asChild size="lg" className="rounded-full px-7">
+              <Link to="/contact">
+                Start hiring <ArrowRight className="ml-1.5 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="rounded-full px-7">
+              <Link to="/services">
+                <Zap className="mr-1.5 h-4 w-4" /> See playbook
+              </Link>
+            </Button>
+          </div>
+          <div className="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <p className="font-display text-2xl font-bold md:text-3xl">{s.value}</p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="relative min-h-[60vh] overflow-hidden bg-black lg:col-span-6 lg:min-h-screen">
+          <HeroVideo
+            fallbackImg={themePulse}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-tr from-black/50 via-transparent to-transparent" />
+          <div className="absolute bottom-6 left-6 right-6 flex items-center gap-3 rounded-full border border-white/25 bg-black/40 px-4 py-2 text-xs text-white backdrop-blur-md md:bottom-10 md:left-10 md:right-10">
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+            <span className="font-mono uppercase tracking-wider">Reel · USA + India delivery</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =================================================================
+   8. TERRACOTTA WARM — sandstone + sage editorial
+   ================================================================= */
+function TerracottaHero() {
+  return (
+    <section id="hero" className="relative snap-start overflow-hidden bg-background text-foreground">
+      <div className="absolute inset-0 bg-gradient-subtle" />
+      <div className="absolute -right-20 top-20 h-72 w-72 rounded-full bg-accent/30 blur-3xl" />
+      <div className="container relative mx-auto grid gap-12 px-4 py-20 md:grid-cols-12 md:items-center md:py-28">
+        <div className="md:col-span-7">
+          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-accent">
+            ✦ Crafted Hiring · Est. 2008
+          </p>
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.02] tracking-tight md:text-7xl">
+            Hiring,
+            <br />
+            handmade
+            <br />
+            <span className="font-serif italic text-accent">with care.</span>
+          </h1>
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
+            We treat every search like a portrait — slow questions, warm conversations, lasting matches.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <Button asChild size="lg" className="rounded-full px-7">
+              <Link to="/contact">
+                Start a conversation <ArrowRight className="ml-1.5 h-4 w-4" />
+              </Link>
+            </Button>
+            <Link to="/services" className="text-sm font-semibold uppercase tracking-wider underline-offset-4 hover:underline">
+              Our craft →
+            </Link>
+          </div>
+        </div>
+        <div className="md:col-span-5">
+          <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-[40%_60%_55%_45%/55%_45%_60%_40%] border-4 border-accent/40 shadow-elevated">
+            <img src={themeTerracotta} alt="" className="h-full w-full object-cover" />
+          </div>
+        </div>
+      </div>
+      <div className="container mx-auto grid grid-cols-2 gap-px border-t border-border px-4 md:grid-cols-4">
+        {stats.map((s) => (
+          <div key={s.label} className="py-6">
+            <p className="font-display text-3xl font-bold text-accent md:text-4xl">{s.value}</p>
+            <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{s.label}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* =================================================================
+   9. GLASS AURORA — iridescent pastel glassmorphism
+   ================================================================= */
+function GlassHero() {
+  return (
+    <section id="hero" className="relative min-h-screen snap-start overflow-hidden bg-background">
+      <img src={themeGlass} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-90" />
+      <div className="absolute -left-20 top-20 h-96 w-96 rounded-full bg-fuchsia-300/40 blur-3xl" />
+      <div className="absolute -right-20 bottom-10 h-96 w-96 rounded-full bg-cyan-300/40 blur-3xl" />
+      <div className="container relative mx-auto px-4 py-24 md:py-32">
+        <div className="mx-auto max-w-3xl">
+          <div className="rounded-3xl border border-white/40 bg-white/30 p-8 backdrop-blur-2xl md:p-14">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/40 px-4 py-1.5 text-xs font-semibold text-foreground backdrop-blur">
+              <Sparkles className="h-3.5 w-3.5" /> Soft power, hard results
+            </span>
+            <h1 className="mt-5 font-display text-5xl font-bold leading-[1.05] tracking-tight text-foreground md:text-7xl">
+              Talent, clarified.
+            </h1>
+            <p className="mt-5 text-base text-foreground/75 md:text-lg">
+              A modern lens on executive search — calm interfaces, considered process, glass-clear communication.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <Button asChild size="lg" className="rounded-full px-7">
+                <Link to="/contact">
+                  Start a brief <ArrowRight className="ml-1.5 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="rounded-full border-white/60 bg-white/30 px-7 backdrop-blur hover:bg-white/50">
+                <Link to="/services">Explore services</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.label} className="rounded-2xl border border-white/40 bg-white/30 p-5 backdrop-blur-xl">
+                <p className="font-display text-2xl font-bold md:text-3xl">{s.value}</p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-foreground/70">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =================================================================
+   10. BRUTALIST POP — yellow + black, thick borders
+   ================================================================= */
+function BrutalistHero() {
+  return (
+    <section id="hero" className="relative min-h-screen snap-start overflow-hidden bg-[#FFEB00] text-black">
+      <div className="absolute inset-0 [background-image:linear-gradient(to_right,#000_2px,transparent_2px),linear-gradient(to_bottom,#000_2px,transparent_2px)] [background-size:80px_80px] opacity-[0.08]" />
+      <div className="container relative mx-auto px-4 py-16 md:py-24">
+        <div className="flex items-center gap-3 border-y-4 border-black py-3 text-xs font-black uppercase tracking-widest">
+          <span className="bg-black px-2 py-1 text-[#FFEB00]">NEW</span>
+          <span>Virelix · Talent Without The Theater</span>
+        </div>
+        <h1 className="mt-10 font-display text-6xl font-black uppercase leading-[0.85] tracking-tighter md:text-[9rem]">
+          HIRE
+          <br />
+          <span className="inline-block -rotate-1 border-4 border-black bg-white px-4">FAST.</span>
+          <br />
+          HIRE LOUD.
+        </h1>
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <p className="border-l-4 border-black pl-4 text-lg font-semibold md:text-xl">
+            No fluff. No filler decks. We send résumés, you make hires. Repeat across two continents.
+          </p>
+          <div className="flex flex-wrap items-start gap-3">
+            <Button asChild size="lg" className="rounded-none border-4 border-black bg-black px-7 text-[#FFEB00] shadow-[6px_6px_0_0_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_#000]">
+              <Link to="/contact">
+                BRIEF US <ArrowUpRight className="ml-1 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="rounded-none border-4 border-black bg-white px-7 text-black shadow-[6px_6px_0_0_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-white hover:shadow-[2px_2px_0_0_#000]">
+              <Link to="/services">SERVICES →</Link>
+            </Button>
+          </div>
+        </div>
+        <div className="mt-14 grid grid-cols-2 gap-0 border-4 border-black md:grid-cols-4">
+          {stats.map((s, i) => (
+            <div
+              key={s.label}
+              className={`border-black p-5 ${i < 3 ? "border-r-4" : ""} ${i < 2 ? "border-b-4 md:border-b-0" : ""}`}
+            >
+              <p className="font-display text-3xl font-black md:text-5xl">{s.value}</p>
+              <p className="mt-1 text-[10px] font-bold uppercase tracking-wider">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================= */
+
 export function HomeHero({ theme }: { theme: ThemeKey }) {
   switch (theme) {
     case "mono":
@@ -478,6 +772,16 @@ export function HomeHero({ theme }: { theme: ThemeKey }) {
       return <MagazineHero />;
     case "noir":
       return <NoirHero />;
+    case "cinema":
+      return <CinemaHero />;
+    case "pulse":
+      return <PulseHero />;
+    case "terracotta":
+      return <TerracottaHero />;
+    case "glass":
+      return <GlassHero />;
+    case "brutalist":
+      return <BrutalistHero />;
     case "editorial":
     default:
       return <EditorialHero />;

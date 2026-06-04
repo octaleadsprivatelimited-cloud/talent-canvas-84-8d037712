@@ -2,7 +2,18 @@ import { useEffect } from "react";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 import type { ThemeKey } from "@/components/home-themes";
 
-const VALID: ThemeKey[] = ["editorial", "mono", "aurora", "magazine", "noir"];
+const VALID: ThemeKey[] = [
+  "editorial",
+  "mono",
+  "aurora",
+  "magazine",
+  "noir",
+  "cinema",
+  "pulse",
+  "terracotta",
+  "glass",
+  "brutalist",
+];
 
 function applyTheme(theme: string | null | undefined) {
   if (typeof document === "undefined") return;

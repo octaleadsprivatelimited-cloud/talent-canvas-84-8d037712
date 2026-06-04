@@ -376,7 +376,7 @@ function IndustryDetailComponent() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-3">
-            {benefits.map((b, idx) => (
+            {benefits.map((b: any, idx: number) => (
               <div
                 key={idx}
                 className="border border-border bg-card p-8 flex flex-col gap-4 rounded-lg relative overflow-hidden group hover:border-primary/50 transition-all duration-300"

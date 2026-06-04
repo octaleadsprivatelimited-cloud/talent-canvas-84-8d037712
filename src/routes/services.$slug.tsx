@@ -228,7 +228,7 @@ function ServiceDetail() {
   if (!data) return null;
 
   const additions = SERVICE_ADDITIONS[data.slug];
-  const relatedCaseStudies = (caseStudies ?? []).filter((cs) => {
+  const relatedCaseStudies = (caseStudies ?? []).filter((cs: any) => {
     if (data.slug === "executive-search") return cs.slug.includes("c-suite") || cs.slug.includes("search");
     if (data.slug === "it-recruitment") return cs.slug.includes("medical") || cs.slug.includes("unicorn");
     if (data.slug === "rpo-workforce-solutions") return cs.slug.includes("unicorn") || cs.slug.includes("rpo");
@@ -372,7 +372,7 @@ function ServiceDetail() {
                   </span>
                 </div>
                 <div className="grid gap-6 sm:grid-cols-2">
-                  {relatedCaseStudies.map((cs) => (
+                  {relatedCaseStudies.map((cs: any) => (
                     <Link
                       key={cs.id}
                       to="/case-studies/$slug"

@@ -44,7 +44,7 @@ function InsightsIndex() {
       />
       <section className="container mx-auto px-4 py-20">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {data?.map((p) => (
+          {data?.map((p: any) => (
             <Link
               key={p.id}
               to="/insights/$slug"

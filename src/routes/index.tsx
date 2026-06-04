@@ -292,7 +292,7 @@ function Index() {
   });
   const liveTestimonials =
     dbTestimonials && dbTestimonials.length > 0
-      ? dbTestimonials.map((t) => ({
+      ? dbTestimonials.map((t: any) => ({
           quote: t.quote,
           name: t.author_name,
           role: [t.author_role, t.company].filter(Boolean).join(" · "),
@@ -716,7 +716,7 @@ function Index() {
           </div>
 
           <div className="mt-12 grid gap-0 border-t border-l border-border md:grid-cols-3">
-            {liveTestimonials.map((t) => (
+            {liveTestimonials.map((t: any) => (
               <figure
                 key={t.name}
                 className="flex flex-col border-b border-r border-border bg-card p-8"

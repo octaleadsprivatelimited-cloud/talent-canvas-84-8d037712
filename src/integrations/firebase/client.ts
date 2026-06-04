@@ -128,7 +128,7 @@ class FirebaseQueryBuilder {
     return q;
   }
 
-  async execute() {
+  async execute(): Promise<any> {
     if (!db) {
       return { data: [], error: { message: "Firebase is not initialized." } };
     }
@@ -209,9 +209,9 @@ class FirebaseQueryBuilder {
               ...d.data(),
             }));
 
-            data = data.map((job) => {
+            data = data.map((job: any) => {
               const company =
-                companiesList.find((c) => c.id === job.company_id || c.slug === job.company_id) ||
+                companiesList.find((c: any) => c.id === job.company_id || c.slug === job.company_id) ||
                 null;
               return { ...job, companies: company };
             });

@@ -16,6 +16,8 @@ export type SiteSettings = {
   accent_color: string | null;
   footer_about: string | null;
   home_theme: string | null;
+  hero_video_url: string | null;
+  hero_video_poster_url: string | null;
 };
 
 export function useSiteSettings() {

@@ -478,7 +478,7 @@ export function CrudPage<T extends Row>({
                               }
                             }}
                           />
-                          {val && typeof val === "string" && (
+                          {typeof val === "string" && val.length > 0 && (
                             <img
                               src={val}
                               alt="Preview"

@@ -215,7 +215,7 @@ function AboutPage() {
         </div>
 
         <div className="mt-16 grid gap-8 sm:grid-cols-2 max-w-4xl mx-auto">
-          {team?.map((m) => (
+          {team?.map((m: any) => (
             <div
               key={m.id}
               className="bg-card border border-border p-6 rounded-lg flex flex-col md:flex-row gap-6 items-start md:items-center"

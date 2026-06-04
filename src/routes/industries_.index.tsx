@@ -50,12 +50,12 @@ function IndustriesPage() {
       />
       <section className="container mx-auto px-4 py-20">
         <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">
-          {data?.map((ind) => {
+          {data?.map((ind: any) => {
             const Icon = (ind.icon && Lucide[ind.icon]) || Icons.Building2;
             return (
               <Link
                 key={ind.id}
-                to="/industries_/$slug"
+                to="/industries/$slug"
                 params={{ slug: ind.slug }}
                 className="flex flex-col gap-3 bg-background p-8 hover:bg-surface/50 transition group"
               >
