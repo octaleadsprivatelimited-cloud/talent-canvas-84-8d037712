@@ -27,6 +27,8 @@ const FIELDS: { key: string; label: string; type?: "textarea" }[] = [
   { key: "primary_color", label: "Primary color (CSS)" },
   { key: "accent_color", label: "Accent color (CSS)" },
   { key: "footer_about", label: "Footer about text", type: "textarea" },
+  { key: "hero_video_url", label: "Hero video URL (MP4/WebM) — used by Cinema & Pulse themes" },
+  { key: "hero_video_poster_url", label: "Hero video poster image URL (fallback while video loads)" },
 ];
 
 function SiteSettingsAdmin() {
