@@ -381,7 +381,7 @@ function Index() {
         className="relative w-full snap-start py-20 md:py-28 overflow-hidden"
       >
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
+        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -389,7 +389,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
-        <div className="container mx-auto flex min-h-[80vh] flex-col justify-center px-4">
+        <div className="container mx-auto flex min-h-[80vh] flex-col justify-center px-4 relative z-10">
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -510,7 +510,7 @@ function Index() {
       {/* ============== IMAGE + INDUSTRIES SPLIT ============== */}
       <section id="industries" className="relative w-full snap-start bg-surface py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
+        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -518,7 +518,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-surface via-transparent to-surface" />
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="relative lg:col-span-5">
               <div className="absolute -left-4 -top-4 h-24 w-24 border-4 border-primary" />
@@ -567,7 +567,7 @@ function Index() {
       {/* ============== PROCESS ============== */}
       <section id="process" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
+        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -575,7 +575,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 relative z-10">
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             <span className="h-px w-8 bg-primary" />
@@ -624,7 +624,7 @@ function Index() {
         className="relative w-full snap-start py-20 md:py-28 border-t border-border overflow-hidden"
       >
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
+        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -632,7 +632,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
-        <div className="container mx-auto flex min-h-[80vh] flex-col justify-center px-4">
+        <div className="container mx-auto flex min-h-[80vh] flex-col justify-center px-4 relative z-10">
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -674,7 +674,7 @@ function Index() {
         className="relative w-full snap-start bg-foreground text-background py-20 md:py-28 overflow-hidden"
       >
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.18] pointer-events-none">
+        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.18] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -682,7 +682,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-foreground via-transparent to-foreground" />
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
@@ -770,7 +770,7 @@ function Index() {
       {/* ============== TESTIMONIALS ============== */}
       <section id="testimonials" className="relative w-full snap-start bg-surface py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
+        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -778,7 +778,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-surface via-transparent to-surface" />
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
               {copy.testimonials_eyebrow}
@@ -816,7 +816,7 @@ function Index() {
       {/* ============== CTA ============== */}
       <section id="cta" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.10] dark:opacity-[0.18] pointer-events-none">
+        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.10] dark:opacity-[0.18] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -824,7 +824,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="relative overflow-hidden bg-gradient-hero p-10 md:p-16">
           <div className="absolute -right-20 -top-20 h-72 w-72 bg-accent/15 blur-3xl" />
           <div className="absolute inset-y-0 left-0 w-2 bg-accent" />

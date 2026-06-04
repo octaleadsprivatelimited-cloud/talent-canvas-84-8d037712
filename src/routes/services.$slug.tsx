@@ -242,7 +242,7 @@ function ServiceDetail() {
   return (
     <main className="min-h-screen bg-background relative overflow-hidden">
       {/* Background watermark */}
-      <div className="absolute inset-0 -z-10 h-[65vh] w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
+      <div className="absolute inset-0 z-0 h-[65vh] w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
         <img
           src={img.src}
           srcSet={img.srcSet}
@@ -253,7 +253,7 @@ function ServiceDetail() {
       </div>
 
       {/* Editorial hero */}
-      <section className="px-6 pt-20 pb-12 md:px-12 md:pt-32 md:pb-20">
+      <section className="relative z-10 px-6 pt-20 pb-12 md:px-12 md:pt-32 md:pb-20">
         <div className="mx-auto max-w-6xl">
           <Link
             to="/services"
@@ -295,7 +295,7 @@ function ServiceDetail() {
       </section>
 
       {/* Editorial image — offset, layered */}
-      <section className="px-6 pb-16 md:px-12 md:pb-24">
+      <section className="relative z-10 px-6 pb-16 md:px-12 md:pb-24">
         <div className="mx-auto max-w-6xl">
           <div className="relative mx-auto max-w-3xl">
             <div className="absolute -inset-4 -z-10 translate-x-6 translate-y-6 border border-border/80" />
