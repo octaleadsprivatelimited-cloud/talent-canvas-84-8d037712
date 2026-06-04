@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Briefcase, Menu, X } from "lucide-react";
+import { Briefcase, Menu, X, Mail } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
@@ -43,9 +43,10 @@ export function Header() {
             <Link
               key={item.to}
               to={item.to}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground flex items-center gap-1.5"
               activeProps={{ className: "text-foreground" }}
             >
+              {item.to === "/contact" && <Mail className="h-3.5 w-3.5 text-accent" />}
               {item.label}
             </Link>
           ))}
@@ -62,8 +63,11 @@ export function Header() {
               Sign out
             </Button>
           ) : (
-            <Button size="sm" asChild>
-              <Link to="/contact">Hire with us</Link>
+            <Button size="sm" asChild className="gap-2">
+              <Link to="/contact">
+                <Mail className="h-3.5 w-3.5" />
+                Hire with us
+              </Link>
             </Button>
           )}
         </div>
@@ -129,10 +133,11 @@ export function Header() {
                 >
                   <Link
                     to={item.to}
-                    className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
                     onClick={() => setOpen(false)}
                   >
-                    {item.label}
+                    {item.to === "/contact" && <Mail className="h-4 w-4 text-accent" />}
+                    <span>{item.label}</span>
                   </Link>
                 </motion.div>
               ))}
@@ -161,8 +166,11 @@ export function Header() {
                     Sign out
                   </Button>
                 ) : (
-                  <Button asChild onClick={() => setOpen(false)}>
-                    <Link to="/contact">Hire with us</Link>
+                  <Button asChild className="gap-2" onClick={() => setOpen(false)}>
+                    <Link to="/contact">
+                      <Mail className="h-4 w-4" />
+                      Hire with us
+                    </Link>
                   </Button>
                 )}
               </motion.div>
