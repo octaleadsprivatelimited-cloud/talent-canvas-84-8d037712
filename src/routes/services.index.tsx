@@ -109,7 +109,7 @@ function ServicesPage() {
                 Capabilities
               </span>
             </div>
-            <h1 className="text-5xl font-light leading-[0.9] tracking-tighter text-foreground md:text-7xl lg:text-8xl">
+            <h1 className="text-4xl font-light leading-none tracking-tighter text-foreground sm:text-5xl md:text-7xl lg:text-8xl whitespace-nowrap">
               Our Service Practices
             </h1>
           </div>
