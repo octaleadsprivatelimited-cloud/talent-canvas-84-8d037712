@@ -237,7 +237,7 @@ function ServiceDetail() {
   });
 
   const img = getServiceImage(data.slug);
-  const serif = { fontFamily: "'Playfair Display', serif" };
+  const serif = {};
 
   return (
     <main className="min-h-screen bg-background relative overflow-hidden">

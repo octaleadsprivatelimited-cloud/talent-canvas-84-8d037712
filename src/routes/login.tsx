@@ -116,7 +116,6 @@ function LoginPage() {
         </div>
         <h1
           className="text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl"
-          style={{ fontFamily: "'Playfair Display', serif" }}
         >
           Sign in to <span className="italic text-muted-foreground">Virelix</span>
         </h1>

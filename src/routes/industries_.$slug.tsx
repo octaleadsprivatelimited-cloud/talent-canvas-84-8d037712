@@ -129,7 +129,7 @@ function IndustryDetailComponent() {
 
   if (!industry) return null;
 
-  const serif = { fontFamily: "'Playfair Display', serif" };
+  const serif = {};
 
   // Resolve Lucide Icon dynamically
   const Lucide = Icons as unknown as Record<

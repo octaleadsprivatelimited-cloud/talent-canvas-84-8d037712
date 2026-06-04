@@ -160,7 +160,7 @@ html[data-theme="editorial"] {
     oklch(0.28 0.03 270) 100%
   );
   --gradient-hero-foreground: oklch(0.99 0.005 270);
-  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 2. Minimal Mono — calm grayscale */
@@ -188,7 +188,7 @@ html[data-theme="mono"] {
   --gradient-hero: linear-gradient(135deg, oklch(0.05 0 0) 0%, oklch(0.18 0 0) 100%);
   --gradient-hero-foreground: oklch(0.99 0 0);
   --gradient-accent: linear-gradient(135deg, oklch(0.14 0 0), oklch(0.4 0 0));
-  --font-display: "Inter", sans-serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 3. Aurora Gradient — vivid cyan + fuchsia on dark navy */
@@ -221,7 +221,7 @@ html[data-theme="aurora"] {
   );
   --gradient-hero-foreground: oklch(0.98 0.005 270);
   --gradient-accent: linear-gradient(135deg, oklch(0.75 0.18 200), oklch(0.72 0.22 330));
-  --font-display: "Space Grotesk", sans-serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 4. Magazine Split — editorial cream + serif */
@@ -249,7 +249,7 @@ html[data-theme="magazine"] {
   --gradient-hero: linear-gradient(135deg, oklch(0.2 0.05 30) 0%, oklch(0.3 0.08 40) 100%);
   --gradient-hero-foreground: oklch(0.98 0.005 75);
   --gradient-accent: linear-gradient(135deg, oklch(0.55 0.18 35), oklch(0.65 0.18 60));
-  --font-display: "Playfair Display", "Space Grotesk", serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 5. Dark Noir — luxury black + warm gold */
@@ -277,7 +277,7 @@ html[data-theme="noir"] {
   --gradient-hero: linear-gradient(135deg, oklch(0.05 0 0) 0%, oklch(0.12 0.01 60) 100%);
   --gradient-hero-foreground: oklch(0.96 0.03 85);
   --gradient-accent: linear-gradient(135deg, oklch(0.82 0.14 85), oklch(0.88 0.14 90));
-  --font-display: "Space Grotesk", sans-serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 6. Cinema Reel — full-bleed dark cinematic */
@@ -305,7 +305,7 @@ html[data-theme="cinema"] {
   --gradient-hero: linear-gradient(135deg, oklch(0.03 0 0) 0%, oklch(0.1 0 0) 100%);
   --gradient-hero-foreground: oklch(0.99 0 0);
   --gradient-accent: linear-gradient(135deg, oklch(0.97 0 0), oklch(0.7 0 0));
-  --font-display: "Playfair Display", "Space Grotesk", serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 7. Pulse Split — modern tech with electric primary */
@@ -333,7 +333,7 @@ html[data-theme="pulse"] {
   --gradient-hero: linear-gradient(135deg, oklch(0.1 0.04 250) 0%, oklch(0.25 0.15 240) 100%);
   --gradient-hero-foreground: oklch(0.99 0.005 230);
   --gradient-accent: linear-gradient(135deg, oklch(0.55 0.22 250), oklch(0.7 0.2 200));
-  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 8. Terracotta Warm — sandstone + sage */
@@ -362,7 +362,7 @@ html[data-theme="terracotta"] {
   --gradient-hero-foreground: oklch(0.97 0.018 70);
   --gradient-accent: linear-gradient(135deg, oklch(0.55 0.13 35), oklch(0.6 0.1 140));
   --gradient-subtle: linear-gradient(180deg, oklch(0.97 0.018 70), oklch(0.94 0.03 75));
-  --font-display: "Playfair Display", serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 9. Glass Aurora — iridescent pastel */
@@ -390,7 +390,7 @@ html[data-theme="glass"] {
   --gradient-hero: linear-gradient(135deg, oklch(0.75 0.15 295) 0%, oklch(0.78 0.13 200) 100%);
   --gradient-hero-foreground: oklch(0.15 0.04 280);
   --gradient-accent: linear-gradient(135deg, oklch(0.72 0.18 320), oklch(0.72 0.18 200));
-  --font-display: "Space Grotesk", sans-serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 10. Brutalist Pop — yellow + black */
@@ -419,7 +419,7 @@ html[data-theme="brutalist"] {
   --gradient-hero: linear-gradient(135deg, oklch(0.95 0.18 100) 0%, oklch(0.92 0.18 95) 100%);
   --gradient-hero-foreground: oklch(0.1 0 0);
   --gradient-accent: linear-gradient(135deg, oklch(0.1 0 0), oklch(0.3 0 0));
-  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-display: "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 @layer base {

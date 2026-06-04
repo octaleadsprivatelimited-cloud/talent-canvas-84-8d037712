@@ -111,7 +111,7 @@ function ServicesPage() {
             </div>
             <h1 className="text-5xl font-light leading-[0.9] tracking-tighter text-foreground md:text-7xl lg:text-8xl">
               Our{" "}
-              <span className="italic" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span className="italic">
                 Service
               </span>{" "}
               Practices
@@ -171,7 +171,6 @@ function ServicesPage() {
                   <div className="flex-1">
                     <h2
                       className="text-3xl font-medium tracking-tight text-foreground transition-transform duration-500 ease-out group-hover:translate-x-4 md:text-5xl lg:text-6xl"
-                      style={{ fontFamily: "'Playfair Display', serif" }}
                     >
                       {s.title}
                     </h2>
