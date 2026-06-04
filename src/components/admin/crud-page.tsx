@@ -93,7 +93,7 @@ export function CrudPage<T extends Row>({
             : (v ?? []);
       else if (f.type === "json") {
         try {
-          payload[f.key] = typeof v === "string" ? JSON.parse(v || "null") : v;
+          payload[f.key] = typeof v === "string" ? JSON.parse(v || "null") : (v ?? null);
         } catch {
           toast.error(`${f.label} must be valid JSON`);
           return;
