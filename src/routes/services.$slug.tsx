@@ -453,8 +453,8 @@ function ServiceDetail() {
                 Engage
               </span>
             </div>
-            <h3 className="text-2xl font-medium text-foreground" style={serif}>
-              Start a <span className="italic text-muted-foreground">conversation</span>
+            <h3 className="text-2xl font-semibold text-foreground">
+              Start a conversation
             </h3>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               Share your hiring or workforce need — a Virelix consultant will respond within one

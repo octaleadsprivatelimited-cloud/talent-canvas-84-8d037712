@@ -534,8 +534,8 @@ function IndustryDetailComponent() {
                 Engage Practice
               </span>
             </div>
-            <h3 className="text-2xl font-medium text-foreground" style={serif}>
-              Talk with a <span className="italic text-muted-foreground">specialist</span>
+            <h3 className="text-2xl font-semibold text-foreground">
+              Talk with a specialist
             </h3>
             <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
               Speak directly with a lead partner who coordinates client engagements and candidate
