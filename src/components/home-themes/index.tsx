@@ -68,9 +68,18 @@ function EditorialHero() {
   ];
   return (
     <section id="hero" className="relative snap-start overflow-hidden bg-gradient-hero">
+      {/* Background Image */}
+      <div className="absolute inset-0 pointer-events-none select-none z-0">
+        <img
+          src="/hero-bg.jpg"
+          alt=""
+          className="h-full w-full object-cover opacity-[0.14] mix-blend-luminosity filter blur-[0.5px]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/90" />
+      </div>
       <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:64px_64px]" />
-      <div className="absolute -right-32 -top-32 h-96 w-96 bg-accent/20 blur-3xl" />
-      <div className="container relative mx-auto px-4 pb-0 pt-16 md:pt-24">
+      <div className="absolute -right-32 -top-32 h-96 w-96 bg-accent/20 blur-3xl z-0" />
+      <div className="container relative mx-auto px-4 pb-0 pt-16 md:pt-24 z-10">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-6">
             <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
