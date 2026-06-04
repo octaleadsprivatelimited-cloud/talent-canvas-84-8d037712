@@ -76,7 +76,7 @@ function EditorialHero() {
           muted
           loop
           playsInline
-          className="h-full w-full object-cover opacity-[0.55]"
+          className="h-full w-full object-contain md:object-cover opacity-[0.55]"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/70" />
       </div>
