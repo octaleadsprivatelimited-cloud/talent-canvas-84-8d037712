@@ -242,7 +242,7 @@ function ServiceDetail() {
   return (
     <main className="min-h-screen bg-background relative overflow-hidden">
       {/* Background watermark */}
-      <div className="absolute inset-0 -z-10 h-[65vh] w-full overflow-hidden opacity-[0.04] dark:opacity-[0.07] pointer-events-none">
+      <div className="absolute inset-0 -z-10 h-[65vh] w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
         <img
           src={img.src}
           srcSet={img.srcSet}

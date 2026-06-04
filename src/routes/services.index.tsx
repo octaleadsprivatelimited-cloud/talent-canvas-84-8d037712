@@ -155,7 +155,7 @@ function ServicesPage() {
                   }`}
                 />
                 {/* Mobile/Tablet backdrop image */}
-                <div className="absolute inset-0 z-0 opacity-[0.03] dark:opacity-[0.06] transition-opacity duration-500 lg:hidden group-hover:opacity-[0.08]">
+                <div className="absolute inset-0 z-0 opacity-[0.10] dark:opacity-[0.18] transition-opacity duration-500 lg:hidden group-hover:opacity-[0.16]">
                   <img
                     src={img.src}
                     alt=""

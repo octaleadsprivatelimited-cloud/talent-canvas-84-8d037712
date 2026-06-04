@@ -381,7 +381,7 @@ function Index() {
         className="relative w-full snap-start py-20 md:py-28 overflow-hidden"
       >
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -445,7 +445,7 @@ function Index() {
                   return getServiceImage(slugs[activeService]).src;
                 })()}
                 alt=""
-                className="h-full w-full object-cover opacity-[0.04] dark:opacity-[0.07] mix-blend-luminosity filter blur-[1px] transition-all duration-700 group-hover:scale-105"
+                className="h-full w-full object-cover opacity-[0.15] dark:opacity-[0.25] mix-blend-luminosity filter blur-[1px] transition-all duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-card" />
             </div>
@@ -510,7 +510,7 @@ function Index() {
       {/* ============== IMAGE + INDUSTRIES SPLIT ============== */}
       <section id="industries" className="relative w-full snap-start bg-surface py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -567,7 +567,7 @@ function Index() {
       {/* ============== PROCESS ============== */}
       <section id="process" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -624,7 +624,7 @@ function Index() {
         className="relative w-full snap-start py-20 md:py-28 border-t border-border overflow-hidden"
       >
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -674,7 +674,7 @@ function Index() {
         className="relative w-full snap-start bg-foreground text-background py-20 md:py-28 overflow-hidden"
       >
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.08] pointer-events-none">
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.18] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -770,7 +770,7 @@ function Index() {
       {/* ============== TESTIMONIALS ============== */}
       <section id="testimonials" className="relative w-full snap-start bg-surface py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1920&q=70"
             alt=""
@@ -816,7 +816,7 @@ function Index() {
       {/* ============== CTA ============== */}
       <section id="cta" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.02] dark:opacity-[0.04] pointer-events-none">
+        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden opacity-[0.10] dark:opacity-[0.18] pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1920&q=70"
             alt=""
