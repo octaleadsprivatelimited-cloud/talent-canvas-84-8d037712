@@ -14,7 +14,7 @@ export const Route = createFileRoute("/admin/seo")({
 
 const PAGES = [
   { key: "home", label: "Home", path: "/" },
-  { key: "about", label: "About", path: "/about" },
+  { key: "about", label: "Who We Are", path: "/who-we-are" },
   { key: "services", label: "Services", path: "/services" },
   { key: "industries", label: "Industries", path: "/industries" },
   { key: "team", label: "Team", path: "/team" },

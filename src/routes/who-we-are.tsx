@@ -5,20 +5,20 @@ import { supabase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute("/who-we-are")({
   head: () => ({
     meta: [
-      { title: "About Us" },
+      { title: "Who We Are" },
       {
         name: "description",
         content: "Our mission, values, and how we work with companies to build leadership teams.",
       },
     ],
   }),
-  component: AboutPage,
+  component: WhoWeArePage,
 });
 
-function AboutPage() {
+function WhoWeArePage() {
   const { data: page } = useQuery({
     queryKey: ["page_content", "about"],
     queryFn: async () => {
@@ -43,7 +43,7 @@ function AboutPage() {
     },
   });
 
-  const title = (page?.title as string) ?? "About us";
+  const title = (page?.title as string) ?? "Who we are";
   const intro = (page?.intro as string) ?? "";
   const mission = (page?.mission as string) ?? "";
   const values = (page?.values as string[]) ?? [];
@@ -59,7 +59,7 @@ function AboutPage() {
     <>
       <DynamicSeo
         pageKey="about"
-        fallbackTitle="About Us"
+        fallbackTitle="Who We Are"
         fallbackDescription="Our mission, values, and how we work with companies to build leadership teams."
       />
       <PageHero eyebrow="Our story" title={title} subtitle={intro} />

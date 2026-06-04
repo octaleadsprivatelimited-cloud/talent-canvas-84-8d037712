@@ -12,7 +12,7 @@ const navItems = [
   { to: "/services", label: "Services" },
   { to: "/industries", label: "Industries" },
   { to: "/case-studies", label: "Case Studies" },
-  { to: "/about", label: "About" },
+  { to: "/who-we-are", label: "Who We Are" },
   { to: "/insights", label: "Insights" },
   { to: "/contact", label: "Contact" },
 ] as const;

@@ -63,7 +63,7 @@ export function Footer() {
           <FooterCol
             title="Company"
             links={[
-              { to: "/about", label: "About" },
+              { to: "/who-we-are", label: "Who We Are" },
               { to: "/team", label: "Team" },
               { to: "/case-studies", label: "Case Studies" },
               { to: "/insights", label: "Insights" },
