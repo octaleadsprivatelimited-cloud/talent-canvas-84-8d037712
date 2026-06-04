@@ -75,7 +75,6 @@ function EditorialHero() {
           alt=""
           className="h-full w-full object-cover opacity-[0.14] mix-blend-luminosity filter blur-[0.5px]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/90" />
       </div>
       <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:64px_64px]" />
       <div className="absolute -right-32 -top-32 h-96 w-96 bg-accent/20 blur-3xl z-0" />
