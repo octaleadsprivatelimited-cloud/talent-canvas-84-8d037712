@@ -338,19 +338,8 @@ function IndustryDetailComponent() {
                   {industry.label} Practice
                 </span>
               </div>
-              <h1
-                className="text-4xl font-medium leading-[0.95] tracking-tight text-foreground md:text-6xl lg:text-7xl"
-                style={serif}
-              >
-                {detail.hero_title.split(" ").map((word, i, arr) =>
-                  i === Math.floor(arr.length / 2) ? (
-                    <span key={i} className="italic text-muted-foreground">
-                      {word}{" "}
-                    </span>
-                  ) : (
-                    <span key={i}>{word} </span>
-                  ),
-                )}
+              <h1 className="text-4xl font-semibold leading-[0.95] tracking-tight text-foreground md:text-6xl lg:text-7xl">
+                {detail.hero_title}
               </h1>
               <p className="mt-8 max-w-xl border-l border-border/80 pl-6 text-base leading-relaxed text-muted-foreground md:text-lg">
                 {detail.hero_subtitle || industry.description}

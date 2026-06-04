@@ -110,11 +110,7 @@ function ServicesPage() {
               </span>
             </div>
             <h1 className="text-5xl font-light leading-[0.9] tracking-tighter text-foreground md:text-7xl lg:text-8xl">
-              Our{" "}
-              <span className="italic">
-                Service
-              </span>{" "}
-              Practices
+              Our Service Practices
             </h1>
           </div>
           <p className="max-w-xs border-l border-border pl-6 text-base leading-relaxed text-muted-foreground md:pl-8 md:text-lg">
