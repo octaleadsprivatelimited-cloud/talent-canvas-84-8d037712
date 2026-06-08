@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabaseAny } from "@/lib/supabase-any";
+import { uploadImage } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { THEMES, type ThemeKey } from "@/components/home-themes";
-import { Check } from "lucide-react";
+import { Check, Upload, X, Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/site-settings")({
   component: SiteSettingsAdmin,
@@ -27,8 +28,6 @@ const FIELDS: { key: string; label: string; type?: "textarea" }[] = [
   { key: "primary_color", label: "Primary color (CSS)" },
   { key: "accent_color", label: "Accent color (CSS)" },
   { key: "footer_about", label: "Footer about text", type: "textarea" },
-  { key: "hero_video_url", label: "Hero video URL (MP4/WebM) — used by Cinema & Pulse themes" },
-  { key: "hero_video_poster_url", label: "Hero video poster image URL (fallback while video loads)" },
 ];
 
 function SiteSettingsAdmin() {
@@ -202,6 +201,9 @@ function SiteSettingsAdmin() {
         </div>
       </section>
 
+      {/* ============= HERO MEDIA UPLOADER ============= */}
+      <HeroMediaSection row={row} setRow={setRow} onPersist={persist} />
+
       {/* ============= OTHER FIELDS ============= */}
       <div className="mt-8 space-y-4">
         {FIELDS.map((f) => (
@@ -223,6 +225,190 @@ function SiteSettingsAdmin() {
         ))}
         <Button onClick={save}>Save settings</Button>
       </div>
+    </div>
+  );
+}
+
+// ============================================================
+// Hero Media Uploader — video + poster image
+// ============================================================
+type Row = Record<string, string>;
+
+function HeroMediaSection({
+  row,
+  setRow,
+  onPersist,
+}: {
+  row: Row;
+  setRow: (r: Row) => void;
+  onPersist: (r: Row) => Promise<boolean>;
+}) {
+  return (
+    <section className="mt-8 rounded-lg border border-border bg-surface/40 p-5">
+      <div>
+        <Label className="text-base font-semibold">Hero Media</Label>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Upload a background video for the <span className="font-semibold">Cinema</span> and{" "}
+          <span className="font-semibold">Pulse</span> themes. The poster image shows while the
+          video loads (and on devices that block autoplay).
+        </p>
+      </div>
+
+      <div className="mt-5 grid gap-5 sm:grid-cols-2">
+        <MediaUploader
+          label="Hero video (MP4 / WebM)"
+          accept="video/mp4,video/webm,video/quicktime"
+          folder="hero-video"
+          field="hero_video_url"
+          kind="video"
+          row={row}
+          setRow={setRow}
+          onPersist={onPersist}
+          maxMB={50}
+        />
+        <MediaUploader
+          label="Poster image (fallback)"
+          accept="image/jpeg,image/png,image/webp"
+          folder="hero-poster"
+          field="hero_video_poster_url"
+          kind="image"
+          row={row}
+          setRow={setRow}
+          onPersist={onPersist}
+          maxMB={5}
+        />
+      </div>
+    </section>
+  );
+}
+
+function MediaUploader({
+  label,
+  accept,
+  folder,
+  field,
+  kind,
+  row,
+  setRow,
+  onPersist,
+  maxMB,
+}: {
+  label: string;
+  accept: string;
+  folder: string;
+  field: string;
+  kind: "video" | "image";
+  row: Row;
+  setRow: (r: Row) => void;
+  onPersist: (r: Row) => Promise<boolean>;
+  maxMB: number;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+  const url = row[field] ?? "";
+
+  const handleFile = async (file: File) => {
+    if (file.size > maxMB * 1024 * 1024) {
+      toast.error(`File too large — keep under ${maxMB} MB`);
+      return;
+    }
+    setBusy(true);
+    try {
+      const uploadedUrl = await uploadImage(file, folder);
+      const next = { ...row, [field]: uploadedUrl };
+      setRow(next);
+      if (await onPersist(next)) toast.success(`${label} uploaded`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setBusy(false);
+      if (inputRef.current) inputRef.current.value = "";
+    }
+  };
+
+  const handleClear = async () => {
+    const next = { ...row, [field]: "" };
+    setRow(next);
+    if (await onPersist(next)) toast.success(`${label} removed`);
+  };
+
+  return (
+    <div className="space-y-2">
+      <Label className="text-sm font-semibold">{label}</Label>
+
+      {url ? (
+        <div className="overflow-hidden rounded-md border border-border bg-muted">
+          {kind === "video" ? (
+            <video
+              src={url}
+              controls
+              playsInline
+              className="aspect-video w-full bg-black object-cover"
+            />
+          ) : (
+            <img
+              src={url}
+              alt={`${label} preview`}
+              className="aspect-video w-full object-cover"
+            />
+          )}
+        </div>
+      ) : (
+        <div className="flex aspect-video w-full items-center justify-center rounded-md border border-dashed border-border bg-muted/40 text-xs text-muted-foreground">
+          No {kind} uploaded
+        </div>
+      )}
+
+      <input
+        ref={inputRef}
+        type="file"
+        accept={accept}
+        className="hidden"
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) void handleFile(f);
+        }}
+      />
+
+      <div className="flex flex-wrap items-center gap-2">
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          disabled={busy}
+          onClick={() => inputRef.current?.click()}
+        >
+          {busy ? (
+            <>
+              <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> Uploading…
+            </>
+          ) : (
+            <>
+              <Upload className="mr-1.5 h-3.5 w-3.5" />
+              {url ? "Replace" : "Upload"}
+            </>
+          )}
+        </Button>
+        {url && (
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            disabled={busy}
+            onClick={handleClear}
+          >
+            <X className="mr-1.5 h-3.5 w-3.5" /> Remove
+          </Button>
+        )}
+        <span className="text-[11px] text-muted-foreground">Max {maxMB} MB</span>
+      </div>
+
+      <Input
+        value={url}
+        placeholder="…or paste a URL"
+        onChange={(e) => setRow({ ...row, [field]: e.target.value })}
+        onBlur={() => void onPersist(row)}
+      />
     </div>
   );
 }
