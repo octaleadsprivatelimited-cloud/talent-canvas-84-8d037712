@@ -301,7 +301,6 @@ function AuroraHero() {
         />
       </div>
 
-
       <div className="container relative mx-auto px-4 pt-20 pb-16 md:pt-28">
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-medium backdrop-blur-md">

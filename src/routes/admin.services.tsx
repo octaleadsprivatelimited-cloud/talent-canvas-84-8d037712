@@ -12,6 +12,7 @@ export const Route = createFileRoute("/admin/services")({
         { key: "title", label: "Title", required: true },
         { key: "slug", label: "Slug", required: true, placeholder: "executive-search" },
         { key: "icon", label: "Icon (lucide name)", placeholder: "Crown" },
+        { key: "image_url", label: "Service Image" },
         { key: "summary", label: "Summary", type: "textarea", rows: 2 },
         { key: "body", label: "Body", type: "textarea", rows: 8 },
         { key: "features", label: "Features (comma-separated)", type: "array" },

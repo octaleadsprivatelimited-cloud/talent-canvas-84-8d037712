@@ -13,6 +13,7 @@ type Service = {
   summary: string | null;
   icon: string | null;
   features: string[] | null;
+  image_url?: string | null;
 };
 
 const servicesQuery = queryOptions({
@@ -20,7 +21,7 @@ const servicesQuery = queryOptions({
   queryFn: async (): Promise<Service[]> => {
     const { data } = await firebase
       .from("services")
-      .select("id,slug,title,summary,icon,features")
+      .select("id,slug,title,summary,icon,features,image_url")
       .eq("published", true)
       .order("sort_order");
     return (data as Service[] | null) ?? [];
@@ -122,7 +123,9 @@ function ServicesPage() {
         {/* Editorial List */}
         <div className="border-t border-border">
           {data.map((s, i) => {
-            const img = getServiceImage(s.slug);
+            const img = s.image_url
+              ? { src: s.image_url, srcSet: undefined }
+              : getServiceImage(s.slug);
             const num = String(i + 1).padStart(2, "0");
             const variant = IMAGE_VARIANTS[i % IMAGE_VARIANTS.length];
             const bg = BG_VARIANTS[i % BG_VARIANTS.length];

@@ -22,6 +22,7 @@ type Service = {
   body: string | null;
   icon: string | null;
   features: string[] | null;
+  image_url?: string | null;
 };
 
 const serviceQuery = (slug: string) =>
@@ -30,7 +31,7 @@ const serviceQuery = (slug: string) =>
     queryFn: async (): Promise<Service | null> => {
       const { data } = await firebase
         .from("services")
-        .select("id,slug,title,summary,body,icon,features")
+        .select("id,slug,title,summary,body,icon,features,image_url")
         .eq("slug", slug)
         .eq("published", true)
         .maybeSingle();
@@ -247,7 +248,9 @@ function ServiceDetail() {
     return false;
   });
 
-  const img = getServiceImage(data.slug);
+  const img = data.image_url
+    ? { src: data.image_url, srcSet: undefined }
+    : getServiceImage(data.slug);
   const serif = {};
 
   return (
