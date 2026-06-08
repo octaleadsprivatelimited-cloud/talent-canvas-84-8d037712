@@ -24,6 +24,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   const brand = site?.brand_name ?? "Virelix Consulting";
+  const logoUrl = site?.logo_url;
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/50 glass">
@@ -32,9 +33,17 @@ export function Header() {
           to="/"
           className="group flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight"
         >
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-hero shadow-glow transition-transform duration-300 group-hover:scale-105">
-            <Briefcase className="h-4 w-4 text-primary-foreground" strokeWidth={2.5} />
-          </div>
+          {logoUrl ? (
+            <img
+              src={logoUrl}
+              alt={`${brand} logo`}
+              className="h-9 w-9 rounded-xl object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          ) : (
+            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-hero shadow-glow transition-transform duration-300 group-hover:scale-105">
+              <Briefcase className="h-4 w-4 text-primary-foreground" strokeWidth={2.5} />
+            </div>
+          )}
           <span className="text-gradient">{brand}</span>
         </Link>
 

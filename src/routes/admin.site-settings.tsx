@@ -18,7 +18,6 @@ export const Route = createFileRoute("/admin/site-settings")({
 const FIELDS: { key: string; label: string; type?: "textarea" }[] = [
   { key: "brand_name", label: "Brand name" },
   { key: "tagline", label: "Tagline" },
-  { key: "logo_url", label: "Logo URL" },
   { key: "contact_email", label: "Contact email" },
   { key: "contact_phone", label: "Contact phone" },
   { key: "address", label: "Address" },
@@ -198,6 +197,30 @@ function SiteSettingsAdmin() {
           <p className="text-xs text-muted-foreground">
             Preview is local to your browser until you save.
           </p>
+        </div>
+      </section>
+
+      {/* ============= LOGO UPLOADER ============= */}
+      <section className="mt-8 rounded-lg border border-border bg-surface/40 p-5">
+        <div>
+          <Label className="text-base font-semibold">Brand Logo</Label>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Upload your logo (SVG, PNG, or WebP recommended). Shown in the header next to the brand
+            name. Transparent backgrounds work best.
+          </p>
+        </div>
+        <div className="mt-5 max-w-sm">
+          <MediaUploader
+            label="Logo image"
+            accept="image/svg+xml,image/png,image/webp,image/jpeg"
+            folder="brand-logo"
+            field="logo_url"
+            kind="image"
+            row={row}
+            setRow={setRow}
+            onPersist={persist}
+            maxMB={2}
+          />
         </div>
       </section>
 
