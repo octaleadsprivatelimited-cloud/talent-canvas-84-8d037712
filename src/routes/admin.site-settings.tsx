@@ -18,7 +18,6 @@ export const Route = createFileRoute("/admin/site-settings")({
 const FIELDS: { key: string; label: string; type?: "textarea" }[] = [
   { key: "brand_name", label: "Brand name" },
   { key: "tagline", label: "Tagline" },
-  { key: "logo_url", label: "Logo URL" },
   { key: "contact_email", label: "Contact email" },
   { key: "contact_phone", label: "Contact phone" },
   { key: "address", label: "Address" },
