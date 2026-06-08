@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabaseAny } from "@/lib/supabase-any";
+import { uploadImage } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { THEMES, type ThemeKey } from "@/components/home-themes";
-import { Check } from "lucide-react";
+import { Check, Upload, X, Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/site-settings")({
   component: SiteSettingsAdmin,
