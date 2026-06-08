@@ -201,6 +201,9 @@ function SiteSettingsAdmin() {
         </div>
       </section>
 
+      {/* ============= HERO MEDIA UPLOADER ============= */}
+      <HeroMediaSection row={row} setRow={setRow} onPersist={persist} />
+
       {/* ============= OTHER FIELDS ============= */}
       <div className="mt-8 space-y-4">
         {FIELDS.map((f) => (
