@@ -12,20 +12,23 @@ export function useIsAdmin() {
       setIsAdmin(false);
       return;
     }
+    // Look up user_roles document by the user's UID as the document ID.
+    // This aligns with Firestore rules that check exists(/user_roles/$(request.auth.uid)).
     firebase
       .from("user_roles")
       .select("role")
-      .eq("user_id", user.id)
-      .eq("role", "admin")
+      .eq("id", user.id)
       .maybeSingle()
-      .then(async ({ data }) => {
-        if (data) {
+      .then(async ({ data }: { data: any }) => {
+        if (data && data.role === "admin") {
           setIsAdmin(true);
         } else {
           // If there are no role records at all in the database, auto-promote the first user.
           const { data: allRoles } = await firebase.from("user_roles").select("id").limit(1);
           if (allRoles && allRoles.length === 0) {
+            // Insert with the user's UID as the document ID
             await firebase.from("user_roles").insert({
+              id: user.id,
               user_id: user.id,
               role: "admin",
             });

@@ -7,6 +7,7 @@ service cloud.firestore {
     }
 
     // Helper function to check if the user is an admin
+    // Expects user_roles documents to use the user's UID as the document ID
     function isAdmin() {
       return isAuthenticated() && 
         exists(/databases/$(database)/documents/user_roles/$(request.auth.uid)) &&
@@ -63,20 +64,20 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
-    // User roles rules
+
+    // User roles: document ID must equal the user's auth UID
     match /user_roles/{userId} {
-      // Users can read their own roles; admins can read all roles
+      // Any authenticated user can read their own role; admins can read all
       allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
-      // Only admins can write, or if no roles exist at all (auto-promotion logic for the first user)
-      allow write: if isAdmin() || (isAuthenticated() && !exists(/databases/$(database)/documents/user_roles/$(userId)));
+      // A user can create their own role document only if it doesn't exist yet
+      // (first-user auto-promotion). Admins can write any role document.
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update, delete: if isAdmin();
     }
-    
+
     // Contact submissions
     match /submissions/{document} {
-      // Anyone can submit contact forms
       allow create: if true;
-      // Only admins can read or manage submissions
       allow read, update, delete: if isAdmin();
     }
   }

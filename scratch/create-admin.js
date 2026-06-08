@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
@@ -35,18 +35,19 @@ const run = async () => {
     }
   }
 
-  // Check if role already exists in user_roles
-  const q = query(collection(db, "user_roles"), where("user_id", "==", userId));
-  const querySnapshot = await getDocs(q);
+  // Use the user's UID as the document ID in user_roles
+  // This aligns with Firestore security rules that check exists(/user_roles/$(request.auth.uid))
+  const roleDocRef = doc(db, "user_roles", userId);
+  const roleDoc = await getDoc(roleDocRef);
 
-  if (querySnapshot.empty) {
-    const docRef = await addDoc(collection(db, "user_roles"), {
+  if (!roleDoc.exists()) {
+    await setDoc(roleDocRef, {
       user_id: userId,
       role: "admin",
     });
-    console.log("Assigned admin role in document:", docRef.id);
+    console.log("Assigned admin role in document:", userId);
   } else {
-    console.log("Admin role already assigned.");
+    console.log("Admin role already assigned:", roleDoc.data());
   }
 };
 
