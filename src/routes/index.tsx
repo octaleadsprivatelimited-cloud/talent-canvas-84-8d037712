@@ -400,7 +400,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
-        <div className="container mx-auto flex min-h-[80vh] flex-col justify-center px-4 relative z-10">
+        <div className="container mx-auto flex min-h-[60vh] md:min-h-[80vh] flex-col justify-center px-4 relative z-10">
           <div className="grid gap-10 md:grid-cols-12 md:items-end">
             <div className="md:col-span-7">
               <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -426,7 +426,7 @@ function Index() {
                   <button
                     key={ds.title}
                     onClick={() => setActiveService(idx)}
-                    className={`group relative text-left py-4 px-6 border-l-2 -ml-[2px] transition duration-300 ${
+                    className={`group relative text-left py-3 px-4 sm:py-4 sm:px-6 border-l-2 -ml-[2px] transition duration-300 ${
                       isActive
                         ? "border-primary bg-surface/50 text-foreground font-semibold"
                         : "border-transparent text-muted-foreground hover:text-foreground hover:bg-surface/20"
@@ -447,7 +447,7 @@ function Index() {
               })}
             </div>
 
-            <div className="border border-border bg-card p-8 md:p-10 relative overflow-hidden transition-all duration-500 group">
+            <div className="border border-border bg-card p-5 sm:p-8 md:p-10 relative overflow-hidden transition-all duration-500 group">
               {/* Dynamic service background watermark */}
               <div className="absolute inset-0 -z-10 transition-opacity duration-700 pointer-events-none">
                 <img
@@ -535,7 +535,7 @@ function Index() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="relative lg:col-span-5">
-              <div className="absolute -left-4 -top-4 h-24 w-24 border-4 border-primary" />
+              <div className="absolute -left-2 -top-2 h-16 w-16 border-4 border-primary md:-left-4 md:-top-4 md:h-24 md:w-24" />
               <img
                 src="/industries-bg.jpg"
                 alt="Industries"
@@ -544,9 +544,9 @@ function Index() {
                 loading="lazy"
                 className="relative aspect-[4/5] w-full object-cover shadow-xl"
               />
-              <div className="absolute -bottom-6 -right-4 max-w-[220px] border-l-4 border-accent bg-background p-5 shadow-xl md:-right-8">
-                <p className="font-display text-2xl font-bold">{copy.industries_badge_value}</p>
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+              <div className="absolute -bottom-4 -right-2 max-w-[180px] border-l-4 border-accent bg-background p-3 shadow-xl sm:-bottom-6 sm:-right-4 sm:max-w-[220px] sm:p-5 md:-right-8">
+                <p className="font-display text-xl font-bold sm:text-2xl">{copy.industries_badge_value}</p>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground sm:text-xs">
                   {copy.industries_badge_label}
                 </p>
               </div>
@@ -690,28 +690,28 @@ function Index() {
                 compliance engineering, and operations management.
               </p>
 
-              <div className="mt-10 grid grid-cols-2 gap-8">
+              <div className="mt-10 grid grid-cols-2 gap-6 sm:gap-8">
                 <div>
-                  <h4 className="font-display text-5xl font-bold text-accent">24/7</h4>
-                  <p className="mt-2 text-xs uppercase tracking-wider text-background/60">
+                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">24/7</h4>
+                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
                     Continuous search operations
                   </p>
                 </div>
                 <div>
-                  <h4 className="font-display text-5xl font-bold text-accent">100%</h4>
-                  <p className="mt-2 text-xs uppercase tracking-wider text-background/60">
+                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">100%</h4>
+                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
                     Compliance & payroll coverage
                   </p>
                 </div>
                 <div>
-                  <h4 className="font-display text-5xl font-bold text-accent">30+</h4>
-                  <p className="mt-2 text-xs uppercase tracking-wider text-background/60">
+                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">30+</h4>
+                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
                     US States & Indian UTs served
                   </p>
                 </div>
                 <div>
-                  <h4 className="font-display text-5xl font-bold text-accent">15k+</h4>
-                  <p className="mt-2 text-xs uppercase tracking-wider text-background/60">
+                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">15k+</h4>
+                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
                     Candidates vetted annually
                   </p>
                 </div>

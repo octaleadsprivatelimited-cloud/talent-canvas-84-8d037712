@@ -122,7 +122,7 @@ function EditorialHero() {
   return (
     <section
       id="hero"
-      className="relative snap-start overflow-hidden bg-[#18182b] min-h-screen flex flex-col justify-between py-16 md:py-24"
+      className="relative snap-start overflow-hidden bg-[#18182b] min-h-[85dvh] md:min-h-screen flex flex-col justify-between py-12 md:py-24"
     >
       {/* Background Media */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
@@ -146,35 +146,35 @@ function EditorialHero() {
 
       <div className="container relative mx-auto px-4 z-10 my-auto">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
+          <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent">
             <span>Global Talent & Workforce Solutions</span>
             <span className="hidden h-px w-8 bg-accent/50 sm:block" />
             <span className="hidden text-white/60 sm:inline">Delaware, USA</span>
           </div>
-          <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tight text-white md:text-7xl lg:text-[5.5rem]">
+          <h1 className="mt-4 sm:mt-6 font-display text-4xl sm:text-5xl font-bold leading-[0.95] tracking-tight text-white md:text-7xl lg:text-[5.5rem]">
             Building
             <br />
             high-performing
             <br />
             <span className="relative inline-block">
               <span className="relative z-10 text-accent">teams.</span>
-              <span className="absolute -bottom-1 left-0 right-0 z-0 h-3 bg-accent/20" />
+              <span className="absolute -bottom-1 left-0 right-0 z-0 h-2 sm:h-3 bg-accent/20" />
             </span>
           </h1>
-          <p className="mt-8 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
+          <p className="mt-6 sm:mt-8 max-w-xl text-sm sm:text-base leading-relaxed text-white/80 md:text-lg">
             Virelix Consulting connects high-growth organizations with exceptional talent through
             strategic recruitment, workforce solutions, business consulting, and professional
             training — delivered across the USA and India.
           </p>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
             <Button
               size="lg"
               variant="secondary"
               asChild
-              className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
+              className="rounded-none px-5 sm:px-7 py-5 sm:py-6 text-sm sm:text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
             >
               <Link to="/contact">
-                Hire with Virelix <ArrowUpRight className="ml-1 h-5 w-5" />
+                Hire with Virelix <ArrowUpRight className="ml-1 h-4 sm:h-5 w-4 sm:w-5" />
               </Link>
             </Button>
             <Link
@@ -189,15 +189,15 @@ function EditorialHero() {
           </div>
         </div>
       </div>
-      <div className="mt-0 border-t border-white/10 bg-black/45 py-5 z-10">
-        <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-8 gap-y-3 px-4">
-          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
+      <div className="mt-0 border-t border-white/10 bg-black/45 py-4 sm:py-5 z-10">
+        <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-8 gap-y-2 sm:gap-y-3 px-4">
+          <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
             Trusted by
           </span>
           {clients.map((c) => (
             <span
               key={c}
-              className="font-display text-[10px] font-bold tracking-[0.18em] text-white/70 md:text-xs"
+              className="font-display text-[9px] sm:text-[10px] font-bold tracking-[0.18em] text-white/70 md:text-xs"
             >
               {c}
             </span>
@@ -288,7 +288,7 @@ function AuroraHero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen snap-start overflow-hidden bg-[#0a0a1f] text-white"
+      className="relative min-h-[85dvh] md:min-h-screen snap-start overflow-hidden bg-[#0a0a1f] text-white"
     >
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
         <video
@@ -301,23 +301,23 @@ function AuroraHero() {
         />
       </div>
 
-      <div className="container relative mx-auto px-4 pt-20 pb-16 md:pt-28">
+      <div className="container relative mx-auto px-4 pt-16 pb-12 md:pt-28">
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-medium backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5 text-fuchsia-300" /> Global Talent · USA + India
           </span>
-          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl">
+          <h1 className="mt-4 md:mt-6 font-display text-4xl sm:text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl">
             The talent platform for ambitious teams.
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-base text-white/70 md:text-lg">
+          <p className="mx-auto mt-4 md:mt-6 max-w-xl text-sm sm:text-base text-white/70 md:text-lg">
             Executive search, embedded RPO, and workforce consulting — wrapped in a delivery model
             that scales with you.
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-6 md:mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-white px-7 text-[#0a0a1f] hover:bg-white/90"
+              className="rounded-full bg-white px-6 sm:px-7 text-[#0a0a1f] hover:bg-white/90"
             >
               <Link to="/contact">
                 Get started <ArrowRight className="ml-1.5 h-4 w-4" />
@@ -327,20 +327,20 @@ function AuroraHero() {
               asChild
               size="lg"
               variant="outline"
-              className="rounded-full border-white/30 bg-white/5 px-7 text-white backdrop-blur hover:bg-white/15 hover:text-white"
+              className="rounded-full border-white/30 bg-white/5 px-6 sm:px-7 text-white backdrop-blur hover:bg-white/15 hover:text-white"
             >
               <Link to="/services">Explore services</Link>
             </Button>
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-2 gap-3 md:mt-20 md:grid-cols-4">
+        <div className="mt-10 md:mt-16 grid grid-cols-2 gap-3 md:grid-cols-4">
           {stats.map((s) => (
             <div
               key={s.label}
-              className="rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur-xl"
+              className="rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-5 backdrop-blur-xl"
             >
-              <p className="font-display text-3xl font-bold md:text-4xl">{s.value}</p>
+              <p className="font-display text-2xl sm:text-3xl font-bold md:text-4xl">{s.value}</p>
               <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/60">
                 {s.label}
               </p>
@@ -548,7 +548,7 @@ function CinemaHero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen snap-start overflow-hidden bg-black text-white"
+      className="relative min-h-[85dvh] md:min-h-screen snap-start overflow-hidden bg-black text-white"
     >
       <HeroVideo
         fallbackImg={themeCinema}
@@ -556,25 +556,25 @@ function CinemaHero() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black" />
       <div className="absolute inset-0 [background-image:linear-gradient(180deg,transparent_85%,rgba(0,0,0,0.6))]" />
-      <div className="container relative mx-auto flex min-h-screen flex-col justify-end px-4 pb-20 pt-32 md:pb-28">
+      <div className="container relative mx-auto flex min-h-[85dvh] md:min-h-screen flex-col justify-end px-4 pb-16 pt-28 md:pb-28">
         <div className="max-w-4xl">
           <span className="inline-flex items-center gap-2 border border-white/30 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.35em] text-white/90 backdrop-blur">
             <Play className="h-3 w-3 fill-white" /> Now Streaming · A Virelix Production
           </span>
-          <h1 className="mt-6 font-display text-6xl font-bold leading-[0.9] tracking-tight md:text-8xl lg:text-[7rem]">
+          <h1 className="mt-4 md:mt-6 font-display text-5xl sm:text-6xl font-bold leading-[0.9] tracking-tight md:text-8xl lg:text-[7rem]">
             <em className="font-serif italic">Talent,</em>
             <br />
             in motion.
           </h1>
-          <p className="mt-6 max-w-xl text-base text-white/75 md:text-lg">
+          <p className="mt-4 md:mt-6 max-w-xl text-sm sm:text-base text-white/75 md:text-lg">
             A cinematic look at how Virelix Consulting builds teams that move markets — shot across
             the USA and India.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-6 md:mt-8 flex flex-wrap items-center gap-4">
             <Button
               asChild
               size="lg"
-              className="rounded-none bg-white px-7 text-black hover:bg-white/90"
+              className="rounded-none bg-white px-6 sm:px-7 text-black hover:bg-white/90"
             >
               <Link to="/contact">
                 Book a screening <ArrowUpRight className="ml-1 h-4 w-4" />
@@ -588,10 +588,10 @@ function CinemaHero() {
             </Link>
           </div>
         </div>
-        <div className="mt-12 grid grid-cols-2 gap-px border-t border-white/15 pt-6 md:grid-cols-4">
+        <div className="mt-8 md:mt-12 grid grid-cols-2 gap-px border-t border-white/15 pt-6 md:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.label} className="px-2 py-4">
-              <p className="font-display text-3xl font-bold md:text-4xl">{s.value}</p>
+            <div key={s.label} className="px-2 py-3 sm:py-4">
+              <p className="font-display text-2xl sm:text-3xl font-bold md:text-4xl">{s.value}</p>
               <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">
                 {s.label}
               </p>
