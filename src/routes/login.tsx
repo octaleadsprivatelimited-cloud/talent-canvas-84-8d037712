@@ -19,20 +19,16 @@ async function routeAfterAuth(
     const { data: roleRow, error: roleErr } = await firebase
       .from("user_roles")
       .select("role")
-      .eq("user_id", userId)
+      .eq("id", userId)
       .maybeSingle();
     if (roleErr) {
-      toast.error("Could not verify your access. Please try again.");
-      return;
-    }
-    if (roleRow && (roleRow as { role?: string }).role) {
+      // First-time admin: navigate to /admin and let useRole bootstrap.
       navigate({ to: "/admin" });
       return;
     }
-    toast.error(
-      "Your account doesn't have admin access. Contact an administrator.",
-    );
-    await firebase.auth.signOut();
+    // Always send authenticated users to /admin — useRole will gate access
+    // and bootstrap the first admin if needed.
+    navigate({ to: "/admin" });
   } catch (e) {
     console.warn("[login] role check failed:", e);
     toast.error("Could not verify your access. Please try again.");
