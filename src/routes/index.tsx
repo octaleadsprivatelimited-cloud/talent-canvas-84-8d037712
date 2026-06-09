@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HomeHero, type ThemeKey } from "@/components/home-themes";
-import { useSiteSettings } from "@/hooks/use-site-settings";
+import { useSiteSettings, getCachedHomeTheme } from "@/hooks/use-site-settings";
 import { usePageContent } from "@/hooks/use-page-content";
 import { HOMEPAGE_DEFAULTS } from "@/lib/homepage-defaults";
 import { useQuery } from "@tanstack/react-query";
@@ -387,7 +387,7 @@ function Index() {
       </nav>
 
       {/* ============== HERO (theme-driven) ============== */}
-      <HomeHero theme={(settings?.home_theme as ThemeKey) ?? "editorial"} />
+      <HomeHero theme={(settings?.home_theme as ThemeKey) ?? (getCachedHomeTheme() as ThemeKey) ?? "editorial"} />
 
       {/* ============== SERVICES ============== */}
       <section id="services" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">

@@ -20,13 +20,41 @@ export type SiteSettings = {
   hero_video_poster_url: string | null;
 };
 
+const CACHE_KEY = "site_settings_cache_v1";
+
+function readCache(): SiteSettings | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    return raw ? (JSON.parse(raw) as SiteSettings) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCache(data: SiteSettings | null) {
+  if (typeof window === "undefined") return;
+  try {
+    if (data) localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  } catch {
+    /* ignore */
+  }
+}
+
+export function getCachedHomeTheme(): string | null {
+  return readCache()?.home_theme ?? null;
+}
+
 export function useSiteSettings() {
   return useQuery({
     queryKey: ["site_settings"],
     queryFn: async () => {
       const { data } = await firebase.from("site_settings").select("*").limit(1).maybeSingle();
-      return data as SiteSettings | null;
+      const result = (data as SiteSettings | null) ?? null;
+      writeCache(result);
+      return result;
     },
+    initialData: () => readCache() ?? undefined,
     staleTime: 60_000,
   });
 }
