@@ -13,7 +13,6 @@ export const Route = createFileRoute("/admin/page-content")({
 });
 
 const PAGES = [
-  { key: "home", label: "Home Page", schema: ["hero_eyebrow", "hero_title", "hero_subtitle"] },
   {
     key: "about",
     label: "About Page",
