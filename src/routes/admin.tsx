@@ -61,6 +61,7 @@ function AdminLayout() {
   const navigate = useNavigate();
   const { role, loading, can, hasAdminAccess } = useRole();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -74,6 +75,16 @@ function AdminLayout() {
       navigate({ to: "/login" });
     }
   }, [hasAdminAccess, loading, navigate]);
+
+  // Fallback: if verification takes more than 6s, give the user a way out.
+  useEffect(() => {
+    if (!loading) {
+      setTimedOut(false);
+      return;
+    }
+    const t = setTimeout(() => setTimedOut(true), 6000);
+    return () => clearTimeout(t);
+  }, [loading]);
 
   // Close mobile nav when route changes
   useEffect(() => {
