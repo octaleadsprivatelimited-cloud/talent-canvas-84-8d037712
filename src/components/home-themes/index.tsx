@@ -208,222 +208,248 @@ function EditorialHero() {
 }
 
 /* =================================================================
-   2. MINIMAL MONO  — oversized type, black & white portrait
+   2. ADECCO BOLD — crimson banner + floating white CTA card
    ================================================================= */
 function MonoHero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen snap-start overflow-hidden bg-background text-foreground"
+      className="relative snap-start overflow-hidden bg-background text-foreground"
     >
-      <div className="container mx-auto grid min-h-screen gap-10 px-4 py-16 md:grid-cols-12 md:items-center md:py-24">
-        <div className="md:col-span-7">
-          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground">
-            — Virelix Consulting / 001
-          </p>
-          <h1 className="mt-6 font-display text-[clamp(3rem,10vw,8.5rem)] font-bold leading-[0.9] tracking-tighter">
-            Talent.
-            <br />
-            <span className="text-muted-foreground">Refined.</span>
-            <br />
-            Delivered.
-          </h1>
-          <div className="mt-10 max-w-md border-t border-foreground/15 pt-6 text-base text-muted-foreground">
-            A discreet, monochrome practice for executive search, RPO, and workforce solutions —
-            across the USA and India.
-          </div>
-          <div className="mt-8 flex flex-wrap items-center gap-6">
-            <Button
-              asChild
-              size="lg"
-              className="rounded-full bg-foreground px-7 text-background hover:bg-foreground/90"
-            >
-              <Link to="/contact">
-                Start a brief <ArrowRight className="ml-1.5 h-4 w-4" />
-              </Link>
-            </Button>
-            <Link to="/services" className="text-sm font-medium underline-offset-4 hover:underline">
-              View capabilities →
-            </Link>
-          </div>
-        </div>
-        <div className="md:col-span-5">
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden md:max-w-none">
-            <img
-              src={themeMono}
-              alt="Executive portrait"
-              width={1024}
-              height={1280}
-              className="h-full w-full grayscale object-cover"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background to-transparent p-6">
-              <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-foreground">
-                Est. 2008 · USA + IN
+      {/* Crimson top band */}
+      <div className="h-2 w-full bg-primary" />
+
+      <div className="relative">
+        {/* Hero photo */}
+        <div className="relative h-[70vh] min-h-[520px] w-full overflow-hidden md:h-[78vh]">
+          <img
+            src={themeMono}
+            alt="Confident professional"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+
+          {/* Floating white card */}
+          <div className="container relative mx-auto flex h-full items-center px-4">
+            <div className="w-full max-w-xl rounded-md bg-background p-6 shadow-2xl sm:p-10">
+              <h1 className="font-display text-3xl font-extrabold uppercase leading-[0.95] tracking-tight text-foreground sm:text-5xl md:text-6xl">
+                Looking for
+                <br />
+                a job?
+              </h1>
+              <p className="mt-4 text-sm text-muted-foreground sm:text-base">
+                Discover thousands of opportunities worldwide. Find your perfect match with
+                Virelix.
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="border-y border-foreground/10">
-        <div className="container mx-auto grid grid-cols-2 gap-px px-4 md:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="py-6">
-              <p className="font-display text-3xl font-bold md:text-4xl">{s.value}</p>
-              <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                {s.label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================
-   3. AURORA GRADIENT  — vivid gradient + glass cards
-   ================================================================= */
-function AuroraHero() {
-  return (
-    <section
-      id="hero"
-      className="relative min-h-[85dvh] md:min-h-screen snap-start overflow-hidden bg-[#0a0a1f] text-white"
-    >
-      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
-        <video
-          src="/aurora-bg.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="h-full w-full object-cover"
-        />
-      </div>
-
-      <div className="container relative mx-auto px-4 pt-16 pb-12 md:pt-28">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-medium backdrop-blur-md">
-            <Sparkles className="h-3.5 w-3.5 text-fuchsia-300" /> Global Talent · USA + India
-          </span>
-          <h1 className="mt-4 md:mt-6 font-display text-4xl sm:text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl">
-            The talent platform for ambitious teams.
-          </h1>
-          <p className="mx-auto mt-4 md:mt-6 max-w-xl text-sm sm:text-base text-white/70 md:text-lg">
-            Executive search, embedded RPO, and workforce consulting — wrapped in a delivery model
-            that scales with you.
-          </p>
-          <div className="mt-6 md:mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button
-              asChild
-              size="lg"
-              className="rounded-full bg-white px-6 sm:px-7 text-[#0a0a1f] hover:bg-white/90"
-            >
-              <Link to="/contact">
-                Get started <ArrowRight className="ml-1.5 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="rounded-full border-white/30 bg-white/5 px-6 sm:px-7 text-white backdrop-blur hover:bg-white/15 hover:text-white"
-            >
-              <Link to="/services">Explore services</Link>
-            </Button>
-          </div>
-        </div>
-
-        <div className="mt-10 md:mt-16 grid grid-cols-2 gap-3 md:grid-cols-4">
-          {stats.map((s) => (
-            <div
-              key={s.label}
-              className="rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-5 backdrop-blur-xl"
-            >
-              <p className="font-display text-2xl sm:text-3xl font-bold md:text-4xl">{s.value}</p>
-              <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/60">
-                {s.label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================
-   4. MAGAZINE SPLIT  — left text, full-bleed image right
-   ================================================================= */
-function MagazineHero() {
-  return (
-    <section id="hero" className="relative snap-start overflow-hidden bg-background">
-      <div className="grid min-h-screen gap-0 lg:grid-cols-2">
-        {/* LEFT */}
-        <div className="flex flex-col justify-between p-8 md:p-14 lg:p-20">
-          <div className="flex items-center justify-between">
-            <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">
-              Issue N° 24 · Talent Quarterly
-            </p>
-            <span className="hidden text-xs text-muted-foreground sm:inline">USA + India</span>
-          </div>
-
-          <div className="my-12">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary">Cover Story</p>
-            <h1 className="mt-4 font-display text-5xl font-bold leading-[1] tracking-tight md:text-6xl lg:text-7xl">
-              The new
-              <br />
-              <em className="font-serif italic text-primary">architecture</em>
-              <br />
-              of hiring.
-            </h1>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
-              Inside Virelix Consulting's playbook for executive search, embedded RPO, and workforce
-              design across two continents.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="rounded-none px-7">
-                <Link to="/contact">
-                  Read the brief <ArrowUpRight className="ml-1 h-4 w-4" />
-                </Link>
-              </Button>
               <Link
-                to="/services"
-                className="text-sm font-semibold uppercase tracking-wider text-foreground underline-offset-4 hover:underline"
+                to="/jobs"
+                className="mt-5 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary hover:underline"
               >
-                Table of contents →
+                Find a Job <ArrowRight className="h-4 w-4" />
               </Link>
+
+              <div className="mt-8 border-t border-border pt-6">
+                <h2 className="font-display text-2xl font-extrabold uppercase leading-[0.95] tracking-tight text-foreground sm:text-4xl md:text-5xl">
+                  Hiring talent?
+                </h2>
+                <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                  Join thousands of companies. Build your best team with us.
+                </p>
+                <Link
+                  to="/contact"
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary hover:underline"
+                >
+                  View Employer Services <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-border pt-6 md:grid-cols-4">
+        {/* Stats strip */}
+        <div className="border-t border-border bg-surface">
+          <div className="container mx-auto grid grid-cols-2 gap-px px-4 md:grid-cols-4">
             {stats.map((s) => (
-              <div key={s.label}>
-                <p className="font-display text-2xl font-bold md:text-3xl">{s.value}</p>
-                <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <div key={s.label} className="py-6">
+                <p className="font-display text-3xl font-extrabold text-primary md:text-4xl">
+                  {s.value}
+                </p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   {s.label}
                 </p>
               </div>
             ))}
           </div>
         </div>
-        {/* RIGHT */}
-        <div className="relative min-h-[60vh] overflow-hidden lg:min-h-screen">
+      </div>
+    </section>
+  );
+}
+
+/* =================================================================
+   3. BRIGHTER FUTURE — ManpowerGroup style blue→green gradient
+   ================================================================= */
+function AuroraHero() {
+  return (
+    <section
+      id="hero"
+      className="relative snap-start overflow-hidden text-white"
+      style={{
+        backgroundImage:
+          "linear-gradient(120deg, #1e4d8c 0%, #2d7fb8 35%, #4aa8a0 70%, #6ec07a 100%)",
+      }}
+    >
+      <div className="container relative mx-auto grid gap-10 px-4 py-16 md:grid-cols-12 md:items-center md:py-24">
+        <div className="md:col-span-7">
+          <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            A Brighter Future is
+            <br />
+            Humanly Possible
+          </h1>
+          <p className="mt-6 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base md:text-lg">
+            At Virelix, we believe meaningful, sustainable employment has the power to change the
+            world. When you combine talented people with innovative companies, you build a brighter
+            future for everyone.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <Button
+              asChild
+              size="lg"
+              className="rounded-full bg-[#e8721c] px-7 py-6 text-base font-semibold text-white shadow-lg hover:bg-[#d8631a]"
+            >
+              <Link to="/contact">
+                Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Link
+              to="/services"
+              className="text-sm font-semibold uppercase tracking-wider text-white/90 underline-offset-4 hover:underline"
+            >
+              What We Do →
+            </Link>
+          </div>
+        </div>
+
+        {/* Circular portrait */}
+        <div className="md:col-span-5">
+          <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-full ring-4 ring-white/20">
+            <img
+              src={themeAurora}
+              alt="Professional collaboration"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Talent shortage stat band */}
+      <div className="bg-white text-foreground">
+        <div className="container mx-auto grid gap-6 px-4 py-10 md:grid-cols-2 md:py-14">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
+              Employers are facing a talent shortage
+            </p>
+            <p className="mt-3 font-display text-5xl font-extrabold leading-none md:text-7xl">
+              74<span className="text-3xl md:text-5xl">%</span>{" "}
+              <span className="block text-2xl font-semibold text-muted-foreground md:inline md:text-3xl">
+                can't find the talent they need
+              </span>
+            </p>
+          </div>
+          <div className="flex items-center">
+            <p className="text-sm text-muted-foreground md:text-base">
+              Our expert teams across the USA and India connect millions of people to meaningful
+              work and hundreds of organizations to skilled talent — at scale.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =================================================================
+   4. VISA PATHWAY — Y-Axis style clean split with colored service tiles
+   ================================================================= */
+function MagazineHero() {
+  const tiles = [
+    { label: "Study", to: "/services", color: "#f5b800", text: "#1a1a1a" },
+    { label: "Migrate", to: "/services", color: "#8e3fb3", text: "#ffffff" },
+    { label: "Work", to: "/jobs", color: "#1ba1a8", text: "#ffffff" },
+    { label: "Visit", to: "/contact", color: "#6ab04c", text: "#ffffff" },
+  ];
+  return (
+    <section id="hero" className="relative snap-start overflow-hidden bg-background text-foreground">
+      {/* Top colored strip (mimics Y-Axis nav underlines) */}
+      <div className="flex h-1.5 w-full">
+        <span className="flex-1 bg-[#e8482a]" />
+        <span className="flex-1 bg-[#8e3fb3]" />
+        <span className="flex-1 bg-[#1ba1a8]" />
+        <span className="flex-1 bg-[#6ab04c]" />
+        <span className="flex-1 bg-[#f5b800]" />
+      </div>
+
+      <div className="grid min-h-[80vh] gap-0 lg:grid-cols-2">
+        {/* LEFT: photo + overlay */}
+        <div className="relative min-h-[420px] overflow-hidden">
           <img
             src={themeMagazine}
-            alt="Boardroom collaboration"
-            width={1600}
-            height={1024}
+            alt="Global opportunity"
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-transparent" />
-          <div className="absolute bottom-6 left-6 right-6 rounded-lg border border-white/20 bg-black/40 p-4 text-white backdrop-blur-md md:bottom-10 md:left-10 md:right-10 md:p-6">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-200">
-              <Star className="h-3.5 w-3.5 fill-amber-200" /> Featured
-            </div>
-            <p className="mt-2 font-display text-lg font-semibold md:text-xl">
-              "Virelix feels like an extension of our hiring team."
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-6 text-white md:p-10">
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#f5b800]">
+              Evaluation Systems · Free · 60 seconds
             </p>
-            <p className="mt-1 text-xs text-white/70">VP Operations, Financial Services Client</p>
+            <p className="mt-3 font-display text-3xl font-bold leading-tight md:text-5xl">
+              Can you migrate?
+              <br />
+              <span className="text-white/90">Find out free in 60 seconds.</span>
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="mt-5 rounded-md bg-[#e8482a] px-6 text-white hover:bg-[#d23e22]"
+            >
+              <Link to="/contact">
+                Check my eligibility <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+
+        {/* RIGHT: question + tile grid */}
+        <div className="flex flex-col justify-center p-8 md:p-14 lg:p-20">
+          <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            What can we do for you today?
+          </h1>
+          <p className="mt-4 max-w-md text-sm text-muted-foreground md:text-base">
+            Choose your pathway. Virelix guides talent across study, migration, work, and visit
+            opportunities — globally.
+          </p>
+
+          <div className="mt-8 grid grid-cols-2 gap-4">
+            {tiles.map((t) => (
+              <Link
+                key={t.label}
+                to={t.to}
+                className="group flex aspect-[2/1] items-center justify-center rounded-md p-6 font-display text-2xl font-bold transition-transform hover:-translate-y-1 md:text-3xl"
+                style={{ backgroundColor: t.color, color: t.text }}
+              >
+                {t.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-8 flex items-center gap-3 border-t border-border pt-6">
+            <Zap className="h-5 w-5 text-[#e8482a]" />
+            <p className="text-sm font-medium text-foreground">
+              Don't know what to do?{" "}
+              <Link to="/contact" className="text-[#e8482a] underline-offset-4 hover:underline">
+                Get free counselling
+              </Link>
+            </p>
           </div>
         </div>
       </div>
