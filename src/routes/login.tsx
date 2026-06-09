@@ -19,10 +19,11 @@ async function routeAfterAuth(
     const { data: roleRow, error: roleErr } = await firebase
       .from("user_roles")
       .select("role")
-      .eq("user_id", userId)
+      .eq("id", userId)
       .maybeSingle();
     if (roleErr) {
-      toast.error("Could not verify your access. Please try again.");
+      // First-time admin: navigate to /admin and let useRole bootstrap.
+      navigate({ to: "/admin" });
       return;
     }
     if (roleRow && (roleRow as { role?: string }).role) {
