@@ -535,7 +535,7 @@ function Index() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="relative lg:col-span-5">
-              <div className="absolute -left-4 -top-4 h-24 w-24 border-4 border-primary" />
+              <div className="absolute -left-2 -top-2 h-16 w-16 border-4 border-primary md:-left-4 md:-top-4 md:h-24 md:w-24" />
               <img
                 src="/industries-bg.jpg"
                 alt="Industries"
@@ -544,9 +544,9 @@ function Index() {
                 loading="lazy"
                 className="relative aspect-[4/5] w-full object-cover shadow-xl"
               />
-              <div className="absolute -bottom-6 -right-4 max-w-[220px] border-l-4 border-accent bg-background p-5 shadow-xl md:-right-8">
-                <p className="font-display text-2xl font-bold">{copy.industries_badge_value}</p>
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+              <div className="absolute -bottom-4 -right-2 max-w-[180px] border-l-4 border-accent bg-background p-3 shadow-xl sm:-bottom-6 sm:-right-4 sm:max-w-[220px] sm:p-5 md:-right-8">
+                <p className="font-display text-xl font-bold sm:text-2xl">{copy.industries_badge_value}</p>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground sm:text-xs">
                   {copy.industries_badge_label}
                 </p>
               </div>
