@@ -111,12 +111,12 @@ function FooterCol({
   children?: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className="flex flex-col items-center md:items-start">
       <h4 className="mb-3 text-sm font-semibold">{title}</h4>
-      <ul className="space-y-2">
+      <ul className="space-y-2.5">
         {links.map((l, i) => (
           <li key={i}>
-            <Link to={l.to} className="text-sm text-muted-foreground hover:text-foreground">
+            <Link to={l.to} className="inline-block text-sm text-muted-foreground hover:text-foreground py-0.5">
               {l.label}
             </Link>
           </li>
