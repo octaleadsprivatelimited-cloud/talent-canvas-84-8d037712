@@ -200,11 +200,14 @@ function MonoHero() {
       <div className="h-2 w-full bg-primary" />
 
       <div className="relative">
-        {/* Hero photo */}
+        {/* Hero background video */}
         <div className="relative h-[70vh] min-h-[520px] w-full overflow-hidden md:h-[78vh]">
-          <img
-            src={themeMono}
-            alt="Confident professional"
+          <video
+            src="/aurora-bg.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
