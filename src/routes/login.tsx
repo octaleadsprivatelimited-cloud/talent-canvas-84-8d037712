@@ -12,16 +12,19 @@ export const Route = createFileRoute("/login")({
 });
 
 async function routeAfterAuth(userId: string, navigate: ReturnType<typeof useNavigate>) {
-  // Ensure an admin role record exists for this user (best-effort, non-blocking).
+  // Ensure an admin role record exists for this user, keyed by UID as the doc ID
+  // (matches the Firestore rule used by useIsAdmin).
   try {
     const { data: roleRow } = await firebase
       .from("user_roles")
-      .select("id")
-      .eq("user_id", userId)
-      .eq("role", "admin")
+      .select("role")
+      .eq("id", userId)
       .maybeSingle();
-    if (!roleRow) {
-      await firebase.from("user_roles").insert({ user_id: userId, role: "admin" });
+    if (!roleRow || (roleRow as { role?: string }).role !== "admin") {
+      await firebase.from("user_roles").upsert(
+        { id: userId, user_id: userId, role: "admin" },
+        { onConflict: "id" },
+      );
     }
   } catch (e) {
     console.warn("[login] user_roles sync skipped:", e);
