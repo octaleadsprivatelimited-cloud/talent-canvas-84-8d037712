@@ -32,34 +32,47 @@ export function useRole(): UseRoleResult {
     setRoleLoading(true);
     (async () => {
       try {
-        const { data } = await firebase
+        const { data, error } = await firebase
           .from("user_roles")
           .select("role")
           .eq("id", user.id)
           .maybeSingle();
-        const row = data as RoleRow | null;
 
+        // If the read itself failed (permission-denied / network), do NOT
+        // bootstrap — treat as "no role". Bootstrapping on a read error is
+        // a role-escalation bug because every signed-in user would self-promote.
+        if (error) {
+          if (!cancelled) setRole(null);
+          return;
+        }
+
+        const row = data as RoleRow | null;
         if (row && isRole(row.role)) {
           if (!cancelled) setRole(row.role);
-        } else {
-          // Bootstrap: if no roles exist at all, the very first signed-in user
-          // becomes an admin. Otherwise leave them with no role.
-          const { data: any } = await firebase
+          return;
+        }
+
+        // Bootstrap: only if the user_roles collection is verifiably empty.
+        const { data: any, error: listError } = await firebase
+          .from("user_roles")
+          .select("id")
+          .limit(1);
+        if (listError) {
+          if (!cancelled) setRole(null);
+          return;
+        }
+        const allRoles = (any as { id: string }[] | null) ?? [];
+        if (allRoles.length === 0) {
+          const { error: upsertError } = await firebase
             .from("user_roles")
-            .select("id")
-            .limit(1);
-          const allRoles = (any as { id: string }[] | null) ?? [];
-          if (allRoles.length === 0) {
-            await firebase
-              .from("user_roles")
-              .upsert(
-                { id: user.id, user_id: user.id, role: "admin" },
-                { onConflict: "id" },
-              );
-            if (!cancelled) setRole("admin");
-          } else if (!cancelled) {
-            setRole(null);
-          }
+            .upsert(
+              { id: user.id, user_id: user.id, role: "admin" },
+              { onConflict: "id" },
+            );
+          // Only grant admin client-side if the write actually succeeded.
+          if (!cancelled) setRole(upsertError ? null : "admin");
+        } else if (!cancelled) {
+          setRole(null);
         }
       } catch (e) {
         console.warn("[useRole] failed to resolve role:", e);

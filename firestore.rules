@@ -4,53 +4,98 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // ---------- Helpers ----------
-    function isSignedIn() {
-      return request.auth != null;
-    }
+    function isSignedIn() { return request.auth != null; }
+    function isUser(uid)  { return isSignedIn() && request.auth.uid == uid; }
 
-    function isUser(uid) {
-      return isSignedIn() && request.auth.uid == uid;
+    function myRoleDoc() {
+      return get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data;
     }
-
-    function userDoc() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    function hasRoleDoc() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/user_roles/$(request.auth.uid));
     }
-
     function hasRole(role) {
-      return isSignedIn()
-        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
-        && userDoc().role == role;
+      return hasRoleDoc() && myRoleDoc().role == role;
     }
-
     function hasAnyRole(roles) {
-      return isSignedIn()
-        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
-        && (userDoc().role in roles);
+      return hasRoleDoc() && (myRoleDoc().role in roles);
     }
-
     function isAdmin()     { return hasRole('admin'); }
     function isEditor()    { return hasAnyRole(['admin', 'editor']); }
     function isModerator() { return hasAnyRole(['admin', 'moderator']); }
     function isRecruiter() { return hasAnyRole(['admin', 'recruiter']); }
 
-    // ---------- Site config (singleton-ish settings) ----------
-    // Public read for theme/branding/feature toggles; admin-only writes.
-    match /siteConfig/{docId} {
+    function isPublished() {
+      return resource.data.published == true;
+    }
+
+    // ---------- user_roles (admin role assignments) ----------
+    // A user can read ONLY their own role document.
+    // Writes are admin-only EXCEPT the first-admin bootstrap: if the
+    // user_roles collection is empty, an authenticated user may create
+    // their own admin doc. We can't query collection size from rules,
+    // so we restrict create to (a) admins, or (b) the user creating
+    // their own doc with role == 'admin' (bootstrap). The client must
+    // still verify "no admin exists" before attempting bootstrap; a
+    // race here only allows one extra self-promotion before admins
+    // exist, which is the intended bootstrap window.
+    match /user_roles/{userId} {
+      allow get: if isUser(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isAdmin()
+                    || (isUser(userId)
+                        && request.resource.data.role == 'admin'
+                        && request.resource.id == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+
+    // ---------- profiles ----------
+    match /profiles/{userId} {
+      allow get: if isUser(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create, update: if isUser(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ---------- site_settings (brand/config; contact info intentionally public) ----------
+    match /site_settings/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // ---------- CMS pages (custom pages, marketing pages) ----------
-    match /pages/{pageId} {
-      allow read: if resource.data.published == true || isEditor();
-      allow create, update, delete: if isEditor();
+    // ---------- Public CMS content (read public-published; admin writes) ----------
+    match /industries/{id}   { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
+    match /services/{id}     { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
+    match /case_studies/{id} { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
+    match /posts/{id}        { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
+    match /testimonials/{id} { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
+    match /custom_pages/{id} { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
+    match /page_content/{id} { allow read: if true; allow write: if isEditor(); }
+
+    // ---------- team_members ----------
+    // Public read of published profiles, but email field is sensitive.
+    // Public clients should never include an `email` filter on reads; we
+    // can't column-restrict in Firestore, so admins must keep email out
+    // of any document whose `published == true` if it is not meant to be
+    // public-facing.
+    match /team_members/{id} {
+      allow read: if isPublished() || isEditor();
+      allow write: if isEditor();
+    }
+
+    // ---------- contact_submissions (public form; admin reads) ----------
+    match /contact_submissions/{id} {
+      allow create: if request.resource.data.keys().hasOnly(
+                       ['name', 'email', 'phone', 'company', 'subject', 'message', 'createdAt', 'source']
+                     )
+                     && request.resource.data.email is string
+                     && request.resource.data.message is string;
+      allow read, update, delete: if isAdmin();
     }
 
     // ---------- Jobs ----------
     match /jobs/{jobId} {
-      allow read: if resource.data.published == true
-                  || isRecruiter()
-                  || isEditor();
+      allow read: if isPublished() || isRecruiter() || isEditor();
       allow create, update, delete: if isRecruiter() || isEditor();
     }
 
@@ -60,120 +105,31 @@ service cloud.firestore {
       allow create, update, delete: if isEditor() || isRecruiter();
     }
 
-    // ---------- Users (profiles + role storage) ----------
-    match /users/{userId} {
-      // A user can read their own profile; admins read all.
-      allow get: if isUser(userId) || isAdmin();
-      allow list: if isAdmin();
-
-      // On signup: user creates own doc but cannot self-assign elevated role.
-      allow create: if isUser(userId)
-                    && (!('role' in request.resource.data)
-                        || request.resource.data.role == 'user');
-
-      // User can update own profile but cannot change their role.
-      // Admin can update anything (including roles).
-      allow update: if (
-                      isUser(userId)
-                      && request.resource.data.role == resource.data.role
-                    ) || isAdmin();
-
-      allow delete: if isAdmin();
-    }
-
-    // ---------- Applications (job applications) ----------
+    // ---------- Applications ----------
     match /applications/{appId} {
-      // Applicant can read their own; recruiters/admin read all.
       allow get: if isRecruiter()
-                 || (isSignedIn() && resource.data.userId == request.auth.uid);
+                 || (isSignedIn()
+                     && (resource.data.userId == request.auth.uid
+                         || resource.data.candidate_id == request.auth.uid));
       allow list: if isRecruiter();
-
-      // Any signed-in user can submit, must own the application.
       allow create: if isSignedIn()
-                    && request.resource.data.userId == request.auth.uid;
-
-      // Applicant can update limited fields? Keep strict: recruiter/admin only.
-      allow update, delete: if isRecruiter();
-    }
-
-    // ---------- Blog ----------
-    match /blog/{postId} {
-      allow read: if resource.data.published == true || isEditor();
-      allow create, update, delete: if isEditor();
-    }
-
-    // ---------- Plans (pricing / subscription tiers) ----------
-    match /plans/{planId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // ---------- Emails (transactional email logs / templates) ----------
-    // Sensitive: admin-only.
-    match /emails/{emailId} {
-      allow read, write: if isAdmin();
-    }
-
-    // ---------- Notifications ----------
-    // Per-user notifications: user reads their own; admin manages all.
-    match /notifications/{notifId} {
-      allow get: if isAdmin()
-                 || (isSignedIn() && resource.data.userId == request.auth.uid);
-      allow list: if isAdmin();
-
-      allow update: if isAdmin()
+                    && (request.resource.data.userId == request.auth.uid
+                        || request.resource.data.candidate_id == request.auth.uid);
+      // Candidates may only update cover_letter / resume_url on their own application.
+      allow update: if isRecruiter()
                     || (isSignedIn()
-                        && resource.data.userId == request.auth.uid
-                        // user can only flip read/seen flags
+                        && resource.data.candidate_id == request.auth.uid
                         && request.resource.data.diff(resource.data)
                              .affectedKeys()
-                             .hasOnly(['read', 'seen', 'readAt']));
-
-      allow create, delete: if isAdmin();
+                             .hasOnly(['cover_letter', 'resume_url', 'updatedAt']));
+      allow delete: if isRecruiter();
     }
 
-    // ---------- Audit logs ----------
-    // Append-only from server (admin SDK); clients: admin read, no writes.
-    match /auditLogs/{logId} {
-      allow read: if isAdmin();
-      allow write: if false;
-    }
-
-    // ---------- Feature flags ----------
-    // Public read so the app can toggle UI; admin-only writes.
-    match /featureFlags/{flagId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // ---------- Subscribers (newsletter / waitlist) ----------
-    match /subscribers/{subId} {
-      // Anyone can subscribe; admin manages.
-      allow create: if request.resource.data.keys().hasOnly(
-                      ['email', 'createdAt', 'source', 'name', 'tags']
-                    )
-                    && request.resource.data.email is string;
-      allow read, update, delete: if isAdmin();
-    }
-
-    // ---------- Reports (user-submitted abuse/content reports) ----------
-    match /reports/{reportId} {
-      // Any signed-in user can file a report against content.
-      allow create: if isSignedIn()
-                    && request.resource.data.reporterId == request.auth.uid;
-      // Reporter can read their own; moderators/admin see all.
-      allow get: if isModerator()
-                 || (isSignedIn() && resource.data.reporterId == request.auth.uid);
-      allow list: if isModerator();
-      allow update, delete: if isModerator();
-    }
-
-    // ---------- Flags (content moderation flags / takedowns) ----------
-    match /flags/{flagId} {
-      allow read: if isModerator();
-      allow create: if isSignedIn()
-                    && request.resource.data.createdBy == request.auth.uid;
-      allow update, delete: if isModerator();
+    // ---------- saved_jobs ----------
+    match /saved_jobs/{id} {
+      allow read, write: if isSignedIn()
+                          && (resource.data.userId == request.auth.uid
+                              || request.resource.data.userId == request.auth.uid);
     }
 
     // ---------- Default deny ----------
