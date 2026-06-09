@@ -830,6 +830,28 @@ function Index() {
         </div>
       </section>
 
+      {/* ============== CLIENTS / KEYWORD RIBBON ============== */}
+      {copy.clients.length > 0 && (
+        <section
+          aria-label="Highlighted keywords"
+          className="relative w-full snap-start overflow-hidden border-y border-border bg-foreground py-6 text-background"
+        >
+          <div className="flex overflow-hidden">
+            <div className="animate-marquee flex shrink-0 items-center gap-10 whitespace-nowrap pr-10">
+              {[...copy.clients, ...copy.clients].map((c, i) => (
+                <span
+                  key={`${c}-${i}`}
+                  className="font-display text-sm font-bold uppercase tracking-[0.25em] text-background/80"
+                >
+                  {c}
+                  <span className="ml-10 inline-block h-1 w-1 rounded-full bg-accent align-middle" />
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ============== CTA ============== */}
       <section id="cta" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
