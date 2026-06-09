@@ -123,9 +123,9 @@ class FirebaseQueryBuilder {
     // execute() instead — safe because limits are also applied in-memory.
 
 
-    if (this.limitCount !== undefined) {
-      q = query(q, limit(this.limitCount));
-    }
+    // Limit is also applied in-memory after sorting (see execute()), so we
+    // do NOT push it server-side — otherwise we'd return the wrong subset.
+
 
     return q;
   }
