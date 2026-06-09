@@ -117,9 +117,11 @@ class FirebaseQueryBuilder {
       q = query(q, where(filter.field, filter.op, filter.value));
     }
 
-    if (this.orderField) {
-      q = query(q, orderBy(this.orderField, this.orderAscending ? "asc" : "desc"));
-    }
+    // NOTE: server-side orderBy is intentionally NOT applied. Combined with
+    // a `where` filter it requires a composite index in Firestore, which
+    // breaks queries when the index is not deployed. We sort in-memory in
+    // execute() instead — safe because limits are also applied in-memory.
+
 
     if (this.limitCount !== undefined) {
       q = query(q, limit(this.limitCount));
