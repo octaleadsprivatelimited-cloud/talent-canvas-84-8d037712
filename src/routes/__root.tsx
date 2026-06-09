@@ -69,6 +69,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Delaware-headquartered global talent acquisition, workforce solutions, training and business consulting — across the USA and India.",
       },
+      { property: "og:title", content: "Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions" },
+      { name: "twitter:title", content: "Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions" },
+      { name: "description", content: "A whitelabel recruiting platform for enterprises, configurable via an admin panel and built on Firebase." },
+      { property: "og:description", content: "A whitelabel recruiting platform for enterprises, configurable via an admin panel and built on Firebase." },
+      { name: "twitter:description", content: "A whitelabel recruiting platform for enterprises, configurable via an admin panel and built on Firebase." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/479ed13a-e57b-4d30-872f-50334f976c96/id-preview-28a49846--e36fe49d-1f11-4cba-86e2-2d245ec3f7e7.lovable.app-1781025278435.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/479ed13a-e57b-4d30-872f-50334f976c96/id-preview-28a49846--e36fe49d-1f11-4cba-86e2-2d245ec3f7e7.lovable.app-1781025278435.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:type", content: "website" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
