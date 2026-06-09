@@ -116,9 +116,9 @@ function EditorialHero() {
       className="relative snap-start overflow-hidden bg-white text-neutral-900"
     >
       <div className="relative min-h-[78vh] md:min-h-[88vh] bg-gradient-to-b from-[#e8ecf3] via-[#dde4f0] to-[#c9d3e6] overflow-hidden">
-        {/* Centered video */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-[92%] md:w-[70%] lg:w-[62%] aspect-video max-h-[80%] pointer-events-auto">
+        {/* Video — centered on mobile, right side on desktop to avoid overlapping the card */}
+        <div className="absolute inset-0 flex items-center justify-center md:justify-end md:pr-6 lg:pr-12 pointer-events-none">
+          <div className="relative w-[92%] md:w-[55%] lg:w-[50%] aspect-video max-h-[70%] pointer-events-auto">
             <video
               src="/hero-video.mp4"
               autoPlay
@@ -138,6 +138,7 @@ function EditorialHero() {
             </button>
           </div>
         </div>
+
 
         {/* Floating white editorial card — bottom left */}
         <div className="relative z-10 container mx-auto px-4 h-full">
