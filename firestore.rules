@@ -95,7 +95,9 @@ service cloud.firestore {
 
     // ---------- Jobs ----------
     match /jobs/{jobId} {
-      allow read: if isPublished() || isRecruiter() || isEditor();
+      allow read: if (resource.data.published == true)
+                  || (resource.data.status == 'published')
+                  || isRecruiter() || isEditor();
       allow create, update, delete: if isRecruiter() || isEditor();
     }
 
