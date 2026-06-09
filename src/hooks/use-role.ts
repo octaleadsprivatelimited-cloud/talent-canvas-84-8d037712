@@ -66,8 +66,8 @@ export function useRole(): UseRoleResult {
           const { error: upsertError } = await firebase
             .from("user_roles")
             .upsert(
-              { id: user.id, user_id: user.id, role: "admin" },
-              { onConflict: "id" },
+              { user_id: user.id, role: "admin" },
+              { onConflict: "user_id,role" },
             );
           // Only grant admin client-side if the write actually succeeded.
           if (!cancelled) setRole(upsertError ? null : "admin");
