@@ -548,7 +548,7 @@ function CinemaHero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen snap-start overflow-hidden bg-black text-white"
+      className="relative min-h-[85dvh] md:min-h-screen snap-start overflow-hidden bg-black text-white"
     >
       <HeroVideo
         fallbackImg={themeCinema}
@@ -556,25 +556,25 @@ function CinemaHero() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black" />
       <div className="absolute inset-0 [background-image:linear-gradient(180deg,transparent_85%,rgba(0,0,0,0.6))]" />
-      <div className="container relative mx-auto flex min-h-screen flex-col justify-end px-4 pb-20 pt-32 md:pb-28">
+      <div className="container relative mx-auto flex min-h-[85dvh] md:min-h-screen flex-col justify-end px-4 pb-16 pt-28 md:pb-28">
         <div className="max-w-4xl">
           <span className="inline-flex items-center gap-2 border border-white/30 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.35em] text-white/90 backdrop-blur">
             <Play className="h-3 w-3 fill-white" /> Now Streaming · A Virelix Production
           </span>
-          <h1 className="mt-6 font-display text-6xl font-bold leading-[0.9] tracking-tight md:text-8xl lg:text-[7rem]">
+          <h1 className="mt-4 md:mt-6 font-display text-5xl sm:text-6xl font-bold leading-[0.9] tracking-tight md:text-8xl lg:text-[7rem]">
             <em className="font-serif italic">Talent,</em>
             <br />
             in motion.
           </h1>
-          <p className="mt-6 max-w-xl text-base text-white/75 md:text-lg">
+          <p className="mt-4 md:mt-6 max-w-xl text-sm sm:text-base text-white/75 md:text-lg">
             A cinematic look at how Virelix Consulting builds teams that move markets — shot across
             the USA and India.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-6 md:mt-8 flex flex-wrap items-center gap-4">
             <Button
               asChild
               size="lg"
-              className="rounded-none bg-white px-7 text-black hover:bg-white/90"
+              className="rounded-none bg-white px-6 sm:px-7 text-black hover:bg-white/90"
             >
               <Link to="/contact">
                 Book a screening <ArrowUpRight className="ml-1 h-4 w-4" />
@@ -588,10 +588,10 @@ function CinemaHero() {
             </Link>
           </div>
         </div>
-        <div className="mt-12 grid grid-cols-2 gap-px border-t border-white/15 pt-6 md:grid-cols-4">
+        <div className="mt-8 md:mt-12 grid grid-cols-2 gap-px border-t border-white/15 pt-6 md:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.label} className="px-2 py-4">
-              <p className="font-display text-3xl font-bold md:text-4xl">{s.value}</p>
+            <div key={s.label} className="px-2 py-3 sm:py-4">
+              <p className="font-display text-2xl sm:text-3xl font-bold md:text-4xl">{s.value}</p>
               <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">
                 {s.label}
               </p>
