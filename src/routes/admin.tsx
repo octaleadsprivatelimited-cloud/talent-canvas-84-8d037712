@@ -61,6 +61,7 @@ function AdminLayout() {
   const navigate = useNavigate();
   const { role, loading, can, hasAdminAccess } = useRole();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -75,6 +76,16 @@ function AdminLayout() {
     }
   }, [hasAdminAccess, loading, navigate]);
 
+  // Fallback: if verification takes more than 6s, give the user a way out.
+  useEffect(() => {
+    if (!loading) {
+      setTimedOut(false);
+      return;
+    }
+    const t = setTimeout(() => setTimedOut(true), 6000);
+    return () => clearTimeout(t);
+  }, [loading]);
+
   // Close mobile nav when route changes
   useEffect(() => {
     setMobileNavOpen(false);
@@ -87,10 +98,23 @@ function AdminLayout() {
 
   if (loading) {
     return (
-      <div className="container mx-auto flex h-[400px] items-center justify-center px-4">
+      <div className="container mx-auto flex h-[400px] flex-col items-center justify-center gap-4 px-4">
         <div className="text-sm font-semibold uppercase tracking-wider text-muted-foreground animate-pulse">
           Verifying access…
         </div>
+        {timedOut && (
+          <div className="flex flex-col items-center gap-2 text-center">
+            <p className="text-xs text-muted-foreground">
+              This is taking longer than usual.
+            </p>
+            <Link
+              to="/login"
+              className="text-xs font-semibold uppercase tracking-wider text-primary underline-offset-4 hover:underline"
+            >
+              Go to sign in
+            </Link>
+          </div>
+        )}
       </div>
     );
   }
