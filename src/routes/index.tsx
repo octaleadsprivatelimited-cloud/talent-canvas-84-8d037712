@@ -132,42 +132,8 @@ const process = [
   },
 ];
 
-const stats = [
-  { value: "USA", label: "Delaware HQ" },
-  { value: "2", label: "Continents — USA & India" },
-  { value: "10+", label: "Industries served" },
-  { value: "24/7", label: "Recruitment delivery" },
-];
-
-const testimonials = [
-  {
-    quote:
-      "Virelix delivered a senior shortlist faster than any partner we've worked with — quality candidates, deeply aligned with our culture.",
-    name: "Talent Leader",
-    role: "US Technology Client",
-  },
-  {
-    quote:
-      "Their RPO team integrated with us seamlessly. We scaled hiring without adding internal overhead.",
-    name: "Head of People",
-    role: "Healthcare Client",
-  },
-  {
-    quote:
-      "Transparent, responsive, and outcome-driven. Virelix feels like an extension of our hiring team.",
-    name: "VP Operations",
-    role: "Financial Services Client",
-  },
-];
-
-const clients = [
-  "DELAWARE, USA",
-  "GLOBAL DELIVERY",
-  "USA + INDIA",
-  "RPO",
-  "EXECUTIVE SEARCH",
-  "WORKFORCE SOLUTIONS",
-];
+// Stats and clients ribbon are admin-editable via /admin/homepage
+// and rendered from `copy.stats` / `copy.clients`. Do not redefine here.
 
 const sectionIds = [
   "hero",
@@ -271,7 +237,7 @@ function Index() {
           name: t.author_name,
           role: [t.author_role, t.company].filter(Boolean).join(" · "),
         }))
-      : testimonials;
+      : [];
 
   const { data: dbIndustries } = useQuery({
     queryKey: ["industries"],
@@ -691,30 +657,16 @@ function Index() {
               </p>
 
               <div className="mt-10 grid grid-cols-2 gap-6 sm:gap-8">
-                <div>
-                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">24/7</h4>
-                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
-                    Continuous search operations
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">100%</h4>
-                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
-                    Compliance & payroll coverage
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">30+</h4>
-                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
-                    US States & Indian UTs served
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">15k+</h4>
-                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
-                    Candidates vetted annually
-                  </p>
-                </div>
+                {copy.stats.map((s, i) => (
+                  <div key={`${s.value}-${i}`}>
+                    <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">
+                      {s.value}
+                    </h4>
+                    <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
+                      {s.label}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -843,6 +795,28 @@ function Index() {
           </div>
         </div>
       </section>
+
+      {/* ============== CLIENTS / KEYWORD RIBBON ============== */}
+      {copy.clients.length > 0 && (
+        <section
+          aria-label="Highlighted keywords"
+          className="relative w-full snap-start overflow-hidden border-y border-border bg-foreground py-6 text-background"
+        >
+          <div className="flex overflow-hidden">
+            <div className="animate-marquee flex shrink-0 items-center gap-10 whitespace-nowrap pr-10">
+              {[...copy.clients, ...copy.clients].map((c, i) => (
+                <span
+                  key={`${c}-${i}`}
+                  className="font-display text-sm font-bold uppercase tracking-[0.25em] text-background/80"
+                >
+                  {c}
+                  <span className="ml-10 inline-block h-1 w-1 rounded-full bg-accent align-middle" />
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ============== CTA ============== */}
       <section id="cta" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
