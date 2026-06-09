@@ -55,8 +55,8 @@ export const THEMES: {
   },
   {
     key: "magazine",
-    name: "Visa Pathway",
-    tagline: "Clean white split with colored service tiles, Y-Axis style.",
+    name: "Service Mosaic",
+    tagline: "Clean white split with colored service tiles.",
     preview: themeMagazine,
   },
   {
