@@ -23,7 +23,7 @@ function IndustriesPage() {
   const { data } = useQuery({
     queryKey: ["industries"],
     queryFn: async () => {
-      const { data } = await firebase.from("industries").select("*").order("sort_order");
+      const { data } = await firebase.from("industries").select("*").eq("published", true).order("sort_order");
       return (data ?? []).filter(
         (i: any) => i && i.slug && i.published !== false,
       );
