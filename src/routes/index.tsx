@@ -132,42 +132,8 @@ const process = [
   },
 ];
 
-const stats = [
-  { value: "USA", label: "Delaware HQ" },
-  { value: "2", label: "Continents — USA & India" },
-  { value: "10+", label: "Industries served" },
-  { value: "24/7", label: "Recruitment delivery" },
-];
-
-const testimonials = [
-  {
-    quote:
-      "Virelix delivered a senior shortlist faster than any partner we've worked with — quality candidates, deeply aligned with our culture.",
-    name: "Talent Leader",
-    role: "US Technology Client",
-  },
-  {
-    quote:
-      "Their RPO team integrated with us seamlessly. We scaled hiring without adding internal overhead.",
-    name: "Head of People",
-    role: "Healthcare Client",
-  },
-  {
-    quote:
-      "Transparent, responsive, and outcome-driven. Virelix feels like an extension of our hiring team.",
-    name: "VP Operations",
-    role: "Financial Services Client",
-  },
-];
-
-const clients = [
-  "DELAWARE, USA",
-  "GLOBAL DELIVERY",
-  "USA + INDIA",
-  "RPO",
-  "EXECUTIVE SEARCH",
-  "WORKFORCE SOLUTIONS",
-];
+// Stats and clients ribbon are admin-editable via /admin/homepage
+// and rendered from `copy.stats` / `copy.clients`. Do not redefine here.
 
 const sectionIds = [
   "hero",
