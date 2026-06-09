@@ -447,7 +447,7 @@ function Index() {
               })}
             </div>
 
-            <div className="border border-border bg-card p-8 md:p-10 relative overflow-hidden transition-all duration-500 group">
+            <div className="border border-border bg-card p-5 sm:p-8 md:p-10 relative overflow-hidden transition-all duration-500 group">
               {/* Dynamic service background watermark */}
               <div className="absolute inset-0 -z-10 transition-opacity duration-700 pointer-events-none">
                 <img
