@@ -691,30 +691,16 @@ function Index() {
               </p>
 
               <div className="mt-10 grid grid-cols-2 gap-6 sm:gap-8">
-                <div>
-                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">24/7</h4>
-                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
-                    Continuous search operations
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">100%</h4>
-                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
-                    Compliance & payroll coverage
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">30+</h4>
-                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
-                    US States & Indian UTs served
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">15k+</h4>
-                  <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
-                    Candidates vetted annually
-                  </p>
-                </div>
+                {copy.stats.map((s, i) => (
+                  <div key={`${s.value}-${i}`}>
+                    <h4 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-accent">
+                      {s.value}
+                    </h4>
+                    <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-background/60">
+                      {s.label}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
 
