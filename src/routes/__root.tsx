@@ -122,6 +122,9 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
+      {/* HeadContent here ensures meta/links also apply in SPA (Vercel) builds
+          where shellComponent is not rendered. */}
+      <HeadContent />
       <AuthSync />
       <ThemeApplier />
       <div className="flex min-h-screen flex-col bg-background">

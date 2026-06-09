@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "vite build --config vite.vercel.config.ts",
+  "outputDirectory": "dist",
+  "framework": null,
+  "rewrites": [
+    { "source": "/((?!assets/|favicon\\.png|robots\\.txt|sitemap\\.xml).*)", "destination": "/index.html" }
+  ]
+}
