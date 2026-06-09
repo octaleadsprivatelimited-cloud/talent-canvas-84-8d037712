@@ -115,31 +115,6 @@ function EditorialHero() {
       id="hero"
       className="relative snap-start overflow-hidden bg-white text-neutral-900"
     >
-      {/* Top dark nav-style band (Gates Notes inspired) */}
-      <div className="relative z-10 bg-neutral-950 text-white">
-        <div className="container mx-auto flex items-stretch px-0">
-          <div className="flex items-center bg-neutral-950 px-5 py-4 border-r border-white/10">
-            <div className="font-display text-lg font-black leading-none tracking-tight">
-              Virelix
-              <br />
-              Consulting
-            </div>
-          </div>
-          <nav className="hidden md:flex flex-1 items-center justify-center gap-12 text-[15px] font-medium">
-            <Link to="/services" className="hover:text-white/70 transition border-b-2 border-transparent hover:border-white pb-1">Services</Link>
-            <Link to="/about" className="hover:text-white/70 transition border-b-2 border-transparent hover:border-white pb-1">About</Link>
-            <Link to="/industries" className="hover:text-white/70 transition border-b-2 border-transparent hover:border-white pb-1">Industries</Link>
-            <Link to="/contact" className="hover:text-white/70 transition border-b-2 border-transparent hover:border-white pb-1">Contact</Link>
-          </nav>
-          <div className="hidden md:flex items-center px-5 border-l border-white/10">
-            <Button asChild size="sm" variant="secondary" className="rounded-none">
-              <Link to="/contact">Hire talent</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Hero stage: soft gradient backdrop with centered video */}
       <div className="relative min-h-[78vh] md:min-h-[88vh] bg-gradient-to-b from-[#e8ecf3] via-[#dde4f0] to-[#c9d3e6] overflow-hidden">
         {/* Centered video */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
