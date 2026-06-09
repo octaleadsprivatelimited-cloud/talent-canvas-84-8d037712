@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { useIsAdmin } from "@/hooks/use-is-admin";
+import { useEffect, useMemo, useState } from "react";
+import { useRole } from "@/hooks/use-role";
 import {
   LayoutDashboard,
   Settings,
@@ -18,35 +18,48 @@ import {
   Search,
   Menu,
   X,
+  Briefcase,
+  ShieldCheck,
 } from "lucide-react";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { AnimatePresence, motion } from "framer-motion";
+import { ROLE_LABELS, type Permission } from "@/lib/rbac";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const sections: { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/admin/site-settings", label: "Site Settings", icon: Settings },
-  { to: "/admin/homepage", label: "Homepage", icon: Home },
-  { to: "/admin/seo", label: "Page SEO", icon: Search },
-  { to: "/admin/page-content", label: "Other Pages", icon: FileText },
-  { to: "/admin/pages", label: "Custom Pages", icon: LayoutTemplate },
-  { to: "/admin/services", label: "Services", icon: Sparkles },
-  { to: "/admin/industries", label: "Industries", icon: Building2 },
-  { to: "/admin/team", label: "Team", icon: Users },
-  { to: "/admin/case-studies", label: "Case Studies", icon: MessageSquare },
-  { to: "/admin/insights", label: "Insights / Blog", icon: BookOpen },
-  { to: "/admin/testimonials", label: "Testimonials", icon: Quote },
-  { to: "/admin/submissions", label: "Contact Inbox", icon: Inbox },
-  { to: "/admin/diagnostics", label: "Diagnostics", icon: Activity },
+type Section = {
+  to: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  exact?: boolean;
+  permission: Permission;
+};
+
+const sections: Section[] = [
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true, permission: "view:dashboard" },
+  { to: "/admin/site-settings", label: "Site Settings", icon: Settings, permission: "manage:settings" },
+  { to: "/admin/users", label: "Users & Roles", icon: ShieldCheck, permission: "manage:users" },
+  { to: "/admin/homepage", label: "Homepage", icon: Home, permission: "manage:homepage" },
+  { to: "/admin/seo", label: "Page SEO", icon: Search, permission: "manage:seo" },
+  { to: "/admin/page-content", label: "Other Pages", icon: FileText, permission: "manage:pages" },
+  { to: "/admin/pages", label: "Custom Pages", icon: LayoutTemplate, permission: "manage:pages" },
+  { to: "/admin/services", label: "Services", icon: Sparkles, permission: "manage:content" },
+  { to: "/admin/industries", label: "Industries", icon: Building2, permission: "manage:content" },
+  { to: "/admin/team", label: "Team", icon: Users, permission: "manage:content" },
+  { to: "/admin/case-studies", label: "Case Studies", icon: MessageSquare, permission: "manage:content" },
+  { to: "/admin/insights", label: "Insights / Blog", icon: BookOpen, permission: "manage:content" },
+  { to: "/admin/testimonials", label: "Testimonials", icon: Quote, permission: "manage:content" },
+  { to: "/jobs", label: "Jobs", icon: Briefcase, permission: "manage:jobs" },
+  { to: "/admin/submissions", label: "Contact Inbox", icon: Inbox, permission: "view:submissions" },
+  { to: "/admin/diagnostics", label: "Diagnostics", icon: Activity, permission: "view:diagnostics" },
 ];
 
 function AdminLayout() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAdmin, loading } = useIsAdmin();
+  const { role, loading, can, hasAdminAccess } = useRole();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
@@ -57,33 +70,39 @@ function AdminLayout() {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (!loading && isAdmin === false) {
+    if (!loading && !hasAdminAccess) {
       navigate({ to: "/login" });
     }
-  }, [isAdmin, loading, navigate]);
+  }, [hasAdminAccess, loading, navigate]);
 
   // Close mobile nav when route changes
   useEffect(() => {
     setMobileNavOpen(false);
   }, [location.pathname]);
 
+  const visibleSections = useMemo(
+    () => sections.filter((s) => can(s.permission)),
+    [can],
+  );
+
   if (loading) {
     return (
       <div className="container mx-auto flex h-[400px] items-center justify-center px-4">
         <div className="text-sm font-semibold uppercase tracking-wider text-muted-foreground animate-pulse">
-          Verifying administrator status…
+          Verifying access…
         </div>
       </div>
     );
   }
 
-  if (isAdmin === false) {
+  if (!hasAdminAccess) {
     return null;
   }
 
-  const currentSection = sections.find(
-    (s) => s.to === location.pathname || (s.to !== "/admin" && location.pathname.startsWith(s.to))
-  ) ?? sections[0];
+  const currentSection =
+    visibleSections.find(
+      (s) => s.to === location.pathname || (s.to !== "/admin" && location.pathname.startsWith(s.to)),
+    ) ?? visibleSections[0];
 
   return (
     <div className="container mx-auto grid gap-6 px-4 py-6 md:py-10 lg:grid-cols-[240px_1fr] lg:gap-8">
@@ -91,10 +110,10 @@ function AdminLayout() {
       <div className="flex items-center justify-between lg:hidden">
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            Admin
+            {role ? ROLE_LABELS[role] : "Admin"}
           </span>
           <span className="text-xs text-muted-foreground">·</span>
-          <span className="text-sm font-medium">{currentSection.label}</span>
+          <span className="text-sm font-medium">{currentSection?.label}</span>
         </div>
         <button
           onClick={() => setMobileNavOpen((v) => !v)}
@@ -108,11 +127,16 @@ function AdminLayout() {
 
       {/* Sidebar */}
       <aside className="hidden h-fit border border-border bg-surface p-3 lg:block lg:sticky lg:top-20">
-        <p className="px-3 pb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           Admin
         </p>
+        {role && (
+          <p className="px-3 pb-3 text-[10px] uppercase tracking-wider text-primary">
+            {ROLE_LABELS[role]}
+          </p>
+        )}
         <nav className="flex flex-col gap-1">
-          {sections.map((s) => (
+          {visibleSections.map((s) => (
             <Link
               key={s.to}
               to={s.to}
@@ -140,7 +164,7 @@ function AdminLayout() {
               Admin
             </p>
             <nav className="flex flex-col gap-1">
-              {sections.map((s) => (
+              {visibleSections.map((s) => (
                 <Link
                   key={s.to}
                   to={s.to}

@@ -31,6 +31,7 @@ import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as IndustriesSlugRouteImport } from './routes/industries_.$slug'
 import { Route as CompaniesSlugRouteImport } from './routes/companies.$slug'
 import { Route as CaseStudiesSlugRouteImport } from './routes/case-studies.$slug'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
 import { Route as AdminTeamRouteImport } from './routes/admin.team'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin.submissions'
@@ -155,6 +156,11 @@ const CaseStudiesSlugRoute = CaseStudiesSlugRouteImport.update({
   path: '/case-studies/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
   id: '/testimonials',
   path: '/testimonials',
@@ -243,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/team': typeof AdminTeamRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/case-studies/$slug': typeof CaseStudiesSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/industries/$slug': typeof IndustriesSlugRoute
@@ -279,6 +286,7 @@ export interface FileRoutesByTo {
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/team': typeof AdminTeamRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/case-studies/$slug': typeof CaseStudiesSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/industries/$slug': typeof IndustriesSlugRoute
@@ -317,6 +325,7 @@ export interface FileRoutesById {
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/team': typeof AdminTeamRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/case-studies/$slug': typeof CaseStudiesSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/industries_/$slug': typeof IndustriesSlugRoute
@@ -356,6 +365,7 @@ export interface FileRouteTypes {
     | '/admin/submissions'
     | '/admin/team'
     | '/admin/testimonials'
+    | '/admin/users'
     | '/case-studies/$slug'
     | '/companies/$slug'
     | '/industries/$slug'
@@ -392,6 +402,7 @@ export interface FileRouteTypes {
     | '/admin/submissions'
     | '/admin/team'
     | '/admin/testimonials'
+    | '/admin/users'
     | '/case-studies/$slug'
     | '/companies/$slug'
     | '/industries/$slug'
@@ -429,6 +440,7 @@ export interface FileRouteTypes {
     | '/admin/submissions'
     | '/admin/team'
     | '/admin/testimonials'
+    | '/admin/users'
     | '/case-studies/$slug'
     | '/companies/$slug'
     | '/industries_/$slug'
@@ -625,6 +637,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaseStudiesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/testimonials': {
       id: '/admin/testimonials'
       path: '/testimonials'
@@ -733,6 +752,7 @@ interface AdminRouteChildren {
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   AdminTeamRoute: typeof AdminTeamRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
@@ -750,6 +770,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   AdminTeamRoute: AdminTeamRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
+  AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 

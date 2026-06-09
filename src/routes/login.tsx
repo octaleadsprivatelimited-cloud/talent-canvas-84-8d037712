@@ -11,25 +11,47 @@ export const Route = createFileRoute("/login")({
   component: LoginPage,
 });
 
-async function routeAfterAuth(userId: string, navigate: ReturnType<typeof useNavigate>) {
-  // Ensure an admin role record exists for this user, keyed by UID as the doc ID
-  // (matches the Firestore rule used by useIsAdmin).
+async function routeAfterAuth(
+  userId: string,
+  email: string | null,
+  navigate: ReturnType<typeof useNavigate>,
+) {
   try {
+    // 1. If this user already has a role, send them in.
     const { data: roleRow } = await firebase
       .from("user_roles")
       .select("role")
       .eq("id", userId)
       .maybeSingle();
-    if (!roleRow || (roleRow as { role?: string }).role !== "admin") {
+    if (roleRow && (roleRow as { role?: string }).role) {
+      navigate({ to: "/admin" });
+      return;
+    }
+
+    // 2. Bootstrap: if no roles exist at all, the first user becomes admin.
+    const { data: any } = await firebase
+      .from("user_roles")
+      .select("id")
+      .limit(1);
+    const allRoles = (any as { id: string }[] | null) ?? [];
+    if (allRoles.length === 0) {
       await firebase.from("user_roles").upsert(
-        { id: userId, user_id: userId, role: "admin" },
+        { id: userId, user_id: userId, role: "admin", email },
         { onConflict: "id" },
       );
+      navigate({ to: "/admin" });
+      return;
     }
+
+    // 3. Otherwise the user has no role — ask an admin to grant access.
+    toast.error(
+      "Your account doesn't have an admin role yet. Ask an administrator to grant you access.",
+    );
+    await firebase.auth.signOut();
   } catch (e) {
-    console.warn("[login] user_roles sync skipped:", e);
+    console.warn("[login] role check failed:", e);
+    toast.error("Could not verify your access. Please try again.");
   }
-  navigate({ to: "/admin" });
 }
 
 function LoginPage() {
@@ -45,7 +67,7 @@ function LoginPage() {
       const { data } = await firebase.auth.getSession();
       const user = data.session?.user ?? null;
       if (cancelled || !user) return;
-      await routeAfterAuth(user.id, navigate);
+      await routeAfterAuth(user.id, user.email ?? null, navigate);
     })();
     return () => {
       cancelled = true;
@@ -58,7 +80,7 @@ function LoginPage() {
       const res = await firebase.auth.signInWithPopupGoogle();
       if (res.error) throw res.error;
       if (res.user) {
-        await routeAfterAuth(res.user.uid, navigate);
+        await routeAfterAuth(res.user.uid, res.user.email ?? null, navigate);
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Google sign-in failed";
@@ -84,7 +106,7 @@ function LoginPage() {
         });
         if (error) throw error;
         if (data.session?.user) {
-          await routeAfterAuth(data.session.user.id, navigate);
+          await routeAfterAuth(data.session.user.id, data.session.user.email ?? null, navigate);
         } else {
           toast.success("Account created. Check your email to confirm, then sign in.");
           setMode("signin");
@@ -92,7 +114,7 @@ function LoginPage() {
       } else {
         const { data, error } = await firebase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (data.user) await routeAfterAuth(data.user.id, navigate);
+        if (data.user) await routeAfterAuth(data.user.id, data.user.email ?? null, navigate);
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Authentication failed";
