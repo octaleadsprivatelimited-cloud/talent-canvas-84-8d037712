@@ -95,6 +95,17 @@ export function Footer() {
             © {new Date().getFullYear()} {brand}. All rights reserved.
           </p>
           <p>Built with care for hiring teams worldwide.</p>
+          <p>
+            Developed By{" "}
+            <a
+              href="https://www.octaleads.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-foreground"
+            >
+              Octaleads Pvt Ltd.
+            </a>
+          </p>
         </div>
       </div>
     </footer>
