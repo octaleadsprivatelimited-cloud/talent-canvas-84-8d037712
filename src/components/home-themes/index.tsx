@@ -43,7 +43,7 @@ export const THEMES: {
   },
   {
     key: "mono",
-    name: "Adecco Bold",
+    name: "Crimson Bold",
     tagline: "Crimson banner, bold headlines, floating white CTA card.",
     preview: themeMono,
   },
