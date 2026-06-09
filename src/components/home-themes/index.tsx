@@ -43,21 +43,20 @@ export const THEMES: {
   },
   {
     key: "mono",
-    name: "Minimal Mono",
-    tagline: "Calm monochrome with oversized typography.",
+    name: "Adecco Bold",
+    tagline: "Crimson banner, bold headlines, floating white CTA card.",
     preview: themeMono,
   },
   {
     key: "aurora",
-    name: "Aurora Gradient",
-    tagline: "Vibrant gradient, glassy cards, modern tech.",
+    name: "Brighter Future",
+    tagline: "Blue→green gradient hero with circular portrait and warm CTA.",
     preview: themeAurora,
-    hasVideo: true,
   },
   {
     key: "magazine",
-    name: "Magazine Split",
-    tagline: "Full-bleed cinematic editorial split.",
+    name: "Visa Pathway",
+    tagline: "Clean white split with colored service tiles, Y-Axis style.",
     preview: themeMagazine,
   },
   {
