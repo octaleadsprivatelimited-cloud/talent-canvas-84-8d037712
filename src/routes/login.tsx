@@ -19,7 +19,7 @@ async function routeAfterAuth(
     const { data: roleRow, error: roleErr } = await firebase
       .from("user_roles")
       .select("role")
-      .eq("id", userId)
+      .eq("user_id", userId)
       .maybeSingle();
     if (roleErr) {
       toast.error("Could not verify your access. Please try again.");

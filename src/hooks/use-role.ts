@@ -3,7 +3,7 @@ import { firebase } from "@/integrations/firebase/client";
 import { useAuth } from "./use-auth";
 import { isRole, roleHasPermission, type Role, type Permission } from "@/lib/rbac";
 
-type RoleRow = { id: string; role?: string };
+type RoleRow = { user_id: string; role?: string };
 
 export type UseRoleResult = {
   user: ReturnType<typeof useAuth>["user"];
@@ -34,8 +34,8 @@ export function useRole(): UseRoleResult {
       try {
         const { data, error } = await firebase
           .from("user_roles")
-          .select("role")
-          .eq("id", user.id)
+          .select("role,user_id")
+          .eq("user_id", user.id)
           .maybeSingle();
 
         // If the read itself failed (permission-denied / network), do NOT
@@ -66,8 +66,8 @@ export function useRole(): UseRoleResult {
           const { error: upsertError } = await firebase
             .from("user_roles")
             .upsert(
-              { id: user.id, user_id: user.id, role: "admin" },
-              { onConflict: "id" },
+              { user_id: user.id, role: "admin" },
+              { onConflict: "user_id,role" },
             );
           // Only grant admin client-side if the write actually succeeded.
           if (!cancelled) setRole(upsertError ? null : "admin");
