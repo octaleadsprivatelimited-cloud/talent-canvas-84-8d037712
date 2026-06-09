@@ -12,9 +12,9 @@ export function Footer() {
       style={{ backgroundImage: `url('/footer-bg.jpeg')` }}
     >
       <div className="absolute inset-0 bg-surface/60 backdrop-blur-[2px] z-0" />
-      <div className="container relative mx-auto px-4 py-12 z-10">
-        <div className="grid gap-10 md:grid-cols-4">
-          <div>
+      <div className="container relative mx-auto px-4 py-10 md:py-12 z-10">
+        <div className="grid gap-8 text-center md:grid-cols-4 md:gap-10 md:text-left">
+          <div className="flex flex-col items-center md:items-start">
             <Link to="/" className="flex items-center gap-2 font-display text-base font-bold">
               <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-hero">
                 <Briefcase className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={2.5} />
@@ -25,7 +25,7 @@ export function Footer() {
               {site?.footer_about ??
                 "A global recruiting agency placing senior talent across tech, finance, healthcare, and industrial sectors."}
             </p>
-            <div className="mt-4 flex gap-3">
+            <div className="mt-4 flex gap-3 justify-center md:justify-start">
               {site?.social_linkedin && (
                 <a
                   href={site.social_linkedin}
