@@ -202,17 +202,12 @@ function MonoHero() {
       <div className="relative">
         {/* Hero photo */}
         <div className="relative h-[70vh] min-h-[520px] w-full overflow-hidden md:h-[78vh]">
-          <video
-            src="/hero-video-2.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={themeMono}
+          <img
+            src={themeMono}
+            alt="Confident professional"
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
 
           {/* Floating white card */}
           <div className="container relative mx-auto flex h-full items-center px-4">
