@@ -1,84 +1,103 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Helper function to check if the user is authenticated
+    // ------------------------------------------------------------------
+    // Helper functions
+    // ------------------------------------------------------------------
     function isAuthenticated() {
       return request.auth != null;
     }
 
-    // Helper function to check if the user is an admin
-    // Expects user_roles documents to use the user's UID as the document ID
     function isAdmin() {
-      return isAuthenticated() && 
+      return isAuthenticated() &&
         exists(/databases/$(database)/documents/user_roles/$(request.auth.uid)) &&
         get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // General collections: public read, admin write
+    // ------------------------------------------------------------------
+    // Public content collections: anyone can read, only admins write
+    // ------------------------------------------------------------------
     match /site_settings/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /page_content/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /services/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /companies/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /jobs/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /testimonials/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /industries/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /team_members/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /case_studies/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
+
     match /posts/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // User roles: document ID must equal the user's auth UID
-    match /user_roles/{userId} {
-      // Any authenticated user can read their own role; admins can read all
-      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
-      // A user can create their own role document only if it doesn't exist yet
-      // (first-user auto-promotion). Admins can write any role document.
-      allow create: if isAuthenticated() && request.auth.uid == userId;
-      allow update, delete: if isAdmin();
+    // ------------------------------------------------------------------
+    // Custom pages: public reads only published pages; admins manage all
+    // ------------------------------------------------------------------
+    match /custom_pages/{document} {
+      allow read: if resource.data.published == true;
+      allow write: if isAdmin();
     }
 
-    // Contact submissions
-    match /submissions/{document} {
+    // ------------------------------------------------------------------
+    // Contact submissions: public can create; only admins read/update/delete
+    // ------------------------------------------------------------------
+    match /contact_submissions/{document} {
       allow create: if true;
       allow read, update, delete: if isAdmin();
+    }
+
+    // ------------------------------------------------------------------
+    // Job applications: authenticated users can create; admins manage all
+    // ------------------------------------------------------------------
+    match /applications/{document} {
+      allow create: if isAuthenticated();
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ------------------------------------------------------------------
+    // User roles: document ID must equal the user's auth UID
+    // ------------------------------------------------------------------
+    match /user_roles/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update, delete: if isAdmin();
     }
   }
 }
