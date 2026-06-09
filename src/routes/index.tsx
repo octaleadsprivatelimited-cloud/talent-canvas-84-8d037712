@@ -426,7 +426,7 @@ function Index() {
                   <button
                     key={ds.title}
                     onClick={() => setActiveService(idx)}
-                    className={`group relative text-left py-4 px-6 border-l-2 -ml-[2px] transition duration-300 ${
+                    className={`group relative text-left py-3 px-4 sm:py-4 sm:px-6 border-l-2 -ml-[2px] transition duration-300 ${
                       isActive
                         ? "border-primary bg-surface/50 text-foreground font-semibold"
                         : "border-transparent text-muted-foreground hover:text-foreground hover:bg-surface/20"
