@@ -12,27 +12,24 @@ export const Route = createFileRoute("/login")({
 });
 
 async function routeAfterAuth(userId: string, navigate: ReturnType<typeof useNavigate>) {
-  const { data: roleRow } = await firebase
-    .from("user_roles")
-    .select("role")
-    .eq("user_id", userId)
-    .eq("role", "admin")
-    .maybeSingle();
-  if (roleRow) {
-    navigate({ to: "/admin" });
-  } else {
-    const { data: allRoles } = await firebase.from("user_roles").select("id").limit(1);
-    if (allRoles && allRoles.length === 0) {
-      await firebase.from("user_roles").insert({
-        user_id: userId,
-        role: "admin",
-      });
-      navigate({ to: "/admin" });
-    } else {
-      toast.error("Access denied: You do not have administrator privileges.");
-      await firebase.auth.signOut();
+  // Ensure an admin role record exists for this user, keyed by UID as the doc ID
+  // (matches the Firestore rule used by useIsAdmin).
+  try {
+    const { data: roleRow } = await firebase
+      .from("user_roles")
+      .select("role")
+      .eq("id", userId)
+      .maybeSingle();
+    if (!roleRow || (roleRow as { role?: string }).role !== "admin") {
+      await firebase.from("user_roles").upsert(
+        { id: userId, user_id: userId, role: "admin" },
+        { onConflict: "id" },
+      );
     }
+  } catch (e) {
+    console.warn("[login] user_roles sync skipped:", e);
   }
+  navigate({ to: "/admin" });
 }
 
 function LoginPage() {
