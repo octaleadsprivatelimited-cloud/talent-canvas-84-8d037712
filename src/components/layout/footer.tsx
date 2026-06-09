@@ -97,7 +97,7 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {brand}. All rights reserved.
           </p>
-          <p>Built with care for hiring teams worldwide.</p>
+          <p className="hidden sm:block">Built with care for hiring teams worldwide.</p>
           <p>
             Developed By{" "}
             <a
