@@ -288,7 +288,7 @@ function AuroraHero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen snap-start overflow-hidden bg-[#0a0a1f] text-white"
+      className="relative min-h-[85dvh] md:min-h-screen snap-start overflow-hidden bg-[#0a0a1f] text-white"
     >
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
         <video
@@ -301,23 +301,23 @@ function AuroraHero() {
         />
       </div>
 
-      <div className="container relative mx-auto px-4 pt-20 pb-16 md:pt-28">
+      <div className="container relative mx-auto px-4 pt-16 pb-12 md:pt-28">
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-medium backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5 text-fuchsia-300" /> Global Talent · USA + India
           </span>
-          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl">
+          <h1 className="mt-4 md:mt-6 font-display text-4xl sm:text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-7xl">
             The talent platform for ambitious teams.
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-base text-white/70 md:text-lg">
+          <p className="mx-auto mt-4 md:mt-6 max-w-xl text-sm sm:text-base text-white/70 md:text-lg">
             Executive search, embedded RPO, and workforce consulting — wrapped in a delivery model
             that scales with you.
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-6 md:mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-white px-7 text-[#0a0a1f] hover:bg-white/90"
+              className="rounded-full bg-white px-6 sm:px-7 text-[#0a0a1f] hover:bg-white/90"
             >
               <Link to="/contact">
                 Get started <ArrowRight className="ml-1.5 h-4 w-4" />
@@ -327,20 +327,20 @@ function AuroraHero() {
               asChild
               size="lg"
               variant="outline"
-              className="rounded-full border-white/30 bg-white/5 px-7 text-white backdrop-blur hover:bg-white/15 hover:text-white"
+              className="rounded-full border-white/30 bg-white/5 px-6 sm:px-7 text-white backdrop-blur hover:bg-white/15 hover:text-white"
             >
               <Link to="/services">Explore services</Link>
             </Button>
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-2 gap-3 md:mt-20 md:grid-cols-4">
+        <div className="mt-10 md:mt-16 grid grid-cols-2 gap-3 md:grid-cols-4">
           {stats.map((s) => (
             <div
               key={s.label}
-              className="rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur-xl"
+              className="rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-5 backdrop-blur-xl"
             >
-              <p className="font-display text-3xl font-bold md:text-4xl">{s.value}</p>
+              <p className="font-display text-2xl sm:text-3xl font-bold md:text-4xl">{s.value}</p>
               <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/60">
                 {s.label}
               </p>
