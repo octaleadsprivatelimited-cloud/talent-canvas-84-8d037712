@@ -18,27 +18,43 @@ async function routeAfterAuth(
 ) {
   try {
     // 1. If this user already has a role, send them in.
-    const { data: roleRow } = await firebase
+    const { data: roleRow, error: roleErr } = await firebase
       .from("user_roles")
       .select("role")
       .eq("id", userId)
       .maybeSingle();
+    if (roleErr) {
+      toast.error("Could not verify your access. Please try again.");
+      return;
+    }
     if (roleRow && (roleRow as { role?: string }).role) {
       navigate({ to: "/admin" });
       return;
     }
 
-    // 2. Bootstrap: if no roles exist at all, the first user becomes admin.
-    const { data: any } = await firebase
+    // 2. Bootstrap: if no roles exist at all, the first user becomes admin —
+    //    but only if the upsert actually succeeds (rules-enforced).
+    const { data: any, error: listErr } = await firebase
       .from("user_roles")
       .select("id")
       .limit(1);
+    if (listErr) {
+      toast.error("Could not verify your access. Please try again.");
+      return;
+    }
     const allRoles = (any as { id: string }[] | null) ?? [];
     if (allRoles.length === 0) {
-      await firebase.from("user_roles").upsert(
+      const { error: upsertErr } = await firebase.from("user_roles").upsert(
         { id: userId, user_id: userId, role: "admin", email },
         { onConflict: "id" },
       );
+      if (upsertErr) {
+        toast.error(
+          "Your account doesn't have an admin role yet. Ask an administrator to grant you access.",
+        );
+        await firebase.auth.signOut();
+        return;
+      }
       navigate({ to: "/admin" });
       return;
     }
