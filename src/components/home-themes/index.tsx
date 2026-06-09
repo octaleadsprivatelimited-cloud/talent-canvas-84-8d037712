@@ -212,8 +212,8 @@ function MonoHero() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
 
-          {/* Floating white card */}
-          <div className="container relative mx-auto flex h-full items-center px-4">
+          {/* Floating white card — centered on desktop, full-width on mobile */}
+          <div className="container relative mx-auto flex h-full items-center justify-center px-4">
             <div className="w-full max-w-xl rounded-md bg-background p-6 shadow-2xl sm:p-10">
               <h1 className="font-display text-3xl font-extrabold uppercase leading-[0.95] tracking-tight text-foreground sm:text-5xl md:text-6xl">
                 Looking for
