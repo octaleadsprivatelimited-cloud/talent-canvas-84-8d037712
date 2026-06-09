@@ -115,29 +115,20 @@ function EditorialHero() {
       id="hero"
       className="relative snap-start overflow-hidden bg-white text-neutral-900"
     >
-      <div className="relative min-h-[78vh] md:min-h-[88vh] bg-gradient-to-b from-[#e8ecf3] via-[#dde4f0] to-[#c9d3e6] overflow-hidden">
-        {/* Video — centered on mobile, right side on desktop to avoid overlapping the card */}
-        <div className="absolute inset-0 flex items-center justify-center md:justify-end md:pr-4 lg:pr-8 pointer-events-none">
-          <div className="relative w-[92%] md:w-[75%] lg:w-[70%] aspect-video max-h-[70%] pointer-events-auto">
-            <video
-              src="/hero-video.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="/hero-bg.jpg"
-              className="h-full w-full object-cover shadow-[0_30px_80px_-20px_rgba(15,23,42,0.45)]"
-            />
-            {/* Play indicator (decorative) */}
-            <button
-              type="button"
-              aria-label="Play video"
-              className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-white/90 text-neutral-900 shadow-md backdrop-blur transition hover:scale-105"
-            >
-              <Play className="h-5 w-5 fill-current" />
-            </button>
-          </div>
-        </div>
+      <div className="relative min-h-[78vh] md:min-h-[88vh] overflow-hidden">
+        {/* Full-bleed background video */}
+        <video
+          src="/hero-video.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/hero-bg.jpg"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Dark gradient overlay for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-black/10" />
+
 
 
         {/* Floating white editorial card — bottom left */}
