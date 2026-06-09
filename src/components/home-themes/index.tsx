@@ -110,102 +110,115 @@ const stats = [
    1. EDITORIAL BOLD  — original layout
    ================================================================= */
 function EditorialHero() {
-  const clients = [
-    "DELAWARE, USA",
-    "GLOBAL DELIVERY",
-    "USA + INDIA",
-    "RPO",
-    "EXECUTIVE SEARCH",
-    "WORKFORCE SOLUTIONS",
-  ];
   return (
     <section
       id="hero"
-      className="relative snap-start overflow-hidden bg-[#18182b] min-h-[85dvh] md:min-h-screen flex flex-col justify-between py-12 md:py-24"
+      className="relative snap-start overflow-hidden bg-white text-neutral-900"
     >
-      {/* Background Media */}
-      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
-        {/* Mobile Background Image */}
-        <img
-          src="/hero-bg.jpg"
-          alt=""
-          className="block md:hidden h-full w-full object-cover opacity-[0.45]"
-        />
-        {/* Desktop Background Video */}
-        <video
-          src="/hero-video.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="hidden md:block h-full w-full object-cover opacity-[0.7]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/50" />
-      </div>
-
-      <div className="container relative mx-auto px-4 z-10 my-auto">
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent">
-            <span>Global Talent & Workforce Solutions</span>
-            <span className="hidden h-px w-8 bg-accent/50 sm:block" />
-            <span className="hidden text-white/60 sm:inline">Delaware, USA</span>
+      {/* Top dark nav-style band (Gates Notes inspired) */}
+      <div className="relative z-10 bg-neutral-950 text-white">
+        <div className="container mx-auto flex items-stretch px-0">
+          <div className="flex items-center bg-neutral-950 px-5 py-4 border-r border-white/10">
+            <div className="font-display text-lg font-black leading-none tracking-tight">
+              Virelix
+              <br />
+              Consulting
+            </div>
           </div>
-          <h1 className="mt-4 sm:mt-6 font-display text-4xl sm:text-5xl font-bold leading-[0.95] tracking-tight text-white md:text-7xl lg:text-[5.5rem]">
-            Building
-            <br />
-            high-performing
-            <br />
-            <span className="relative inline-block">
-              <span className="relative z-10 text-accent">teams.</span>
-              <span className="absolute -bottom-1 left-0 right-0 z-0 h-2 sm:h-3 bg-accent/20" />
-            </span>
-          </h1>
-          <p className="mt-6 sm:mt-8 max-w-xl text-sm sm:text-base leading-relaxed text-white/80 md:text-lg">
-            Virelix Consulting connects high-growth organizations with exceptional talent through
-            strategic recruitment, workforce solutions, business consulting, and professional
-            training — delivered across the USA and India.
-          </p>
-          <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
-            <Button
-              size="lg"
-              variant="secondary"
-              asChild
-              className="rounded-none px-5 sm:px-7 py-5 sm:py-6 text-sm sm:text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
-            >
-              <Link to="/contact">
-                Hire with Virelix <ArrowUpRight className="ml-1 h-4 sm:h-5 w-4 sm:w-5" />
-              </Link>
+          <nav className="hidden md:flex flex-1 items-center justify-center gap-12 text-[15px] font-medium">
+            <Link to="/services" className="hover:text-white/70 transition border-b-2 border-transparent hover:border-white pb-1">Services</Link>
+            <Link to="/about" className="hover:text-white/70 transition border-b-2 border-transparent hover:border-white pb-1">About</Link>
+            <Link to="/industries" className="hover:text-white/70 transition border-b-2 border-transparent hover:border-white pb-1">Industries</Link>
+            <Link to="/contact" className="hover:text-white/70 transition border-b-2 border-transparent hover:border-white pb-1">Contact</Link>
+          </nav>
+          <div className="hidden md:flex items-center px-5 border-l border-white/10">
+            <Button asChild size="sm" variant="secondary" className="rounded-none">
+              <Link to="/contact">Hire talent</Link>
             </Button>
-            <Link
-              to="/services"
-              className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-white hover:text-accent"
-            >
-              <PlayCircle className="h-5 w-5 text-accent" />
-              <span className="border-b border-transparent pb-0.5 transition group-hover:border-accent">
-                Explore our services
-              </span>
-            </Link>
           </div>
         </div>
       </div>
-      <div className="mt-0 border-t border-white/10 bg-black/45 py-4 sm:py-5 z-10">
-        <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-8 gap-y-2 sm:gap-y-3 px-4">
-          <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
-            Trusted by
-          </span>
-          {clients.map((c) => (
-            <span
-              key={c}
-              className="font-display text-[9px] sm:text-[10px] font-bold tracking-[0.18em] text-white/70 md:text-xs"
+
+      {/* Hero stage: soft gradient backdrop with centered video */}
+      <div className="relative min-h-[78vh] md:min-h-[88vh] bg-gradient-to-b from-[#e8ecf3] via-[#dde4f0] to-[#c9d3e6] overflow-hidden">
+        {/* Centered video */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="relative w-[92%] md:w-[70%] lg:w-[62%] aspect-video max-h-[80%] pointer-events-auto">
+            <video
+              src="/hero-video.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/hero-bg.jpg"
+              className="h-full w-full object-cover shadow-[0_30px_80px_-20px_rgba(15,23,42,0.45)]"
+            />
+            {/* Play indicator (decorative) */}
+            <button
+              type="button"
+              aria-label="Play video"
+              className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-white/90 text-neutral-900 shadow-md backdrop-blur transition hover:scale-105"
             >
-              {c}
-            </span>
+              <Play className="h-5 w-5 fill-current" />
+            </button>
+          </div>
+        </div>
+
+        {/* Floating white editorial card — bottom left */}
+        <div className="relative z-10 container mx-auto px-4 h-full">
+          <div className="flex h-full min-h-[78vh] md:min-h-[88vh] items-end md:items-center">
+            <article className="w-full max-w-md bg-white/95 backdrop-blur-sm p-7 md:p-9 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.35)] mb-8 md:mb-0">
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-neutral-900">
+                Global Workforce Solutions
+              </div>
+              <h1 className="mt-5 font-display text-3xl md:text-4xl lg:text-[44px] font-bold leading-[1.05] tracking-tight text-neutral-900">
+                Building high-performing teams across borders.
+              </h1>
+              <p className="mt-5 text-[15px] leading-relaxed text-neutral-700">
+                Virelix Consulting connects high-growth organizations with exceptional talent through
+                executive search, specialist recruitment, embedded RPO, and professional training —
+                delivered across the USA and India.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center gap-4">
+                <Button
+                  asChild
+                  size="lg"
+                  className="rounded-none bg-neutral-950 text-white hover:bg-neutral-800 px-6"
+                >
+                  <Link to="/contact">
+                    Hire with Virelix <ArrowUpRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Link
+                  to="/services"
+                  className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-neutral-900"
+                >
+                  <span className="border-b border-neutral-900 pb-0.5 transition group-hover:border-transparent">
+                    Explore our services
+                  </span>
+                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats strip below hero */}
+      <div className="border-t border-neutral-200 bg-white">
+        <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-neutral-200">
+          {stats.map((s) => (
+            <div key={s.label} className="px-5 py-6 text-center">
+              <div className="font-display text-2xl md:text-3xl font-bold text-neutral-900">{s.value}</div>
+              <div className="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500">{s.label}</div>
+            </div>
           ))}
         </div>
       </div>
     </section>
   );
 }
+
 
 /* =================================================================
    2. ADECCO BOLD — crimson banner + floating white CTA card
