@@ -237,7 +237,7 @@ function Index() {
           name: t.author_name,
           role: [t.author_role, t.company].filter(Boolean).join(" · "),
         }))
-      : testimonials;
+      : [];
 
   const { data: dbIndustries } = useQuery({
     queryKey: ["industries"],
