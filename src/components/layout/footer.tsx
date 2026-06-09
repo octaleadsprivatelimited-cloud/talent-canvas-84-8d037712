@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Briefcase, Linkedin, Twitter, Instagram } from "lucide-react";
+import { Briefcase, Linkedin, Twitter, Instagram, ChevronDown } from "lucide-react";
+import { useState } from "react";
 import { useSiteSettings } from "@/hooks/use-site-settings";
+import { cn } from "@/lib/utils";
 
 export function Footer() {
   const { data: site } = useSiteSettings();
