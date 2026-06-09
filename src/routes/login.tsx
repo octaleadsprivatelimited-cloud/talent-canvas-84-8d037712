@@ -67,7 +67,7 @@ function LoginPage() {
       const { data } = await firebase.auth.getSession();
       const user = data.session?.user ?? null;
       if (cancelled || !user) return;
-      await routeAfterAuth(user.id, navigate);
+      await routeAfterAuth(user.id, user.email ?? null, navigate);
     })();
     return () => {
       cancelled = true;
@@ -80,7 +80,7 @@ function LoginPage() {
       const res = await firebase.auth.signInWithPopupGoogle();
       if (res.error) throw res.error;
       if (res.user) {
-        await routeAfterAuth(res.user.uid, navigate);
+        await routeAfterAuth(res.user.uid, res.user.email ?? null, navigate);
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Google sign-in failed";
@@ -106,7 +106,7 @@ function LoginPage() {
         });
         if (error) throw error;
         if (data.session?.user) {
-          await routeAfterAuth(data.session.user.id, navigate);
+          await routeAfterAuth(data.session.user.id, data.session.user.email ?? null, navigate);
         } else {
           toast.success("Account created. Check your email to confirm, then sign in.");
           setMode("signin");
@@ -114,7 +114,7 @@ function LoginPage() {
       } else {
         const { data, error } = await firebase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (data.user) await routeAfterAuth(data.user.id, navigate);
+        if (data.user) await routeAfterAuth(data.user.id, data.user.email ?? null, navigate);
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Authentication failed";
