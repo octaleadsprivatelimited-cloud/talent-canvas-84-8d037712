@@ -122,7 +122,7 @@ function EditorialHero() {
   return (
     <section
       id="hero"
-      className="relative snap-start overflow-hidden bg-[#18182b] min-h-screen flex flex-col justify-between py-16 md:py-24"
+      className="relative snap-start overflow-hidden bg-[#18182b] min-h-[85dvh] md:min-h-screen flex flex-col justify-between py-12 md:py-24"
     >
       {/* Background Media */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
@@ -146,35 +146,35 @@ function EditorialHero() {
 
       <div className="container relative mx-auto px-4 z-10 my-auto">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-xs font-bold uppercase tracking-[0.2em] text-accent">
+          <div className="inline-flex items-center gap-3 border-l-2 border-accent pl-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent">
             <span>Global Talent & Workforce Solutions</span>
             <span className="hidden h-px w-8 bg-accent/50 sm:block" />
             <span className="hidden text-white/60 sm:inline">Delaware, USA</span>
           </div>
-          <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tight text-white md:text-7xl lg:text-[5.5rem]">
+          <h1 className="mt-4 sm:mt-6 font-display text-4xl sm:text-5xl font-bold leading-[0.95] tracking-tight text-white md:text-7xl lg:text-[5.5rem]">
             Building
             <br />
             high-performing
             <br />
             <span className="relative inline-block">
               <span className="relative z-10 text-accent">teams.</span>
-              <span className="absolute -bottom-1 left-0 right-0 z-0 h-3 bg-accent/20" />
+              <span className="absolute -bottom-1 left-0 right-0 z-0 h-2 sm:h-3 bg-accent/20" />
             </span>
           </h1>
-          <p className="mt-8 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
+          <p className="mt-6 sm:mt-8 max-w-xl text-sm sm:text-base leading-relaxed text-white/80 md:text-lg">
             Virelix Consulting connects high-growth organizations with exceptional talent through
             strategic recruitment, workforce solutions, business consulting, and professional
             training — delivered across the USA and India.
           </p>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
             <Button
               size="lg"
               variant="secondary"
               asChild
-              className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
+              className="rounded-none px-5 sm:px-7 py-5 sm:py-6 text-sm sm:text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
             >
               <Link to="/contact">
-                Hire with Virelix <ArrowUpRight className="ml-1 h-5 w-5" />
+                Hire with Virelix <ArrowUpRight className="ml-1 h-4 sm:h-5 w-4 sm:w-5" />
               </Link>
             </Button>
             <Link
@@ -189,15 +189,15 @@ function EditorialHero() {
           </div>
         </div>
       </div>
-      <div className="mt-0 border-t border-white/10 bg-black/45 py-5 z-10">
-        <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-8 gap-y-3 px-4">
-          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
+      <div className="mt-0 border-t border-white/10 bg-black/45 py-4 sm:py-5 z-10">
+        <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-8 gap-y-2 sm:gap-y-3 px-4">
+          <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
             Trusted by
           </span>
           {clients.map((c) => (
             <span
               key={c}
-              className="font-display text-[10px] font-bold tracking-[0.18em] text-white/70 md:text-xs"
+              className="font-display text-[9px] sm:text-[10px] font-bold tracking-[0.18em] text-white/70 md:text-xs"
             >
               {c}
             </span>
