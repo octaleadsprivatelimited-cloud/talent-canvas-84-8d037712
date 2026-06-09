@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HomeHero, type ThemeKey } from "@/components/home-themes";
-import { useSiteSettings } from "@/hooks/use-site-settings";
+import { useSiteSettings, getCachedHomeTheme } from "@/hooks/use-site-settings";
 import { usePageContent } from "@/hooks/use-page-content";
 import { HOMEPAGE_DEFAULTS } from "@/lib/homepage-defaults";
 import { useQuery } from "@tanstack/react-query";
