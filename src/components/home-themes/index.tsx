@@ -373,10 +373,10 @@ function AuroraHero() {
    ================================================================= */
 function MagazineHero() {
   const tiles = [
-    { label: "Study", to: "/services", color: "#f5b800", text: "#1a1a1a" },
-    { label: "Migrate", to: "/services", color: "#8e3fb3", text: "#ffffff" },
-    { label: "Work", to: "/jobs", color: "#1ba1a8", text: "#ffffff" },
-    { label: "Visit", to: "/contact", color: "#6ab04c", text: "#ffffff" },
+    { label: "Executive Search", to: "/services", color: "#e8482a", text: "#ffffff" },
+    { label: "Recruitment", to: "/services", color: "#8e3fb3", text: "#ffffff" },
+    { label: "RPO", to: "/services", color: "#1ba1a8", text: "#ffffff" },
+    { label: "Training", to: "/services", color: "#6ab04c", text: "#ffffff" },
   ];
   return (
     <section id="hero" className="relative snap-start overflow-hidden bg-background text-foreground">
@@ -400,12 +400,12 @@ function MagazineHero() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white md:p-10">
             <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#f5b800]">
-              Evaluation Systems · Free · 60 seconds
+              Virelix Consulting · USA + India
             </p>
             <p className="mt-3 font-display text-3xl font-bold leading-tight md:text-5xl">
-              Can you migrate?
+              Build high-performing
               <br />
-              <span className="text-white/90">Find out free in 60 seconds.</span>
+              <span className="text-white/90">teams across borders.</span>
             </p>
             <Button
               asChild
@@ -413,7 +413,7 @@ function MagazineHero() {
               className="mt-5 rounded-md bg-[#e8482a] px-6 text-white hover:bg-[#d23e22]"
             >
               <Link to="/contact">
-                Check my eligibility <ArrowRight className="ml-2 h-4 w-4" />
+                Hire with Virelix <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -425,8 +425,7 @@ function MagazineHero() {
             What can we do for you today?
           </h1>
           <p className="mt-4 max-w-md text-sm text-muted-foreground md:text-base">
-            Choose your pathway. Virelix guides talent across study, migration, work, and visit
-            opportunities — globally.
+            Choose your pathway. Virelix delivers executive search, specialist recruitment, embedded RPO, and professional training — tailored to your growth.
           </p>
 
           <div className="mt-8 grid grid-cols-2 gap-4">
@@ -434,7 +433,7 @@ function MagazineHero() {
               <Link
                 key={t.label}
                 to={t.to}
-                className="group flex aspect-[2/1] items-center justify-center rounded-md p-6 font-display text-2xl font-bold transition-transform hover:-translate-y-1 md:text-3xl"
+                className="group flex aspect-[2/1] items-center justify-center rounded-md p-4 font-display text-lg font-bold text-center transition-transform hover:-translate-y-1 md:text-xl"
                 style={{ backgroundColor: t.color, color: t.text }}
               >
                 {t.label}
@@ -445,9 +444,9 @@ function MagazineHero() {
           <div className="mt-8 flex items-center gap-3 border-t border-border pt-6">
             <Zap className="h-5 w-5 text-[#e8482a]" />
             <p className="text-sm font-medium text-foreground">
-              Don't know what to do?{" "}
+              Not sure what you need?{" "}
               <Link to="/contact" className="text-[#e8482a] underline-offset-4 hover:underline">
-                Get free counselling
+                Talk to our team
               </Link>
             </p>
           </div>
