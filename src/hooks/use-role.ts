@@ -3,7 +3,7 @@ import { firebase } from "@/integrations/firebase/client";
 import { useAuth } from "./use-auth";
 import { isRole, roleHasPermission, type Role, type Permission } from "@/lib/rbac";
 
-type RoleRow = { id: string; role?: string };
+type RoleRow = { user_id: string; role?: string };
 
 export type UseRoleResult = {
   user: ReturnType<typeof useAuth>["user"];
