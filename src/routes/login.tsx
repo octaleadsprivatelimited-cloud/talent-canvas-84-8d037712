@@ -11,25 +11,47 @@ export const Route = createFileRoute("/login")({
   component: LoginPage,
 });
 
-async function routeAfterAuth(userId: string, navigate: ReturnType<typeof useNavigate>) {
-  // Ensure an admin role record exists for this user, keyed by UID as the doc ID
-  // (matches the Firestore rule used by useIsAdmin).
+async function routeAfterAuth(
+  userId: string,
+  email: string | null,
+  navigate: ReturnType<typeof useNavigate>,
+) {
   try {
+    // 1. If this user already has a role, send them in.
     const { data: roleRow } = await firebase
       .from("user_roles")
       .select("role")
       .eq("id", userId)
       .maybeSingle();
-    if (!roleRow || (roleRow as { role?: string }).role !== "admin") {
+    if (roleRow && (roleRow as { role?: string }).role) {
+      navigate({ to: "/admin" });
+      return;
+    }
+
+    // 2. Bootstrap: if no roles exist at all, the first user becomes admin.
+    const { data: any } = await firebase
+      .from("user_roles")
+      .select("id")
+      .limit(1);
+    const allRoles = (any as { id: string }[] | null) ?? [];
+    if (allRoles.length === 0) {
       await firebase.from("user_roles").upsert(
-        { id: userId, user_id: userId, role: "admin" },
+        { id: userId, user_id: userId, role: "admin", email },
         { onConflict: "id" },
       );
+      navigate({ to: "/admin" });
+      return;
     }
+
+    // 3. Otherwise the user has no role — ask an admin to grant access.
+    toast.error(
+      "Your account doesn't have an admin role yet. Ask an administrator to grant you access.",
+    );
+    await firebase.auth.signOut();
   } catch (e) {
-    console.warn("[login] user_roles sync skipped:", e);
+    console.warn("[login] role check failed:", e);
+    toast.error("Could not verify your access. Please try again.");
   }
-  navigate({ to: "/admin" });
 }
 
 function LoginPage() {
