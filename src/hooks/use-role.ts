@@ -34,8 +34,8 @@ export function useRole(): UseRoleResult {
       try {
         const { data, error } = await firebase
           .from("user_roles")
-          .select("role")
-          .eq("id", user.id)
+          .select("role,user_id")
+          .eq("user_id", user.id)
           .maybeSingle();
 
         // If the read itself failed (permission-denied / network), do NOT
