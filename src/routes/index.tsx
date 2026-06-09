@@ -400,7 +400,7 @@ function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
-        <div className="container mx-auto flex min-h-[80vh] flex-col justify-center px-4 relative z-10">
+        <div className="container mx-auto flex min-h-[60vh] md:min-h-[80vh] flex-col justify-center px-4 relative z-10">
           <div className="grid gap-10 md:grid-cols-12 md:items-end">
             <div className="md:col-span-7">
               <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
