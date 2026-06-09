@@ -13,11 +13,9 @@ export const Route = createFileRoute("/login")({
 
 async function routeAfterAuth(
   userId: string,
-  email: string | null,
   navigate: ReturnType<typeof useNavigate>,
 ) {
   try {
-    // 1. If this user already has a role, send them in.
     const { data: roleRow, error: roleErr } = await firebase
       .from("user_roles")
       .select("role")
@@ -31,37 +29,8 @@ async function routeAfterAuth(
       navigate({ to: "/admin" });
       return;
     }
-
-    // 2. Bootstrap: if no roles exist at all, the first user becomes admin —
-    //    but only if the upsert actually succeeds (rules-enforced).
-    const { data: any, error: listErr } = await firebase
-      .from("user_roles")
-      .select("id")
-      .limit(1);
-    if (listErr) {
-      toast.error("Could not verify your access. Please try again.");
-      return;
-    }
-    const allRoles = (any as { id: string }[] | null) ?? [];
-    if (allRoles.length === 0) {
-      const { error: upsertErr } = await firebase.from("user_roles").upsert(
-        { id: userId, user_id: userId, role: "admin", email },
-        { onConflict: "id" },
-      );
-      if (upsertErr) {
-        toast.error(
-          "Your account doesn't have an admin role yet. Ask an administrator to grant you access.",
-        );
-        await firebase.auth.signOut();
-        return;
-      }
-      navigate({ to: "/admin" });
-      return;
-    }
-
-    // 3. Otherwise the user has no role — ask an admin to grant access.
     toast.error(
-      "Your account doesn't have an admin role yet. Ask an administrator to grant you access.",
+      "Your account doesn't have admin access. Contact an administrator.",
     );
     await firebase.auth.signOut();
   } catch (e) {
@@ -72,7 +41,6 @@ async function routeAfterAuth(
 
 function LoginPage() {
   const [loading, setLoading] = useState(false);
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -83,28 +51,12 @@ function LoginPage() {
       const { data } = await firebase.auth.getSession();
       const user = data.session?.user ?? null;
       if (cancelled || !user) return;
-      await routeAfterAuth(user.id, user.email ?? null, navigate);
+      await routeAfterAuth(user.id, navigate);
     })();
     return () => {
       cancelled = true;
     };
   }, [navigate]);
-
-  const signInWithGoogle = async () => {
-    setLoading(true);
-    try {
-      const res = await firebase.auth.signInWithPopupGoogle();
-      if (res.error) throw res.error;
-      if (res.user) {
-        await routeAfterAuth(res.user.uid, res.user.email ?? null, navigate);
-      }
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Google sign-in failed";
-      toast.error(msg);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const submitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,24 +66,9 @@ function LoginPage() {
     }
     setLoading(true);
     try {
-      if (mode === "signup") {
-        const { data, error } = await firebase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: `${window.location.origin}/login` },
-        });
-        if (error) throw error;
-        if (data.session?.user) {
-          await routeAfterAuth(data.session.user.id, data.session.user.email ?? null, navigate);
-        } else {
-          toast.success("Account created. Check your email to confirm, then sign in.");
-          setMode("signin");
-        }
-      } else {
-        const { data, error } = await firebase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        if (data.user) await routeAfterAuth(data.user.id, data.user.email ?? null, navigate);
-      }
+      const { data, error } = await firebase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      if (data.user) await routeAfterAuth(data.user.id, navigate);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Authentication failed";
       toast.error(msg);
@@ -141,23 +78,31 @@ function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background px-6 py-24 md:px-12">
-      <div className="mx-auto flex max-w-md flex-col">
-        <div className="mb-6 flex items-center gap-4">
-          <span className="h-px w-8 bg-foreground" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
-            Admin access
+    <main className="relative min-h-screen overflow-hidden bg-background">
+      {/* Backdrop */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-accent/10 blur-3xl" />
+      </div>
+
+      <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-16">
+        <div className="mb-8 flex items-center gap-3">
+          <span className="h-px w-10 bg-foreground/40" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground">
+            Restricted · Admin
           </span>
         </div>
-        <h1 className="text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl">
-          Sign in to <span className="italic text-muted-foreground">Virelix</span>
+
+        <h1 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
+          Sign in to <span className="text-gradient italic">Virelix</span>
         </h1>
-        <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-          Restricted area. Sign in with email & password, or use Google.
+        <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+          This area is for authorised team members only. If you need access,
+          contact your administrator.
         </p>
 
-        <div className="mt-10 border border-border bg-card p-8">
-          <form onSubmit={submitEmail} className="space-y-4">
+        <div className="mt-10 rounded-2xl border border-border/60 bg-card/70 p-8 shadow-xl backdrop-blur">
+          <form onSubmit={submitEmail} className="space-y-5">
             <div>
               <Label
                 htmlFor="email"
@@ -171,7 +116,7 @@ function LoginPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 rounded-none border-border"
+                className="mt-2"
                 required
               />
             </div>
@@ -185,10 +130,10 @@ function LoginPage() {
               <Input
                 id="password"
                 type="password"
-                autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-2 rounded-none border-border"
+                className="mt-2"
                 minLength={6}
                 required
               />
@@ -196,36 +141,16 @@ function LoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full rounded-none bg-foreground text-background py-6 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-foreground/90"
+              className="w-full py-6 text-[11px] font-bold uppercase tracking-[0.3em]"
             >
-              {loading ? "Please wait…" : mode === "signup" ? "Create account" : "Sign in"}
+              {loading ? "Signing in…" : "Sign in"}
             </Button>
-            <button
-              type="button"
-              onClick={() => setMode(mode === "signup" ? "signin" : "signup")}
-              className="w-full text-center text-[10px] uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-foreground"
-            >
-              {mode === "signup" ? "Have an account? Sign in" : "No account? Create one"}
-            </button>
           </form>
-
-          <div className="my-6 flex items-center gap-3">
-            <span className="h-px flex-1 bg-border" />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/70">
-              or
-            </span>
-            <span className="h-px flex-1 bg-border" />
-          </div>
-
-          <Button
-            onClick={signInWithGoogle}
-            disabled={loading}
-            variant="outline"
-            className="w-full rounded-none border-border py-6 text-[11px] font-bold uppercase tracking-[0.3em]"
-          >
-            Continue with Google
-          </Button>
         </div>
+
+        <p className="mt-6 text-center text-xs text-muted-foreground">
+          Accounts are provisioned by administrators. Public sign-up is disabled.
+        </p>
       </div>
     </main>
   );
