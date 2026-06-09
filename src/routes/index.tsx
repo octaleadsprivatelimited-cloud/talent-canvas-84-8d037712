@@ -387,7 +387,7 @@ function Index() {
       </nav>
 
       {/* ============== HERO (theme-driven) ============== */}
-      <HomeHero theme={(settings?.home_theme as ThemeKey) ?? "editorial"} />
+      <HomeHero theme={(settings?.home_theme as ThemeKey) ?? (getCachedHomeTheme() as ThemeKey) ?? "editorial"} />
 
       {/* ============== SERVICES ============== */}
       <section id="services" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
