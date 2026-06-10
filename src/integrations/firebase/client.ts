@@ -822,26 +822,13 @@ class FirebaseAuthWrapper {
         error: null,
       };
     } catch (error: any) {
-      console.warn("Firebase Auth signInWithPassword failed, falling back to mock user session:", error);
-      const mockUser = {
-        id: "mock-admin-user-id",
-        email: email || "admin.virelixconsulting@gmail.com",
-        app_metadata: { provider: "mock" },
-        user_metadata: {},
-        created_at: new Date().toISOString(),
-        last_sign_in_at: new Date().toISOString(),
-      };
-      const mockSession = {
-        access_token: "mock-token",
-        user: mockUser,
-      };
-      if (typeof window !== "undefined") {
-        localStorage.setItem("virelix_mock_session", JSON.stringify(mockSession));
-        window.dispatchEvent(new Event("virelix_auth_change"));
-      }
+      console.warn("Firebase Auth signInWithPassword failed:", error);
       return {
-        data: { user: mockUser, session: mockSession },
-        error: null,
+        data: null,
+        error: {
+          message: error.message || "Authentication failed",
+          code: error.code,
+        },
       };
     }
   }
@@ -893,27 +880,14 @@ class FirebaseAuthWrapper {
         error: null,
       };
     } catch (error: any) {
-      console.warn("Firebase Google Sign-In failed, falling back to mock admin session:", error);
-      const mockUser = {
-        id: "mock-admin-user-id",
-        email: "admin.virelixconsulting@gmail.com",
-        app_metadata: { provider: "google" },
-        user_metadata: { name: "Virelix Admin" },
-        created_at: new Date().toISOString(),
-        last_sign_in_at: new Date().toISOString(),
-      };
-      const mockSession = {
-        access_token: "mock-token",
-        user: mockUser,
-      };
-      if (typeof window !== "undefined") {
-        localStorage.setItem("virelix_mock_session", JSON.stringify(mockSession));
-        window.dispatchEvent(new Event("virelix_auth_change"));
-      }
+      console.warn("Firebase Google Sign-In failed:", error);
       return {
-        user: mockUser,
-        session: mockSession,
-        error: null,
+        user: null,
+        session: null,
+        error: {
+          message: error.message || "Google Sign-In failed",
+          code: error.code,
+        },
       };
     }
   }
