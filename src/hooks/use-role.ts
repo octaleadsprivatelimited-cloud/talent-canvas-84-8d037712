@@ -15,45 +15,19 @@ export type UseRoleResult = {
   hasAdminAccess: boolean;
 };
 
-let autoLoginAttempted = false;
-
 export function useRole(): UseRoleResult {
   const { user, loading: authLoading } = useAuth();
   const [role, setRole] = useState<Role | null>(null);
   const [roleLoading, setRoleLoading] = useState<boolean>(true);
   const [roleUserId, setRoleUserId] = useState<string | null>(null);
-  const [autoLoginLoading, setAutoLoginLoading] = useState<boolean>(false);
 
   useEffect(() => {
     let cancelled = false;
     if (authLoading) return;
     if (!user) {
-      const isAuthPage =
-        typeof window !== "undefined" &&
-        (window.location.pathname.startsWith("/dock") || window.location.pathname === "/login");
-
-      if (isAuthPage && !autoLoginAttempted) {
-        autoLoginAttempted = true;
-        setAutoLoginLoading(true);
-        (async () => {
-          try {
-            await firebase.auth.signInWithPassword({
-              email: "admin.virelixconsulting@gmail.com",
-              password: "Virelix@2026",
-            });
-          } catch (e) {
-            console.error("Auto login failed:", e);
-          } finally {
-            if (!cancelled) {
-              setAutoLoginLoading(false);
-            }
-          }
-        })();
-      } else {
-        setRole(null);
-        setRoleUserId(null);
-        setRoleLoading(false);
-      }
+      setRole(null);
+      setRoleUserId(null);
+      setRoleLoading(false);
       return;
     }
 
@@ -140,7 +114,7 @@ export function useRole(): UseRoleResult {
   return {
     user,
     role,
-    loading: authLoading || roleLoading || autoLoginLoading || isTransitioning,
+    loading: authLoading || roleLoading || isTransitioning,
     can,
     hasAdminAccess: role !== null,
   };
