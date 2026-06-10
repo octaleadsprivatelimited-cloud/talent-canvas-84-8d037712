@@ -3,10 +3,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeApplier } from "@/components/theme-applier";
-import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 
 export function RootLayout() {
-  useSmoothScroll();
   return (
     <>
       <ThemeApplier />
