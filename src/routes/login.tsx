@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,7 @@ function LoginPage() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const navigate = useNavigate();
   const { user, loading, hasAdminAccess } = useRole();
+  const signingOutRef = useRef(false);
 
   // Handle automatic redirect based on auth & role status
   useEffect(() => {
@@ -27,9 +28,12 @@ function LoginPage() {
     if (user) {
       if (hasAdminAccess) {
         navigate({ to: "/admin" });
-      } else {
+      } else if (!signingOutRef.current) {
+        signingOutRef.current = true;
         toast.error("Access denied. You do not have permission to view the admin area.");
-        firebase.auth.signOut();
+        firebase.auth.signOut().finally(() => {
+          signingOutRef.current = false;
+        });
       }
     }
   }, [user, loading, hasAdminAccess, navigate]);

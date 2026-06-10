@@ -51,11 +51,19 @@ export function useRole(): UseRoleResult {
         // Bootstrap: rules permit a signed-in user to create their own
         // admin doc (id == auth.uid, role == 'admin'). If admins already
         // exist for someone else, this write will be denied — which is the
-        // intended behaviour.
-        const { error: upsertError } = await firebase
-          .from("user_roles")
-          .upsert({ id: user.id, user_id: user.id, role: "admin" }, { onConflict: "id" });
-        if (!cancelled) setRole(upsertError ? null : "admin");
+        // intended behaviour. Only run this on admin/login routes to avoid
+        // unnecessary write attempts for standard users on public pages.
+        const isAuthPage = typeof window !== "undefined" && 
+          (window.location.pathname.startsWith("/admin") || window.location.pathname === "/login");
+
+        if (isAuthPage) {
+          const { error: upsertError } = await firebase
+            .from("user_roles")
+            .upsert({ id: user.id, user_id: user.id, role: "admin" }, { onConflict: "id" });
+          if (!cancelled) setRole(upsertError ? null : "admin");
+        } else {
+          if (!cancelled) setRole(null);
+        }
       } catch (e) {
         console.warn("[useRole] failed to resolve role:", e);
         if (!cancelled) setRole(null);
