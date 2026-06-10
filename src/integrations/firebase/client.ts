@@ -248,7 +248,11 @@ class FirebaseQueryBuilder {
             const updatedItem = data.find((item) => String(item.id) === String(idFilter.value));
             return { data: [updatedItem], error: null };
           }
-          return { data: [], error: { message: "Item not found to update" } };
+          // Self-healing fallback: if the item does not exist in localStorage fallback db, create it!
+          const newItem = { id: idFilter.value, ...dataToUpdate };
+          data.push(newItem);
+          this.setLocalData(data);
+          return { data: [newItem], error: null };
         }
 
         // Bulk update
