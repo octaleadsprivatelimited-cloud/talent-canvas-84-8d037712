@@ -16,7 +16,7 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/admin/submissions")({
+export const Route = createFileRoute("/dock/submissions")({
   component: SubmissionsAdmin,
 });
 

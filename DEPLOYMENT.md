@@ -103,7 +103,7 @@ URL.
 1. Visit the Vercel URL.
 2. Sign up a test user, then in Firestore console set
    `users/<uid>.role = "admin"`.
-3. Open `/admin/*` routes and confirm CRUD against Firestore works (writes
+3. Open `/dock/*` routes and confirm CRUD against Firestore works (writes
    should succeed only after the role flip).
 4. Open DevTools → Network: Firestore requests should be `200`. A `403
 PERMISSION_DENIED` means a rule or the missing admin role.

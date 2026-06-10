@@ -69,7 +69,7 @@ export function Header() {
         <div className="hidden items-center gap-2 lg:flex">
           {isAdmin && (
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/admin">Admin</Link>
+              <Link to="/dock">Admin</Link>
             </Button>
           )}
           {user ? (
@@ -177,7 +177,7 @@ export function Header() {
               >
                 {isAdmin && (
                   <Button variant="outline" asChild onClick={() => setOpen(false)}>
-                    <Link to="/admin">Admin</Link>
+                    <Link to="/dock">Admin</Link>
                   </Button>
                 )}
                 {user ? (

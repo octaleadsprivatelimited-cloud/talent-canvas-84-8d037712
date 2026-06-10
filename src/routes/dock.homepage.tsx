@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { HOMEPAGE_DEFAULTS, type HomepageContent, type Stat } from "@/lib/homepage-defaults";
 
-export const Route = createFileRoute("/admin/homepage")({
+export const Route = createFileRoute("/dock/homepage")({
   component: HomepageAdmin,
 });
 
@@ -173,7 +173,7 @@ function HomepageAdmin() {
         />
       </Section>
 
-      {/* Testimonials heading (the cards themselves come from /admin/testimonials) */}
+      {/* Testimonials heading (the cards themselves come from /dock/testimonials) */}
       <Section title="“Testimonials” section heading">
         <Field
           label="Eyebrow"
@@ -187,7 +187,7 @@ function HomepageAdmin() {
         />
         <p className="text-xs text-muted-foreground">
           The testimonial cards themselves are managed under{" "}
-          <a href="/admin/testimonials" className="underline">
+          <a href="/dock/testimonials" className="underline">
             Testimonials
           </a>
           .

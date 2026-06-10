@@ -27,7 +27,7 @@ function LoginPage() {
 
     if (user) {
       if (hasAdminAccess) {
-        navigate({ to: "/admin" });
+        navigate({ to: "/dock" });
       } else if (!signingOutRef.current) {
         signingOutRef.current = true;
         toast.error("Access denied. You do not have permission to view the admin area.");
@@ -97,7 +97,6 @@ function LoginPage() {
           Sign in to <span className="text-gradient italic">Virelix</span>
         </h1>
 
-
         {!firebase.isInitialized && (
           <div className="mt-6 rounded-2xl border border-destructive/30 bg-destructive/5 p-5 backdrop-blur-sm">
             <div className="flex items-start gap-3 text-destructive">
@@ -107,7 +106,9 @@ function LoginPage() {
                   Firebase is not initialized
                 </h3>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                  The Firebase configuration is missing or invalid. If you recently deployed to Vercel, please make sure you have added all required environment variables in your Vercel Project Settings:
+                  The Firebase configuration is missing or invalid. If you recently deployed to
+                  Vercel, please make sure you have added all required environment variables in your
+                  Vercel Project Settings:
                 </p>
                 <ul className="mt-2 list-inside list-disc text-[11px] font-mono text-muted-foreground space-y-0.5">
                   <li>VITE_FIREBASE_API_KEY</li>
@@ -118,7 +119,8 @@ function LoginPage() {
                   <li>VITE_FIREBASE_APP_ID</li>
                 </ul>
                 <p className="mt-2 text-xs text-muted-foreground">
-                  After setting them, you must trigger a new deployment for Vercel to load the environment variables.
+                  After setting them, you must trigger a new deployment for Vercel to load the
+                  environment variables.
                 </p>
               </div>
             </div>
@@ -173,7 +175,6 @@ function LoginPage() {
             </Button>
           </form>
         </div>
-
       </div>
     </main>
   );

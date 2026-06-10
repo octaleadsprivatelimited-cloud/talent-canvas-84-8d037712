@@ -16,7 +16,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Trash2, UserPlus } from "lucide-react";
 
-export const Route = createFileRoute("/admin/users")({
+export const Route = createFileRoute("/dock/users")({
   component: UsersAdmin,
 });
 

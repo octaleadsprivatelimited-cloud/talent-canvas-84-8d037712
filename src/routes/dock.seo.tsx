@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/admin/seo")({
+export const Route = createFileRoute("/dock/seo")({
   component: SeoAdmin,
 });
 

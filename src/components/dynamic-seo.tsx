@@ -10,7 +10,7 @@ type SeoContent = {
 
 /**
  * Client-side SEO overrider. Each public route mounts this with its
- * page key; the admin can edit the title/description from /admin/seo
+ * page key; the admin can edit the title/description from /dock/seo
  * and the change is reflected live on the public site without code.
  *
  * Falls back to whatever the route's static head() already set.

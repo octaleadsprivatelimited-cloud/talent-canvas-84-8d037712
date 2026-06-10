@@ -2,18 +2,18 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueries } from "@tanstack/react-query";
 import { firebase } from "@/integrations/firebase/client";
 
-export const Route = createFileRoute("/admin/")({
+export const Route = createFileRoute("/dock/")({
   component: AdminDashboard,
 });
 
 const counters = [
-  { key: "services", label: "Services", to: "/admin/services" },
-  { key: "industries", label: "Industries", to: "/admin/industries" },
-  { key: "team_members", label: "Team Members", to: "/admin/team" },
-  { key: "case_studies", label: "Case Studies", to: "/admin/case-studies" },
-  { key: "posts", label: "Insights", to: "/admin/insights" },
-  { key: "testimonials", label: "Testimonials", to: "/admin/testimonials" },
-  { key: "contact_submissions", label: "Inbox", to: "/admin/submissions" },
+  { key: "services", label: "Services", to: "/dock/services" },
+  { key: "industries", label: "Industries", to: "/dock/industries" },
+  { key: "team_members", label: "Team Members", to: "/dock/team" },
+  { key: "case_studies", label: "Case Studies", to: "/dock/case-studies" },
+  { key: "posts", label: "Insights", to: "/dock/insights" },
+  { key: "testimonials", label: "Testimonials", to: "/dock/testimonials" },
+  { key: "contact_submissions", label: "Inbox", to: "/dock/submissions" },
   { key: "jobs", label: "Jobs", to: "/jobs" },
 ] as const;
 

@@ -132,7 +132,7 @@ const process = [
   },
 ];
 
-// Stats and clients ribbon are admin-editable via /admin/homepage
+// Stats and clients ribbon are admin-editable via /dock/homepage
 // and rendered from `copy.stats` / `copy.clients`. Do not redefine here.
 
 const sectionIds = [

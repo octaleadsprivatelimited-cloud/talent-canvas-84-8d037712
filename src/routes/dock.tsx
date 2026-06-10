@@ -25,7 +25,7 @@ import { ErrorBoundary } from "@/components/error-boundary";
 import { AnimatePresence, motion } from "framer-motion";
 import { ROLE_LABELS, type Permission } from "@/lib/rbac";
 
-export const Route = createFileRoute("/admin")({
+export const Route = createFileRoute("/dock")({
   component: AdminLayout,
 });
 
@@ -39,38 +39,38 @@ type Section = {
 
 const sections: Section[] = [
   {
-    to: "/admin",
+    to: "/dock",
     label: "Dashboard",
     icon: LayoutDashboard,
     exact: true,
     permission: "view:dashboard",
   },
   {
-    to: "/admin/site-settings",
+    to: "/dock/site-settings",
     label: "Site Settings",
     icon: Settings,
     permission: "manage:settings",
   },
-  { to: "/admin/users", label: "Users & Roles", icon: ShieldCheck, permission: "manage:users" },
-  { to: "/admin/homepage", label: "Homepage", icon: Home, permission: "manage:homepage" },
-  { to: "/admin/seo", label: "Page SEO", icon: Search, permission: "manage:seo" },
-  { to: "/admin/page-content", label: "Other Pages", icon: FileText, permission: "manage:pages" },
-  { to: "/admin/pages", label: "Custom Pages", icon: LayoutTemplate, permission: "manage:pages" },
-  { to: "/admin/services", label: "Services", icon: Sparkles, permission: "manage:content" },
-  { to: "/admin/industries", label: "Industries", icon: Building2, permission: "manage:content" },
-  { to: "/admin/team", label: "Team", icon: Users, permission: "manage:content" },
+  { to: "/dock/users", label: "Users & Roles", icon: ShieldCheck, permission: "manage:users" },
+  { to: "/dock/homepage", label: "Homepage", icon: Home, permission: "manage:homepage" },
+  { to: "/dock/seo", label: "Page SEO", icon: Search, permission: "manage:seo" },
+  { to: "/dock/page-content", label: "Other Pages", icon: FileText, permission: "manage:pages" },
+  { to: "/dock/pages", label: "Custom Pages", icon: LayoutTemplate, permission: "manage:pages" },
+  { to: "/dock/services", label: "Services", icon: Sparkles, permission: "manage:content" },
+  { to: "/dock/industries", label: "Industries", icon: Building2, permission: "manage:content" },
+  { to: "/dock/team", label: "Team", icon: Users, permission: "manage:content" },
   {
-    to: "/admin/case-studies",
+    to: "/dock/case-studies",
     label: "Case Studies",
     icon: MessageSquare,
     permission: "manage:content",
   },
-  { to: "/admin/insights", label: "Insights / Blog", icon: BookOpen, permission: "manage:content" },
-  { to: "/admin/testimonials", label: "Testimonials", icon: Quote, permission: "manage:content" },
+  { to: "/dock/insights", label: "Insights / Blog", icon: BookOpen, permission: "manage:content" },
+  { to: "/dock/testimonials", label: "Testimonials", icon: Quote, permission: "manage:content" },
   { to: "/jobs", label: "Jobs", icon: Briefcase, permission: "manage:jobs" },
-  { to: "/admin/submissions", label: "Contact Inbox", icon: Inbox, permission: "view:submissions" },
+  { to: "/dock/submissions", label: "Contact Inbox", icon: Inbox, permission: "view:submissions" },
   {
-    to: "/admin/diagnostics",
+    to: "/dock/diagnostics",
     label: "Diagnostics",
     icon: Activity,
     permission: "view:diagnostics",
@@ -86,8 +86,8 @@ function AdminLayout() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (location.pathname.startsWith("/admin")) {
-      sessionStorage.setItem("admin:last-route", location.pathname);
+    if (location.pathname.startsWith("/dock")) {
+      sessionStorage.setItem("dock:last-route", location.pathname);
     }
   }, [location.pathname]);
 
@@ -141,8 +141,7 @@ function AdminLayout() {
 
   const currentSection =
     visibleSections.find(
-      (s) =>
-        s.to === location.pathname || (s.to !== "/admin" && location.pathname.startsWith(s.to)),
+      (s) => s.to === location.pathname || (s.to !== "/dock" && location.pathname.startsWith(s.to)),
     ) ?? visibleSections[0];
 
   return (

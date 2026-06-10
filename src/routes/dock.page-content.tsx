@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/admin/page-content")({
+export const Route = createFileRoute("/dock/page-content")({
   component: PageContentAdmin,
 });
 

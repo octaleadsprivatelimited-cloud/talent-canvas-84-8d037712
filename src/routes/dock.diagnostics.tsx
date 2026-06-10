@@ -7,7 +7,7 @@ import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/admin/diagnostics")({
+export const Route = createFileRoute("/dock/diagnostics")({
   component: DiagnosticsPage,
 });
 

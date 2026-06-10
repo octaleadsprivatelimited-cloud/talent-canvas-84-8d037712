@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CrudPage } from "@/components/admin/crud-page";
 
-export const Route = createFileRoute("/admin/team")({
+export const Route = createFileRoute("/dock/team")({
   component: () => (
     <CrudPage
       title="Team Members"

@@ -53,8 +53,9 @@ export function useRole(): UseRoleResult {
         // exist for someone else, this write will be denied — which is the
         // intended behaviour. Only run this on admin/login routes to avoid
         // unnecessary write attempts for standard users on public pages.
-        const isAuthPage = typeof window !== "undefined" && 
-          (window.location.pathname.startsWith("/admin") || window.location.pathname === "/login");
+        const isAuthPage =
+          typeof window !== "undefined" &&
+          (window.location.pathname.startsWith("/dock") || window.location.pathname === "/login");
 
         if (isAuthPage) {
           const { error: upsertError } = await firebase

@@ -41,8 +41,8 @@ export class ErrorBoundary extends Component<Props, State> {
 
   private goRecovery = () => {
     if (typeof window === "undefined") return;
-    const key = this.props.recoveryKey ?? "admin:last-route";
-    const home = this.props.recoveryHome ?? "/admin";
+    const key = this.props.recoveryKey ?? "dock:last-route";
+    const home = this.props.recoveryHome ?? "/dock";
     const last = sessionStorage.getItem(key);
     const target = last && last !== window.location.pathname ? last : home;
     this.reset();
@@ -52,10 +52,10 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       if (this.props.fallback) return this.props.fallback;
-      const home = this.props.recoveryHome ?? "/admin";
+      const home = this.props.recoveryHome ?? "/dock";
       const last =
         typeof window !== "undefined"
-          ? sessionStorage.getItem(this.props.recoveryKey ?? "admin:last-route")
+          ? sessionStorage.getItem(this.props.recoveryKey ?? "dock:last-route")
           : null;
       const recoveryLabel =
         last && last !== (typeof window !== "undefined" ? window.location.pathname : "")

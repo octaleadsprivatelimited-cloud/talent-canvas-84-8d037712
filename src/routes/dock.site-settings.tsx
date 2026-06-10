@@ -11,7 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { THEMES, type ThemeKey } from "@/components/home-themes";
 import { Check, Upload, X, Loader2 } from "lucide-react";
 
-export const Route = createFileRoute("/admin/site-settings")({
+export const Route = createFileRoute("/dock/site-settings")({
   component: SiteSettingsAdmin,
 });
 

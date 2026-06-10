@@ -23,7 +23,7 @@ import {
   type RepeaterSubField,
 } from "@/lib/page-layouts";
 
-export const Route = createFileRoute("/admin/pages")({
+export const Route = createFileRoute("/dock/pages")({
   component: AdminPages,
 });
 
