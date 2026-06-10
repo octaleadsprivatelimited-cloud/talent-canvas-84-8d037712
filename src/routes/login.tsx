@@ -177,9 +177,6 @@ function LoginPage() {
           </form>
         </div>
 
-        <p className="mt-6 text-center text-xs text-muted-foreground">
-          Accounts are provisioned by administrators. Public sign-up is disabled.
-        </p>
       </div>
     </main>
   );
