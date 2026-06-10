@@ -50,12 +50,18 @@ let app;
 let db: Firestore | null = null;
 let auth: Auth | null = null;
 let storage: FirebaseStorage | null = null;
+let initError: Error | null = null;
 
 if (isConfigValid) {
-  app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-  db = getFirestore(app);
-  auth = getAuth(app);
-  storage = getStorage(app);
+  try {
+    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+    db = getFirestore(app);
+    auth = getAuth(app);
+    storage = getStorage(app);
+  } catch (err: any) {
+    console.error("[Firebase] Initialization failed:", err);
+    initError = err instanceof Error ? err : new Error(String(err));
+  }
 } else {
   console.warn(
     "[Firebase] Missing Firebase environment variables. Please check your .env file and add VITE_FIREBASE_API_KEY and VITE_FIREBASE_PROJECT_ID.",
@@ -604,6 +610,8 @@ export const firebaseClient = {
   storage: {
     uploadImage,
   },
+  isInitialized: isConfigValid && !!auth,
+  initError: initError,
 };
 
 export const firebase = firebaseClient;

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { firebase } from "@/integrations/firebase/client";
 import { toast } from "sonner";
 import { useRole } from "@/hooks/use-role";
+import { AlertTriangle } from "lucide-react";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Admin sign in — Virelix Consulting" }] }),
@@ -96,6 +97,33 @@ function LoginPage() {
           administrator.
         </p>
 
+        {!firebase.isInitialized && (
+          <div className="mt-6 rounded-2xl border border-destructive/30 bg-destructive/5 p-5 backdrop-blur-sm">
+            <div className="flex items-start gap-3 text-destructive">
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-red-600 dark:text-red-400">
+                  Firebase is not initialized
+                </h3>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  The Firebase configuration is missing or invalid. If you recently deployed to Vercel, please make sure you have added all required environment variables in your Vercel Project Settings:
+                </p>
+                <ul className="mt-2 list-inside list-disc text-[11px] font-mono text-muted-foreground space-y-0.5">
+                  <li>VITE_FIREBASE_API_KEY</li>
+                  <li>VITE_FIREBASE_PROJECT_ID</li>
+                  <li>VITE_FIREBASE_AUTH_DOMAIN</li>
+                  <li>VITE_FIREBASE_STORAGE_BUCKET</li>
+                  <li>VITE_FIREBASE_MESSAGING_SENDER_ID</li>
+                  <li>VITE_FIREBASE_APP_ID</li>
+                </ul>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  After setting them, you must trigger a new deployment for Vercel to load the environment variables.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="mt-10 rounded-2xl border border-border/60 bg-card/70 p-8 shadow-xl backdrop-blur">
           <form onSubmit={submitEmail} className="space-y-5">
             <div>
@@ -113,7 +141,7 @@ function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="mt-2"
                 required
-                disabled={formSubmitting}
+                disabled={formSubmitting || !firebase.isInitialized}
               />
             </div>
             <div>
@@ -132,12 +160,12 @@ function LoginPage() {
                 className="mt-2"
                 minLength={6}
                 required
-                disabled={formSubmitting}
+                disabled={formSubmitting || !firebase.isInitialized}
               />
             </div>
             <Button
               type="submit"
-              disabled={formSubmitting}
+              disabled={formSubmitting || !firebase.isInitialized}
               className="w-full py-6 text-[11px] font-bold uppercase tracking-[0.3em]"
             >
               {formSubmitting ? "Signing in…" : "Sign in"}
