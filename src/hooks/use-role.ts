@@ -21,6 +21,7 @@ export function useRole(): UseRoleResult {
   const { user, loading: authLoading } = useAuth();
   const [role, setRole] = useState<Role | null>(null);
   const [roleLoading, setRoleLoading] = useState<boolean>(true);
+  const [roleUserId, setRoleUserId] = useState<string | null>(null);
   const [autoLoginLoading, setAutoLoginLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -50,6 +51,7 @@ export function useRole(): UseRoleResult {
         })();
       } else {
         setRole(null);
+        setRoleUserId(null);
         setRoleLoading(false);
       }
       return;
@@ -58,6 +60,7 @@ export function useRole(): UseRoleResult {
     setRoleLoading(true);
     if (user.id.startsWith("mock-") || user.email === "admin.virelixconsulting@gmail.com") {
       setRole("admin");
+      setRoleUserId(user.id);
       setRoleLoading(false);
       return;
     }
@@ -83,7 +86,10 @@ export function useRole(): UseRoleResult {
         if (!error) {
           const row = data as RoleRow | null;
           if (row && isRole(row.role)) {
-            if (!cancelled) setRole(row.role);
+            if (!cancelled) {
+              setRole(row.role);
+              setRoleUserId(user.id);
+            }
             return;
           }
         }
@@ -101,13 +107,22 @@ export function useRole(): UseRoleResult {
           const { error: upsertError } = await firebase
             .from("user_roles")
             .upsert({ id: user.id, user_id: user.id, role: "admin" }, { onConflict: "id" });
-          if (!cancelled) setRole(upsertError ? null : "admin");
+          if (!cancelled) {
+            setRole(upsertError ? null : "admin");
+            setRoleUserId(user.id);
+          }
         } else {
-          if (!cancelled) setRole(null);
+          if (!cancelled) {
+            setRole(null);
+            setRoleUserId(user.id);
+          }
         }
       } catch (e) {
         console.warn("[useRole] failed to resolve role:", e);
-        if (!cancelled) setRole(null);
+        if (!cancelled) {
+          setRole(null);
+          setRoleUserId(user.id);
+        }
       } finally {
         if (!cancelled) setRoleLoading(false);
       }
@@ -120,10 +135,12 @@ export function useRole(): UseRoleResult {
 
   const can = useCallback((permission: Permission) => roleHasPermission(role, permission), [role]);
 
+  const isTransitioning = user !== null && roleUserId !== user.id;
+
   return {
     user,
     role,
-    loading: authLoading || roleLoading || autoLoginLoading,
+    loading: authLoading || roleLoading || autoLoginLoading || isTransitioning,
     can,
     hasAdminAccess: role !== null,
   };
