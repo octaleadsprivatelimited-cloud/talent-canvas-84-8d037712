@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
@@ -20,15 +21,15 @@ import {
 import { toast } from "sonner";
 
 export default function UserDashboardPage() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
 
   // Redirect to login if user is not authenticated
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       navigate("/login");
     }
-  }, [user, navigate]);
+  }, [user, loading, navigate]);
 
   // Fetch applications for this candidate
   const { data: applications, isLoading: appsLoading } = useFirebaseQuery(
@@ -67,6 +68,19 @@ export default function UserDashboardPage() {
       toast.error("Failed to sign out");
     }
   };
+
+  if (loading) {
+    return (
+      <main className="relative min-h-screen overflow-hidden bg-background flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground animate-pulse">
+            Loading your dashboard…
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   if (!user) return null;
 
@@ -312,5 +326,4 @@ export default function UserDashboardPage() {
   );
 }
 
-// React dependency for hook usage on redirect
-import { useEffect } from "react";
+
