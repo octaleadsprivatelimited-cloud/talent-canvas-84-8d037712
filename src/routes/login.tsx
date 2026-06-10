@@ -96,10 +96,7 @@ function LoginPage() {
         <h1 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
           Sign in to <span className="text-gradient italic">Virelix</span>
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-          This area is for authorised team members only. If you need access, contact your
-          administrator.
-        </p>
+
 
         {!firebase.isInitialized && (
           <div className="mt-6 rounded-2xl border border-destructive/30 bg-destructive/5 p-5 backdrop-blur-sm">
