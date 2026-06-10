@@ -3,6 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function() {
+        try {
+          var theme = localStorage.getItem('virelix_selected_theme');
+          if (!theme) {
+            var cache = localStorage.getItem('site_settings_cache_v1');
+            if (cache) {
+              theme = JSON.parse(cache).home_theme;
+            }
+          }
+          if (theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+          } else {
+            document.documentElement.setAttribute('data-theme', 'editorial');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
     <title>Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions</title>

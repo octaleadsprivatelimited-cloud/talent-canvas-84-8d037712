@@ -37,11 +37,36 @@ export function SiteSettingsAdmin() {
       .limit(1)
       .maybeSingle()
       .then(({ data }: { data: Record<string, string> | null }) => {
-        if (data) {
-          setRow(data);
-          setId(data.id);
-        } else setRow({ home_theme: "editorial" });
-        const t = (data?.home_theme as ThemeKey) || "editorial";
+        let finalData = data;
+        if (!finalData && typeof window !== "undefined") {
+          const raw = localStorage.getItem("site_settings_cache_v1");
+          if (raw) {
+            try {
+              finalData = JSON.parse(raw);
+            } catch (e) {
+              console.error("Failed to parse site settings cache", e);
+            }
+          }
+        }
+
+        if (finalData) {
+          if (!finalData.home_theme && typeof window !== "undefined") {
+            const cachedTheme = localStorage.getItem("virelix_selected_theme");
+            if (cachedTheme) {
+              finalData.home_theme = cachedTheme;
+            }
+          }
+          setRow(finalData);
+          setId(finalData.id);
+        } else {
+          let initialTheme = "editorial";
+          if (typeof window !== "undefined") {
+            const cachedTheme = localStorage.getItem("virelix_selected_theme");
+            if (cachedTheme) initialTheme = cachedTheme;
+          }
+          setRow({ home_theme: initialTheme });
+        }
+        const t = (finalData?.home_theme as ThemeKey) || (typeof window !== "undefined" ? localStorage.getItem("virelix_selected_theme") as ThemeKey : null) || "editorial";
         setSavedTheme(t);
         setPreviewTheme(t);
         setLoading(false);
@@ -80,6 +105,9 @@ export function SiteSettingsAdmin() {
     if (typeof window !== "undefined") {
       const CACHE_KEY = "site_settings_cache_v1";
       localStorage.setItem(CACHE_KEY, JSON.stringify({ id: resolvedId, ...next }));
+      if (next.home_theme) {
+        localStorage.setItem("virelix_selected_theme", next.home_theme);
+      }
       window.dispatchEvent(new Event("virelix_settings_change"));
     }
     return true;

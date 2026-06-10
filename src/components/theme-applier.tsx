@@ -34,14 +34,27 @@ export function ThemeApplier() {
   const { data: settings } = useSiteSettings();
 
   useEffect(() => {
-    applyTheme(settings?.home_theme ?? "editorial");
+    const activeTheme =
+      settings?.home_theme ??
+      getCachedHomeTheme() ??
+      (typeof window !== "undefined" ? localStorage.getItem("virelix_selected_theme") : null) ??
+      "editorial";
+    applyTheme(activeTheme);
   }, [settings?.home_theme]);
 
   useEffect(() => {
     function onPreview(e: Event) {
       const detail = (e as CustomEvent<{ theme: string | null }>).detail;
-      if (detail?.theme) applyTheme(detail.theme);
-      else applyTheme(settings?.home_theme ?? "editorial");
+      if (detail?.theme) {
+        applyTheme(detail.theme);
+      } else {
+        const activeTheme =
+          settings?.home_theme ??
+          getCachedHomeTheme() ??
+          (typeof window !== "undefined" ? localStorage.getItem("virelix_selected_theme") : null) ??
+          "editorial";
+        applyTheme(activeTheme);
+      }
     }
     window.addEventListener("site:preview-theme", onPreview as EventListener);
     return () => window.removeEventListener("site:preview-theme", onPreview as EventListener);

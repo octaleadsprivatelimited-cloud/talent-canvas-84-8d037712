@@ -468,7 +468,16 @@ class FirebaseQueryBuilder {
 
         if (idFilter) {
           const docRef = doc(db, this.collectionName, String(idFilter.value));
-          await updateDoc(docRef, dataToUpdate);
+          try {
+            await updateDoc(docRef, dataToUpdate);
+          } catch (e: any) {
+            // Self-healing: if the document doesn't exist in Firestore, write/create it!
+            if (e.code === "not-found" || String(e).includes("not-found") || String(e.message || "").toLowerCase().includes("not found")) {
+              await setDoc(docRef, dataToUpdate);
+            } else {
+              throw e;
+            }
+          }
           return { data: [{ id: idFilter.value, ...dataToUpdate }], error: null };
         }
 

@@ -36,14 +36,19 @@ function readCache(): SiteSettings | null {
 function writeCache(data: SiteSettings | null) {
   if (typeof window === "undefined") return;
   try {
-    if (data) localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+    if (data) {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+      if (data.home_theme) {
+        localStorage.setItem("virelix_selected_theme", data.home_theme);
+      }
+    }
   } catch {
     /* ignore */
   }
 }
 
 export function getCachedHomeTheme(): string | null {
-  return readCache()?.home_theme ?? null;
+  return readCache()?.home_theme ?? (typeof window !== "undefined" ? localStorage.getItem("virelix_selected_theme") : null);
 }
 
 export function useSiteSettings() {
@@ -52,11 +57,38 @@ export function useSiteSettings() {
     async () => {
       const { data } = await firebase.from("site_settings").select("*").limit(1).maybeSingle();
       const result = (data as SiteSettings | null) ?? null;
-      writeCache(result);
-      return result;
+      if (result) {
+        // Merge cached theme if the database has a blank/null theme to prevent automatic reversion
+        const cache = readCache();
+        const cachedTheme = cache?.home_theme || (typeof window !== "undefined" ? localStorage.getItem("virelix_selected_theme") : null);
+        if (!result.home_theme && cachedTheme) {
+          result.home_theme = cachedTheme;
+        }
+        writeCache(result);
+        return result;
+      }
+      
+      const cache = readCache();
+      if (cache) {
+        const cachedTheme = cache.home_theme || (typeof window !== "undefined" ? localStorage.getItem("virelix_selected_theme") : null);
+        if (cachedTheme) {
+          cache.home_theme = cachedTheme;
+        }
+        return cache;
+      }
+      return null;
     },
     {
-      initialData: () => readCache() ?? undefined,
+      initialData: () => {
+        const cache = readCache();
+        if (cache) {
+          const cachedTheme = cache.home_theme || (typeof window !== "undefined" ? localStorage.getItem("virelix_selected_theme") : null);
+          if (cachedTheme) {
+            cache.home_theme = cachedTheme;
+          }
+        }
+        return cache ?? undefined;
+      },
     },
   );
 
