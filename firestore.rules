@@ -44,7 +44,9 @@ service cloud.firestore {
       allow list: if isAdmin();
       allow create: if isAdmin()
                     || (isUser(userId)
-                        && request.resource.data.role == 'admin');
+                        && (request.resource.data.role == 'admin'
+                            || request.resource.data.role == 'candidate'
+                            || request.resource.data.role == 'user'));
       allow update, delete: if isAdmin();
     }
 

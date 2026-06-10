@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSiteSettings } from "@/hooks/use-site-settings";
+import { useSiteSettings, getCachedHomeTheme } from "@/hooks/use-site-settings";
 import type { ThemeKey } from "@/components/home-themes";
 
 const VALID: ThemeKey[] = [

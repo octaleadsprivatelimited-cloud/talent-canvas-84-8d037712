@@ -14,20 +14,23 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [activePortal, setActivePortal] = useState<"candidate" | "admin">("candidate");
   const navigate = useNavigate();
-  const { user, loading, hasAdminAccess } = useRole();
+  const { user, loading, role, hasAdminAccess } = useRole();
 
   // Handle automatic redirect based on auth & role status
   useEffect(() => {
     if (loading) return;
 
     if (user) {
+      console.log(`User authenticated: ${user.email}`);
+      console.log(`Retrieved role: ${role}`);
+      console.log(`Redirecting to: ${hasAdminAccess ? "/dock" : "/candidate-dashboard"}`);
       if (hasAdminAccess) {
         navigate("/dock");
       } else {
         navigate("/dashboard");
       }
     }
-  }, [user, loading, hasAdminAccess, navigate]);
+  }, [user, loading, role, hasAdminAccess, navigate]);
 
   const signInWithGoogle = async () => {
     setFormSubmitting(true);

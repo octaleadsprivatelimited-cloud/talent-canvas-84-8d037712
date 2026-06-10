@@ -3,7 +3,7 @@
 // equal to the user's Firebase UID, and a `role` field holding one of
 // the values below.
 
-export const ROLES = ["admin", "editor", "recruiter", "employer"] as const;
+export const ROLES = ["admin", "editor", "recruiter", "employer", "candidate", "user"] as const;
 export type Role = (typeof ROLES)[number];
 
 export const ROLE_LABELS: Record<Role, string> = {
@@ -11,6 +11,8 @@ export const ROLE_LABELS: Record<Role, string> = {
   editor: "Content Editor",
   recruiter: "Recruiter",
   employer: "Employer",
+  candidate: "Candidate",
+  user: "User",
 };
 
 export const ROLE_DESCRIPTIONS: Record<Role, string> = {
@@ -18,6 +20,8 @@ export const ROLE_DESCRIPTIONS: Record<Role, string> = {
   editor: "Manage marketing content: pages, services, insights, team, etc.",
   recruiter: "Manage jobs and review applicants and contact submissions.",
   employer: "Manage company profiles and post jobs from their company.",
+  candidate: "Submit applications and manage profile.",
+  user: "Standard user account.",
 };
 
 // Granular permission keys. Use string union so unknown keys are a type error.
@@ -51,6 +55,8 @@ const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
   editor: ["view:dashboard", "manage:homepage", "manage:seo", "manage:pages", "manage:content"],
   recruiter: ["view:dashboard", "manage:jobs", "view:submissions"],
   employer: ["view:dashboard", "manage:companies", "manage:jobs"],
+  candidate: [],
+  user: [],
 };
 
 export function isRole(value: unknown): value is Role {

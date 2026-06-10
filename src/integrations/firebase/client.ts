@@ -479,7 +479,7 @@ class FirebaseQueryBuilder {
             }));
 
             data = data.map((app: any) => {
-              const job = jobsList.find((j: any) => j.id === app.job_id) || null;
+              const job = (jobsList.find((j: any) => j.id === app.job_id) || null) as any;
               if (job) {
                 const company = companiesList.find((c: any) => c.id === job.company_id || c.slug === job.company_id) || null;
                 job.companies = company;

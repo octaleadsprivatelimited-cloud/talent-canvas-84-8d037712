@@ -73,7 +73,7 @@ const sections: Section[] = [
 
 function AdminLayout() {
   const navigate = useNavigate();
-  const { role, loading, can, hasAdminAccess } = useRole();
+  const { user, role, loading, can, hasAdminAccess } = useRole();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
 
@@ -101,9 +101,10 @@ function AdminLayout() {
 
   useEffect(() => {
     if (!loading && !hasAdminAccess) {
+      console.log(`[Dock Route Guard] Access denied. User: ${user?.email || "anonymous"}, Role: ${role}. Redirecting to: /dashboard`);
       navigate("/dashboard");
     }
-  }, [hasAdminAccess, loading, navigate]);
+  }, [hasAdminAccess, loading, navigate, user, role]);
 
   // Fallback: if verification takes more than 6s, give the user a way out.
   useEffect(() => {
