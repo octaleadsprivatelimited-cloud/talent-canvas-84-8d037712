@@ -40,6 +40,7 @@ import {
   CaseStudiesView,
   InsightsView,
   TestimonialsView,
+  JobsView,
 } from "@/components/admin/views/crud-views";
 import { SubmissionsAdmin } from "@/components/admin/views/submissions";
 import { DiagnosticsPage } from "@/components/admin/views/diagnostics";
@@ -66,7 +67,7 @@ const sections: Section[] = [
   { key: "case-studies", label: "Case Studies", icon: MessageSquare, permission: "manage:content" },
   { key: "insights", label: "Insights / Blog", icon: BookOpen, permission: "manage:content" },
   { key: "testimonials", label: "Testimonials", icon: Quote, permission: "manage:content" },
-  { key: "jobs", label: "Jobs", icon: Briefcase, permission: "manage:jobs", to: "/jobs" },
+  { key: "jobs", label: "Jobs", icon: Briefcase, permission: "manage:jobs" },
   { key: "submissions", label: "Contact Inbox", icon: Inbox, permission: "view:submissions" },
   { key: "diagnostics", label: "Diagnostics", icon: Activity, permission: "view:diagnostics" },
 ];
@@ -181,6 +182,8 @@ function AdminLayout() {
         return <InsightsView />;
       case "testimonials":
         return <TestimonialsView />;
+      case "jobs":
+        return <JobsView />;
       case "submissions":
         return <SubmissionsAdmin />;
       case "diagnostics":

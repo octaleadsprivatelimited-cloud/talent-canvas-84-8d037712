@@ -80,7 +80,7 @@ export function JobCard({ job }: { job: JobCardData }) {
           )}
           <span className="flex items-center gap-1.5 capitalize">
             <Briefcase className="h-3.5 w-3.5" />
-            {job.job_type.replace("_", " ")}
+            {(job.job_type || "full_time").replace("_", " ")}
           </span>
           {salary && (
             <span className="flex items-center gap-1.5">
@@ -91,9 +91,9 @@ export function JobCard({ job }: { job: JobCardData }) {
         </div>
         <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3">
           <Badge variant="secondary" className="capitalize">
-            {job.work_mode}
+            {job.work_mode || "remote"}
           </Badge>
-          <span className="text-xs text-muted-foreground">{timeAgo(job.created_at)}</span>
+          <span className="text-xs text-muted-foreground">{job.created_at ? timeAgo(job.created_at) : "recently"}</span>
         </div>
       </Card>
     </Link>

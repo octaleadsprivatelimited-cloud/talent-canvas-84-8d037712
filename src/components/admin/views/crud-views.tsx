@@ -181,3 +181,38 @@ export function TestimonialsView() {
     />
   );
 }
+
+export function JobsView() {
+  return (
+    <CrudPage
+      title="Job Listings"
+      description="Manage open roles shown on /jobs."
+      table="jobs"
+      queryKey="jobs"
+      orderBy="created_at"
+      asc={false}
+      fields={[
+        { key: "title", label: "Job Title", required: true },
+        { key: "slug", label: "Slug", required: true, placeholder: "senior-cloud-infra-architect" },
+        { key: "company_id", label: "Company ID", required: true, placeholder: "company-1" },
+        { key: "location", label: "Location", placeholder: "Remote (USA / India)" },
+        { key: "job_type", label: "Job Type (e.g. full_time)", placeholder: "full_time" },
+        { key: "work_mode", label: "Work Mode (e.g. remote)", placeholder: "remote" },
+        { key: "salary_min", label: "Salary Min / Lower Bound", placeholder: "160,000" },
+        { key: "salary_max", label: "Salary Max / Upper Bound", placeholder: "190,000" },
+        { key: "salary_currency", label: "Salary Currency", placeholder: "USD" },
+        { key: "skills", label: "Skills (comma-separated)", type: "array" },
+        { key: "description", label: "Job Description", type: "textarea", rows: 10 },
+        { key: "status", label: "Status (published / draft)", placeholder: "published" },
+        { key: "featured", label: "Featured", type: "boolean" },
+        { key: "published", label: "Published (Live)", type: "boolean" },
+      ]}
+      listColumns={[
+        { key: "title", label: "Title" },
+        { key: "location", label: "Location" },
+        { key: "status", label: "Status" },
+        { key: "published", label: "Live", render: (r) => (r.published ? "✓" : "—") },
+      ]}
+    />
+  );
+}

@@ -79,7 +79,7 @@ function JobDetail() {
           )}
           <span className="flex items-center gap-1.5 capitalize">
             <Briefcase className="h-4 w-4" />
-            {job.job_type.replace("_", " ")}
+            {(job.job_type || "full_time").replace("_", " ")}
           </span>
           {(job.salary_min || job.salary_max) && (
             <span className="flex items-center gap-1.5">
@@ -88,7 +88,7 @@ function JobDetail() {
             </span>
           )}
           <Badge variant="secondary" className="capitalize">
-            {job.work_mode}
+            {job.work_mode || "remote"}
           </Badge>
         </div>
         <div className="mt-8 whitespace-pre-wrap text-foreground/90">{job.description}</div>
