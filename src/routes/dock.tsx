@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { useRole } from "@/hooks/use-role";
 import {
@@ -43,10 +43,6 @@ import {
 } from "@/components/admin/views/crud-views";
 import { SubmissionsAdmin } from "@/components/admin/views/submissions";
 import { DiagnosticsPage } from "@/components/admin/views/diagnostics";
-
-export const Route = createFileRoute("/dock")({
-  component: AdminLayout,
-});
 
 type Section = {
   key: string;
@@ -303,3 +299,5 @@ function AdminLayout() {
     </div>
   );
 }
+
+export default AdminLayout;

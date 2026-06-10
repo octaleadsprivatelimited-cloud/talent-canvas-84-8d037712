@@ -1,12 +1,16 @@
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
+import path from "path";
 
 export default defineConfig({
-  tanstackStart: {
-    server: { entry: "server" },
-  },
-  vite: {
-    optimizeDeps: {
-      include: ["react", "react-dom", "react/jsx-runtime"],
+  plugins: [react(), tsconfigPaths()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom", "react/jsx-runtime"],
   },
 });

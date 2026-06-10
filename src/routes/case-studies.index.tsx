@@ -1,22 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { ArrowUpRight } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
-
-export const Route = createFileRoute("/case-studies/")({
-  head: () => ({
-    meta: [
-      { title: "Case Studies" },
-      {
-        name: "description",
-        content: "How we've helped companies build leadership teams and ship outcomes.",
-      },
-    ],
-  }),
-  component: CaseStudiesIndex,
-});
 
 function CaseStudiesIndex() {
   const { data } = useFirebaseQuery(["case_studies"], async () => {
@@ -146,3 +133,5 @@ function CaseStudiesIndex() {
     </main>
   );
 }
+
+export default CaseStudiesIndex;

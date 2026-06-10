@@ -1,15 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
-export const Route = createFileRoute("/privacy")({
-  head: () => ({
-    meta: [
-      { title: "Privacy Policy" },
-      { name: "description", content: "How we collect, use, and protect data." },
-    ],
-  }),
-  component: () => (
+export default function PrivacyPage() {
+  return (
     <>
       <DynamicSeo
         pageKey="privacy"
@@ -42,5 +35,5 @@ export const Route = createFileRoute("/privacy")({
         <p>Questions? Reach us via the contact page.</p>
       </section>
     </>
-  ),
-});
+  );
+}

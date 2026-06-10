@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Link, useParams } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { Building2, MapPin, Briefcase, DollarSign, ArrowLeft } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
@@ -7,12 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/use-auth";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/jobs/$slug")({
-  component: JobDetail,
-});
-
 function JobDetail() {
-  const { slug } = Route.useParams();
+  const { slug } = useParams();
   const { user } = useAuth();
   const { data: job, isLoading } = useFirebaseQuery(["job", slug], async () => {
     const { data, error } = await firebase
@@ -106,3 +102,5 @@ function JobDetail() {
     </div>
   );
 }
+
+export default JobDetail;

@@ -1,15 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
-export const Route = createFileRoute("/terms")({
-  head: () => ({
-    meta: [
-      { title: "Terms of Service" },
-      { name: "description", content: "Terms governing the use of our website and services." },
-    ],
-  }),
-  component: () => (
+export default function TermsPage() {
+  return (
     <>
       <DynamicSeo
         pageKey="terms"
@@ -39,5 +32,5 @@ export const Route = createFileRoute("/terms")({
         </p>
       </section>
     </>
-  ),
-});
+  );
+}

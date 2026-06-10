@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { JobCard, type JobCardData } from "@/components/jobs/job-card";
@@ -6,13 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { DynamicSeo } from "@/components/dynamic-seo";
-
-export const Route = createFileRoute("/jobs/")({
-  head: () => ({
-    meta: [{ title: "Jobs — Hireloop" }, { name: "description", content: "Browse open roles." }],
-  }),
-  component: JobsPage,
-});
 
 function JobsPage() {
   const [q, setQ] = useState("");
@@ -63,3 +55,5 @@ function JobsPage() {
     </div>
   );
 }
+
+export default JobsPage;

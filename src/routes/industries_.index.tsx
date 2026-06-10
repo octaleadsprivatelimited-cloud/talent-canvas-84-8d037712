@@ -1,23 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import * as Icons from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
-
-export const Route = createFileRoute("/industries_/")({
-  head: () => ({
-    meta: [
-      { title: "Industries We Serve" },
-      {
-        name: "description",
-        content:
-          "Recruiting across tech, finance, healthcare, industrial, consumer, and professional services.",
-      },
-    ],
-  }),
-  component: IndustriesPage,
-});
 
 function IndustriesPage() {
   const { data } = useFirebaseQuery("industries", async () => {
@@ -146,3 +132,5 @@ function IndustriesPage() {
     </main>
   );
 }
+
+export default IndustriesPage;

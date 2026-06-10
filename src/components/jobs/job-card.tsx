@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { MapPin, Briefcase, DollarSign, Building2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -43,7 +43,7 @@ function timeAgo(iso: string) {
 export function JobCard({ job }: { job: JobCardData }) {
   const salary = formatSalary(job.salary_min, job.salary_max, job.salary_currency);
   return (
-    <Link to="/jobs/$slug" params={{ slug: job.slug }} className="block group">
+    <Link to={`/jobs/${job.slug}`} className="block group">
       <Card className="relative h-full p-5 transition-all hover:border-primary/40 hover:shadow-elevated">
         {job.featured && (
           <Badge className="absolute right-4 top-4 bg-accent text-accent-foreground hover:bg-accent">

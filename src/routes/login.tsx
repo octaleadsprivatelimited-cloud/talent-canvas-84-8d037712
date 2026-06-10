@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,11 +7,6 @@ import { firebase } from "@/integrations/firebase/client";
 import { toast } from "sonner";
 import { useRole } from "@/hooks/use-role";
 import { AlertTriangle } from "lucide-react";
-
-export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Admin sign in — Virelix Consulting" }] }),
-  component: LoginPage,
-});
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -181,3 +176,5 @@ function LoginPage() {
     </main>
   );
 }
+
+export default LoginPage;

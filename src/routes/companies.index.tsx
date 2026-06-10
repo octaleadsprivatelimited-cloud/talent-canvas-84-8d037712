@@ -1,13 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { Building2 } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { DynamicSeo } from "@/components/dynamic-seo";
-
-export const Route = createFileRoute("/companies/")({
-  head: () => ({ meta: [{ title: "Companies — Hireloop" }] }),
-  component: CompaniesPage,
-});
 
 function CompaniesPage() {
   const { data } = useFirebaseQuery(["companies", "all"], async () => {
@@ -56,3 +51,5 @@ function CompaniesPage() {
     </div>
   );
 }
+
+export default CompaniesPage;

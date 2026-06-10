@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Link, useParams } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { ArrowLeft, ArrowRight, Check, Sparkles, Briefcase, TrendingUp } from "lucide-react";
 import * as Icons from "lucide-react";
@@ -58,36 +58,8 @@ type Job = {
   };
 };
 
-export const Route = createFileRoute("/industries_/$slug")({
-  head: ({ params }) => {
-    const title = "Industry Practice — Virelix";
-    const description = "Specialized sector recruitment from Virelix Consulting.";
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: `/industries/${params.slug}` },
-      ],
-      links: [
-        { rel: "canonical", href: `/industries/${params.slug}` },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap",
-        },
-      ],
-    };
-  },
-  component: IndustryDetailComponent,
-  notFoundComponent: () => (
-    <div className="container mx-auto px-4 py-20 text-center">Industry sector not found.</div>
-  ),
-});
-
 function IndustryDetailComponent() {
-  const { slug } = Route.useParams();
+  const { slug } = useParams();
   const { data: industry, isLoading } = useFirebaseQuery(
     `industry_${slug}`,
     async (): Promise<Industry | null> => {
@@ -572,3 +544,5 @@ function IndustryDetailComponent() {
     </main>
   );
 }
+
+export default IndustryDetailComponent;

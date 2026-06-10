@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, NavLink } from "react-router-dom";
 import { Briefcase, Menu, X, Mail } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -49,11 +49,14 @@ export function Header() {
 
         <nav className="hidden items-center gap-6 lg:flex">
           {navItems.map((item) => (
-            <Link
+            <NavLink
               key={item.to}
               to={item.to}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground flex items-center gap-1.5"
-              activeProps={{ className: "text-foreground" }}
+              className={({ isActive }) =>
+                `text-sm font-medium transition-colors hover:text-foreground flex items-center gap-1.5 ${
+                  isActive ? "text-foreground" : "text-muted-foreground"
+                }`
+              }
             >
               {item.to === "/contact" ? (
                 <span className="text-sm text-black dark:text-white" aria-label="Contact">
@@ -62,7 +65,7 @@ export function Header() {
               ) : (
                 item.label
               )}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 

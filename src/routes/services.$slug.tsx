@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Link, useParams } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import {
   ArrowLeft,
@@ -24,43 +24,6 @@ type Service = {
   features: string[] | null;
   image_url?: string | null;
 };
-
-export const Route = createFileRoute("/services/$slug")({
-  head: ({ params }) => {
-    const title = `Service — Virelix Consulting`;
-    const description =
-      "Specialist recruitment and workforce solutions delivered by Virelix Consulting.";
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: `/services/${params.slug}` },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-      ],
-      links: [
-        { rel: "canonical", href: `/services/${params.slug}` },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap",
-        },
-      ],
-    };
-  },
-  component: ServiceDetail,
-  errorComponent: ({ error }) => (
-    <div className="container mx-auto px-4 py-20 text-center text-muted-foreground">
-      {error.message}
-    </div>
-  ),
-  notFoundComponent: () => (
-    <div className="container mx-auto px-4 py-20 text-center">Service not found.</div>
-  ),
-});
 
 const SERVICE_ADDITIONS: Record<
   string,
@@ -156,7 +119,7 @@ const SERVICE_ADDITIONS: Record<
 };
 
 function ServiceDetail() {
-  const { slug } = Route.useParams();
+  const { slug } = useParams();
   const { data, isLoading } = useFirebaseQuery(
     `service_${slug}`,
     async (): Promise<Service | null> => {
@@ -449,3 +412,5 @@ function ServiceDetail() {
     </main>
   );
 }
+
+export default ServiceDetail;

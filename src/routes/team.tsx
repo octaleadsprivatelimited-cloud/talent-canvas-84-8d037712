@@ -1,19 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { Linkedin, Mail } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
-
-export const Route = createFileRoute("/team")({
-  head: () => ({
-    meta: [
-      { title: "Our Team" },
-      { name: "description", content: "Meet the partners and consultants behind our practice." },
-    ],
-  }),
-  component: TeamPage,
-});
 
 function TeamPage() {
   const { data } = useFirebaseQuery("team_members", async () => {
@@ -79,3 +68,5 @@ function TeamPage() {
     </>
   );
 }
+
+export default TeamPage;

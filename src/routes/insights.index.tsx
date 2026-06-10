@@ -1,21 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
-
-export const Route = createFileRoute("/insights/")({
-  head: () => ({
-    meta: [
-      { title: "Insights & Research" },
-      {
-        name: "description",
-        content: "Hiring research, compensation benchmarks, and operating playbooks.",
-      },
-    ],
-  }),
-  component: InsightsIndex,
-});
 
 function InsightsIndex() {
   const { data } = useFirebaseQuery(["posts"], async () => {
@@ -80,3 +67,5 @@ function InsightsIndex() {
     </>
   );
 }
+
+export default InsightsIndex;

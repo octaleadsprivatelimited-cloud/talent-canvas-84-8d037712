@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Briefcase, Linkedin, Twitter, Instagram, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useSiteSettings } from "@/hooks/use-site-settings";

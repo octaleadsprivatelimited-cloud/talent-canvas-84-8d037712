@@ -1,22 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { Check, Target, Compass, ShieldCheck, Award, Globe, Linkedin, Mail } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
-
-export const Route = createFileRoute("/who-we-are")({
-  head: () => ({
-    meta: [
-      { title: "Who We Are" },
-      {
-        name: "description",
-        content: "Our mission, values, and how we work with companies to build leadership teams.",
-      },
-    ],
-  }),
-  component: WhoWeArePage,
-});
 
 function WhoWeArePage() {
   const { data: page } = useFirebaseQuery("page_content_about", async () => {
@@ -278,3 +264,5 @@ function WhoWeArePage() {
     </>
   );
 }
+
+export default WhoWeArePage;

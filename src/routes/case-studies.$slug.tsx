@@ -1,20 +1,8 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Link, useParams } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { ArrowRight } from "lucide-react";
-
-export const Route = createFileRoute("/case-studies/$slug")({
-  component: CaseStudyDetail,
-  notFoundComponent: () => (
-    <div className="container mx-auto px-4 py-20 text-center">Case study not found.</div>
-  ),
-  errorComponent: ({ error }) => (
-    <div className="container mx-auto px-4 py-20 text-center text-muted-foreground">
-      {error.message}
-    </div>
-  ),
-});
 
 function parseMarkdown(text: string | null) {
   if (!text) return null;
@@ -53,7 +41,7 @@ function parseMarkdown(text: string | null) {
 }
 
 function CaseStudyDetail() {
-  const { slug } = Route.useParams();
+  const { slug } = useParams();
   const { data, isLoading } = useFirebaseQuery(["case_study", slug], async () => {
     const { data } = await firebase
       .from("case_studies")
@@ -180,3 +168,5 @@ function CaseStudyDetail() {
     </main>
   );
 }
+
+export default CaseStudyDetail;

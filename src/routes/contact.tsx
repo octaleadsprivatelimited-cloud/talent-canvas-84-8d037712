@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useFirebaseQuery, useFirebaseMutation } from "@/hooks/use-firebase-query";
 import { useState } from "react";
 import { z } from "zod";
@@ -11,19 +10,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { DynamicSeo } from "@/components/dynamic-seo";
 import { toast } from "sonner";
-
-export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact Us" },
-      {
-        name: "description",
-        content: "Tell us about your hiring need. We respond within one business day.",
-      },
-    ],
-  }),
-  component: ContactPage,
-});
 
 const schema = z.object({
   name: z.string().trim().min(1).max(120),
@@ -198,3 +184,5 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     </div>
   );
 }
+
+export default ContactPage;

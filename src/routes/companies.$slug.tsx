@@ -1,15 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link, useParams } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { Building2, Globe, MapPin } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { JobCard, type JobCardData } from "@/components/jobs/job-card";
 
-export const Route = createFileRoute("/companies/$slug")({
-  component: CompanyDetail,
-});
-
 function CompanyDetail() {
-  const { slug } = Route.useParams();
+  const { slug } = useParams();
   const { data: company } = useFirebaseQuery(["company", slug], async () => {
     const { data, error } = await firebase
       .from("companies")
@@ -85,3 +81,5 @@ function CompanyDetail() {
     </div>
   );
 }
+
+export default CompanyDetail;

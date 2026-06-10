@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useFirebaseQueries } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 

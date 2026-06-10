@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { ArrowRight } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
@@ -19,37 +19,6 @@ type Service = {
 const PAGE_TITLE = "Recruitment & Workforce Services — Virelix Consulting";
 const PAGE_DESCRIPTION =
   "Executive search, IT and non-IT recruitment, RPO, workforce planning, business consulting, and professional training delivered across the USA and India by Virelix Consulting.";
-
-export const Route = createFileRoute("/services/")({
-  head: () => {
-    return {
-      meta: [
-        { title: PAGE_TITLE },
-        { name: "description", content: PAGE_DESCRIPTION },
-        { property: "og:title", content: PAGE_TITLE },
-        { property: "og:description", content: PAGE_DESCRIPTION },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: "/services" },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: PAGE_TITLE },
-        { name: "twitter:description", content: PAGE_DESCRIPTION },
-        {
-          name: "keywords",
-          content:
-            "recruitment agency, executive search, IT recruitment, RPO, staffing solutions, workforce planning, talent acquisition, USA India recruitment, Virelix Consulting",
-        },
-      ],
-      links: [
-        { rel: "canonical", href: "/services" },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap",
-        },
-      ],
-    };
-  },
-  component: ServicesPage,
-});
 
 // Vary parallax image position per row for editorial rhythm
 const IMAGE_VARIANTS = [
@@ -261,3 +230,5 @@ function ServicesPage() {
     </main>
   );
 }
+
+export default ServicesPage;

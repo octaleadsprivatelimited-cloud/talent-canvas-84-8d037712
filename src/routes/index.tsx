@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -73,20 +73,6 @@ const heroSlides = [
     badge: { value: "10x", label: "Faster time-to-hire" },
   },
 ];
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions" },
-      {
-        name: "description",
-        content:
-          "Virelix Consulting is a Delaware-headquartered global talent acquisition, workforce solutions, training and business consulting firm with operations across the USA and India.",
-      },
-    ],
-  }),
-  component: Index,
-});
 
 const services = [
   {
@@ -971,3 +957,5 @@ function Index() {
     </div>
   );
 }
+
+export default Index;

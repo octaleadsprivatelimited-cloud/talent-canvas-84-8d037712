@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { useParams } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { RenderLayout, type LayoutId, type LayoutContent } from "@/lib/page-layouts";
@@ -13,18 +13,8 @@ type CustomPage = {
   published: boolean;
 };
 
-export const Route = createFileRoute("/p/$slug")({
-  component: CustomPageView,
-  notFoundComponent: () => (
-    <div className="container mx-auto px-4 py-24 text-center">
-      <h1 className="font-display text-3xl font-bold">Page not found</h1>
-      <p className="mt-2 text-muted-foreground">The page you’re looking for doesn’t exist.</p>
-    </div>
-  ),
-});
-
 function CustomPageView() {
-  const { slug } = Route.useParams();
+  const { slug } = useParams();
   const { data, isLoading, error } = useFirebaseQuery(["custom_page", slug], async () => {
     const { data, error } = await firebase
       .from("custom_pages")
@@ -50,3 +40,5 @@ function CustomPageView() {
 
   return <RenderLayout layout={data.layout} content={data.content ?? {}} />;
 }
+
+export default CustomPageView;
