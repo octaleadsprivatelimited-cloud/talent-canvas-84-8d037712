@@ -23,6 +23,7 @@ import ServiceDetail from "./routes/services.$slug";
 import IndustriesPage from "./routes/industries_.index";
 import IndustryDetail from "./routes/industries_.$slug";
 import CustomPage from "./routes/p.$slug";
+import UserDashboardPage from "./routes/dashboard";
 
 export default function AppRouter() {
   return (
@@ -35,6 +36,7 @@ export default function AppRouter() {
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dock" element={<AdminLayout />} />
+        <Route path="/dashboard" element={<UserDashboardPage />} />
         <Route path="/contact" element={<ContactPage />} />
 
         <Route path="/case-studies" element={<CaseStudiesPage />} />

@@ -58,7 +58,7 @@ export function useRole(): UseRoleResult {
     }
 
     setRoleLoading(true);
-    if (user.id.startsWith("mock-") || user.email === "admin.virelixconsulting@gmail.com") {
+    if (user.email === "admin.virelixconsulting@gmail.com" || user.id === "mock-admin-user-id") {
       setRole("admin");
       setRoleUserId(user.id);
       setRoleLoading(false);
@@ -99,11 +99,11 @@ export function useRole(): UseRoleResult {
         // exist for someone else, this write will be denied — which is the
         // intended behaviour. Only run this on admin/login routes to avoid
         // unnecessary write attempts for standard users on public pages.
-        const isAuthPage =
+        const isDockPage =
           typeof window !== "undefined" &&
-          (window.location.pathname.startsWith("/dock") || window.location.pathname === "/login");
+          window.location.pathname.startsWith("/dock");
 
-        if (isAuthPage) {
+        if (isDockPage) {
           const { error: upsertError } = await firebase
             .from("user_roles")
             .upsert({ id: user.id, user_id: user.id, role: "admin" }, { onConflict: "id" });
@@ -113,7 +113,7 @@ export function useRole(): UseRoleResult {
           }
         } else {
           if (!cancelled) {
-            setRole(null);
+            setRole("user");
             setRoleUserId(user.id);
           }
         }

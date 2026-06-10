@@ -214,6 +214,26 @@ class FirebaseQueryBuilder {
           });
         }
 
+        // Resolve simple relationships (like jobs/companies for applications)
+        if (this.collectionName === "applications") {
+          const jobsKey = `virelix_db_jobs`;
+          const jobsStr = localStorage.getItem(jobsKey);
+          const jobsList = jobsStr ? JSON.parse(jobsStr) : [];
+
+          const compKey = `virelix_db_companies`;
+          const compStr = localStorage.getItem(compKey);
+          const companiesList = compStr ? JSON.parse(compStr) : [];
+
+          data = data.map((app: any) => {
+            const job = jobsList.find((j: any) => j.id === app.job_id) || null;
+            if (job) {
+              const company = companiesList.find((c: any) => c.id === job.company_id || c.slug === job.company_id) || null;
+              job.companies = company;
+            }
+            return { ...app, jobs: job };
+          });
+        }
+
         return { data, error: null };
       }
 
@@ -439,6 +459,35 @@ class FirebaseQueryBuilder {
             });
           } catch (e) {
             console.error("Failed to join companies:", e);
+          }
+        }
+
+        if (selectStr.includes("jobs") && this.collectionName === "applications") {
+          try {
+            const jobsRef = collection(db, "jobs");
+            const jobsSnapshot = await getDocs(jobsRef);
+            const jobsList = jobsSnapshot.docs.map((d) => ({
+              id: d.id,
+              ...d.data(),
+            }));
+
+            const compRef = collection(db, "companies");
+            const compSnapshot = await getDocs(compRef);
+            const companiesList = compSnapshot.docs.map((d) => ({
+              id: d.id,
+              ...d.data(),
+            }));
+
+            data = data.map((app: any) => {
+              const job = jobsList.find((j: any) => j.id === app.job_id) || null;
+              if (job) {
+                const company = companiesList.find((c: any) => c.id === job.company_id || c.slug === job.company_id) || null;
+                job.companies = company;
+              }
+              return { ...app, jobs: job };
+            });
+          } catch (e) {
+            console.error("Failed to join jobs for applications:", e);
           }
         }
 
@@ -823,6 +872,7 @@ class FirebaseAuthWrapper {
     }
     try {
       const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
       const credential = await signInWithPopup(auth, provider);
       const user = credential.user;
       const token = await user.getIdToken();

@@ -70,9 +70,11 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
-          {isAdmin && (
+          {user && (
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/dock">Admin</Link>
+              <Link to={isAdmin ? "/dock" : "/dashboard"}>
+                {isAdmin ? "Admin" : "Dashboard"}
+              </Link>
             </Button>
           )}
           {user ? (
@@ -178,9 +180,11 @@ export function Header() {
                 }}
                 className="mt-2 flex flex-col gap-2 border-t border-border pt-3"
               >
-                {isAdmin && (
+                {user && (
                   <Button variant="outline" asChild onClick={() => setOpen(false)}>
-                    <Link to="/dock">Admin</Link>
+                    <Link to={isAdmin ? "/dock" : "/dashboard"}>
+                      {isAdmin ? "Admin" : "Dashboard"}
+                    </Link>
                   </Button>
                 )}
                 {user ? (
