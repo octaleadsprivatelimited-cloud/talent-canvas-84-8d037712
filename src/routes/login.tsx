@@ -121,9 +121,6 @@ function LoginPage() {
         )}
 
         <div className="mt-10 rounded-2xl border border-border/60 bg-card/70 p-8 shadow-xl backdrop-blur flex flex-col items-center">
-          <p className="text-xs text-center text-muted-foreground mb-6 leading-relaxed">
-            Access to the Virelix admin panel is restricted. Please sign in with your authorized admin Google account (<strong className="text-foreground font-semibold">admin.virelixconsulting@gmail.com</strong>).
-          </p>
           <Button
             type="button"
             onClick={signInWithGoogle}
