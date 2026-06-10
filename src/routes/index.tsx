@@ -306,7 +306,7 @@ function Index() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (visible?.target.id) setActive(visible.target.id);
       },
-      { root, threshold: [0.4, 0.6, 0.8] },
+      { root: null, rootMargin: "-20% 0px -40% 0px", threshold: [0, 0.1, 0.2] },
     );
     sectionIds.forEach((id) => {
       const el = root.querySelector(`#${id}`);
@@ -316,17 +316,14 @@ function Index() {
   }, []);
 
   const scrollTo = (id: string) => {
-    const root = scrollerRef.current;
-    const el = root?.querySelector<HTMLElement>(`#${id}`);
-    if (!root || !el) return;
-    root.scrollTo({ top: el.offsetTop, behavior: "smooth" });
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   return (
-    <div
-      ref={scrollerRef}
-      className="relative h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth [scroll-behavior:smooth]"
-    >
+    <div ref={scrollerRef} className="relative min-h-screen bg-background">
       <DynamicSeo
         pageKey="home"
         fallbackTitle="Strategic Talent Acquisition & Workforce Solutions"
@@ -374,7 +371,7 @@ function Index() {
       />
 
       {/* ============== SERVICES ============== */}
-      <section id="services" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
+      <section id="services" className="relative w-full py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
         <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
           <img
@@ -509,7 +506,7 @@ function Index() {
       {/* ============== INDUSTRIES — IMMERSIVE SECTOR SHOWCASE ============== */}
       <section
         id="industries"
-        className="relative w-full snap-start bg-[#080a0f] text-white py-20 md:py-28 lg:py-36 overflow-hidden"
+        className="relative w-full bg-[#080a0f] text-white py-20 md:py-28 lg:py-36 overflow-hidden"
       >
         {/* Ambient glow effects */}
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-500/[0.04] rounded-full blur-[120px] pointer-events-none" />
@@ -615,7 +612,7 @@ function Index() {
       </section>
 
       {/* ============== PROCESS ============== */}
-      <section id="process" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
+      <section id="process" className="relative w-full py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
         <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.35] dark:opacity-[0.45] pointer-events-none">
           <img
@@ -699,7 +696,7 @@ function Index() {
       {/* ============== GLOBAL PRESENCE & PHILOSOPHY (Adecco Group style) ============== */}
       <section
         id="scale"
-        className="relative w-full snap-start bg-gradient-to-r from-[#f2f8cc] via-[#aee9bd] to-[#73aef5] py-20 md:py-28 overflow-hidden"
+        className="relative w-full bg-gradient-to-r from-[#f2f8cc] via-[#aee9bd] to-[#73aef5] py-20 md:py-28 overflow-hidden"
       >
         <div className="container mx-auto px-4 relative z-10">
           <div className="mx-auto max-w-5xl bg-white text-slate-900 p-8 md:p-12 lg:p-14 shadow-2xl rounded-2xl border border-white/50">
@@ -800,7 +797,7 @@ function Index() {
       {/* ============== TESTIMONIALS ============== */}
       <section
         id="testimonials"
-        className="relative w-full snap-start bg-surface py-20 md:py-28 overflow-hidden"
+        className="relative w-full bg-surface py-20 md:py-28 overflow-hidden"
       >
         {/* Section background image */}
         <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
@@ -888,7 +885,7 @@ function Index() {
       {copy.clients.length > 0 && (
         <section
           aria-label="Highlighted keywords"
-          className="relative w-full snap-start overflow-hidden border-y border-border bg-foreground py-6 text-background"
+          className="relative w-full overflow-hidden border-y border-border bg-foreground py-6 text-background"
         >
           <div className="flex overflow-hidden">
             <div className="animate-marquee flex shrink-0 items-center gap-10 whitespace-nowrap pr-10">
@@ -907,7 +904,7 @@ function Index() {
       )}
 
       {/* ============== CTA ============== */}
-      <section id="cta" className="relative w-full snap-start py-20 md:py-28 overflow-hidden">
+      <section id="cta" className="relative w-full py-20 md:py-28 overflow-hidden">
         {/* Section background image */}
         <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.10] dark:opacity-[0.18] pointer-events-none">
           <img
