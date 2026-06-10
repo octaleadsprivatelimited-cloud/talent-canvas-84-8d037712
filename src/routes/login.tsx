@@ -37,7 +37,11 @@ function LoginPage() {
     try {
       const res = await firebase.auth.signInWithPopupGoogle();
       if (res && "error" in res && res.error) {
-        toast.error(res.error.message || "Failed to sign in with Google");
+        let msg = res.error.message || "Failed to sign in with Google";
+        if (res.error.code === "auth/admin-restricted-operation") {
+          msg = "Account registration is restricted. Please enable new user sign-up or Google provider in your Firebase Console (Authentication -> Settings -> User actions).";
+        }
+        toast.error(msg, { duration: 6000 });
       } else if (res && "user" in res && res.user) {
         const loggedInUser = res.user;
         if (loggedInUser.email === "admin.virelixconsulting@gmail.com") {
