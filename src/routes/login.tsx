@@ -1,16 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { firebase } from "@/integrations/firebase/client";
 import { toast } from "sonner";
 import { useRole } from "@/hooks/use-role";
 import { AlertTriangle } from "lucide-react";
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [formSubmitting, setFormSubmitting] = useState(false);
   const navigate = useNavigate();
   const { user, loading, hasAdminAccess } = useRole();
@@ -22,7 +18,7 @@ function LoginPage() {
 
     if (user) {
       if (hasAdminAccess) {
-        navigate({ to: "/dock" });
+        navigate("/dock");
       } else if (!signingOutRef.current) {
         signingOutRef.current = true;
         toast.error("Access denied. You do not have permission to view the admin area.");
@@ -33,21 +29,21 @@ function LoginPage() {
     }
   }, [user, loading, hasAdminAccess, navigate]);
 
-  const submitEmail = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
-      toast.error("Enter email and password");
-      return;
-    }
+  const signInWithGoogle = async () => {
     setFormSubmitting(true);
     try {
-      const { error } = await firebase.auth.signInWithPassword({ email, password });
-      if (error) {
-        toast.error(error.message || "Authentication failed");
-      } else {
-        toast.success("Successfully signed in!");
-        // Navigate immediately — don't wait for the reactive useEffect
-        navigate({ to: "/dock" });
+      const res = await firebase.auth.signInWithPopupGoogle();
+      if (res && "error" in res && res.error) {
+        toast.error(res.error.message || "Failed to sign in with Google");
+      } else if (res && "user" in res && res.user) {
+        const loggedInUser = res.user;
+        if (loggedInUser.email === "admin.virelixconsulting@gmail.com") {
+          toast.success("Successfully signed in as Admin!");
+          navigate("/dock");
+        } else {
+          toast.error(`Access denied. ${loggedInUser.email} is not authorized.`);
+          await firebase.auth.signOut();
+        }
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Authentication failed";
@@ -124,53 +120,21 @@ function LoginPage() {
           </div>
         )}
 
-        <div className="mt-10 rounded-2xl border border-border/60 bg-card/70 p-8 shadow-xl backdrop-blur">
-          <form onSubmit={submitEmail} className="space-y-5">
-            <div>
-              <Label
-                htmlFor="email"
-                className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground"
-              >
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-2"
-                required
-                disabled={formSubmitting || !firebase.isInitialized}
-              />
-            </div>
-            <div>
-              <Label
-                htmlFor="password"
-                className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground"
-              >
-                Password
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-2"
-                minLength={6}
-                required
-                disabled={formSubmitting || !firebase.isInitialized}
-              />
-            </div>
-            <Button
-              type="submit"
-              disabled={formSubmitting || !firebase.isInitialized}
-              className="w-full py-6 text-[11px] font-bold uppercase tracking-[0.3em]"
-            >
-              {formSubmitting ? "Signing in…" : "Sign in"}
-            </Button>
-          </form>
+        <div className="mt-10 rounded-2xl border border-border/60 bg-card/70 p-8 shadow-xl backdrop-blur flex flex-col items-center">
+          <p className="text-xs text-center text-muted-foreground mb-6 leading-relaxed">
+            Access to the Virelix admin panel is restricted. Please sign in with your authorized admin Google account (<strong className="text-foreground font-semibold">admin.virelixconsulting@gmail.com</strong>).
+          </p>
+          <Button
+            type="button"
+            onClick={signInWithGoogle}
+            disabled={formSubmitting}
+            className="w-full py-6 text-[11px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3 cursor-pointer"
+          >
+            <svg className="h-4 w-4 shrink-0" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
+              <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
+            </svg>
+            {formSubmitting ? "Connecting…" : "Sign in with Google"}
+          </Button>
         </div>
       </div>
     </main>

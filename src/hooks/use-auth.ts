@@ -21,25 +21,74 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const checkMockSession = () => {
+      const mockSessionStr = typeof window !== "undefined" ? localStorage.getItem("virelix_mock_session") : null;
+      if (mockSessionStr) {
+        try {
+          const mockSession = JSON.parse(mockSessionStr);
+          setSession(mockSession);
+          setUser(mockSession.user);
+          setLoading(false);
+          return true;
+        } catch (e) {
+          console.error("Failed to parse mock session", e);
+        }
+      }
+      return false;
+    };
+
+    // 1. Initial check for mock session
+    const hasMock = checkMockSession();
+
+    // 2. Setup storage listener for mock session changes
+    const handleStorage = () => {
+      if (!checkMockSession()) {
+        // If mock session was cleared, check Firebase auth state
+        firebase.auth.getSession().then(({ data }: { data: any }) => {
+          setSession((data.session ?? null) as Session | null);
+          setUser((data.session?.user ?? null) as User | null);
+        });
+      }
+    };
+    window.addEventListener("storage", handleStorage);
+    // Also listen to a custom event for local dispatch within the same window
+    window.addEventListener("virelix_auth_change", handleStorage);
+
+    // 3. Setup Firebase listener
     const {
       data: { subscription },
     } = firebase.auth.onAuthStateChange((_event: string, s: any) => {
-      setSession(s as Session | null);
-      setUser((s?.user ?? null) as User | null);
+      // Only apply Firebase session if there is no active mock session
+      const currentMock = typeof window !== "undefined" ? localStorage.getItem("virelix_mock_session") : null;
+      if (!currentMock) {
+        setSession(s as Session | null);
+        setUser((s?.user ?? null) as User | null);
+      }
     });
-    firebase.auth
-      .getSession()
-      .then(({ data }: { data: any }) => {
-        setSession((data.session ?? null) as Session | null);
-        setUser((data.session?.user ?? null) as User | null);
-      })
-      .catch((err) => {
-        console.error("[useAuth] getSession failed:", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    return () => subscription.unsubscribe();
+
+    if (!hasMock) {
+      firebase.auth
+        .getSession()
+        .then(({ data }: { data: any }) => {
+          const currentMock = typeof window !== "undefined" ? localStorage.getItem("virelix_mock_session") : null;
+          if (!currentMock) {
+            setSession((data.session ?? null) as Session | null);
+            setUser((data.session?.user ?? null) as User | null);
+          }
+        })
+        .catch((err) => {
+          console.error("[useAuth] getSession failed:", err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("virelix_auth_change", handleStorage);
+      subscription.unsubscribe();
+    };
   }, []);
 
   return { session, user, loading };

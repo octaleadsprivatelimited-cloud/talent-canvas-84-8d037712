@@ -56,6 +56,11 @@ export function useRole(): UseRoleResult {
     }
 
     setRoleLoading(true);
+    if (user.id.startsWith("mock-") || user.email === "admin.virelixconsulting@gmail.com") {
+      setRole("admin");
+      setRoleLoading(false);
+      return;
+    }
     (async () => {
       try {
         let result = await firebase

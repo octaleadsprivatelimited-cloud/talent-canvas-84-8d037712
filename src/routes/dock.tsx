@@ -101,7 +101,7 @@ function AdminLayout() {
 
   useEffect(() => {
     if (!loading && !hasAdminAccess) {
-      navigate({ to: "/login" });
+      navigate("/login");
     }
   }, [hasAdminAccess, loading, navigate]);
 
