@@ -464,24 +464,41 @@ class FirebaseQueryBuilder {
 
         if (selectStr.includes("jobs") && this.collectionName === "applications") {
           try {
-            const jobsRef = collection(db, "jobs");
-            const jobsSnapshot = await getDocs(jobsRef);
-            const jobsList = jobsSnapshot.docs.map((d) => ({
-              id: d.id,
-              ...d.data(),
-            }));
+            const jobIds = Array.from(new Set(data.map((app: any) => app.job_id).filter(Boolean)));
+            let jobsList: any[] = [];
+            if (jobIds.length > 0) {
+              const jobsPromises = jobIds.map(async (id) => {
+                const docRef = doc(db!, "jobs", String(id));
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                  return { id: docSnap.id, ...docSnap.data() };
+                }
+                return null;
+              });
+              const resolvedJobs = await Promise.all(jobsPromises);
+              jobsList = resolvedJobs.filter(Boolean);
+            }
 
-            const compRef = collection(db, "companies");
-            const compSnapshot = await getDocs(compRef);
-            const companiesList = compSnapshot.docs.map((d) => ({
-              id: d.id,
-              ...d.data(),
-            }));
+            const companyIds = Array.from(new Set(jobsList.map((job: any) => job.company_id || job.company).filter(Boolean)));
+            let companiesList: any[] = [];
+            if (companyIds.length > 0) {
+              const compPromises = companyIds.map(async (id) => {
+                const docRef = doc(db!, "companies", String(id));
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                  return { id: docSnap.id, ...docSnap.data() };
+                }
+                return null;
+              });
+              const resolvedComps = await Promise.all(compPromises);
+              companiesList = resolvedComps.filter(Boolean);
+            }
 
             data = data.map((app: any) => {
               const job = (jobsList.find((j: any) => j.id === app.job_id) || null) as any;
               if (job) {
-                const company = companiesList.find((c: any) => c.id === job.company_id || c.slug === job.company_id) || null;
+                const companyId = job.company_id || job.company;
+                const company = companiesList.find((c: any) => c.id === companyId || c.slug === companyId) || null;
                 job.companies = company;
               }
               return { ...app, jobs: job };

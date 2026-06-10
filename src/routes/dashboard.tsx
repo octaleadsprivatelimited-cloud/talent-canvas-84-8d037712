@@ -53,6 +53,7 @@ export default function UserDashboardPage() {
       const { data, error } = await firebase
         .from("jobs")
         .select("*, companies(*)")
+        .eq("status", "published")
         .limit(3);
       if (error) throw error;
       return data ?? [];
