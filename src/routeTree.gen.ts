@@ -22,7 +22,6 @@ import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as JobsIndexRouteImport } from './routes/jobs.index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as IndustriesIndexRouteImport } from './routes/industries_.index'
-import { Route as DockIndexRouteImport } from './routes/dock.index'
 import { Route as CompaniesIndexRouteImport } from './routes/companies.index'
 import { Route as CaseStudiesIndexRouteImport } from './routes/case-studies.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
@@ -30,20 +29,6 @@ import { Route as PSlugRouteImport } from './routes/p.$slug'
 import { Route as JobsSlugRouteImport } from './routes/jobs.$slug'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as IndustriesSlugRouteImport } from './routes/industries_.$slug'
-import { Route as DockUsersRouteImport } from './routes/dock.users'
-import { Route as DockTestimonialsRouteImport } from './routes/dock.testimonials'
-import { Route as DockTeamRouteImport } from './routes/dock.team'
-import { Route as DockSubmissionsRouteImport } from './routes/dock.submissions'
-import { Route as DockSiteSettingsRouteImport } from './routes/dock.site-settings'
-import { Route as DockServicesRouteImport } from './routes/dock.services'
-import { Route as DockSeoRouteImport } from './routes/dock.seo'
-import { Route as DockPagesRouteImport } from './routes/dock.pages'
-import { Route as DockPageContentRouteImport } from './routes/dock.page-content'
-import { Route as DockInsightsRouteImport } from './routes/dock.insights'
-import { Route as DockIndustriesRouteImport } from './routes/dock.industries'
-import { Route as DockHomepageRouteImport } from './routes/dock.homepage'
-import { Route as DockDiagnosticsRouteImport } from './routes/dock.diagnostics'
-import { Route as DockCaseStudiesRouteImport } from './routes/dock.case-studies'
 import { Route as CompaniesSlugRouteImport } from './routes/companies.$slug'
 import { Route as CaseStudiesSlugRouteImport } from './routes/case-studies.$slug'
 
@@ -112,11 +97,6 @@ const IndustriesIndexRoute = IndustriesIndexRouteImport.update({
   path: '/industries/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DockIndexRoute = DockIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DockRoute,
-} as any)
 const CompaniesIndexRoute = CompaniesIndexRouteImport.update({
   id: '/companies/',
   path: '/companies/',
@@ -152,76 +132,6 @@ const IndustriesSlugRoute = IndustriesSlugRouteImport.update({
   path: '/industries/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DockUsersRoute = DockUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockTestimonialsRoute = DockTestimonialsRouteImport.update({
-  id: '/testimonials',
-  path: '/testimonials',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockTeamRoute = DockTeamRouteImport.update({
-  id: '/team',
-  path: '/team',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockSubmissionsRoute = DockSubmissionsRouteImport.update({
-  id: '/submissions',
-  path: '/submissions',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockSiteSettingsRoute = DockSiteSettingsRouteImport.update({
-  id: '/site-settings',
-  path: '/site-settings',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockServicesRoute = DockServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockSeoRoute = DockSeoRouteImport.update({
-  id: '/seo',
-  path: '/seo',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockPagesRoute = DockPagesRouteImport.update({
-  id: '/pages',
-  path: '/pages',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockPageContentRoute = DockPageContentRouteImport.update({
-  id: '/page-content',
-  path: '/page-content',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockInsightsRoute = DockInsightsRouteImport.update({
-  id: '/insights',
-  path: '/insights',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockIndustriesRoute = DockIndustriesRouteImport.update({
-  id: '/industries',
-  path: '/industries',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockHomepageRoute = DockHomepageRouteImport.update({
-  id: '/homepage',
-  path: '/homepage',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockDiagnosticsRoute = DockDiagnosticsRouteImport.update({
-  id: '/diagnostics',
-  path: '/diagnostics',
-  getParentRoute: () => DockRoute,
-} as any)
-const DockCaseStudiesRoute = DockCaseStudiesRouteImport.update({
-  id: '/case-studies',
-  path: '/case-studies',
-  getParentRoute: () => DockRoute,
-} as any)
 const CompaniesSlugRoute = CompaniesSlugRouteImport.update({
   id: '/companies/$slug',
   path: '/companies/$slug',
@@ -236,7 +146,7 @@ const CaseStudiesSlugRoute = CaseStudiesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
-  '/dock': typeof DockRouteWithChildren
+  '/dock': typeof DockRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -245,20 +155,6 @@ export interface FileRoutesByFullPath {
   '/who-we-are': typeof WhoWeAreRoute
   '/case-studies/$slug': typeof CaseStudiesSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
-  '/dock/case-studies': typeof DockCaseStudiesRoute
-  '/dock/diagnostics': typeof DockDiagnosticsRoute
-  '/dock/homepage': typeof DockHomepageRoute
-  '/dock/industries': typeof DockIndustriesRoute
-  '/dock/insights': typeof DockInsightsRoute
-  '/dock/page-content': typeof DockPageContentRoute
-  '/dock/pages': typeof DockPagesRoute
-  '/dock/seo': typeof DockSeoRoute
-  '/dock/services': typeof DockServicesRoute
-  '/dock/site-settings': typeof DockSiteSettingsRoute
-  '/dock/submissions': typeof DockSubmissionsRoute
-  '/dock/team': typeof DockTeamRoute
-  '/dock/testimonials': typeof DockTestimonialsRoute
-  '/dock/users': typeof DockUsersRoute
   '/industries/$slug': typeof IndustriesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
@@ -266,7 +162,6 @@ export interface FileRoutesByFullPath {
   '/services/$slug': typeof ServicesSlugRoute
   '/case-studies/': typeof CaseStudiesIndexRoute
   '/companies/': typeof CompaniesIndexRoute
-  '/dock/': typeof DockIndexRoute
   '/industries/': typeof IndustriesIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/jobs/': typeof JobsIndexRoute
@@ -275,6 +170,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/dock': typeof DockRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -283,20 +179,6 @@ export interface FileRoutesByTo {
   '/who-we-are': typeof WhoWeAreRoute
   '/case-studies/$slug': typeof CaseStudiesSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
-  '/dock/case-studies': typeof DockCaseStudiesRoute
-  '/dock/diagnostics': typeof DockDiagnosticsRoute
-  '/dock/homepage': typeof DockHomepageRoute
-  '/dock/industries': typeof DockIndustriesRoute
-  '/dock/insights': typeof DockInsightsRoute
-  '/dock/page-content': typeof DockPageContentRoute
-  '/dock/pages': typeof DockPagesRoute
-  '/dock/seo': typeof DockSeoRoute
-  '/dock/services': typeof DockServicesRoute
-  '/dock/site-settings': typeof DockSiteSettingsRoute
-  '/dock/submissions': typeof DockSubmissionsRoute
-  '/dock/team': typeof DockTeamRoute
-  '/dock/testimonials': typeof DockTestimonialsRoute
-  '/dock/users': typeof DockUsersRoute
   '/industries/$slug': typeof IndustriesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
@@ -304,7 +186,6 @@ export interface FileRoutesByTo {
   '/services/$slug': typeof ServicesSlugRoute
   '/case-studies': typeof CaseStudiesIndexRoute
   '/companies': typeof CompaniesIndexRoute
-  '/dock': typeof DockIndexRoute
   '/industries': typeof IndustriesIndexRoute
   '/insights': typeof InsightsIndexRoute
   '/jobs': typeof JobsIndexRoute
@@ -314,7 +195,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
-  '/dock': typeof DockRouteWithChildren
+  '/dock': typeof DockRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -323,20 +204,6 @@ export interface FileRoutesById {
   '/who-we-are': typeof WhoWeAreRoute
   '/case-studies/$slug': typeof CaseStudiesSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
-  '/dock/case-studies': typeof DockCaseStudiesRoute
-  '/dock/diagnostics': typeof DockDiagnosticsRoute
-  '/dock/homepage': typeof DockHomepageRoute
-  '/dock/industries': typeof DockIndustriesRoute
-  '/dock/insights': typeof DockInsightsRoute
-  '/dock/page-content': typeof DockPageContentRoute
-  '/dock/pages': typeof DockPagesRoute
-  '/dock/seo': typeof DockSeoRoute
-  '/dock/services': typeof DockServicesRoute
-  '/dock/site-settings': typeof DockSiteSettingsRoute
-  '/dock/submissions': typeof DockSubmissionsRoute
-  '/dock/team': typeof DockTeamRoute
-  '/dock/testimonials': typeof DockTestimonialsRoute
-  '/dock/users': typeof DockUsersRoute
   '/industries_/$slug': typeof IndustriesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/jobs/$slug': typeof JobsSlugRoute
@@ -344,7 +211,6 @@ export interface FileRoutesById {
   '/services/$slug': typeof ServicesSlugRoute
   '/case-studies/': typeof CaseStudiesIndexRoute
   '/companies/': typeof CompaniesIndexRoute
-  '/dock/': typeof DockIndexRoute
   '/industries_/': typeof IndustriesIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/jobs/': typeof JobsIndexRoute
@@ -364,20 +230,6 @@ export interface FileRouteTypes {
     | '/who-we-are'
     | '/case-studies/$slug'
     | '/companies/$slug'
-    | '/dock/case-studies'
-    | '/dock/diagnostics'
-    | '/dock/homepage'
-    | '/dock/industries'
-    | '/dock/insights'
-    | '/dock/page-content'
-    | '/dock/pages'
-    | '/dock/seo'
-    | '/dock/services'
-    | '/dock/site-settings'
-    | '/dock/submissions'
-    | '/dock/team'
-    | '/dock/testimonials'
-    | '/dock/users'
     | '/industries/$slug'
     | '/insights/$slug'
     | '/jobs/$slug'
@@ -385,7 +237,6 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/case-studies/'
     | '/companies/'
-    | '/dock/'
     | '/industries/'
     | '/insights/'
     | '/jobs/'
@@ -394,6 +245,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contact'
+    | '/dock'
     | '/login'
     | '/privacy'
     | '/sitemap.xml'
@@ -402,20 +254,6 @@ export interface FileRouteTypes {
     | '/who-we-are'
     | '/case-studies/$slug'
     | '/companies/$slug'
-    | '/dock/case-studies'
-    | '/dock/diagnostics'
-    | '/dock/homepage'
-    | '/dock/industries'
-    | '/dock/insights'
-    | '/dock/page-content'
-    | '/dock/pages'
-    | '/dock/seo'
-    | '/dock/services'
-    | '/dock/site-settings'
-    | '/dock/submissions'
-    | '/dock/team'
-    | '/dock/testimonials'
-    | '/dock/users'
     | '/industries/$slug'
     | '/insights/$slug'
     | '/jobs/$slug'
@@ -423,7 +261,6 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/case-studies'
     | '/companies'
-    | '/dock'
     | '/industries'
     | '/insights'
     | '/jobs'
@@ -441,20 +278,6 @@ export interface FileRouteTypes {
     | '/who-we-are'
     | '/case-studies/$slug'
     | '/companies/$slug'
-    | '/dock/case-studies'
-    | '/dock/diagnostics'
-    | '/dock/homepage'
-    | '/dock/industries'
-    | '/dock/insights'
-    | '/dock/page-content'
-    | '/dock/pages'
-    | '/dock/seo'
-    | '/dock/services'
-    | '/dock/site-settings'
-    | '/dock/submissions'
-    | '/dock/team'
-    | '/dock/testimonials'
-    | '/dock/users'
     | '/industries_/$slug'
     | '/insights/$slug'
     | '/jobs/$slug'
@@ -462,7 +285,6 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/case-studies/'
     | '/companies/'
-    | '/dock/'
     | '/industries_/'
     | '/insights/'
     | '/jobs/'
@@ -472,7 +294,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
-  DockRoute: typeof DockRouteWithChildren
+  DockRoute: typeof DockRoute
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -587,13 +409,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndustriesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dock/': {
-      id: '/dock/'
-      path: '/'
-      fullPath: '/dock/'
-      preLoaderRoute: typeof DockIndexRouteImport
-      parentRoute: typeof DockRoute
-    }
     '/companies/': {
       id: '/companies/'
       path: '/companies'
@@ -643,104 +458,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndustriesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dock/users': {
-      id: '/dock/users'
-      path: '/users'
-      fullPath: '/dock/users'
-      preLoaderRoute: typeof DockUsersRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/testimonials': {
-      id: '/dock/testimonials'
-      path: '/testimonials'
-      fullPath: '/dock/testimonials'
-      preLoaderRoute: typeof DockTestimonialsRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/team': {
-      id: '/dock/team'
-      path: '/team'
-      fullPath: '/dock/team'
-      preLoaderRoute: typeof DockTeamRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/submissions': {
-      id: '/dock/submissions'
-      path: '/submissions'
-      fullPath: '/dock/submissions'
-      preLoaderRoute: typeof DockSubmissionsRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/site-settings': {
-      id: '/dock/site-settings'
-      path: '/site-settings'
-      fullPath: '/dock/site-settings'
-      preLoaderRoute: typeof DockSiteSettingsRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/services': {
-      id: '/dock/services'
-      path: '/services'
-      fullPath: '/dock/services'
-      preLoaderRoute: typeof DockServicesRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/seo': {
-      id: '/dock/seo'
-      path: '/seo'
-      fullPath: '/dock/seo'
-      preLoaderRoute: typeof DockSeoRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/pages': {
-      id: '/dock/pages'
-      path: '/pages'
-      fullPath: '/dock/pages'
-      preLoaderRoute: typeof DockPagesRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/page-content': {
-      id: '/dock/page-content'
-      path: '/page-content'
-      fullPath: '/dock/page-content'
-      preLoaderRoute: typeof DockPageContentRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/insights': {
-      id: '/dock/insights'
-      path: '/insights'
-      fullPath: '/dock/insights'
-      preLoaderRoute: typeof DockInsightsRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/industries': {
-      id: '/dock/industries'
-      path: '/industries'
-      fullPath: '/dock/industries'
-      preLoaderRoute: typeof DockIndustriesRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/homepage': {
-      id: '/dock/homepage'
-      path: '/homepage'
-      fullPath: '/dock/homepage'
-      preLoaderRoute: typeof DockHomepageRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/diagnostics': {
-      id: '/dock/diagnostics'
-      path: '/diagnostics'
-      fullPath: '/dock/diagnostics'
-      preLoaderRoute: typeof DockDiagnosticsRouteImport
-      parentRoute: typeof DockRoute
-    }
-    '/dock/case-studies': {
-      id: '/dock/case-studies'
-      path: '/case-studies'
-      fullPath: '/dock/case-studies'
-      preLoaderRoute: typeof DockCaseStudiesRouteImport
-      parentRoute: typeof DockRoute
-    }
     '/companies/$slug': {
       id: '/companies/$slug'
       path: '/companies/$slug'
@@ -758,48 +475,10 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface DockRouteChildren {
-  DockCaseStudiesRoute: typeof DockCaseStudiesRoute
-  DockDiagnosticsRoute: typeof DockDiagnosticsRoute
-  DockHomepageRoute: typeof DockHomepageRoute
-  DockIndustriesRoute: typeof DockIndustriesRoute
-  DockInsightsRoute: typeof DockInsightsRoute
-  DockPageContentRoute: typeof DockPageContentRoute
-  DockPagesRoute: typeof DockPagesRoute
-  DockSeoRoute: typeof DockSeoRoute
-  DockServicesRoute: typeof DockServicesRoute
-  DockSiteSettingsRoute: typeof DockSiteSettingsRoute
-  DockSubmissionsRoute: typeof DockSubmissionsRoute
-  DockTeamRoute: typeof DockTeamRoute
-  DockTestimonialsRoute: typeof DockTestimonialsRoute
-  DockUsersRoute: typeof DockUsersRoute
-  DockIndexRoute: typeof DockIndexRoute
-}
-
-const DockRouteChildren: DockRouteChildren = {
-  DockCaseStudiesRoute: DockCaseStudiesRoute,
-  DockDiagnosticsRoute: DockDiagnosticsRoute,
-  DockHomepageRoute: DockHomepageRoute,
-  DockIndustriesRoute: DockIndustriesRoute,
-  DockInsightsRoute: DockInsightsRoute,
-  DockPageContentRoute: DockPageContentRoute,
-  DockPagesRoute: DockPagesRoute,
-  DockSeoRoute: DockSeoRoute,
-  DockServicesRoute: DockServicesRoute,
-  DockSiteSettingsRoute: DockSiteSettingsRoute,
-  DockSubmissionsRoute: DockSubmissionsRoute,
-  DockTeamRoute: DockTeamRoute,
-  DockTestimonialsRoute: DockTestimonialsRoute,
-  DockUsersRoute: DockUsersRoute,
-  DockIndexRoute: DockIndexRoute,
-}
-
-const DockRouteWithChildren = DockRoute._addFileChildren(DockRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
-  DockRoute: DockRouteWithChildren,
+  DockRoute: DockRoute,
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

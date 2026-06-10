@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Inbox, Mail, Phone, Building2, Clock, Trash2, Search } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
@@ -15,10 +14,6 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-
-export const Route = createFileRoute("/dock/submissions")({
-  component: SubmissionsAdmin,
-});
 
 type SubStatus = "new" | "in_progress" | "resolved";
 
@@ -65,7 +60,7 @@ function timeAgo(iso: string) {
   return new Date(iso).toLocaleDateString();
 }
 
-function SubmissionsAdmin() {
+export function SubmissionsAdmin() {
   const [rows, setRows] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | SubStatus>("all");

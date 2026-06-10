@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { firebaseAny } from "@/lib/firebase-any";
 import { Button } from "@/components/ui/button";
@@ -7,10 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { X } from "lucide-react";
 import { toast } from "sonner";
-
-export const Route = createFileRoute("/dock/page-content")({
-  component: PageContentAdmin,
-});
 
 const PAGES = [
   {
@@ -21,7 +16,7 @@ const PAGES = [
   { key: "contact", label: "Contact Page", schema: ["title", "subtitle"] },
 ];
 
-function PageContentAdmin() {
+export function PageContentAdmin() {
   const [active, setActive] = useState(PAGES[0].key);
   const [json, setJson] = useState("");
   const [loading, setLoading] = useState(true);

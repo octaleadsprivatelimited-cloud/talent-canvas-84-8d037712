@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Plus, Trash2, GripVertical } from "lucide-react";
@@ -10,13 +9,9 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { HOMEPAGE_DEFAULTS, type HomepageContent, type Stat } from "@/lib/homepage-defaults";
 
-export const Route = createFileRoute("/dock/homepage")({
-  component: HomepageAdmin,
-});
-
 const PAGE_KEY = "home";
 
-function HomepageAdmin() {
+export function HomepageAdmin() {
   const qc = useQueryClient();
   const [content, setContent] = useState<HomepageContent>(HOMEPAGE_DEFAULTS);
   const [loading, setLoading] = useState(true);
@@ -173,7 +168,7 @@ function HomepageAdmin() {
         />
       </Section>
 
-      {/* Testimonials heading (the cards themselves come from /dock/testimonials) */}
+      {/* Testimonials heading (the cards themselves come from Testimonials tab) */}
       <Section title="“Testimonials” section heading">
         <Field
           label="Eyebrow"
@@ -185,13 +180,6 @@ function HomepageAdmin() {
           value={content.testimonials_heading}
           onChange={(v) => update("testimonials_heading", v)}
         />
-        <p className="text-xs text-muted-foreground">
-          The testimonial cards themselves are managed under{" "}
-          <a href="/dock/testimonials" className="underline">
-            Testimonials
-          </a>
-          .
-        </p>
       </Section>
 
       {/* CTA */}

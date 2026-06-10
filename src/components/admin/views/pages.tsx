@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useMemo } from "react";
 import { Pencil, Plus, Trash2, ExternalLink, ArrowUp, ArrowDown, X } from "lucide-react";
 import { firebaseAny } from "@/lib/firebase-any";
@@ -22,10 +21,6 @@ import {
   type LayoutContent,
   type RepeaterSubField,
 } from "@/lib/page-layouts";
-
-export const Route = createFileRoute("/dock/pages")({
-  component: AdminPages,
-});
 
 type PageRow = {
   id: string;
@@ -82,7 +77,7 @@ function emptyItem(fields: RepeaterSubField[]): Record<string, string> {
   return o;
 }
 
-function AdminPages() {
+export function AdminPages() {
   const [rows, setRows] = useState<PageRow[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);

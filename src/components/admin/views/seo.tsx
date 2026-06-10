@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { firebaseAny } from "@/lib/firebase-any";
@@ -7,10 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-
-export const Route = createFileRoute("/dock/seo")({
-  component: SeoAdmin,
-});
 
 const PAGES = [
   { key: "home", label: "Home", path: "/" },
@@ -30,7 +25,7 @@ const PAGES = [
 type SeoRow = { title: string; description: string; og_image: string };
 const EMPTY: SeoRow = { title: "", description: "", og_image: "" };
 
-function SeoAdmin() {
+export function SeoAdmin() {
   const qc = useQueryClient();
   const [active, setActive] = useState<(typeof PAGES)[number]["key"]>("home");
   const [row, setRow] = useState<SeoRow>(EMPTY);

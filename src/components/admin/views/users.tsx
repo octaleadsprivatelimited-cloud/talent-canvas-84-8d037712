@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { firebase } from "@/integrations/firebase/client";
 import { useRole } from "@/hooks/use-role";
@@ -16,10 +15,6 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Trash2, UserPlus } from "lucide-react";
 
-export const Route = createFileRoute("/dock/users")({
-  component: UsersAdmin,
-});
-
 type UserRoleRow = {
   id: string; // = firebase uid
   user_id?: string;
@@ -28,7 +23,7 @@ type UserRoleRow = {
   created_at?: string;
 };
 
-function UsersAdmin() {
+export function UsersAdmin() {
   const qc = useQueryClient();
   const { user: me, role: myRole, loading: meLoading } = useRole();
 

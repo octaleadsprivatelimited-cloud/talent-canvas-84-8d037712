@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { firebaseAny } from "@/lib/firebase-any";
 import { uploadImage } from "@/integrations/firebase/client";
@@ -10,10 +9,6 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { THEMES, type ThemeKey } from "@/components/home-themes";
 import { Check, Upload, X, Loader2 } from "lucide-react";
-
-export const Route = createFileRoute("/dock/site-settings")({
-  component: SiteSettingsAdmin,
-});
 
 const FIELDS: { key: string; label: string; type?: "textarea" }[] = [
   { key: "brand_name", label: "Brand name" },
@@ -29,7 +24,7 @@ const FIELDS: { key: string; label: string; type?: "textarea" }[] = [
   { key: "footer_about", label: "Footer about text", type: "textarea" },
 ];
 
-function SiteSettingsAdmin() {
+export function SiteSettingsAdmin() {
   const qc = useQueryClient();
   const [row, setRow] = useState<Record<string, string> | null>(null);
   const [id, setId] = useState<string | null>(null);

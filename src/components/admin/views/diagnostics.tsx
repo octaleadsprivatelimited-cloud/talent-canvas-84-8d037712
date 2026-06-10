@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { Shield, ShieldAlert, UserCheck, KeyRound, Fingerprint, Database } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -7,11 +6,7 @@ import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/dock/diagnostics")({
-  component: DiagnosticsPage,
-});
-
-function DiagnosticsPage() {
+export function DiagnosticsPage() {
   const [seeding, setSeeding] = useState(false);
 
   const handleSeed = async () => {
