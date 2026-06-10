@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useFirebaseQuery } from "./use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 
@@ -46,7 +47,7 @@ export function getCachedHomeTheme(): string | null {
 }
 
 export function useSiteSettings() {
-  return useFirebaseQuery(
+  const query = useFirebaseQuery(
     "site_settings",
     async () => {
       const { data } = await firebase.from("site_settings").select("*").limit(1).maybeSingle();
@@ -58,4 +59,15 @@ export function useSiteSettings() {
       initialData: () => readCache() ?? undefined,
     },
   );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handleSettingsChange = () => {
+      query.refetch();
+    };
+    window.addEventListener("virelix_settings_change", handleSettingsChange);
+    return () => window.removeEventListener("virelix_settings_change", handleSettingsChange);
+  }, [query.refetch]);
+
+  return query;
 }

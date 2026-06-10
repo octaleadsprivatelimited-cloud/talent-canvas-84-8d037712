@@ -72,7 +72,16 @@ export function SiteSettingsAdmin() {
       toast.error(error.message);
       return false;
     }
-    if (data && !id) setId((data as { id: string }).id);
+    const result = (data as any) ?? null;
+    const resolvedId = id || (result && result.id);
+    if (result && !id) setId(result.id);
+
+    // Sync localStorage cache and dispatch settings change event reactively
+    if (typeof window !== "undefined") {
+      const CACHE_KEY = "site_settings_cache_v1";
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ id: resolvedId, ...next }));
+      window.dispatchEvent(new Event("virelix_settings_change"));
+    }
     return true;
   };
 
