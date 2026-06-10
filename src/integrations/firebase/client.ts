@@ -916,28 +916,13 @@ class FirebaseAuthWrapper {
 }
 
 export async function uploadImage(file: File, folder: string = "uploads"): Promise<string> {
-  if (!storage) {
-    // Fall back to base64 immediately if storage isn't initialized
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (e) => reject(e);
-      reader.readAsDataURL(file);
-    });
-  }
-  try {
-    const fileRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
-    const snapshot = await uploadBytes(fileRef, file);
-    return await getDownloadURL(snapshot.ref);
-  } catch (err) {
-    console.warn("Firebase Storage upload failed, falling back to base64:", err);
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (e) => reject(e);
-      reader.readAsDataURL(file);
-    });
-  }
+  // Always convert file to Base64 to store directly in Firestore, bypassing Firebase Storage
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (e) => reject(e);
+    reader.readAsDataURL(file);
+  });
 }
 
 // ----------------------------------------------------

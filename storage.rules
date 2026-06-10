@@ -1,35 +1,6 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    // Helper function to check if the user is authenticated
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-
-    function isAdmin() {
-      return isAuthenticated() &&
-        firestore.exists(/databases/(default)/documents/user_roles/$(request.auth.uid)) &&
-        firestore.get(/databases/(default)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
-    }
-
-    // Public images/logos: anyone can read, only admins write
-    match /public/{allPaths=**} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // User uploads / resumes: only owner or admin can access
-    match /users/{userId}/{allPaths=**} {
-      allow read, write: if request.auth != null && (request.auth.uid == userId || isAdmin());
-    }
-
-    // Site assets (logos, favicons, hero media): public read, admin write
-    match /site/{allPaths=**} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // Default: deny all other paths
     match /{allPaths=**} {
       allow read, write: if false;
     }
