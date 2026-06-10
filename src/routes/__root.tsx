@@ -14,6 +14,7 @@ import { Footer } from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeApplier } from "@/components/theme-applier";
 import { firebase } from "@/integrations/firebase/client";
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 
 function NotFoundComponent() {
   return (
@@ -126,6 +127,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useSmoothScroll();
   return (
     <QueryClientProvider client={queryClient}>
       {/* HeadContent here ensures meta/links also apply in SPA (Vercel) builds
