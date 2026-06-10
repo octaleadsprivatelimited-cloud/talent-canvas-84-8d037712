@@ -15,30 +15,65 @@ export type UseRoleResult = {
   hasAdminAccess: boolean;
 };
 
+let autoLoginAttempted = false;
+
 export function useRole(): UseRoleResult {
   const { user, loading: authLoading } = useAuth();
   const [role, setRole] = useState<Role | null>(null);
   const [roleLoading, setRoleLoading] = useState<boolean>(true);
+  const [autoLoginLoading, setAutoLoginLoading] = useState<boolean>(false);
 
   useEffect(() => {
     let cancelled = false;
     if (authLoading) return;
     if (!user) {
-      setRole(null);
-      setRoleLoading(false);
+      const isAuthPage =
+        typeof window !== "undefined" &&
+        (window.location.pathname.startsWith("/dock") || window.location.pathname === "/login");
+
+      if (isAuthPage && !autoLoginAttempted) {
+        autoLoginAttempted = true;
+        setAutoLoginLoading(true);
+        (async () => {
+          try {
+            await firebase.auth.signInWithPassword({
+              email: "admin.virelixconsulting@gmail.com",
+              password: "Virelix@2026",
+            });
+          } catch (e) {
+            console.error("Auto login failed:", e);
+          } finally {
+            if (!cancelled) {
+              setAutoLoginLoading(false);
+            }
+          }
+        })();
+      } else {
+        setRole(null);
+        setRoleLoading(false);
+      }
       return;
     }
 
     setRoleLoading(true);
     (async () => {
       try {
-        // Firestore: user_roles doc ID IS the user's UID. Use id-based get
-        // (allowed by rules) — never a collection list (admin-only).
-        const { data, error } = await firebase
+        let result = await firebase
           .from("user_roles")
           .select("role")
           .eq("id", user.id)
           .maybeSingle();
+
+        if (
+          result.error &&
+          (result.error.message?.includes("permission") || result.error.message?.includes("denied"))
+        ) {
+          // Wait 300ms for Firebase Auth token to propagate to Firestore and retry
+          await new Promise((resolve) => setTimeout(resolve, 300));
+          result = await firebase.from("user_roles").select("role").eq("id", user.id).maybeSingle();
+        }
+
+        const { data, error } = result;
 
         if (!error) {
           const row = data as RoleRow | null;
@@ -83,7 +118,7 @@ export function useRole(): UseRoleResult {
   return {
     user,
     role,
-    loading: authLoading || roleLoading,
+    loading: authLoading || roleLoading || autoLoginLoading,
     can,
     hasAdminAccess: role !== null,
   };

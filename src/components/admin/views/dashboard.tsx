@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useQueries } from "@tanstack/react-query";
+import { useFirebaseQueries } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 
 const counters = [
@@ -14,15 +14,15 @@ const counters = [
 ] as const;
 
 export function AdminDashboard({ setActiveTab }: { setActiveTab: (tab: string) => void }) {
-  const queries = useQueries({
-    queries: counters.map((c) => ({
-      queryKey: ["count", c.key],
+  const queries = useFirebaseQueries(
+    counters.map((c) => ({
+      key: c.key,
       queryFn: async () => {
         const { count } = await firebase.from(c.key).select("*", { count: "exact", head: true });
-        return count ?? 0;
+        return (count ?? 0) as number;
       },
     })),
-  });
+  );
 
   return (
     <div>
@@ -36,7 +36,7 @@ export function AdminDashboard({ setActiveTab }: { setActiveTab: (tab: string) =
             return (
               <Link key={c.key} to={c.to} className="bg-background p-5 hover:bg-surface block">
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">{c.label}</p>
-                <p className="mt-2 font-display text-3xl font-bold">{queries[i].data ?? "—"}</p>
+                <p className="mt-2 font-display text-3xl font-bold">{queries[i]?.data ?? "—"}</p>
               </Link>
             );
           }
@@ -48,7 +48,7 @@ export function AdminDashboard({ setActiveTab }: { setActiveTab: (tab: string) =
               className="bg-background p-5 hover:bg-surface block text-left w-full cursor-pointer"
             >
               <p className="text-xs uppercase tracking-wider text-muted-foreground">{c.label}</p>
-              <p className="mt-2 font-display text-3xl font-bold">{queries[i].data ?? "—"}</p>
+              <p className="mt-2 font-display text-3xl font-bold">{queries[i]?.data ?? "—"}</p>
             </button>
           );
         })}

@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useFirebaseQuery, useFirebaseMutation } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { useRole } from "@/hooks/use-role";
 import { ROLES, ROLE_LABELS, ROLE_DESCRIPTIONS, isRole, type Role } from "@/lib/rbac";
@@ -24,35 +24,35 @@ type UserRoleRow = {
 };
 
 export function UsersAdmin() {
-  const qc = useQueryClient();
   const { user: me, role: myRole, loading: meLoading } = useRole();
 
-  const { data: rows = [], isLoading } = useQuery({
-    queryKey: ["user_roles", "all"],
-    queryFn: async () => {
-      const { data } = await firebase.from("user_roles").select("*").execute();
-      return (data ?? []) as UserRoleRow[];
-    },
+  const {
+    data: rows = [],
+    isLoading,
+    refetch,
+  } = useFirebaseQuery("user_roles_all", async () => {
+    const { data } = await firebase.from("user_roles").select("*").execute();
+    return (data ?? []) as UserRoleRow[];
   });
 
-  const updateRole = useMutation({
-    mutationFn: async ({ id, role }: { id: string; role: Role }) => {
+  const updateRole = useFirebaseMutation<{ id: string; role: Role }>({
+    mutationFn: async ({ id, role }) => {
       await firebase.from("user_roles").upsert({ id, user_id: id, role }, { onConflict: "id" });
     },
     onSuccess: () => {
       toast.success("Role updated");
-      qc.invalidateQueries({ queryKey: ["user_roles"] });
+      refetch();
     },
-    onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Failed to update role"),
+    onError: (e) => toast.error(e.message || "Failed to update role"),
   });
 
-  const removeRow = useMutation({
-    mutationFn: async (id: string) => {
+  const removeRow = useFirebaseMutation<string>({
+    mutationFn: async (id) => {
       await firebase.from("user_roles").delete().eq("id", id);
     },
     onSuccess: () => {
       toast.success("Access revoked");
-      qc.invalidateQueries({ queryKey: ["user_roles"] });
+      refetch();
     },
   });
 
@@ -60,7 +60,7 @@ export function UsersAdmin() {
   const [newEmail, setNewEmail] = useState("");
   const [newRole, setNewRole] = useState<Role>("editor");
 
-  const addUser = useMutation({
+  const addUser = useFirebaseMutation<void>({
     mutationFn: async () => {
       const uid = newUid.trim();
       if (!uid) throw new Error("Firebase UID is required");
@@ -75,9 +75,9 @@ export function UsersAdmin() {
       toast.success("User added");
       setNewUid("");
       setNewEmail("");
-      qc.invalidateQueries({ queryKey: ["user_roles"] });
+      refetch();
     },
-    onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Failed to add user"),
+    onError: (e) => toast.error(e.message || "Failed to add user"),
   });
 
   if (meLoading) return <p className="text-sm text-muted-foreground">Loading…</p>;
@@ -144,7 +144,11 @@ export function UsersAdmin() {
               ))}
             </SelectContent>
           </Select>
-          <Button onClick={() => addUser.mutate()} disabled={addUser.isPending} className="gap-2">
+          <Button
+            onClick={() => addUser.mutate(undefined as void)}
+            disabled={addUser.isPending}
+            className="gap-2"
+          >
             <UserPlus className="h-4 w-4" />
             Add
           </Button>

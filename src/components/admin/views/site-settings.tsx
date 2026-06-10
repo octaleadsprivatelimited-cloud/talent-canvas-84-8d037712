@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
 import { THEMES, type ThemeKey } from "@/components/home-themes";
 import { Check, Upload, X, Loader2 } from "lucide-react";
 
@@ -25,7 +24,6 @@ const FIELDS: { key: string; label: string; type?: "textarea" }[] = [
 ];
 
 export function SiteSettingsAdmin() {
-  const qc = useQueryClient();
   const [row, setRow] = useState<Record<string, string> | null>(null);
   const [id, setId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -75,7 +73,6 @@ export function SiteSettingsAdmin() {
       return false;
     }
     if (data && !id) setId((data as { id: string }).id);
-    qc.invalidateQueries({ queryKey: ["site_settings"] });
     return true;
   };
 

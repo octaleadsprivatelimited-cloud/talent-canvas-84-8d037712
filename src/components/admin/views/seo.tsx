@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { firebaseAny } from "@/lib/firebase-any";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,7 +25,6 @@ type SeoRow = { title: string; description: string; og_image: string };
 const EMPTY: SeoRow = { title: "", description: "", og_image: "" };
 
 export function SeoAdmin() {
-  const qc = useQueryClient();
   const [active, setActive] = useState<(typeof PAGES)[number]["key"]>("home");
   const [row, setRow] = useState<SeoRow>(EMPTY);
   const [loading, setLoading] = useState(true);
@@ -51,7 +49,6 @@ export function SeoAdmin() {
       .from("page_content")
       .upsert({ page_key: pageKey, content: row }, { onConflict: "page_key" });
     if (error) return toast.error(error.message);
-    qc.invalidateQueries({ queryKey: ["page_content", pageKey] });
     toast.success("SEO updated");
   };
 

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { Linkedin, Mail } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
@@ -16,16 +16,13 @@ export const Route = createFileRoute("/team")({
 });
 
 function TeamPage() {
-  const { data } = useQuery({
-    queryKey: ["team_members"],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("team_members")
-        .select("*")
-        .eq("published", true)
-        .order("sort_order");
-      return data ?? [];
-    },
+  const { data } = useFirebaseQuery("team_members", async () => {
+    const { data } = await firebase
+      .from("team_members")
+      .select("*")
+      .eq("published", true)
+      .order("sort_order");
+    return data ?? [];
   });
 
   return (

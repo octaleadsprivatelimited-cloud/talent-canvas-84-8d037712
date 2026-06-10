@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { ArrowUpRight } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
@@ -19,16 +19,13 @@ export const Route = createFileRoute("/case-studies/")({
 });
 
 function CaseStudiesIndex() {
-  const { data } = useQuery({
-    queryKey: ["case_studies"],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("case_studies")
-        .select("*")
-        .eq("published", true)
-        .order("sort_order");
-      return data ?? [];
-    },
+  const { data } = useFirebaseQuery(["case_studies"], async () => {
+    const { data } = await firebase
+      .from("case_studies")
+      .select("*")
+      .eq("published", true)
+      .order("sort_order");
+    return data ?? [];
   });
 
   return (

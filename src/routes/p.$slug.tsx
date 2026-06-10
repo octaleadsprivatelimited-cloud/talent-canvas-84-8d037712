@@ -1,5 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { RenderLayout, type LayoutId, type LayoutContent } from "@/lib/page-layouts";
 
@@ -25,20 +25,16 @@ export const Route = createFileRoute("/p/$slug")({
 
 function CustomPageView() {
   const { slug } = Route.useParams();
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["custom_page", slug],
-    queryFn: async () => {
-      const { data, error } = await firebase
-        .from("custom_pages")
-        .select("*")
-        .eq("slug", slug)
-        .eq("published", true)
-        .maybeSingle();
-      if (error) throw new Error(error.message);
-      if (!data) throw notFound();
-      return data as CustomPage;
-    },
-    retry: false,
+  const { data, isLoading, error } = useFirebaseQuery(["custom_page", slug], async () => {
+    const { data, error } = await firebase
+      .from("custom_pages")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    if (!data) throw notFound();
+    return data as CustomPage;
   });
 
   if (isLoading) {

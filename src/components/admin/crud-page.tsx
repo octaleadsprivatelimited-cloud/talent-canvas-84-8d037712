@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -46,7 +45,6 @@ export function CrudPage<T extends Row>({
   asc?: boolean;
   listColumns: { key: keyof T | string; label: string; render?: (row: T) => React.ReactNode }[];
 }) {
-  const qc = useQueryClient();
   const [rows, setRows] = useState<T[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<T | null>(null);
@@ -61,8 +59,7 @@ export function CrudPage<T extends Row>({
     if (error) toast.error(error.message);
     setRows((data as T[]) ?? []);
     setLoading(false);
-    qc.invalidateQueries({ queryKey: [queryKey] });
-  }, [table, orderBy, asc, qc, queryKey]);
+  }, [table, orderBy, asc]);
 
   useEffect(() => {
     reload();

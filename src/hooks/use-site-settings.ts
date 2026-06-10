@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "./use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 
 export type SiteSettings = {
@@ -46,15 +46,16 @@ export function getCachedHomeTheme(): string | null {
 }
 
 export function useSiteSettings() {
-  return useQuery({
-    queryKey: ["site_settings"],
-    queryFn: async () => {
+  return useFirebaseQuery(
+    "site_settings",
+    async () => {
       const { data } = await firebase.from("site_settings").select("*").limit(1).maybeSingle();
       const result = (data as SiteSettings | null) ?? null;
       writeCache(result);
       return result;
     },
-    initialData: () => readCache() ?? undefined,
-    staleTime: 60_000,
-  });
+    {
+      initialData: () => readCache() ?? undefined,
+    },
+  );
 }

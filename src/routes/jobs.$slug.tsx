@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { Building2, MapPin, Briefcase, DollarSign, ArrowLeft } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
@@ -14,18 +14,15 @@ export const Route = createFileRoute("/jobs/$slug")({
 function JobDetail() {
   const { slug } = Route.useParams();
   const { user } = useAuth();
-  const { data: job, isLoading } = useQuery({
-    queryKey: ["job", slug],
-    queryFn: async () => {
-      const { data, error } = await firebase
-        .from("jobs")
-        .select("*, companies(*)")
-        .eq("slug", slug)
-        .maybeSingle();
-      if (error) throw error;
-      if (!data) throw notFound();
-      return data;
-    },
+  const { data: job, isLoading } = useFirebaseQuery(["job", slug], async () => {
+    const { data, error } = await firebase
+      .from("jobs")
+      .select("*, companies(*)")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (error) throw error;
+    if (!data) throw notFound();
+    return data;
   });
 
   const apply = async () => {

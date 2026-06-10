@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { ArrowRight } from "lucide-react";
@@ -54,17 +54,14 @@ function parseMarkdown(text: string | null) {
 
 function CaseStudyDetail() {
   const { slug } = Route.useParams();
-  const { data, isLoading } = useQuery({
-    queryKey: ["case_study", slug],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("case_studies")
-        .select("*")
-        .eq("slug", slug)
-        .eq("published", true)
-        .maybeSingle();
-      return data;
-    },
+  const { data, isLoading } = useFirebaseQuery(["case_study", slug], async () => {
+    const { data } = await firebase
+      .from("case_studies")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .maybeSingle();
+    return data;
   });
   if (!isLoading && !data) throw notFound();
   if (!data) return null;

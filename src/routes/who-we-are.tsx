@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { Check, Target, Compass, ShieldCheck, Award, Globe, Linkedin, Mail } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
@@ -19,28 +19,22 @@ export const Route = createFileRoute("/who-we-are")({
 });
 
 function WhoWeArePage() {
-  const { data: page } = useQuery({
-    queryKey: ["page_content", "about"],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("page_content")
-        .select("content")
-        .eq("page_key", "about")
-        .maybeSingle();
-      return (data?.content as Record<string, unknown>) ?? {};
-    },
+  const { data: page } = useFirebaseQuery("page_content_about", async () => {
+    const { data } = await firebase
+      .from("page_content")
+      .select("content")
+      .eq("page_key", "about")
+      .maybeSingle();
+    return (data?.content as Record<string, unknown>) ?? {};
   });
 
-  const { data: team } = useQuery({
-    queryKey: ["team_members"],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("team_members")
-        .select("*")
-        .eq("published", true)
-        .order("sort_order");
-      return data ?? [];
-    },
+  const { data: team } = useFirebaseQuery("team_members", async () => {
+    const { data } = await firebase
+      .from("team_members")
+      .select("*")
+      .eq("published", true)
+      .order("sort_order");
+    return data ?? [];
   });
 
   const title = (page?.title as string) ?? "Who we are";

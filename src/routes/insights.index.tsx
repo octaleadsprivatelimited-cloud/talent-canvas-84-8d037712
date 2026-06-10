@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
@@ -18,16 +18,13 @@ export const Route = createFileRoute("/insights/")({
 });
 
 function InsightsIndex() {
-  const { data } = useQuery({
-    queryKey: ["posts"],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("posts")
-        .select("*")
-        .eq("published", true)
-        .order("published_at", { ascending: false });
-      return data ?? [];
-    },
+  const { data } = useFirebaseQuery(["posts"], async () => {
+    const { data } = await firebase
+      .from("posts")
+      .select("*")
+      .eq("published", true)
+      .order("published_at", { ascending: false });
+    return data ?? [];
   });
 
   return (

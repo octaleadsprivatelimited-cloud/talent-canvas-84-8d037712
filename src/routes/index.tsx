@@ -27,7 +27,7 @@ import { HomeHero, type ThemeKey } from "@/components/home-themes";
 import { useSiteSettings, getCachedHomeTheme } from "@/hooks/use-site-settings";
 import { usePageContent } from "@/hooks/use-page-content";
 import { HOMEPAGE_DEFAULTS } from "@/lib/homepage-defaults";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { DynamicSeo } from "@/components/dynamic-seo";
 import { getServiceImage } from "@/lib/service-images";
@@ -219,16 +219,13 @@ function Index() {
   const { data: copy } = usePageContent("home", HOMEPAGE_DEFAULTS);
   const [activeService, setActiveService] = useState(0);
 
-  const { data: dbTestimonials } = useQuery({
-    queryKey: ["testimonials", "published"],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("testimonials")
-        .select("id, quote, author_name, author_role, company")
-        .eq("published", true)
-        .order("sort_order");
-      return data ?? [];
-    },
+  const { data: dbTestimonials } = useFirebaseQuery("testimonials_published", async () => {
+    const { data } = await firebase
+      .from("testimonials")
+      .select("id, quote, author_name, author_role, company")
+      .eq("published", true)
+      .order("sort_order");
+    return data ?? [];
   });
   const liveTestimonials =
     dbTestimonials && dbTestimonials.length > 0
@@ -239,16 +236,13 @@ function Index() {
         }))
       : [];
 
-  const { data: dbIndustries } = useQuery({
-    queryKey: ["industries"],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("industries")
-        .select("*")
-        .eq("published", true)
-        .order("sort_order");
-      return (data ?? []).filter((i: any) => i && i.slug && i.published !== false);
-    },
+  const { data: dbIndustries } = useFirebaseQuery("industries", async () => {
+    const { data } = await firebase
+      .from("industries")
+      .select("*")
+      .eq("published", true)
+      .order("sort_order");
+    return (data ?? []).filter((i: any) => i && i.slug && i.published !== false);
   });
 
   const liveIndustries =

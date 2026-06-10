@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { ArrowLeft, ArrowRight, Check, Sparkles, Briefcase, TrendingUp } from "lucide-react";
 import * as Icons from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
@@ -58,46 +58,10 @@ type Job = {
   };
 };
 
-const industryQuery = (slug: string) =>
-  queryOptions({
-    queryKey: ["industry", slug],
-    queryFn: async (): Promise<Industry | null> => {
-      const { data } = await firebase
-        .from("industries")
-        .select("*")
-        .eq("slug", slug)
-        .eq("published", true)
-        .maybeSingle();
-      return (data as Industry | null) ?? null;
-    },
-  });
-
-const relatedDataQuery = () =>
-  queryOptions({
-    queryKey: ["industry_related_data"],
-    queryFn: async () => {
-      const [caseStudiesRes, jobsRes] = await Promise.all([
-        firebase.from("case_studies").select("*").eq("published", true),
-        firebase.from("jobs").select("*, companies(*)").eq("published", true),
-      ]);
-      return {
-        caseStudies: (caseStudiesRes.data as CaseStudy[]) ?? [],
-        jobs: (jobsRes.data as Job[]) ?? [],
-      };
-    },
-  });
-
 export const Route = createFileRoute("/industries_/$slug")({
-  loader: async ({ params, context }) => {
-    const data = await context.queryClient.ensureQueryData(industryQuery(params.slug));
-    if (!data) throw notFound();
-    return data;
-  },
-  head: ({ params, loaderData }) => {
-    const ind = loaderData as Industry | undefined;
-    const title = ind ? `${ind.label} Recruitment Practice — Virelix` : "Industry Practice";
-    const description =
-      ind?.description ?? "Specialized sector recruitment from Virelix Consulting.";
+  head: ({ params }) => {
+    const title = "Industry Practice — Virelix";
+    const description = "Specialized sector recruitment from Virelix Consulting.";
     return {
       meta: [
         { title },
@@ -124,10 +88,37 @@ export const Route = createFileRoute("/industries_/$slug")({
 
 function IndustryDetailComponent() {
   const { slug } = Route.useParams();
-  const { data: industry } = useSuspenseQuery(industryQuery(slug));
-  const { data: related } = useSuspenseQuery(relatedDataQuery());
+  const { data: industry, isLoading } = useFirebaseQuery(
+    `industry_${slug}`,
+    async (): Promise<Industry | null> => {
+      const { data } = await firebase
+        .from("industries")
+        .select("*")
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
+      return (data as Industry | null) ?? null;
+    },
+  );
+  const { data: related } = useFirebaseQuery("industry_related_data", async () => {
+    const [caseStudiesRes, jobsRes] = await Promise.all([
+      firebase.from("case_studies").select("*").eq("published", true),
+      firebase.from("jobs").select("*, companies(*)").eq("published", true),
+    ]);
+    return {
+      caseStudies: (caseStudiesRes.data as CaseStudy[]) ?? [],
+      jobs: (jobsRes.data as Job[]) ?? [],
+    };
+  });
 
-  if (!industry) return null;
+  if (isLoading)
+    return (
+      <div className="container mx-auto px-4 py-20 text-center text-muted-foreground">Loading…</div>
+    );
+  if (!industry)
+    return (
+      <div className="container mx-auto px-4 py-20 text-center">Industry sector not found.</div>
+    );
 
   const serif = {};
 

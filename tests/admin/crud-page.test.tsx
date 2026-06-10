@@ -1,5 +1,4 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 // Shared mock state — reset per test.
@@ -19,19 +18,16 @@ vi.mock("sonner", () => ({
 import { CrudPage, type FieldDef } from "@/components/admin/crud-page";
 
 function renderPage(props?: Partial<Parameters<typeof CrudPage>[0]>) {
-  const qc = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   const fields: FieldDef[] = [{ key: "title", label: "Title", required: true }];
   return render(
-    <QueryClientProvider client={qc}>
-      <CrudPage
-        title="Items"
-        table="items"
-        queryKey="items"
-        fields={fields}
-        listColumns={[{ key: "title", label: "Title" }]}
-        {...props}
-      />
-    </QueryClientProvider>,
+    <CrudPage
+      title="Items"
+      table="items"
+      queryKey="items"
+      fields={fields}
+      listColumns={[{ key: "title", label: "Title" }]}
+      {...props}
+    />,
   );
 }
 

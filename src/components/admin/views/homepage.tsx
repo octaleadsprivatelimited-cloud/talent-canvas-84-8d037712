@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { Plus, Trash2, GripVertical } from "lucide-react";
 import { firebaseAny } from "@/lib/firebase-any";
 import { Button } from "@/components/ui/button";
@@ -12,7 +11,6 @@ import { HOMEPAGE_DEFAULTS, type HomepageContent, type Stat } from "@/lib/homepa
 const PAGE_KEY = "home";
 
 export function HomepageAdmin() {
-  const qc = useQueryClient();
   const [content, setContent] = useState<HomepageContent>(HOMEPAGE_DEFAULTS);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -36,7 +34,6 @@ export function HomepageAdmin() {
       .upsert({ page_key: PAGE_KEY, content }, { onConflict: "page_key" });
     setSaving(false);
     if (error) return toast.error(error.message);
-    qc.invalidateQueries({ queryKey: ["page_content", PAGE_KEY] });
     toast.success("Homepage saved");
   };
 

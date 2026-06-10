@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { JobCard, type JobCardData } from "@/components/jobs/job-card";
 import { Input } from "@/components/ui/input";
@@ -16,19 +16,16 @@ export const Route = createFileRoute("/jobs/")({
 
 function JobsPage() {
   const [q, setQ] = useState("");
-  const { data, isLoading } = useQuery({
-    queryKey: ["jobs", "all"],
-    queryFn: async () => {
-      const { data, error } = await firebase
-        .from("jobs")
-        .select(
-          "id,slug,title,location,work_mode,job_type,salary_min,salary_max,salary_currency,featured,created_at,companies(name,slug,logo_url,industry)",
-        )
-        .eq("status", "published")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return data as unknown as JobCardData[];
-    },
+  const { data, isLoading } = useFirebaseQuery(["jobs", "all"], async () => {
+    const { data, error } = await firebase
+      .from("jobs")
+      .select(
+        "id,slug,title,location,work_mode,job_type,salary_min,salary_max,salary_currency,featured,created_at,companies(name,slug,logo_url,industry)",
+      )
+      .eq("status", "published")
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    return data as unknown as JobCardData[];
   });
 
   const filtered = data?.filter(

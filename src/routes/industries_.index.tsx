@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import * as Icons from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
@@ -20,16 +20,13 @@ export const Route = createFileRoute("/industries_/")({
 });
 
 function IndustriesPage() {
-  const { data } = useQuery({
-    queryKey: ["industries"],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("industries")
-        .select("*")
-        .eq("published", true)
-        .order("sort_order");
-      return (data ?? []).filter((i: any) => i && i.slug && i.published !== false);
-    },
+  const { data } = useFirebaseQuery("industries", async () => {
+    const { data } = await firebase
+      .from("industries")
+      .select("*")
+      .eq("published", true)
+      .order("sort_order");
+    return (data ?? []).filter((i: any) => i && i.slug && i.published !== false);
   });
   const Lucide = Icons as unknown as Record<
     string,

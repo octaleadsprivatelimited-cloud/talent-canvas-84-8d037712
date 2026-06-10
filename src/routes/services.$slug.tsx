@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery, useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import {
   ArrowLeft,
   ArrowRight,
@@ -25,31 +25,10 @@ type Service = {
   image_url?: string | null;
 };
 
-const serviceQuery = (slug: string) =>
-  queryOptions({
-    queryKey: ["service", slug],
-    queryFn: async (): Promise<Service | null> => {
-      const { data } = await firebase
-        .from("services")
-        .select("id,slug,title,summary,body,icon,features,image_url")
-        .eq("slug", slug)
-        .eq("published", true)
-        .maybeSingle();
-      return (data as Service | null) ?? null;
-    },
-  });
-
 export const Route = createFileRoute("/services/$slug")({
-  loader: async ({ params, context }) => {
-    const data = await context.queryClient.ensureQueryData(serviceQuery(params.slug));
-    if (!data) throw notFound();
-    return data;
-  },
-  head: ({ params, loaderData }) => {
-    const s = loaderData as Service | undefined;
-    const title = s ? `${s.title} — Virelix Consulting` : "Service — Virelix Consulting";
+  head: ({ params }) => {
+    const title = `Service — Virelix Consulting`;
     const description =
-      s?.summary ??
       "Specialist recruitment and workforce solutions delivered by Virelix Consulting.";
     return {
       meta: [
@@ -70,48 +49,6 @@ export const Route = createFileRoute("/services/$slug")({
           href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap",
         },
       ],
-      scripts: s
-        ? [
-            {
-              type: "application/ld+json",
-              children: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "Service",
-                name: s.title,
-                description,
-                provider: {
-                  "@type": "Organization",
-                  name: "Virelix Consulting",
-                  url: "/",
-                },
-                areaServed: ["United States", "India"],
-                url: `/services/${params.slug}`,
-              }),
-            },
-            {
-              type: "application/ld+json",
-              children: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "BreadcrumbList",
-                itemListElement: [
-                  { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-                  {
-                    "@type": "ListItem",
-                    position: 2,
-                    name: "Services",
-                    item: "/services",
-                  },
-                  {
-                    "@type": "ListItem",
-                    position: 3,
-                    name: s.title,
-                    item: `/services/${params.slug}`,
-                  },
-                ],
-              }),
-            },
-          ]
-        : [],
     };
   },
   component: ServiceDetail,
@@ -220,18 +157,31 @@ const SERVICE_ADDITIONS: Record<
 
 function ServiceDetail() {
   const { slug } = Route.useParams();
-  const { data } = useSuspenseQuery(serviceQuery(slug));
+  const { data, isLoading } = useFirebaseQuery(
+    `service_${slug}`,
+    async (): Promise<Service | null> => {
+      const { data } = await firebase
+        .from("services")
+        .select("id,slug,title,summary,body,icon,features,image_url")
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
+      return (data as Service | null) ?? null;
+    },
+  );
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const { data: caseStudies } = useQuery({
-    queryKey: ["case_studies", "published"],
-    queryFn: async () => {
-      const { data } = await firebase.from("case_studies").select("*").eq("published", true);
-      return data ?? [];
-    },
+  const { data: caseStudies } = useFirebaseQuery("case_studies_published", async () => {
+    const { data } = await firebase.from("case_studies").select("*").eq("published", true);
+    return data ?? [];
   });
 
-  if (!data) return null;
+  if (isLoading)
+    return (
+      <div className="container mx-auto px-4 py-20 text-center text-muted-foreground">Loading…</div>
+    );
+  if (!data)
+    return <div className="container mx-auto px-4 py-20 text-center">Service not found.</div>;
 
   const additions = SERVICE_ADDITIONS[data.slug];
   const relatedCaseStudies = (caseStudies ?? []).filter((cs: any) => {

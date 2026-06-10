@@ -1,11 +1,4 @@
-import { QueryClient, QueryClientProvider, useQueryClient } from "@tanstack/react-query";
-import {
-  Outlet,
-  createRootRouteWithContext,
-  useRouter,
-  HeadContent,
-  Scripts,
-} from "@tanstack/react-router";
+import { Outlet, createRootRoute, useRouter, HeadContent, Scripts } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
@@ -59,7 +52,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -126,10 +119,9 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
   useSmoothScroll();
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       {/* HeadContent here ensures meta/links also apply in SPA (Vercel) builds
           where shellComponent is not rendered. */}
       <HeadContent />
@@ -143,21 +135,19 @@ function RootComponent() {
         <Footer />
       </div>
       <Toaster />
-    </QueryClientProvider>
+    </>
   );
 }
 
 function AuthSync() {
   const router = useRouter();
-  const qc = useQueryClient();
   useEffect(() => {
     const {
       data: { subscription },
     } = firebase.auth.onAuthStateChange(() => {
       router.invalidate();
-      qc.invalidateQueries();
     });
     return () => subscription.unsubscribe();
-  }, [router, qc]);
+  }, [router]);
   return null;
 }

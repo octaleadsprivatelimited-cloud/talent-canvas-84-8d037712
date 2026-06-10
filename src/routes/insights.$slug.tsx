@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 
@@ -17,17 +17,14 @@ export const Route = createFileRoute("/insights/$slug")({
 
 function InsightDetail() {
   const { slug } = Route.useParams();
-  const { data, isLoading } = useQuery({
-    queryKey: ["post", slug],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("posts")
-        .select("*")
-        .eq("slug", slug)
-        .eq("published", true)
-        .maybeSingle();
-      return data;
-    },
+  const { data, isLoading } = useFirebaseQuery(["post", slug], async () => {
+    const { data } = await firebase
+      .from("posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .maybeSingle();
+    return data;
   });
   if (!isLoading && !data) throw notFound();
   if (!data) return null;

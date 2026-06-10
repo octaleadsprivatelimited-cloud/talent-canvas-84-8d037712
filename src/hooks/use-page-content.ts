@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "./use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 
 export type PageContent = Record<string, unknown>;
@@ -10,17 +10,13 @@ export type PageContent = Record<string, unknown>;
  * haven't filled in every field.
  */
 export function usePageContent<T extends PageContent>(pageKey: string, defaults: T) {
-  const q = useQuery({
-    queryKey: ["page_content", pageKey],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("page_content")
-        .select("content")
-        .eq("page_key", pageKey)
-        .maybeSingle();
-      return (data?.content ?? {}) as PageContent;
-    },
-    staleTime: 30_000,
+  const q = useFirebaseQuery(["page_content", pageKey], async () => {
+    const { data } = await firebase
+      .from("page_content")
+      .select("content")
+      .eq("page_key", pageKey)
+      .maybeSingle();
+    return (data?.content ?? {}) as PageContent;
   });
 
   // Shallow merge: DB values win, but missing keys fall back to defaults

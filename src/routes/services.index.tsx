@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { ArrowRight } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
@@ -16,26 +16,12 @@ type Service = {
   image_url?: string | null;
 };
 
-const servicesQuery = queryOptions({
-  queryKey: ["services", "published"],
-  queryFn: async (): Promise<Service[]> => {
-    const { data } = await firebase
-      .from("services")
-      .select("id,slug,title,summary,icon,features,image_url")
-      .eq("published", true)
-      .order("sort_order");
-    return (data as Service[] | null) ?? [];
-  },
-});
-
 const PAGE_TITLE = "Recruitment & Workforce Services — Virelix Consulting";
 const PAGE_DESCRIPTION =
   "Executive search, IT and non-IT recruitment, RPO, workforce planning, business consulting, and professional training delivered across the USA and India by Virelix Consulting.";
 
 export const Route = createFileRoute("/services/")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(servicesQuery),
-  head: ({ loaderData }) => {
-    const items = (loaderData as Service[] | undefined) ?? [];
+  head: () => {
     return {
       meta: [
         { title: PAGE_TITLE },
@@ -60,22 +46,6 @@ export const Route = createFileRoute("/services/")({
           href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap",
         },
       ],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            name: "Virelix Consulting Services",
-            itemListElement: items.map((s, i) => ({
-              "@type": "ListItem",
-              position: i + 1,
-              name: s.title,
-              url: `/services/${s.slug}`,
-            })),
-          }),
-        },
-      ],
     };
   },
   component: ServicesPage,
@@ -91,7 +61,14 @@ const IMAGE_VARIANTS = [
 const BG_VARIANTS = ["bg-muted/40", "bg-muted/20", "bg-muted/30"];
 
 function ServicesPage() {
-  const { data } = useSuspenseQuery(servicesQuery);
+  const { data = [] } = useFirebaseQuery("services_published", async (): Promise<Service[]> => {
+    const { data } = await firebase
+      .from("services")
+      .select("id,slug,title,summary,icon,features,image_url")
+      .eq("published", true)
+      .order("sort_order");
+    return (data as Service[] | null) ?? [];
+  });
 
   return (
     <main className="min-h-screen bg-background relative">

@@ -51,6 +51,8 @@ function LoginPage() {
         toast.error(error.message || "Authentication failed");
       } else {
         toast.success("Successfully signed in!");
+        // Navigate immediately — don't wait for the reactive useEffect
+        navigate({ to: "/dock" });
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Authentication failed";

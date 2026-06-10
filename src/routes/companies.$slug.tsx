@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { Building2, Globe, MapPin } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { JobCard, type JobCardData } from "@/components/jobs/job-card";
@@ -10,23 +10,19 @@ export const Route = createFileRoute("/companies/$slug")({
 
 function CompanyDetail() {
   const { slug } = Route.useParams();
-  const { data: company } = useQuery({
-    queryKey: ["company", slug],
-    queryFn: async () => {
-      const { data, error } = await firebase
-        .from("companies")
-        .select("*")
-        .eq("slug", slug)
-        .maybeSingle();
-      if (error) throw error;
-      return data;
-    },
+  const { data: company } = useFirebaseQuery(["company", slug], async () => {
+    const { data, error } = await firebase
+      .from("companies")
+      .select("*")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (error) throw error;
+    return data;
   });
 
-  const { data: jobs } = useQuery({
-    queryKey: ["company-jobs", company?.id],
-    enabled: !!company?.id,
-    queryFn: async () => {
+  const { data: jobs } = useFirebaseQuery(
+    ["company-jobs", company?.id],
+    async () => {
       const { data, error } = await firebase
         .from("jobs")
         .select(
@@ -37,7 +33,8 @@ function CompanyDetail() {
       if (error) throw error;
       return data as unknown as JobCardData[];
     },
-  });
+    { enabled: !!company?.id },
+  );
 
   if (!company) return <div className="container mx-auto px-4 py-10">Loading…</div>;
 

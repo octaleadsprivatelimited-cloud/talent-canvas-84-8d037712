@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useFirebaseQuery, useFirebaseMutation } from "@/hooks/use-firebase-query";
 import { useState } from "react";
 import { z } from "zod";
 import { Mail, MapPin, Phone } from "lucide-react";
@@ -35,23 +35,17 @@ const schema = z.object({
 });
 
 function ContactPage() {
-  const { data: page } = useQuery({
-    queryKey: ["page_content", "contact"],
-    queryFn: async () => {
-      const { data } = await firebase
-        .from("page_content")
-        .select("content")
-        .eq("page_key", "contact")
-        .maybeSingle();
-      return (data?.content as Record<string, string>) ?? {};
-    },
+  const { data: page } = useFirebaseQuery("page_content_contact", async () => {
+    const { data } = await firebase
+      .from("page_content")
+      .select("content")
+      .eq("page_key", "contact")
+      .maybeSingle();
+    return (data?.content as Record<string, string>) ?? {};
   });
-  const { data: site } = useQuery({
-    queryKey: ["site_settings"],
-    queryFn: async () => {
-      const { data } = await firebase.from("site_settings").select("*").maybeSingle();
-      return data;
-    },
+  const { data: site } = useFirebaseQuery("site_settings", async () => {
+    const { data } = await firebase.from("site_settings").select("*").maybeSingle();
+    return data;
   });
 
   const [form, setForm] = useState({
@@ -65,8 +59,8 @@ function ContactPage() {
 
   const [lastSubmit, setLastSubmit] = useState(0);
 
-  const submit = useMutation({
-    mutationFn: async (payload: typeof form) => {
+  const submit = useFirebaseMutation<typeof form>({
+    mutationFn: async (payload) => {
       // Rate-limit: 30 seconds between submissions
       const now = Date.now();
       if (now - lastSubmit < 30_000) {
@@ -85,7 +79,7 @@ function ContactPage() {
       toast.success("Thanks — we'll be in touch within one business day.");
       setForm({ name: "", email: "", company: "", phone: "", subject: "", message: "" });
     },
-    onError: (e: Error) => toast.error(e.message || "Could not send. Please try again."),
+    onError: (e) => toast.error(e.message || "Could not send. Please try again."),
   });
 
   return (
@@ -101,6 +95,7 @@ function ContactPage() {
         subtitle={
           page?.subtitle ?? "Tell us what you're building. We'll respond within one business day."
         }
+        bgImage="/contact-bg.jpg"
       />
       <section className="container mx-auto grid gap-12 px-4 py-16 lg:grid-cols-[2fr_1fr]">
         <form
