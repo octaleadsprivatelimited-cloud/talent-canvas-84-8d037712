@@ -5,63 +5,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { firebase } from "@/integrations/firebase/client";
 import { toast } from "sonner";
-import { isRole } from "@/lib/rbac";
+import { useRole } from "@/hooks/use-role";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Admin sign in — Virelix Consulting" }] }),
   component: LoginPage,
 });
 
-async function routeAfterAuth(userId: string, navigate: ReturnType<typeof useNavigate>) {
-  try {
-    const { data: roleRow, error: roleErr } = await firebase
-      .from("user_roles")
-      .select("role")
-      .eq("id", userId)
-      .maybeSingle();
-
-    if (!roleErr && roleRow && isRole(roleRow.role)) {
-      navigate({ to: "/admin" });
-      return;
-    }
-
-    // Try to bootstrap as first admin (succeeds only if user_roles is completely empty)
-    const { error: upsertError } = await firebase
-      .from("user_roles")
-      .upsert({ id: userId, user_id: userId, role: "admin" }, { onConflict: "id" });
-
-    if (!upsertError) {
-      toast.success("First administrator account registered!");
-      navigate({ to: "/admin" });
-    } else {
-      toast.error("Access denied. You do not have permission to view the admin area.");
-      await firebase.auth.signOut();
-    }
-  } catch (e) {
-    console.warn("[login] role check failed:", e);
-    toast.error("Could not verify your access. Please try again.");
-    await firebase.auth.signOut();
-  }
-}
-
 function LoginPage() {
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formSubmitting, setFormSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { user, loading, hasAdminAccess } = useRole();
 
+  // Handle automatic redirect based on auth & role status
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { data } = await firebase.auth.getSession();
-      const user = data.session?.user ?? null;
-      if (cancelled || !user) return;
-      await routeAfterAuth(user.id, navigate);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [navigate]);
+    if (loading) return;
+
+    if (user) {
+      if (hasAdminAccess) {
+        navigate({ to: "/admin" });
+      } else {
+        toast.error("Access denied. You do not have permission to view the admin area.");
+        firebase.auth.signOut();
+      }
+    }
+  }, [user, loading, hasAdminAccess, navigate]);
 
   const submitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,18 +39,38 @@ function LoginPage() {
       toast.error("Enter email and password");
       return;
     }
-    setLoading(true);
+    setFormSubmitting(true);
     try {
-      const { data, error } = await firebase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-      if (data.user) await routeAfterAuth(data.user.id, navigate);
+      const { error } = await firebase.auth.signInWithPassword({ email, password });
+      if (error) {
+        toast.error(error.message || "Authentication failed");
+      } else {
+        toast.success("Successfully signed in!");
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Authentication failed";
       toast.error(msg);
     } finally {
-      setLoading(false);
+      setFormSubmitting(false);
     }
   };
+
+  if (loading) {
+    return (
+      <main className="relative min-h-screen overflow-hidden bg-background flex flex-col items-center justify-center">
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute left-1/2 top-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-accent/10 blur-3xl" />
+        </div>
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground animate-pulse">
+            Verifying access…
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
@@ -123,6 +113,7 @@ function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="mt-2"
                 required
+                disabled={formSubmitting}
               />
             </div>
             <div>
@@ -141,14 +132,15 @@ function LoginPage() {
                 className="mt-2"
                 minLength={6}
                 required
+                disabled={formSubmitting}
               />
             </div>
             <Button
               type="submit"
-              disabled={loading}
+              disabled={formSubmitting}
               className="w-full py-6 text-[11px] font-bold uppercase tracking-[0.3em]"
             >
-              {loading ? "Signing in…" : "Sign in"}
+              {formSubmitting ? "Signing in…" : "Sign in"}
             </Button>
           </form>
         </div>
