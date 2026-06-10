@@ -25,6 +25,81 @@ type Service = {
   image_url?: string | null;
 };
 
+const DEFAULT_SERVICES: Service[] = [
+  {
+    id: "service-1",
+    slug: "executive-search",
+    title: "Executive Search & Leadership Hiring",
+    summary: "Retained search for C-suite, VP, and Director roles led by senior consultants with deep sector expertise.",
+    icon: "target",
+    features: [
+      "Retained search practice",
+      "Sector specialists",
+      "C-level placement portfolio",
+    ],
+    body: `Finding transformational leaders requires more than a standard search process. At Virelix Consulting, we partner with boards, founders, and executive committees to source leaders who drive long-term business strategy and organizational culture.
+
+Our research-backed methodology maps the entire passive candidate landscape, uncovering leadership talent that traditional job boards miss. We conduct deep competency-based interviews, evaluate culture-fit parameters, and run rigorous background/reference verification checks before making introductions.
+
+We specialize in recruiting:
+• Chief Executive Officers & Board Directors
+• VP & Director Level Operations Leadership
+• Chief Technology Officers & Engineering VPs
+• Chief Financial Officers & Quantitative Partners`,
+  },
+  {
+    id: "service-2",
+    slug: "it-recruitment",
+    title: "IT & Non-IT Recruitment",
+    summary: "Specialist hiring across technology, engineering, finance, sales, operations, and support functions.",
+    icon: "cpu",
+    features: ["Tech talent network", "Contingent placement", "Multi-country delivery"],
+    body: `To stay competitive, organizations need specialized talent who can execute complex tech roadmaps and manage operations smoothly. Virelix delivers end-to-end sourcing for contract, contract-to-hire, and direct-hire positions across the United States and India.
+
+We maintain active candidate pools in Software Development, Cloud Architecture, DevOps, and Product Management, as well as critical operations, finance, and marketing roles. Our vetting process is managed by recruitment specialists with deep hands-on background in the industries they serve, ensuring you receive shortlists with real technical maturity.
+
+Key functions we source:
+• Full-Stack Developers & System Architects
+• DevOps & Site Reliability Engineers
+• Financial Analysts & Compliance Officers
+• Operations Managers & Administrative Leads`,
+  },
+  {
+    id: "service-3",
+    slug: "rpo-workforce-solutions",
+    title: "RPO & Workforce Solutions",
+    summary: "Embedded recruiters and end-to-end hiring operations that scale with your business.",
+    icon: "briefcase",
+    features: ["Scale on-demand", "Dedicated recruiter model", "ATS configuration & metrics"],
+    body: `Ramping up a team shouldn't mean overwhelming your HR staff or blowing your budget. Our Recruitment Process Outsourcing (RPO) model embeds dedicated recruiters, sourcing tools, and data-backed pipelines directly into your workflow.
+
+We manage the entire talent acquisition cycle—from initial mapping and job posting to candidate screening, scheduling, offer management, and onboarding. This embedded partnership reduces your time-to-hire, decreases cost-per-hire by up to 50%, and ensures a consistent, high-standard candidate journey under your employer brand.
+
+What our RPO solution delivers:
+• Fully embedded talent partners in your Slack/Jira
+• ATS setup, optimization, and analytics dashboards
+• Customized employer brand messaging and outreach
+• Seamless scaling of recruitment capacity on demand`,
+  },
+  {
+    id: "service-4",
+    slug: "consulting-training",
+    title: "Consulting & Professional Training",
+    summary: "Workforce planning, talent mapping, business consulting, and career development programs.",
+    icon: "trending-up",
+    features: ["Org design consulting", "Training bootcamps", "Salary benchmarking"],
+    body: `Building a resilient workforce requires continuous alignment of organization design, compensation structures, and internal skills development. Virelix offers consulting and professional training programs designed to keep your business ahead of market shifts.
+
+We advise leadership teams on salary benchmarking, workforce planning, talent retention strategies, and organizational restructuring. Additionally, we deliver tailored bootcamps, technical reskilling initiatives, and compliance workshops to keep your teams certified and efficient in modern technologies.
+
+Consulting practices we offer:
+• Organization Design & Restructuring Consulting
+• Localized Salary Benchmarking & Intelligence
+• Reskilling Bootcamps in Cloud, AI, and Cybersecurity
+• Team Leadership and Management Vetting Programs`,
+  },
+];
+
 const SERVICE_ADDITIONS: Record<
   string,
   {
@@ -120,7 +195,7 @@ const SERVICE_ADDITIONS: Record<
 
 function ServiceDetail() {
   const { slug } = useParams();
-  const { data, isLoading } = useFirebaseQuery(
+  const { data: dbData, isLoading } = useFirebaseQuery(
     `service_${slug}`,
     async (): Promise<Service | null> => {
       const { data } = await firebase
@@ -138,6 +213,8 @@ function ServiceDetail() {
     const { data } = await firebase.from("case_studies").select("*").eq("published", true);
     return data ?? [];
   });
+
+  const data = dbData ?? DEFAULT_SERVICES.find((s) => s.slug === slug) ?? null;
 
   if (isLoading)
     return (
@@ -314,8 +391,7 @@ function ServiceDetail() {
                     {relatedCaseStudies.map((cs: any) => (
                       <Link
                         key={cs.id}
-                        to="/case-studies/$slug"
-                        params={{ slug: cs.slug }}
+                        to={`/case-studies/${cs.slug}`}
                         className="group border border-border bg-card p-6 transition hover:bg-surface/50"
                       >
                         <div className="text-[10px] font-bold uppercase tracking-wider text-accent">

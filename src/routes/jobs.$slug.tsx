@@ -10,14 +10,13 @@ import { toast } from "sonner";
 function JobDetail() {
   const { slug } = useParams();
   const { user } = useAuth();
-  const { data: job, isLoading } = useFirebaseQuery(["job", slug], async () => {
+  const { data: job, isLoading, error } = useFirebaseQuery(["job", slug], async () => {
     const { data, error } = await firebase
       .from("jobs")
       .select("*, companies(*)")
       .eq("slug", slug)
       .maybeSingle();
     if (error) throw error;
-    if (!data) throw notFound();
     return data;
   });
 
@@ -35,7 +34,17 @@ function JobDetail() {
   };
 
   if (isLoading) return <div className="container mx-auto px-4 py-10">Loading…</div>;
-  if (!job) return null;
+  if (error || !job) {
+    return (
+      <div className="flex-1 flex items-center justify-center py-20 bg-background text-foreground">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold">404 - Job Not Found</h1>
+          <p className="mt-2 text-muted-foreground">The job listing you are looking for does not exist.</p>
+          <Link to="/jobs" className="mt-4 inline-block text-primary underline">Back to All Jobs</Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-10">
@@ -53,8 +62,7 @@ function JobDetail() {
           <div className="flex-1">
             <h1 className="font-display text-2xl font-bold md:text-3xl">{job.title}</h1>
             <Link
-              to="/companies/$slug"
-              params={{ slug: job.companies?.slug ?? "" }}
+              to={`/companies/${job.companies?.slug ?? ""}`}
               className="mt-1 inline-block text-muted-foreground hover:text-primary"
             >
               {job.companies?.name}

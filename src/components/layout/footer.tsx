@@ -62,8 +62,9 @@ export function Footer() {
             links={[
               { to: "/services", label: "All Services" },
               { to: "/services/executive-search", label: "Executive Search" },
-              { to: "/services/contract-staffing", label: "Contract Staffing" },
-              { to: "/services/rpo-embedded", label: "RPO & Embedded" },
+              { to: "/services/it-recruitment", label: "IT & Tech Recruitment" },
+              { to: "/services/rpo-workforce-solutions", label: "RPO & Workforce Solutions" },
+              { to: "/services/consulting-training", label: "Consulting & Training" },
             ]}
           />
           <FooterCol

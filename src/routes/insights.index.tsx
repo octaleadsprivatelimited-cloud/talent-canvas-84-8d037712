@@ -4,8 +4,38 @@ import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
+const DEFAULT_POSTS = [
+  {
+    id: "post-1",
+    title: "Navigating the Executive Talent Search in 2026",
+    slug: "navigating-executive-search-2026",
+    category: "Executive Search",
+    cover_url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=70",
+    excerpt: "Key changes in leadership hiring trends post hybrid-work stabilization, and how top organizations secure Tier-1 talent.",
+    published_at: "2026-06-01T10:00:00Z",
+  },
+  {
+    id: "post-2",
+    title: "RPO vs. Contingent Recruiting: Which Model Fits Your Scale?",
+    slug: "rpo-vs-contingent-recruiting",
+    category: "Recruitment Strategy",
+    cover_url: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=70",
+    excerpt: "An operational comparison between embedded RPO and contingent placements for high-growth hiring.",
+    published_at: "2026-06-02T12:00:00Z",
+  },
+  {
+    id: "post-3",
+    title: "USA-India Global Delivery: The Strategic Advantage",
+    slug: "usa-india-global-delivery-advantage",
+    category: "Workforce Solutions",
+    cover_url: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=70",
+    excerpt: "How leveraging global delivery hubs across North America and South Asia drives 24/7 sourcing efficiency.",
+    published_at: "2026-06-03T09:00:00Z",
+  },
+];
+
 function InsightsIndex() {
-  const { data } = useFirebaseQuery(["posts"], async () => {
+  const { data: dbData } = useFirebaseQuery(["posts"], async () => {
     const { data } = await firebase
       .from("posts")
       .select("*")
@@ -13,6 +43,9 @@ function InsightsIndex() {
       .order("published_at", { ascending: false });
     return data ?? [];
   });
+
+  const rawData = dbData ?? [];
+  const data = rawData.length > 0 ? rawData : DEFAULT_POSTS;
 
   return (
     <>
@@ -28,11 +61,10 @@ function InsightsIndex() {
       />
       <section className="container mx-auto px-4 py-20">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {data?.map((p: any) => (
+           {data?.map((p: any) => (
             <Link
               key={p.id}
-              to="/insights/$slug"
-              params={{ slug: p.slug }}
+              to={`/insights/${p.slug}`}
               className="group flex flex-col border border-border bg-background hover:bg-surface"
             >
               {p.cover_url && (

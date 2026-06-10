@@ -5,8 +5,39 @@ import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
+const DEFAULT_INDUSTRIES = [
+  {
+    id: "ind-1",
+    label: "Technology & Software Engineering",
+    slug: "technology-software",
+    description: "AI, cloud infrastructure, enterprise software, and engineering roles.",
+    icon: "Cpu",
+  },
+  {
+    id: "ind-2",
+    label: "Healthcare & Life Sciences",
+    slug: "healthcare-lifesciences",
+    description: "Medical devices, biotech, pharmaceuticals, and healthcare providers.",
+    icon: "Heart",
+  },
+  {
+    id: "ind-3",
+    label: "Financial Services & FinTech",
+    slug: "financial-services",
+    description: "Quantitative trading, asset management, risk compliance, banking operations, and financial engineering.",
+    icon: "Wallet",
+  },
+  {
+    id: "ind-4",
+    label: "Logistics & Supply Chain",
+    slug: "logistics-supply-chain",
+    description: "Global supply chains, logistics operations, warehouse management systems, and procurement.",
+    icon: "Truck",
+  },
+];
+
 function IndustriesPage() {
-  const { data } = useFirebaseQuery("industries", async () => {
+  const { data: dbData } = useFirebaseQuery("industries", async () => {
     const { data } = await firebase
       .from("industries")
       .select("*")
@@ -14,6 +45,9 @@ function IndustriesPage() {
       .order("sort_order");
     return (data ?? []).filter((i: any) => i && i.slug && i.published !== false);
   });
+
+  const rawData = dbData ?? [];
+  const data = rawData.length > 0 ? rawData : DEFAULT_INDUSTRIES;
   const Lucide = Icons as unknown as Record<
     string,
     React.ComponentType<{ className?: string; strokeWidth?: number }>
@@ -101,12 +135,15 @@ function IndustriesPage() {
             {/* Grid List */}
             <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">
               {data?.map((ind: any) => {
-                const Icon = (ind.icon && Lucide[ind.icon]) || Icons.Building2;
+                let iconKey = ind.icon || "";
+                if (iconKey && iconKey.length > 0) {
+                  iconKey = iconKey.charAt(0).toUpperCase() + iconKey.slice(1);
+                }
+                const Icon = Lucide[iconKey] || Icons.Building2;
                 return (
                   <Link
                     key={ind.id}
-                    to="/industries/$slug"
-                    params={{ slug: ind.slug }}
+                    to={`/industries/${ind.slug}`}
                     className="flex flex-col gap-3 bg-background p-8 hover:bg-surface/50 transition group"
                   >
                     <div className="flex h-11 w-11 items-center justify-center border border-border group-hover:border-primary transition">

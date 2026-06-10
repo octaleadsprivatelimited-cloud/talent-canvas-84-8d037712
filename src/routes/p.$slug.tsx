@@ -23,7 +23,7 @@ function CustomPageView() {
       .eq("published", true)
       .maybeSingle();
     if (error) throw new Error(error.message);
-    if (!data) throw notFound();
+    if (!data) throw new Error("Page not found");
     return data as CustomPage;
   });
 

@@ -34,6 +34,128 @@ type Industry = {
   detail_content?: IndustryDetail | null;
 };
 
+const DEFAULT_INDUSTRIES: Industry[] = [
+  {
+    id: "ind-1",
+    label: "Technology & Software Engineering",
+    slug: "technology-software",
+    description: "AI, cloud infrastructure, enterprise software, and engineering roles.",
+    icon: "cpu",
+    detail_content: {
+      hero_title: "Powering the Next Wave of Technology Talent",
+      hero_subtitle: "From early-stage venture-backed AI firms to enterprise SaaS leaders, we source the software architects and engineering leaders shaping the digital frontier.",
+      capabilities: [
+        "Software Engineering & Architecture",
+        "Artificial Intelligence & Machine Learning",
+        "Cloud Infrastructure & Devops",
+        "Product Management & UX Design",
+        "Cybersecurity & Threat Intel",
+      ],
+      sourcing_stats: [
+        { value: "15 Days", label: "Avg. Tech Time-to-Submit" },
+        { value: "450+", label: "Engineers Placed" },
+        { value: "94%", label: "Retention Rate at 12 Months" },
+      ],
+    },
+  },
+  {
+    id: "ind-2",
+    label: "Healthcare & Life Sciences",
+    slug: "healthcare-lifesciences",
+    description: "Medical devices, biotech, pharmaceuticals, and healthcare providers.",
+    icon: "heart",
+    detail_content: {
+      hero_title: "Vetting Specialists for Critical Care & Medical Innovation",
+      hero_subtitle: "Sourcing clinical research coordinators, regulatory compliance experts, and biomedical engineers for FDA-approved diagnostic and therapeutic platforms.",
+      capabilities: [
+        "Biomedical & Hardware Engineering",
+        "Clinical Trials Operations",
+        "FDA Regulatory Affairs & Compliance",
+        "Biostatistics & Bioinformatics",
+        "Healthcare IT & Patient Portals",
+      ],
+      sourcing_stats: [
+        { value: "22 Days", label: "Avg. Clinical Time-to-Submit" },
+        { value: "120+", label: "Medical Devices Placed" },
+        { value: "98%", label: "Compliance Audit Pass Rate" },
+      ],
+    },
+  },
+  {
+    id: "ind-3",
+    label: "Financial Services & FinTech",
+    slug: "financial-services",
+    description: "Quantitative trading, asset management, risk compliance, banking operations, and financial engineering.",
+    icon: "wallet",
+    detail_content: {
+      hero_title: "Sourcing Leadership in Quantitative Finance & Risk",
+      hero_subtitle: "Placing expert financial analysts, risk modeling specialists, and blockchain developers with leading asset management firms and modern FinTech innovators.",
+      capabilities: [
+        "Quantitative Trading & Analytics",
+        "Risk Management & Compliance",
+        "Blockchain & Distributed Ledger Technology",
+        "Investment Banking & Corporate Finance",
+        "Information Security & Auditing",
+      ],
+      sourcing_stats: [
+        { value: "18 Days", label: "Avg. Finance Time-to-Submit" },
+        { value: "$10B+", label: "AUM Administered by Placed Talent" },
+        { value: "91%", label: "Placement Longevity at 2 Years" },
+      ],
+    },
+  },
+  {
+    id: "ind-4",
+    label: "Logistics & Supply Chain",
+    slug: "logistics-supply-chain",
+    description: "Global supply chains, logistics operations, warehouse management systems, and procurement.",
+    icon: "truck",
+    detail_content: {
+      hero_title: "Strengthening Supply Chains with Modern Leadership",
+      hero_subtitle: "Delivering logistics directors, fleet operations managers, and warehouse systems experts to build highly resilient distribution pipelines.",
+      capabilities: [
+        "Fleet Operations & Routing",
+        "Warehouse Management Systems (WMS)",
+        "Global Procurement & Sourcing",
+        "Inventory Optimization & Analytics",
+        "Distribution Center Administration",
+      ],
+      sourcing_stats: [
+        { value: "19 Days", label: "Avg. Logistics Time-to-Submit" },
+        { value: "24/7", label: "Operations Support" },
+        { value: "95%", label: "SLA Sourcing Compliance" },
+      ],
+    },
+  },
+];
+
+const DEFAULT_CASE_STUDIES: CaseStudy[] = [
+  {
+    id: "case-1",
+    title: "Scaling a Unicorn Startup Engineering Team",
+    slug: "scaling-unicorn-startup",
+    client: "Vix Tech Corp",
+    industry: "Technology & Software",
+    summary: "How we designed and executed an embedded RPO strategy to hire 45 software engineers in 90 days.",
+  },
+  {
+    id: "case-2",
+    title: "C-Suite Recruiting for a National Logistics Leader",
+    slug: "c-suite-logistics-recruiting",
+    client: "Delaware Supply Chain",
+    industry: "Logistics & Supply Chain",
+    summary: "Placing a Chief Operating Officer (COO) and VP of Logistics within a tight 60-day schedule.",
+  },
+  {
+    id: "case-3",
+    title: "Building the Future of Medical Devices",
+    slug: "medical-device-engineering",
+    client: "BioPulse Diagnostics",
+    industry: "Healthcare & Life Sciences",
+    summary: "Sourcing and placing highly specialized hardware and embedded software engineers for clinical diagnostic tools.",
+  },
+];
+
 type CaseStudy = {
   id: string;
   title: string;
@@ -60,7 +182,7 @@ type Job = {
 
 function IndustryDetailComponent() {
   const { slug } = useParams();
-  const { data: industry, isLoading } = useFirebaseQuery(
+  const { data: dbIndustry, isLoading } = useFirebaseQuery(
     `industry_${slug}`,
     async (): Promise<Industry | null> => {
       const { data } = await firebase
@@ -72,7 +194,7 @@ function IndustryDetailComponent() {
       return (data as Industry | null) ?? null;
     },
   );
-  const { data: related } = useFirebaseQuery("industry_related_data", async () => {
+  const { data: dbRelated } = useFirebaseQuery("industry_related_data", async () => {
     const [caseStudiesRes, jobsRes] = await Promise.all([
       firebase.from("case_studies").select("*").eq("published", true),
       firebase.from("jobs").select("*, companies(*)").eq("published", true),
@@ -83,6 +205,8 @@ function IndustryDetailComponent() {
     };
   });
 
+  const industry = dbIndustry ?? DEFAULT_INDUSTRIES.find((ind) => ind.slug === slug) ?? null;
+
   if (isLoading)
     return (
       <div className="container mx-auto px-4 py-20 text-center text-muted-foreground">Loading…</div>
@@ -91,6 +215,10 @@ function IndustryDetailComponent() {
     return (
       <div className="container mx-auto px-4 py-20 text-center">Industry sector not found.</div>
     );
+
+  const rawRelated = dbRelated ?? { caseStudies: [], jobs: [] };
+  const relatedCaseStudiesData = rawRelated.caseStudies.length > 0 ? rawRelated.caseStudies : DEFAULT_CASE_STUDIES;
+  const relatedJobsData = rawRelated.jobs;
 
   const serif = {};
 
@@ -134,7 +262,7 @@ function IndustryDetailComponent() {
   }
 
   // 2. Filter related Case Studies in-memory based on industry name
-  const filteredCaseStudies = related.caseStudies.filter((cs) => {
+  const filteredCaseStudies = relatedCaseStudiesData.filter((cs) => {
     const csInd = cs.industry?.toLowerCase() ?? "";
     const indLabel = industry.label.toLowerCase();
     const indSlug = industry.slug.toLowerCase();
@@ -147,7 +275,7 @@ function IndustryDetailComponent() {
   });
 
   // 3. Filter related Jobs in-memory based on title keywords
-  const filteredJobs = related.jobs.filter((job) => {
+  const filteredJobs = relatedJobsData.filter((job) => {
     const title = job.title.toLowerCase();
     const desc = job.description?.toLowerCase() ?? "";
     const slug = industry.slug;
@@ -447,8 +575,7 @@ function IndustryDetailComponent() {
                     {filteredCaseStudies.map((cs) => (
                       <Link
                         key={cs.id}
-                        to="/case-studies/$slug"
-                        params={{ slug: cs.slug }}
+                        to={`/case-studies/${cs.slug}`}
                         className="bg-card border border-border p-6 rounded-lg hover:border-primary transition group flex flex-col justify-between"
                       >
                         <div>
@@ -499,7 +626,7 @@ function IndustryDetailComponent() {
                           </p>
                         </div>
                         <Button asChild size="sm" variant="outline">
-                          <Link to="/jobs/$slug" params={{ slug: job.slug }}>
+                          <Link to={`/jobs/${job.slug}`}>
                             View Details
                           </Link>
                         </Button>

@@ -27,8 +27,7 @@ function CompaniesPage() {
         {data?.map((c: any) => (
           <Link
             key={c.id}
-            to="/companies/$slug"
-            params={{ slug: c.slug }}
+            to={`/companies/${c.slug}`}
             className="group rounded-xl border border-border bg-card p-5 transition hover:border-primary/40 hover:shadow-md"
           >
             <div className="flex items-start gap-4">

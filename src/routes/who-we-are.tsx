@@ -4,8 +4,50 @@ import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
 
+const ABOUT_DEFAULTS = {
+  title: "A global force in workforce consulting",
+  intro:
+    "Virelix Consulting was founded to bridge the gap between global enterprises and tier-one professional talent. Through a continuous USA-India delivery pipeline, we provide scale, speed, and exceptional execution across every engagement.",
+  mission:
+    "To make global hiring frictionless, compliant, and human-centric — empowering organizations to scale high-performing teams without borders.",
+  values: [
+    "Authentic Vetting: We screen candidates peer-to-peer, ensuring technical and cultural alignment before presentation.",
+    "Global-Local Delivery: Headquartered in Delaware with operations in Hyderabad, driving round-the-clock sourcing efficiency.",
+    "Regulatory Excellence: 100% compliant international payroll, immigration, and labor classification safeguards.",
+    "Demographic Inclusivity: Leveraging unbiased, demographic-neutral pipelines to maximize opportunity for diverse talent.",
+  ],
+  operating_in: ["United States", "India"],
+};
+
+const DEFAULT_TEAM_MEMBERS = [
+  {
+    id: "team-1",
+    name: "Alex Mercer",
+    role_title: "Managing Director",
+    bio: "15+ years experience in global executive talent acquisitions.",
+    photo_url:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&h=500&q=80",
+    published: true,
+    sort_order: 1,
+    email: "alex@virelixconsulting.com",
+    linkedin: "https://linkedin.com/in/alex-mercer",
+  },
+  {
+    id: "team-2",
+    name: "Jessica Taylor",
+    role_title: "Principal Tech Recruiter",
+    bio: "Ex-Google staffing leader specializing in AI and cloud engineering talent.",
+    photo_url:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&h=500&q=80",
+    published: true,
+    sort_order: 2,
+    email: "jessica@virelixconsulting.com",
+    linkedin: "https://linkedin.com/in/jessica-taylor",
+  },
+];
+
 function WhoWeArePage() {
-  const { data: page } = useFirebaseQuery("page_content_about", async () => {
+  const { data: dbPage } = useFirebaseQuery("page_content_about", async () => {
     const { data } = await firebase
       .from("page_content")
       .select("content")
@@ -14,7 +56,7 @@ function WhoWeArePage() {
     return (data?.content as Record<string, unknown>) ?? {};
   });
 
-  const { data: team } = useFirebaseQuery("team_members", async () => {
+  const { data: dbTeam } = useFirebaseQuery("team_members", async () => {
     const { data } = await firebase
       .from("team_members")
       .select("*")
@@ -23,10 +65,13 @@ function WhoWeArePage() {
     return data ?? [];
   });
 
-  const title = (page?.title as string) ?? "Who we are";
-  const intro = (page?.intro as string) ?? "";
-  const mission = (page?.mission as string) ?? "";
-  const values = (page?.values as string[]) ?? [];
+  const page = dbPage && Object.keys(dbPage).length > 0 ? dbPage : ABOUT_DEFAULTS;
+  const team = dbTeam && dbTeam.length > 0 ? dbTeam : DEFAULT_TEAM_MEMBERS;
+
+  const title = (page?.title as string) ?? ABOUT_DEFAULTS.title;
+  const intro = (page?.intro as string) ?? ABOUT_DEFAULTS.intro;
+  const mission = (page?.mission as string) ?? ABOUT_DEFAULTS.mission;
+  const values = (page?.values as string[]) ?? ABOUT_DEFAULTS.values;
 
   const operatingInRaw = page?.operating_in;
   const operatingIn = Array.isArray(operatingInRaw)

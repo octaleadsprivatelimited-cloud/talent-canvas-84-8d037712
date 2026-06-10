@@ -16,6 +16,45 @@ type Service = {
   image_url?: string | null;
 };
 
+const DEFAULT_SERVICES: Service[] = [
+  {
+    id: "service-1",
+    slug: "executive-search",
+    title: "Executive Search & Leadership Hiring",
+    summary: "Retained search for C-suite, VP, and Director roles led by senior consultants with deep sector expertise.",
+    icon: "target",
+    features: [
+      "Retained search practice",
+      "Sector specialists",
+      "C-level placement portfolio",
+    ],
+  },
+  {
+    id: "service-2",
+    slug: "it-recruitment",
+    title: "IT & Non-IT Recruitment",
+    summary: "Specialist hiring across technology, engineering, finance, sales, operations, and support functions.",
+    icon: "cpu",
+    features: ["Tech talent network", "Contingent placement", "Multi-country delivery"],
+  },
+  {
+    id: "service-3",
+    slug: "rpo-workforce-solutions",
+    title: "RPO & Workforce Solutions",
+    summary: "Embedded recruiters and end-to-end hiring operations that scale with your business.",
+    icon: "briefcase",
+    features: ["Scale on-demand", "Dedicated recruiter model", "ATS configuration & metrics"],
+  },
+  {
+    id: "service-4",
+    slug: "consulting-training",
+    title: "Consulting & Professional Training",
+    summary: "Workforce planning, talent mapping, business consulting, and career development programs.",
+    icon: "trending-up",
+    features: ["Org design consulting", "Training bootcamps", "Salary benchmarking"],
+  },
+];
+
 const PAGE_TITLE = "Recruitment & Workforce Services — Virelix Consulting";
 const PAGE_DESCRIPTION =
   "Executive search, IT and non-IT recruitment, RPO, workforce planning, business consulting, and professional training delivered across the USA and India by Virelix Consulting.";
@@ -30,7 +69,7 @@ const IMAGE_VARIANTS = [
 const BG_VARIANTS = ["bg-muted/40", "bg-muted/20", "bg-muted/30"];
 
 function ServicesPage() {
-  const { data = [] } = useFirebaseQuery("services_published", async (): Promise<Service[]> => {
+  const { data: dbData = [] } = useFirebaseQuery("services_published", async (): Promise<Service[]> => {
     const { data } = await firebase
       .from("services")
       .select("id,slug,title,summary,icon,features,image_url")
@@ -38,6 +77,8 @@ function ServicesPage() {
       .order("sort_order");
     return (data as Service[] | null) ?? [];
   });
+
+  const data = dbData.length > 0 ? dbData : DEFAULT_SERVICES;
 
   return (
     <main className="min-h-screen bg-background relative">
@@ -126,8 +167,7 @@ function ServicesPage() {
                 return (
                   <Link
                     key={s.id}
-                    to="/services/$slug"
-                    params={{ slug: s.slug }}
+                    to={`/services/${s.slug}`}
                     className="group relative block overflow-hidden border-b border-border py-12 transition-all duration-700 md:py-20"
                   >
                     {/* Sliding background layers */}

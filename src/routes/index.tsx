@@ -561,8 +561,7 @@ function Index() {
               return (
                 <Link
                   key={ind.slug}
-                  to="/industries/$slug"
-                  params={{ slug: ind.slug }}
+                  to={`/industries/${ind.slug}`}
                   className={`group relative overflow-hidden rounded-xl ${aspectClass} ${colSpan} w-full cursor-pointer block`}
                 >
                   {/* Full-bleed background image */}
