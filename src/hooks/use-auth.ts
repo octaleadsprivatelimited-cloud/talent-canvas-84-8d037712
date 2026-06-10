@@ -26,10 +26,14 @@ export function useAuth() {
       if (mockSessionStr) {
         try {
           const mockSession = JSON.parse(mockSessionStr);
-          setSession(mockSession);
-          setUser(mockSession.user);
-          setLoading(false);
-          return true;
+          if (mockSession.user?.email === "admin.virelixconsulting@gmail.com") {
+            setSession(mockSession);
+            setUser(mockSession.user);
+            setLoading(false);
+            return true;
+          } else {
+            localStorage.removeItem("virelix_mock_session");
+          }
         } catch (e) {
           console.error("Failed to parse mock session", e);
         }
@@ -45,8 +49,16 @@ export function useAuth() {
       if (!checkMockSession()) {
         // If mock session was cleared, check Firebase auth state
         firebase.auth.getSession().then(({ data }: { data: any }) => {
-          setSession((data.session ?? null) as Session | null);
-          setUser((data.session?.user ?? null) as User | null);
+          const s = data.session;
+          const u = s?.user;
+          if (u && u.email !== "admin.virelixconsulting@gmail.com") {
+            firebase.auth.signOut();
+            setSession(null);
+            setUser(null);
+          } else {
+            setSession((s ?? null) as Session | null);
+            setUser((u ?? null) as User | null);
+          }
         });
       }
     };
@@ -61,8 +73,15 @@ export function useAuth() {
       // Only apply Firebase session if there is no active mock session
       const currentMock = typeof window !== "undefined" ? localStorage.getItem("virelix_mock_session") : null;
       if (!currentMock) {
-        setSession(s as Session | null);
-        setUser((s?.user ?? null) as User | null);
+        const u = s?.user;
+        if (u && u.email !== "admin.virelixconsulting@gmail.com") {
+          firebase.auth.signOut();
+          setSession(null);
+          setUser(null);
+        } else {
+          setSession(s as Session | null);
+          setUser((u ?? null) as User | null);
+        }
       }
     });
 
@@ -72,8 +91,16 @@ export function useAuth() {
         .then(({ data }: { data: any }) => {
           const currentMock = typeof window !== "undefined" ? localStorage.getItem("virelix_mock_session") : null;
           if (!currentMock) {
-            setSession((data.session ?? null) as Session | null);
-            setUser((data.session?.user ?? null) as User | null);
+            const s = data.session;
+            const u = s?.user;
+            if (u && u.email !== "admin.virelixconsulting@gmail.com") {
+              firebase.auth.signOut();
+              setSession(null);
+              setUser(null);
+            } else {
+              setSession((s ?? null) as Session | null);
+              setUser((u ?? null) as User | null);
+            }
           }
         })
         .catch((err) => {
