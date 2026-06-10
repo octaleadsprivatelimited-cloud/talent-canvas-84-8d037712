@@ -133,8 +133,8 @@ class FirebaseQueryBuilder {
     try {
       if (this.operation === "select") {
         if (this.isCountOnly) {
-          const collRef = collection(db, this.collectionName);
-          const querySnapshot = await getDocs(query(collRef));
+          const q = this.buildQuery();
+          const querySnapshot = await getDocs(q);
           let data = querySnapshot.docs.map((docSnap) => ({
             id: docSnap.id,
             ...(docSnap.data() as any),
@@ -164,8 +164,8 @@ class FirebaseQueryBuilder {
           }
         }
 
-        const collRef = collection(db, this.collectionName);
-        const querySnapshot = await getDocs(query(collRef));
+        const q = this.buildQuery();
+        const querySnapshot = await getDocs(q);
         let data = querySnapshot.docs.map((docSnap) => ({
           id: docSnap.id,
           ...(docSnap.data() as any),
@@ -249,9 +249,9 @@ class FirebaseQueryBuilder {
           return { data: [{ id: idFilter.value, ...dataToUpdate }], error: null };
         }
 
-        // Retrieve all and filter in memory
-        const collRef = collection(db, this.collectionName);
-        const querySnapshot = await getDocs(query(collRef));
+        // Retrieve filtered and filter in memory
+        const q = this.buildQuery();
+        const querySnapshot = await getDocs(q);
         let docsToUpdate = querySnapshot.docs.map((docSnap) => ({
           id: docSnap.id,
           ...(docSnap.data() as any),
@@ -280,9 +280,9 @@ class FirebaseQueryBuilder {
           return { data: [], error: null };
         }
 
-        // Retrieve all and filter in memory
-        const collRef = collection(db, this.collectionName);
-        const querySnapshot = await getDocs(query(collRef));
+        // Retrieve filtered and filter in memory
+        const q = this.buildQuery();
+        const querySnapshot = await getDocs(q);
         let docsToDelete = querySnapshot.docs.map((docSnap) => ({
           id: docSnap.id,
           ...(docSnap.data() as any),
@@ -323,11 +323,9 @@ class FirebaseQueryBuilder {
         }
 
         const collRef = collection(db, this.collectionName);
-        const querySnapshot = await getDocs(query(collRef));
-        const match = querySnapshot.docs.find((docSnap) => {
-          const docData = docSnap.data();
-          return docData && docData[conflictKey] === conflictValue;
-        });
+        const q = query(collRef, where(conflictKey, "==", conflictValue));
+        const querySnapshot = await getDocs(q);
+        const match = querySnapshot.docs[0];
 
         if (match) {
           const docId = match.id;
