@@ -307,242 +307,275 @@ function IndustryDetailComponent() {
     ];
 
   return (
-    <main className="min-h-screen bg-background relative overflow-hidden">
-      {/* Background watermark */}
-      <div className="absolute inset-0 z-0 h-[65vh] w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
-        <img
-          src={getIndustryImage(industry.slug)}
-          alt=""
-          className="h-full w-full object-cover filter blur-[1px] mix-blend-luminosity"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
+    <main className="min-h-screen bg-background relative">
+      {/* Sub-header Bar (Breadcrumbs & CTA) */}
+      <div className="bg-slate-900/90 dark:bg-slate-950 text-slate-300 py-3.5 px-6 md:px-12 flex justify-between items-center text-xs border-b border-slate-800">
+        <div className="flex items-center gap-1.5 font-medium">
+          <Link to="/" className="hover:text-white transition">
+            Home
+          </Link>
+          <span className="text-slate-600">/</span>
+          <Link to="/industries" className="hover:text-white transition">
+            Industries
+          </Link>
+          <span className="text-slate-600">/</span>
+          <span className="text-white font-semibold">{industry.label}</span>
+        </div>
+        <Link
+          to="/contact"
+          className="bg-[#0070ad] hover:bg-[#005c8f] text-white font-semibold px-4 py-2 transition text-[10px] uppercase tracking-wider inline-flex items-center gap-1.5"
+        >
+          Get in touch <ArrowRight className="h-3 w-3" />
+        </Link>
       </div>
 
-      {/* Editorial Header Section */}
-      <section className="relative z-10 px-6 pt-20 pb-12 md:px-12 md:pt-32 md:pb-20">
-        <div className="mx-auto max-w-6xl">
-          <Link
-            to="/industries"
-            className="mb-10 inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70 transition-colors hover:text-foreground"
-          >
-            <ArrowLeft className="h-3 w-3" /> All Industries
-          </Link>
-
-          <div className="grid gap-12 lg:grid-cols-[1fr_auto] items-end">
-            <div className="max-w-3xl">
-              <div className="mb-6 flex items-center gap-4">
-                <div className="h-8 w-8 bg-primary/10 text-primary flex items-center justify-center rounded-sm">
-                  <Icon className="h-4 w-4" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary">
-                  {industry.label} Practice
-                </span>
-              </div>
-              <h1 className="text-4xl font-semibold leading-[0.95] tracking-tight text-foreground md:text-6xl lg:text-7xl">
-                {detail.hero_title}
-              </h1>
-              <p className="mt-8 max-w-xl border-l border-border/80 pl-6 text-base leading-relaxed text-muted-foreground md:text-lg">
-                {detail.hero_subtitle || industry.description}
-              </p>
-            </div>
-          </div>
+      {/* Hero Banner Section */}
+      <section className="relative w-full h-[280px] sm:h-[360px] md:h-[420px] overflow-hidden">
+        {/* Banner Image */}
+        <img
+          src={getIndustryImage(industry.slug)}
+          alt={industry.label}
+          className="h-full w-full object-cover"
+          decoding="async"
+        />
+        {/* Subtle Dark Overlay */}
+        <div className="absolute inset-0 bg-slate-950/20 pointer-events-none" />
+        {/* Floating Corporate Blue Title Card */}
+        <div className="absolute left-6 md:left-12 bottom-0 w-[240px] sm:w-[320px] md:w-[420px] h-[65%] sm:h-[75%] bg-[#0070ad]/95 text-white p-6 md:p-10 flex items-end justify-start shadow-2xl z-20 border-t border-r border-white/10">
+          <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-tight text-white leading-none">
+            {industry.label}
+          </h1>
         </div>
       </section>
 
-      {/* Sourcing Stats metrics row */}
-      <section className="border-y border-border bg-surface/30">
-        <div className="mx-auto max-w-6xl px-6 py-12 md:px-12">
-          <div className="grid gap-8 sm:grid-cols-3">
-            {detail.sourcing_stats.map((s, idx) => (
-              <div key={idx} className="space-y-1">
-                <span className="font-display text-3xl font-bold text-foreground md:text-4xl">
-                  {s.value}
-                </span>
-                <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-                  {s.label}
+      {/* Body Section */}
+      <section className="px-6 py-16 md:px-12 md:py-24 relative z-10">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[auto_1fr]">
+          {/* Leftmost column - Social Sharing Icons (Desktop only) */}
+          <div className="hidden lg:flex flex-col gap-4 pt-1 shrink-0">
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noreferrer"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-[#0077b5] hover:text-white hover:border-[#0077b5] transition-all duration-300 font-bold text-sm"
+              aria-label="Share on LinkedIn"
+            >
+              in
+            </a>
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noreferrer"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-[#1877f2] hover:text-white hover:border-[#1877f2] transition-all duration-300 font-bold text-sm"
+              aria-label="Share on Facebook"
+            >
+              f
+            </a>
+          </div>
+
+          {/* Rest of Page Layout */}
+          <div className="grid gap-16 lg:grid-cols-[2fr_1fr]">
+            <div>
+              {/* Industry Subheading / Summary */}
+              <div className="mb-10">
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground leading-snug">
+                  {detail.hero_title}
+                </h2>
+                <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
+                  {detail.hero_subtitle || industry.description}
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Client value proposition / How we help section */}
-      <section className="px-6 pt-20 pb-4 md:px-12 md:pt-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-12">
-            <div className="mb-4 flex items-center gap-4">
-              <span className="h-px w-8 bg-foreground" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
-                Client Impact
-              </span>
-            </div>
-            <h2 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              How We Support Our Partners
-            </h2>
-            <p className="mt-4 max-w-2xl text-muted-foreground text-sm">
-              We align our search methodology with your business goals, offering tailored talent
-              acquisition solutions designed to solve critical operational challenges in the{" "}
-              {industry.label} sector.
-            </p>
-          </div>
-
-          <div className="grid gap-8 md:grid-cols-3">
-            {benefits.map((b: any, idx: number) => (
-              <div
-                key={idx}
-                className="border border-border bg-card p-8 flex flex-col gap-4 rounded-lg relative overflow-hidden group hover:border-primary/50 transition-all duration-300"
-              >
-                <span className="text-3xl font-light text-primary/30 group-hover:text-primary transition duration-300">
-                  0{idx + 1}
-                </span>
-                <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition duration-300">
-                  {b.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{b.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Main core content + sidebar capabilities */}
-      <section className="px-6 py-20 md:px-12 md:py-28">
-        <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[2fr_1fr]">
-          <div>
-            {/* Capabilities list */}
-            <div>
-              <div className="mb-8 flex items-center gap-4">
-                <span className="h-px w-8 bg-foreground" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
-                  Key Capabilities
-                </span>
-              </div>
-              <p className="mb-8 text-muted-foreground text-sm">
-                We maintain active talent communities and demographic-neutral pipelines across these
-                specialist competencies:
-              </p>
-              <ul className="divide-y divide-border border-y border-border mb-16">
-                {detail.capabilities.map((c, i) => (
-                  <li
-                    key={i}
-                    className="group flex items-start gap-6 py-5 transition-colors hover:bg-card/50"
-                  >
-                    <span className="text-[10px] font-semibold tabular-nums tracking-widest text-muted-foreground/70">
-                      {String(i + 1).padStart(2, "0")}
+              {/* Sourcing Stats metrics row */}
+              <div className="mt-10 grid gap-8 grid-cols-3 border-y border-border py-8 mb-16 bg-surface/10 px-4 rounded-sm">
+                {detail.sourcing_stats.map((s, idx) => (
+                  <div key={idx} className="space-y-1 text-center sm:text-left">
+                    <span className="font-display text-2xl sm:text-3xl font-bold text-foreground">
+                      {s.value}
                     </span>
-                    <Check className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                    <span className="flex-1 text-base text-foreground/80 font-medium" style={serif}>
-                      {c}
-                    </span>
-                  </li>
+                    <p className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">
+                      {s.label}
+                    </p>
+                  </div>
                 ))}
-              </ul>
-            </div>
+              </div>
 
-            {/* Related Case Studies section */}
-            {filteredCaseStudies.length > 0 && (
-              <div className="mt-16">
-                <div className="mb-8 flex items-center gap-4">
+              {/* Client value proposition / How we help section */}
+              <div className="mb-16">
+                <div className="mb-6 flex items-center gap-4">
                   <span className="h-px w-8 bg-foreground" />
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
-                    Sourcing in Action
+                    Client Impact
                   </span>
                 </div>
-                <h3 className="font-display text-2xl font-bold mb-6">Success Stories</h3>
-                <div className="grid gap-6 sm:grid-cols-2">
-                  {filteredCaseStudies.map((cs) => (
-                    <Link
-                      key={cs.id}
-                      to="/case-studies/$slug"
-                      params={{ slug: cs.slug }}
-                      className="bg-card border border-border p-6 rounded-lg hover:border-primary transition group flex flex-col justify-between"
-                    >
-                      <div>
-                        <span className="text-[9px] uppercase tracking-widest text-primary font-bold">
-                          {cs.client}
-                        </span>
-                        <h4 className="mt-2 font-display text-lg font-bold text-foreground group-hover:text-primary transition line-clamp-2">
-                          {cs.title}
-                        </h4>
-                        <p className="mt-3 text-muted-foreground text-xs line-clamp-3">
-                          {cs.summary}
-                        </p>
-                      </div>
-                      <span className="mt-6 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-foreground">
-                        View Study <ArrowRight className="h-3 w-3" />
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
+                <h3 className="font-display text-2xl font-bold tracking-tight text-foreground mb-4">
+                  How We Support Our Partners
+                </h3>
+                <p className="text-muted-foreground text-sm mb-8">
+                  We align our search methodology with your business goals, offering tailored talent
+                  acquisition solutions designed to solve critical operational challenges in the{" "}
+                  {industry.label} sector.
+                </p>
 
-            {/* Active Careers section */}
-            {filteredJobs.length > 0 && (
-              <div className="mt-16">
-                <div className="mb-8 flex items-center gap-4">
-                  <Briefcase className="h-4 w-4 text-primary" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
-                    Active Careers
-                  </span>
-                </div>
-                <h3 className="font-display text-2xl font-bold mb-6">Open Roles in this Sector</h3>
-                <div className="divide-y divide-border border-y border-border">
-                  {filteredJobs.map((job) => (
+                <div className="grid gap-6 sm:grid-cols-3">
+                  {benefits.map((b: any, idx: number) => (
                     <div
-                      key={job.id}
-                      className="py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+                      key={idx}
+                      className="border border-border bg-card p-6 flex flex-col gap-4 rounded-lg relative overflow-hidden group hover:border-primary/50 transition-all duration-300"
                     >
-                      <div>
-                        <h4 className="font-display text-lg font-bold text-foreground">
-                          {job.title}
-                        </h4>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {job.companies?.name || "Virelix Consulting"} · {job.location} ({job.type}
-                          )
-                        </p>
-                      </div>
-                      <Button asChild size="sm" variant="outline">
-                        <Link to="/jobs/$slug" params={{ slug: job.slug }}>
-                          View Details
-                        </Link>
-                      </Button>
+                      <span className="text-2xl font-light text-primary/30 group-hover:text-primary transition duration-300">
+                        0{idx + 1}
+                      </span>
+                      <h4 className="font-display text-lg font-bold text-foreground group-hover:text-primary transition duration-300 leading-tight">
+                        {b.title}
+                      </h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        {b.description}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
-            )}
-          </div>
 
-          {/* Sourcing Engagement Callout */}
-          <aside className="h-fit border border-border bg-card p-8 lg:sticky lg:top-24 rounded-lg">
-            <div className="mb-6 flex items-center gap-4">
-              <span className="h-px w-8 bg-foreground" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
-                Engage Practice
-              </span>
+              {/* Capabilities list */}
+              <div>
+                <div className="mb-8 flex items-center gap-4">
+                  <span className="h-px w-8 bg-foreground" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                    Key Capabilities
+                  </span>
+                </div>
+                <p className="mb-8 text-muted-foreground text-sm">
+                  We maintain active talent communities and demographic-neutral pipelines across
+                  these specialist competencies:
+                </p>
+                <ul className="divide-y divide-border border-y border-border mb-16">
+                  {detail.capabilities.map((c, i) => (
+                    <li
+                      key={i}
+                      className="group flex items-start gap-6 py-5 transition-colors hover:bg-card/50"
+                    >
+                      <span className="text-[10px] font-semibold tabular-nums tracking-widest text-muted-foreground/70">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                      <span
+                        className="flex-1 text-base text-foreground/80 font-medium"
+                        style={serif}
+                      >
+                        {c}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Related Case Studies section */}
+              {filteredCaseStudies.length > 0 && (
+                <div className="mt-16">
+                  <div className="mb-8 flex items-center gap-4">
+                    <span className="h-px w-8 bg-foreground" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                      Sourcing in Action
+                    </span>
+                  </div>
+                  <h3 className="font-display text-2xl font-bold mb-6">Success Stories</h3>
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    {filteredCaseStudies.map((cs) => (
+                      <Link
+                        key={cs.id}
+                        to="/case-studies/$slug"
+                        params={{ slug: cs.slug }}
+                        className="bg-card border border-border p-6 rounded-lg hover:border-primary transition group flex flex-col justify-between"
+                      >
+                        <div>
+                          <span className="text-[9px] uppercase tracking-widest text-primary font-bold">
+                            {cs.client}
+                          </span>
+                          <h4 className="mt-2 font-display text-lg font-bold text-foreground group-hover:text-primary transition line-clamp-2">
+                            {cs.title}
+                          </h4>
+                          <p className="mt-3 text-muted-foreground text-xs line-clamp-3">
+                            {cs.summary}
+                          </p>
+                        </div>
+                        <span className="mt-6 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-foreground">
+                          View Study <ArrowRight className="h-3 w-3" />
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Active Careers section */}
+              {filteredJobs.length > 0 && (
+                <div className="mt-16">
+                  <div className="mb-8 flex items-center gap-4">
+                    <Briefcase className="h-4 w-4 text-primary" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                      Active Careers
+                    </span>
+                  </div>
+                  <h3 className="font-display text-2xl font-bold mb-6">
+                    Open Roles in this Sector
+                  </h3>
+                  <div className="divide-y divide-border border-y border-border">
+                    {filteredJobs.map((job) => (
+                      <div
+                        key={job.id}
+                        className="py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+                      >
+                        <div>
+                          <h4 className="font-display text-lg font-bold text-foreground">
+                            {job.title}
+                          </h4>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {job.companies?.name || "Virelix Consulting"} · {job.location} (
+                            {job.type})
+                          </p>
+                        </div>
+                        <Button asChild size="sm" variant="outline">
+                          <Link to="/jobs/$slug" params={{ slug: job.slug }}>
+                            View Details
+                          </Link>
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-            <h3 className="text-2xl font-semibold text-foreground">Talk with a specialist</h3>
-            <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-              Speak directly with a lead partner who coordinates client engagements and candidate
-              vetting in the {industry.label} field.
-            </p>
-            <Button
-              asChild
-              className="mt-6 w-full bg-foreground text-background py-6 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-foreground/90"
-            >
-              <Link to="/contact">
-                Connect Now <ArrowRight className="ml-3 h-4 w-4" />
+
+            {/* Sourcing Engagement Callout */}
+            <aside className="h-fit border border-border bg-card p-8 lg:sticky lg:top-24 rounded-lg">
+              <div className="mb-6 flex items-center gap-4">
+                <span className="h-px w-8 bg-foreground" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                  Engage Practice
+                </span>
+              </div>
+              <h3 className="text-2xl font-semibold text-foreground">Talk with a specialist</h3>
+              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+                Speak directly with a lead partner who coordinates client engagements and candidate
+                vetting in the {industry.label} field.
+              </p>
+              <Button
+                asChild
+                className="mt-6 w-full bg-foreground text-background py-6 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-foreground/90"
+              >
+                <Link to="/contact">
+                  Connect Now <ArrowRight className="ml-3 h-4 w-4" />
+                </Link>
+              </Button>
+              <Link
+                to="/industries"
+                className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-foreground"
+              >
+                ← Back to all sectors
               </Link>
-            </Button>
-            <Link
-              to="/industries"
-              className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-foreground"
-            >
-              ← Back to all sectors
-            </Link>
-          </aside>
+            </aside>
+          </div>
         </div>
       </section>
     </main>

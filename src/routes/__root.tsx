@@ -69,8 +69,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Delaware-headquartered global talent acquisition, workforce solutions, training and business consulting — across the USA and India.",
       },
-      { property: "og:title", content: "Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions" },
-      { name: "twitter:title", content: "Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions" },
+      {
+        property: "og:title",
+        content: "Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions",
+      },
+      {
+        name: "twitter:title",
+        content: "Virelix Consulting — Strategic Talent Acquisition & Workforce Solutions",
+      },
       {
         property: "og:description",
         content:

@@ -21,7 +21,7 @@ export const Route = createFileRoute("/admin/users")({
 });
 
 type UserRoleRow = {
-  id: string;          // = firebase uid
+  id: string; // = firebase uid
   user_id?: string;
   role?: string;
   email?: string;
@@ -42,16 +42,13 @@ function UsersAdmin() {
 
   const updateRole = useMutation({
     mutationFn: async ({ id, role }: { id: string; role: Role }) => {
-      await firebase
-        .from("user_roles")
-        .upsert({ id, user_id: id, role }, { onConflict: "id" });
+      await firebase.from("user_roles").upsert({ id, user_id: id, role }, { onConflict: "id" });
     },
     onSuccess: () => {
       toast.success("Role updated");
       qc.invalidateQueries({ queryKey: ["user_roles"] });
     },
-    onError: (e: unknown) =>
-      toast.error(e instanceof Error ? e.message : "Failed to update role"),
+    onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Failed to update role"),
   });
 
   const removeRow = useMutation({
@@ -72,10 +69,12 @@ function UsersAdmin() {
     mutationFn: async () => {
       const uid = newUid.trim();
       if (!uid) throw new Error("Firebase UID is required");
-      await firebase.from("user_roles").upsert(
-        { id: uid, user_id: uid, role: newRole, email: newEmail.trim() || null },
-        { onConflict: "id" },
-      );
+      await firebase
+        .from("user_roles")
+        .upsert(
+          { id: uid, user_id: uid, role: newRole, email: newEmail.trim() || null },
+          { onConflict: "id" },
+        );
     },
     onSuccess: () => {
       toast.success("User added");
@@ -83,8 +82,7 @@ function UsersAdmin() {
       setNewEmail("");
       qc.invalidateQueries({ queryKey: ["user_roles"] });
     },
-    onError: (e: unknown) =>
-      toast.error(e instanceof Error ? e.message : "Failed to add user"),
+    onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Failed to add user"),
   });
 
   if (meLoading) return <p className="text-sm text-muted-foreground">Loading…</p>;
@@ -151,11 +149,7 @@ function UsersAdmin() {
               ))}
             </SelectContent>
           </Select>
-          <Button
-            onClick={() => addUser.mutate()}
-            disabled={addUser.isPending}
-            className="gap-2"
-          >
+          <Button onClick={() => addUser.mutate()} disabled={addUser.isPending} className="gap-2">
             <UserPlus className="h-4 w-4" />
             Add
           </Button>
@@ -197,9 +191,7 @@ function UsersAdmin() {
                   <div className="flex items-center gap-2">
                     <Select
                       value={current ?? ""}
-                      onValueChange={(v) =>
-                        isRole(v) && updateRole.mutate({ id: row.id, role: v })
-                      }
+                      onValueChange={(v) => isRole(v) && updateRole.mutate({ id: row.id, role: v })}
                       disabled={isMe && current === "admin"}
                     >
                       <SelectTrigger className="w-[180px]">

@@ -2,6 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, PlayCircle, Play, Sparkles, Star, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSiteSettings } from "@/hooks/use-site-settings";
+import { useEffect, useRef } from "react";
+import { HOMEPAGE_DEFAULTS, type Stat } from "@/lib/homepage-defaults";
+import { usePageContent } from "@/hooks/use-page-content";
 
 import heroTeam from "@/assets/hero-team.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
@@ -99,7 +102,7 @@ export const THEMES: {
   },
 ];
 
-const stats = [
+const DEFAULT_STATS: Stat[] = [
   { value: "USA", label: "Delaware HQ" },
   { value: "2", label: "USA & India" },
   { value: "10+", label: "Industries" },
@@ -109,27 +112,34 @@ const stats = [
 /* =================================================================
    1. EDITORIAL BOLD  — original layout
    ================================================================= */
-function EditorialHero() {
+function EditorialHero({ stats = DEFAULT_STATS }: { stats?: Stat[] }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.defaultMuted = true;
+      videoRef.current.play().catch((err) => {
+        console.warn("[EditorialHero] Autoplay failed:", err);
+      });
+    }
+  }, []);
+
   return (
-    <section
-      id="hero"
-      className="relative snap-start overflow-hidden bg-white text-neutral-900"
-    >
+    <section id="hero" className="relative snap-start overflow-hidden bg-white text-neutral-900">
       <div className="relative min-h-[78vh] md:min-h-[88vh] overflow-hidden">
         {/* Full-bleed background video */}
         <video
+          ref={videoRef}
           src="/hero-video.mp4"
           autoPlay
           muted
           loop
           playsInline
-          poster="/hero-bg.jpg"
           className="absolute inset-0 h-full w-full object-cover"
         />
         {/* Dark gradient overlay for text legibility */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-black/10" />
-
-
 
         {/* Floating white editorial card — bottom left */}
         <div className="relative z-10 container mx-auto px-4 h-full">
@@ -142,9 +152,9 @@ function EditorialHero() {
                 Building high-performing teams across borders.
               </h1>
               <p className="mt-5 text-[15px] leading-relaxed text-neutral-700">
-                Virelix Consulting connects high-growth organizations with exceptional talent through
-                executive search, specialist recruitment, embedded RPO, and professional training —
-                delivered across the USA and India.
+                Virelix Consulting connects high-growth organizations with exceptional talent
+                through executive search, specialist recruitment, embedded RPO, and professional
+                training — delivered across the USA and India.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-4">
                 <Button
@@ -176,8 +186,12 @@ function EditorialHero() {
         <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-neutral-200">
           {stats.map((s) => (
             <div key={s.label} className="px-5 py-6 text-center">
-              <div className="font-display text-2xl md:text-3xl font-bold text-neutral-900">{s.value}</div>
-              <div className="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500">{s.label}</div>
+              <div className="font-display text-2xl md:text-3xl font-bold text-neutral-900">
+                {s.value}
+              </div>
+              <div className="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500">
+                {s.label}
+              </div>
             </div>
           ))}
         </div>
@@ -186,11 +200,22 @@ function EditorialHero() {
   );
 }
 
-
 /* =================================================================
    2. ADECCO BOLD — crimson banner + floating white CTA card
    ================================================================= */
-function MonoHero() {
+function MonoHero({ stats = DEFAULT_STATS }: { stats?: Stat[] }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.defaultMuted = true;
+      videoRef.current.play().catch((err) => {
+        console.warn("[MonoHero] Autoplay failed:", err);
+      });
+    }
+  }, []);
+
   return (
     <section
       id="hero"
@@ -203,7 +228,8 @@ function MonoHero() {
         {/* Hero background video */}
         <div className="relative h-[70vh] min-h-[520px] w-full overflow-hidden md:h-[78vh]">
           <video
-            src="/aurora-bg.mp4"
+            ref={videoRef}
+            src="/hero-video.mp4"
             autoPlay
             muted
             loop
@@ -217,12 +243,10 @@ function MonoHero() {
             <div className="w-full max-w-xl rounded-md bg-background p-6 shadow-2xl sm:p-10">
               <h1 className="font-display text-3xl font-extrabold uppercase leading-[0.95] tracking-tight text-foreground sm:text-5xl md:text-6xl">
                 Looking for
-                <br />
-                a job?
+                <br />a job?
               </h1>
               <p className="mt-4 text-sm text-muted-foreground sm:text-base">
-                Discover thousands of opportunities worldwide. Find your perfect match with
-                Virelix.
+                Discover thousands of opportunities worldwide. Find your perfect match with Virelix.
               </p>
               <Link
                 to="/jobs"
@@ -362,7 +386,10 @@ function MagazineHero() {
     { label: "Training", to: "/services", color: "#6ab04c", text: "#ffffff" },
   ];
   return (
-    <section id="hero" className="relative snap-start overflow-hidden bg-background text-foreground">
+    <section
+      id="hero"
+      className="relative snap-start overflow-hidden bg-background text-foreground"
+    >
       {/* Top colored strip (mimics Y-Axis nav underlines) */}
       <div className="flex h-1.5 w-full">
         <span className="flex-1 bg-[#e8482a]" />
@@ -408,7 +435,8 @@ function MagazineHero() {
             What can we do for you today?
           </h1>
           <p className="mt-4 max-w-md text-sm text-muted-foreground md:text-base">
-            Choose your pathway. Virelix delivers executive search, specialist recruitment, embedded RPO, and professional training — tailored to your growth.
+            Choose your pathway. Virelix delivers executive search, specialist recruitment, embedded
+            RPO, and professional training — tailored to your growth.
           </p>
 
           <div className="mt-8 grid grid-cols-2 gap-4">
@@ -442,7 +470,7 @@ function MagazineHero() {
 /* =================================================================
    5. DARK NOIR  — black + gold luxury
    ================================================================= */
-function NoirHero() {
+function NoirHero({ stats = DEFAULT_STATS }: { stats?: Stat[] }) {
   return (
     <section
       id="hero"
@@ -535,11 +563,24 @@ function HeroVideo({
   const { data: settings } = useSiteSettings();
   const videoUrl = settings?.hero_video_url || "/hero-video.mp4";
   const posterUrl = settings?.hero_video_poster_url || poster || fallbackImg;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.defaultMuted = true;
+      videoRef.current.play().catch((err) => {
+        console.warn("[HeroVideo] Autoplay failed:", err);
+      });
+    }
+  }, [videoUrl]);
+
   if (!videoUrl) {
     return <img src={posterUrl} alt="" aria-hidden className={className} loading="eager" />;
   }
   return (
     <video
+      ref={videoRef}
       className={className}
       src={videoUrl}
       poster={posterUrl}
@@ -551,7 +592,7 @@ function HeroVideo({
   );
 }
 
-function CinemaHero() {
+function CinemaHero({ stats = DEFAULT_STATS }: { stats?: Stat[] }) {
   return (
     <section
       id="hero"
@@ -613,7 +654,7 @@ function CinemaHero() {
 /* =================================================================
    7. PULSE SPLIT — text left, looping video frame right
    ================================================================= */
-function PulseHero() {
+function PulseHero({ stats = DEFAULT_STATS }: { stats?: Stat[] }) {
   return (
     <section id="hero" className="relative min-h-screen snap-start overflow-hidden bg-background">
       <div className="grid min-h-screen lg:grid-cols-12">
@@ -675,7 +716,7 @@ function PulseHero() {
 /* =================================================================
    8. TERRACOTTA WARM — sandstone + sage editorial
    ================================================================= */
-function TerracottaHero() {
+function TerracottaHero({ stats = DEFAULT_STATS }: { stats?: Stat[] }) {
   return (
     <section
       id="hero"
@@ -736,7 +777,7 @@ function TerracottaHero() {
 /* =================================================================
    9. GLASS AURORA — iridescent pastel glassmorphism
    ================================================================= */
-function GlassHero() {
+function GlassHero({ stats = DEFAULT_STATS }: { stats?: Stat[] }) {
   return (
     <section id="hero" className="relative min-h-screen snap-start overflow-hidden bg-background">
       <img
@@ -798,7 +839,7 @@ function GlassHero() {
 /* =================================================================
    10. BRUTALIST POP — yellow + black, thick borders
    ================================================================= */
-function BrutalistHero() {
+function BrutalistHero({ stats = DEFAULT_STATS }: { stats?: Stat[] }) {
   return (
     <section
       id="hero"
@@ -861,28 +902,31 @@ function BrutalistHero() {
 /* ================================================================= */
 
 export function HomeHero({ theme }: { theme: ThemeKey }) {
+  const { data: copy } = usePageContent("home", HOMEPAGE_DEFAULTS);
+  const stats = copy?.stats || HOMEPAGE_DEFAULTS.stats;
+
   switch (theme) {
     case "mono":
-      return <MonoHero />;
+      return <MonoHero stats={stats} />;
     case "aurora":
       return <AuroraHero />;
     case "magazine":
       return <MagazineHero />;
     case "noir":
-      return <NoirHero />;
+      return <NoirHero stats={stats} />;
     case "cinema":
-      return <CinemaHero />;
+      return <CinemaHero stats={stats} />;
     case "pulse":
-      return <PulseHero />;
+      return <PulseHero stats={stats} />;
     case "terracotta":
-      return <TerracottaHero />;
+      return <TerracottaHero stats={stats} />;
     case "glass":
-      return <GlassHero />;
+      return <GlassHero stats={stats} />;
     case "brutalist":
-      return <BrutalistHero />;
+      return <BrutalistHero stats={stats} />;
     case "editorial":
     default:
-      return <EditorialHero />;
+      return <EditorialHero stats={stats} />;
   }
 }
 

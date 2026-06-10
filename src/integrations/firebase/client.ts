@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { initializeApp, getApps, getApp } from "firebase/app";
 import {
   getStorage,
@@ -36,14 +35,13 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBueUkcslJoo8w4aYrhg4O8pH-vhy8FpUs",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "virelixconsulting.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "virelixconsulting",
-  storageBucket:
-    import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "virelixconsulting.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "12728492405",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:12728492405:web:03af0dcb570e6c6b0bf33c",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-C4JD1G7S13",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY ?? "",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ?? "",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID ?? "",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ?? "",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID ?? "",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID ?? "",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID ?? "",
 };
 
 const isConfigValid = !!(firebaseConfig.apiKey && firebaseConfig.projectId);
@@ -122,10 +120,8 @@ class FirebaseQueryBuilder {
     // breaks queries when the index is not deployed. We sort in-memory in
     // execute() instead — safe because limits are also applied in-memory.
 
-
     // Limit is also applied in-memory after sorting (see execute()), so we
     // do NOT push it server-side — otherwise we'd return the wrong subset.
-
 
     return q;
   }
@@ -411,20 +407,25 @@ class FirebaseAuthWrapper {
     }
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const token = await user.getIdToken();
-        const session = {
-          access_token: token,
-          expires_at: Math.floor(Date.now() / 1000) + 3600, // 1 hour expiry
-          user: {
-            id: user.uid,
-            email: user.email,
-            app_metadata: { provider: "email" },
-            user_metadata: {},
-            created_at: user.metadata.creationTime,
-            last_sign_in_at: user.metadata.lastSignInTime,
-          },
-        };
-        callback("SIGNED_IN", session);
+        try {
+          const token = await user.getIdToken();
+          const session = {
+            access_token: token,
+            expires_at: Math.floor(Date.now() / 1000) + 3600, // 1 hour expiry
+            user: {
+              id: user.uid,
+              email: user.email,
+              app_metadata: { provider: "email" },
+              user_metadata: {},
+              created_at: user.metadata.creationTime,
+              last_sign_in_at: user.metadata.lastSignInTime,
+            },
+          };
+          callback("SIGNED_IN", session);
+        } catch (err) {
+          console.error("[onAuthStateChange] failed to get token:", err);
+          callback("SIGNED_OUT", null);
+        }
       } else {
         callback("SIGNED_OUT", null);
       }
@@ -438,24 +439,29 @@ class FirebaseAuthWrapper {
     }
     const user = auth.currentUser;
     if (user) {
-      const token = await user.getIdToken();
-      return {
-        data: {
-          session: {
-            access_token: token,
-            expires_at: Math.floor(Date.now() / 1000) + 3600,
-            user: {
-              id: user.uid,
-              email: user.email,
-              app_metadata: { provider: "email" },
-              user_metadata: {},
-              created_at: user.metadata.creationTime,
-              last_sign_in_at: user.metadata.lastSignInTime,
+      try {
+        const token = await user.getIdToken();
+        return {
+          data: {
+            session: {
+              access_token: token,
+              expires_at: Math.floor(Date.now() / 1000) + 3600,
+              user: {
+                id: user.uid,
+                email: user.email,
+                app_metadata: { provider: "email" },
+                user_metadata: {},
+                created_at: user.metadata.creationTime,
+                last_sign_in_at: user.metadata.lastSignInTime,
+              },
             },
           },
-        },
-        error: null,
-      };
+          error: null,
+        };
+      } catch (err: any) {
+        console.error("[getSession] failed to get token:", err);
+        return { data: { session: null }, error: err };
+      }
     }
     return { data: { session: null }, error: null };
   }

@@ -63,11 +63,23 @@ function ContactPage() {
     message: "",
   });
 
+  const [lastSubmit, setLastSubmit] = useState(0);
+
   const submit = useMutation({
     mutationFn: async (payload: typeof form) => {
+      // Rate-limit: 30 seconds between submissions
+      const now = Date.now();
+      if (now - lastSubmit < 30_000) {
+        throw new Error("Please wait before submitting again.");
+      }
       const parsed = schema.parse(payload);
-      const { error } = await firebase.from("contact_submissions").insert(parsed);
+      const { error } = await firebase.from("contact_submissions").insert({
+        ...parsed,
+        createdAt: new Date().toISOString(),
+        source: "website_contact_form",
+      });
       if (error) throw error;
+      setLastSubmit(now);
     },
     onSuccess: () => {
       toast.success("Thanks — we'll be in touch within one business day.");

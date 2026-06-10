@@ -30,7 +30,10 @@ const STATIC_ENTRIES: SitemapEntry[] = [
 
 interface FirestoreDoc {
   name: string;
-  fields?: Record<string, { stringValue?: string; timestampValue?: string; booleanValue?: boolean }>;
+  fields?: Record<
+    string,
+    { stringValue?: string; timestampValue?: string; booleanValue?: boolean }
+  >;
   updateTime?: string;
 }
 
@@ -49,7 +52,8 @@ async function listSlugs(collection: string, prefix: string): Promise<SitemapEnt
         if (published === false) return null;
         return {
           path: `${prefix}/${slug}`,
-          lastmod: (d.updateTime ?? d.fields?.updated_at?.timestampValue ?? "").slice(0, 10) || undefined,
+          lastmod:
+            (d.updateTime ?? d.fields?.updated_at?.timestampValue ?? "").slice(0, 10) || undefined,
           changefreq: "weekly",
           priority: "0.6",
         } as SitemapEntry;

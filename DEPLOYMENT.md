@@ -74,9 +74,6 @@ Copy the values from **Firebase console → Project settings → Your apps →
 Web app → SDK setup and configuration**. Set them for **Production**,
 **Preview**, and **Development** scopes.
 
-If the app uses Supabase too, also add `VITE_SUPABASE_URL` and
-`VITE_SUPABASE_PUBLISHABLE_KEY`.
-
 ### Deploy steps
 
 ```bash
@@ -109,7 +106,7 @@ URL.
 3. Open `/admin/*` routes and confirm CRUD against Firestore works (writes
    should succeed only after the role flip).
 4. Open DevTools → Network: Firestore requests should be `200`. A `403
-   PERMISSION_DENIED` means a rule or the missing admin role.
+PERMISSION_DENIED` means a rule or the missing admin role.
 
 ---
 
@@ -121,7 +118,7 @@ URL.
 - **`auth/unauthorized-domain`** → add the Vercel domain to Firebase
   Authorized domains.
 - **Vercel build fails on `bun`** → `vercel.json` is set to use `npm
-  install --legacy-peer-deps`; do not change this unless you also configure
+install --legacy-peer-deps`; do not change this unless you also configure
   Bun on Vercel.
 - **Blank page on refresh of a deep link** → the SPA rewrite in
   `vercel.json` handles this; if you removed it, restore the `/(.*) → /`

@@ -54,10 +54,7 @@ export function useRole(): UseRoleResult {
         // intended behaviour.
         const { error: upsertError } = await firebase
           .from("user_roles")
-          .upsert(
-            { id: user.id, user_id: user.id, role: "admin" },
-            { onConflict: "id" },
-          );
+          .upsert({ id: user.id, user_id: user.id, role: "admin" }, { onConflict: "id" });
         if (!cancelled) setRole(upsertError ? null : "admin");
       } catch (e) {
         console.warn("[useRole] failed to resolve role:", e);
@@ -72,10 +69,7 @@ export function useRole(): UseRoleResult {
     };
   }, [user, authLoading]);
 
-  const can = useCallback(
-    (permission: Permission) => roleHasPermission(role, permission),
-    [role],
-  );
+  const can = useCallback((permission: Permission) => roleHasPermission(role, permission), [role]);
 
   return {
     user,

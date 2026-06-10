@@ -28,7 +28,7 @@ export type Permission =
   | "manage:homepage"
   | "manage:seo"
   | "manage:pages"
-  | "manage:content"        // services, industries, team, case studies, insights, testimonials
+  | "manage:content" // services, industries, team, case studies, insights, testimonials
   | "manage:jobs"
   | "manage:companies"
   | "view:submissions"
@@ -48,23 +48,9 @@ const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
     "view:submissions",
     "view:diagnostics",
   ],
-  editor: [
-    "view:dashboard",
-    "manage:homepage",
-    "manage:seo",
-    "manage:pages",
-    "manage:content",
-  ],
-  recruiter: [
-    "view:dashboard",
-    "manage:jobs",
-    "view:submissions",
-  ],
-  employer: [
-    "view:dashboard",
-    "manage:companies",
-    "manage:jobs",
-  ],
+  editor: ["view:dashboard", "manage:homepage", "manage:seo", "manage:pages", "manage:content"],
+  recruiter: ["view:dashboard", "manage:jobs", "view:submissions"],
+  employer: ["view:dashboard", "manage:companies", "manage:jobs"],
 };
 
 export function isRole(value: unknown): value is Role {
@@ -76,10 +62,7 @@ export function permissionsFor(role: Role | null | undefined): Permission[] {
   return ROLE_PERMISSIONS[role] ?? [];
 }
 
-export function roleHasPermission(
-  role: Role | null | undefined,
-  permission: Permission,
-): boolean {
+export function roleHasPermission(role: Role | null | undefined, permission: Permission): boolean {
   if (!role) return false;
   return ROLE_PERMISSIONS[role]?.includes(permission) ?? false;
 }

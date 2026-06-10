@@ -17,7 +17,6 @@ export function Footer() {
       <div className="container relative mx-auto px-4 py-10 md:py-12 z-10">
         <div className="grid gap-4 text-left md:grid-cols-4 md:gap-10 md:text-left">
           <div className="flex flex-col items-center text-center md:items-start md:text-left">
-
             <Link to="/" className="flex items-center gap-2 font-display text-base font-bold">
               <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-hero">
                 <Briefcase className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={2.5} />
@@ -149,7 +148,10 @@ function FooterCol({
           <ul className="space-y-2.5 pb-3 md:pb-0">
             {links.map((l, i) => (
               <li key={i}>
-                <Link to={l.to} className="inline-block text-sm text-muted-foreground hover:text-foreground py-0.5">
+                <Link
+                  to={l.to}
+                  className="inline-block text-sm text-muted-foreground hover:text-foreground py-0.5"
+                >
                   {l.label}
                 </Link>
               </li>

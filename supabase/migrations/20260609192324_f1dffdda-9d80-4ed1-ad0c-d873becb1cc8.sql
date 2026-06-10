@@ -1,1 +1,0 @@
-REVOKE SELECT (email) ON public.team_members FROM anon, authenticated;

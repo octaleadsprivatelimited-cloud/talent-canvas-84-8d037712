@@ -27,11 +27,18 @@ export function useAuth() {
       setSession(s as Session | null);
       setUser((s?.user ?? null) as User | null);
     });
-    firebase.auth.getSession().then(({ data }: { data: any }) => {
-      setSession((data.session ?? null) as Session | null);
-      setUser((data.session?.user ?? null) as User | null);
-      setLoading(false);
-    });
+    firebase.auth
+      .getSession()
+      .then(({ data }: { data: any }) => {
+        setSession((data.session ?? null) as Session | null);
+        setUser((data.session?.user ?? null) as User | null);
+      })
+      .catch((err) => {
+        console.error("[useAuth] getSession failed:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     return () => subscription.unsubscribe();
   }, []);
 

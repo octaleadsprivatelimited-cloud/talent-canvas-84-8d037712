@@ -38,8 +38,19 @@ type Section = {
 };
 
 const sections: Section[] = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true, permission: "view:dashboard" },
-  { to: "/admin/site-settings", label: "Site Settings", icon: Settings, permission: "manage:settings" },
+  {
+    to: "/admin",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+    exact: true,
+    permission: "view:dashboard",
+  },
+  {
+    to: "/admin/site-settings",
+    label: "Site Settings",
+    icon: Settings,
+    permission: "manage:settings",
+  },
   { to: "/admin/users", label: "Users & Roles", icon: ShieldCheck, permission: "manage:users" },
   { to: "/admin/homepage", label: "Homepage", icon: Home, permission: "manage:homepage" },
   { to: "/admin/seo", label: "Page SEO", icon: Search, permission: "manage:seo" },
@@ -48,12 +59,22 @@ const sections: Section[] = [
   { to: "/admin/services", label: "Services", icon: Sparkles, permission: "manage:content" },
   { to: "/admin/industries", label: "Industries", icon: Building2, permission: "manage:content" },
   { to: "/admin/team", label: "Team", icon: Users, permission: "manage:content" },
-  { to: "/admin/case-studies", label: "Case Studies", icon: MessageSquare, permission: "manage:content" },
+  {
+    to: "/admin/case-studies",
+    label: "Case Studies",
+    icon: MessageSquare,
+    permission: "manage:content",
+  },
   { to: "/admin/insights", label: "Insights / Blog", icon: BookOpen, permission: "manage:content" },
   { to: "/admin/testimonials", label: "Testimonials", icon: Quote, permission: "manage:content" },
   { to: "/jobs", label: "Jobs", icon: Briefcase, permission: "manage:jobs" },
   { to: "/admin/submissions", label: "Contact Inbox", icon: Inbox, permission: "view:submissions" },
-  { to: "/admin/diagnostics", label: "Diagnostics", icon: Activity, permission: "view:diagnostics" },
+  {
+    to: "/admin/diagnostics",
+    label: "Diagnostics",
+    icon: Activity,
+    permission: "view:diagnostics",
+  },
 ];
 
 function AdminLayout() {
@@ -91,10 +112,7 @@ function AdminLayout() {
     setMobileNavOpen(false);
   }, [location.pathname]);
 
-  const visibleSections = useMemo(
-    () => sections.filter((s) => can(s.permission)),
-    [can],
-  );
+  const visibleSections = useMemo(() => sections.filter((s) => can(s.permission)), [can]);
 
   if (loading) {
     return (
@@ -104,9 +122,7 @@ function AdminLayout() {
         </div>
         {timedOut && (
           <div className="flex flex-col items-center gap-2 text-center">
-            <p className="text-xs text-muted-foreground">
-              This is taking longer than usual.
-            </p>
+            <p className="text-xs text-muted-foreground">This is taking longer than usual.</p>
             <Link
               to="/login"
               className="text-xs font-semibold uppercase tracking-wider text-primary underline-offset-4 hover:underline"
@@ -125,7 +141,8 @@ function AdminLayout() {
 
   const currentSection =
     visibleSections.find(
-      (s) => s.to === location.pathname || (s.to !== "/admin" && location.pathname.startsWith(s.to)),
+      (s) =>
+        s.to === location.pathname || (s.to !== "/admin" && location.pathname.startsWith(s.to)),
     ) ?? visibleSections[0];
 
   return (

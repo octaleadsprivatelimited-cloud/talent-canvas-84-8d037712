@@ -5,33 +5,42 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { firebase } from "@/integrations/firebase/client";
 import { toast } from "sonner";
+import { isRole } from "@/lib/rbac";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Admin sign in — Virelix Consulting" }] }),
   component: LoginPage,
 });
 
-async function routeAfterAuth(
-  userId: string,
-  navigate: ReturnType<typeof useNavigate>,
-) {
+async function routeAfterAuth(userId: string, navigate: ReturnType<typeof useNavigate>) {
   try {
     const { data: roleRow, error: roleErr } = await firebase
       .from("user_roles")
       .select("role")
       .eq("id", userId)
       .maybeSingle();
-    if (roleErr) {
-      // First-time admin: navigate to /admin and let useRole bootstrap.
+
+    if (!roleErr && roleRow && isRole(roleRow.role)) {
       navigate({ to: "/admin" });
       return;
     }
-    // Always send authenticated users to /admin — useRole will gate access
-    // and bootstrap the first admin if needed.
-    navigate({ to: "/admin" });
+
+    // Try to bootstrap as first admin (succeeds only if user_roles is completely empty)
+    const { error: upsertError } = await firebase
+      .from("user_roles")
+      .upsert({ id: userId, user_id: userId, role: "admin" }, { onConflict: "id" });
+
+    if (!upsertError) {
+      toast.success("First administrator account registered!");
+      navigate({ to: "/admin" });
+    } else {
+      toast.error("Access denied. You do not have permission to view the admin area.");
+      await firebase.auth.signOut();
+    }
   } catch (e) {
     console.warn("[login] role check failed:", e);
     toast.error("Could not verify your access. Please try again.");
+    await firebase.auth.signOut();
   }
 }
 
@@ -93,8 +102,8 @@ function LoginPage() {
           Sign in to <span className="text-gradient italic">Virelix</span>
         </h1>
         <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-          This area is for authorised team members only. If you need access,
-          contact your administrator.
+          This area is for authorised team members only. If you need access, contact your
+          administrator.
         </p>
 
         <div className="mt-10 rounded-2xl border border-border/60 bg-card/70 p-8 shadow-xl backdrop-blur">
