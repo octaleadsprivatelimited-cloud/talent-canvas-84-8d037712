@@ -639,13 +639,13 @@ function Index() {
 
               {/* Content overlayed at bottom */}
               <div className="relative p-8 z-10">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary block mb-2">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/70 block mb-2">
                   Step {process[0]?.step || "01"} / Discovery
                 </span>
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight group-hover:text-primary transition-colors duration-300">
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight transition-colors duration-300">
                   {process[0]?.title || "Discovery & Workforce Planning"}
                 </h3>
-                <p className="mt-3 text-sm text-gray-300/80 leading-relaxed line-clamp-3">
+                <p className="mt-3 text-sm text-white/80 leading-relaxed line-clamp-3">
                   {process[0]?.desc || "We align with your business objectives, workforce challenges, and long-term hiring goals."}
                 </p>
               </div>
@@ -929,47 +929,39 @@ function Index() {
       )}
 
       {/* ============== CTA ============== */}
-      <section id="cta" className="relative w-full py-20 md:py-28 overflow-hidden">
-        {/* Section background image */}
-        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.10] dark:opacity-[0.18] pointer-events-none">
-          <img
-            src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1920&q=70"
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
-        </div>
+      <section id="cta" className="relative w-full py-20 md:py-28 bg-background border-t border-border">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="relative overflow-hidden bg-gradient-hero p-10 md:p-16">
-            <div className="absolute -right-20 -top-20 h-72 w-72 bg-accent/15 blur-3xl" />
-            <div className="absolute inset-y-0 left-0 w-2 bg-accent" />
-            <div className="relative grid gap-8 md:grid-cols-2 md:items-center">
-              <div>
-                <h2 className="font-display text-4xl font-bold tracking-tight text-gradient-hero-foreground md:text-5xl">
+          <div className="max-w-6xl mx-auto relative overflow-hidden bg-card border border-border rounded-2xl p-10 md:p-16 shadow-lg">
+            {/* Subtle premium corner accent */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full pointer-events-none" />
+            
+            <div className="relative grid gap-8 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-8">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary block mb-3">
+                  Collaboration
+                </span>
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-tight">
                   {copy.cta_heading}
                 </h2>
-                <p className="mt-4 max-w-lg text-gradient-hero-foreground/80">
+                <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl">
                   {copy.cta_description}
                 </p>
               </div>
-              <div className="flex flex-wrap gap-3 md:justify-end">
+              <div className="lg:col-span-4 flex flex-wrap gap-3 lg:justify-end shrink-0 w-full">
                 <Button
                   size="lg"
-                  variant="secondary"
                   asChild
-                  className="rounded-none px-7 py-6 text-base font-semibold shadow-[6px_6px_0_0_hsl(var(--accent))] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--accent))]"
+                  className="rounded-lg px-7 py-6 text-base font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto text-center"
                 >
-                  <a href={copy.cta_primary_to}>{copy.cta_primary_label}</a>
+                  <a href={copy.cta_primary_to} className="justify-center">{copy.cta_primary_label}</a>
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
                   asChild
-                  className="rounded-none border-gradient-hero-foreground/30 bg-transparent px-7 py-6 text-base text-gradient-hero-foreground hover:bg-gradient-hero-foreground/10 hover:text-gradient-hero-foreground"
+                  className="rounded-lg px-7 py-6 text-base font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] border-border text-foreground hover:bg-muted w-full sm:w-auto text-center"
                 >
-                  <a href={copy.cta_secondary_to}>{copy.cta_secondary_label}</a>
+                  <a href={copy.cta_secondary_to} className="justify-center">{copy.cta_secondary_label}</a>
                 </Button>
               </div>
             </div>
