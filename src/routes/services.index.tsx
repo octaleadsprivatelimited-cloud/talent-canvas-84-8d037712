@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, UserCheck, Cpu, Briefcase, GraduationCap } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { getServiceImage } from "@/lib/service-images";
@@ -55,6 +55,17 @@ const DEFAULT_SERVICES: Service[] = [
   },
 ];
 
+const SERVICE_META: Record<string, { badge: string; icon: any }> = {
+  "executive-search": { badge: "Leadership & C-Suite", icon: UserCheck },
+  "it-recruitment": { badge: "Talent Sourcing", icon: Cpu },
+  "rpo-workforce-solutions": { badge: "Enterprise RPO", icon: Briefcase },
+  "consulting-training": { badge: "Advisory & Training", icon: GraduationCap },
+};
+
+const getServiceMeta = (slug: string) => {
+  return SERVICE_META[slug] || { badge: "Talent Service", icon: Briefcase };
+};
+
 const PAGE_TITLE = "Recruitment & Workforce Services — Virelix Consulting";
 const PAGE_DESCRIPTION =
   "Executive search, IT and non-IT recruitment, RPO, workforce planning, business consulting, and professional training delivered across the USA and India by Virelix Consulting.";
@@ -93,7 +104,7 @@ function ServicesPage() {
         </div>
         <Link
           to="/contact"
-          className="bg-[#0070ad] hover:bg-[#005c8f] text-white font-bold px-4 py-2 transition text-[10px] uppercase tracking-wider inline-flex items-center gap-1.5"
+          className="bg-primary hover:opacity-90 text-primary-foreground font-bold px-4 py-2 transition text-[10px] uppercase tracking-wider inline-flex items-center gap-1.5"
         >
           Get in touch <ArrowRight className="h-3 w-3" />
         </Link>
@@ -111,8 +122,8 @@ function ServicesPage() {
         {/* Subtle Dark Overlay */}
         <div className="absolute inset-0 bg-slate-950/20 pointer-events-none" />
         {/* Floating Corporate Blue Title Card */}
-        <div className="absolute left-6 md:left-12 bottom-0 w-[240px] sm:w-[320px] md:w-[420px] h-[65%] sm:h-[75%] bg-[#0070ad]/95 text-white p-6 md:p-10 flex items-end justify-start shadow-2xl z-20 border-t border-r border-white/10">
-          <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-tight text-white leading-none">
+        <div className="absolute left-6 md:left-12 bottom-0 w-[240px] sm:w-[320px] md:w-[420px] h-[65%] sm:h-[75%] bg-primary/95 text-primary-foreground p-6 md:p-10 flex items-end justify-start shadow-2xl z-20 border-t border-r border-white/10">
+          <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-tight text-primary-foreground leading-none">
             Services
           </h1>
         </div>
@@ -159,46 +170,72 @@ function ServicesPage() {
                 const img = s.image_url
                   ? { src: s.image_url, srcSet: undefined }
                   : getServiceImage(s.slug);
+                const meta = getServiceMeta(s.slug);
+                const IconComponent = meta.icon;
 
                 return (
                   <Link
                     key={s.id}
                     to={`/services/${s.slug}`}
-                    className="group relative flex flex-col justify-between border border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-primary/50 hover:shadow-lg rounded-none text-left"
+                    className="group relative flex flex-col justify-between border border-border bg-card p-0 transition-all duration-300 hover:border-primary/50 hover:shadow-md rounded-none text-left overflow-hidden"
                   >
+                    {/* Microsoft-style accent line on hover */}
+                    <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 z-10" />
+
                     <div>
                       {/* Top cover image for corporate visual card style */}
-                      <div className="aspect-[16/10] w-full overflow-hidden bg-muted mb-6">
+                      <div className="aspect-[16/9] w-full overflow-hidden bg-muted relative">
                         <img
                           src={img.src}
                           alt={s.title}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-102"
                           loading="lazy"
                         />
                       </div>
                       
-                      <h3 className="font-display text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
-                        {s.title}
-                      </h3>
-                      
-                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                        {s.summary}
-                      </p>
+                      {/* Content details with padding */}
+                      <div className="p-6 md:p-8">
+                        {/* Category Badge & Icon */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <IconComponent className="h-4 w-4 text-primary shrink-0" />
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-primary">
+                            {meta.badge}
+                          </span>
+                        </div>
 
-                      {/* Capabilities checklist */}
-                      {s.features && s.features.length > 0 && (
-                        <ul className="mt-6 space-y-2.5 border-t border-border/50 pt-5">
-                          {s.features.slice(0, 3).map((feat, idx) => (
-                            <li key={idx} className="flex items-center gap-2.5 text-xs text-foreground/80 font-medium">
-                              <span className="text-[#0070ad] font-bold">✓</span> {feat}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                        <h3 className="font-display text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                          {s.title}
+                        </h3>
+                        
+                        <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                          {s.summary}
+                        </p>
+
+                        {/* Capabilities checklist */}
+                        {s.features && s.features.length > 0 && (
+                          <div className="mt-6 border-t border-border/60 pt-5">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80 block mb-3">
+                              Key Offerings:
+                            </span>
+                            <ul className="space-y-2.5">
+                              {s.features.slice(0, 3).map((feat, idx) => (
+                                <li key={idx} className="flex items-center gap-2.5 text-xs text-foreground/80 font-medium animate-fadeIn">
+                                  <span className="text-primary font-bold text-sm leading-none">✓</span>
+                                  <span>{feat}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="mt-8 pt-4 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#0070ad] group-hover:underline">
-                      Learn more <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                    {/* Learn More Action Footer */}
+                    <div className="px-6 pb-6 md:px-8 md:pb-8 pt-0 mt-auto">
+                      <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary group-hover:underline">
+                        <span>Learn more</span>
+                        <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1 duration-300" />
+                      </div>
                     </div>
                   </Link>
                 );

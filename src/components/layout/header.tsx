@@ -27,7 +27,7 @@ export function Header() {
   const logoUrl = site?.logo_url;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/50 glass">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-background">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link
           to="/"
