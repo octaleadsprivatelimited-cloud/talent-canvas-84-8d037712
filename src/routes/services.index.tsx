@@ -153,88 +153,52 @@ function ServicesPage() {
               </h2>
             </div>
 
-            {/* Editorial List */}
-            <div className="border-t border-border">
+            {/* Corporate Grid */}
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
               {data.map((s, i) => {
                 const img = s.image_url
                   ? { src: s.image_url, srcSet: undefined }
                   : getServiceImage(s.slug);
-                const num = String(i + 1).padStart(2, "0");
-                const variant = IMAGE_VARIANTS[i % IMAGE_VARIANTS.length];
-                const bg = BG_VARIANTS[i % BG_VARIANTS.length];
-                const fromLeft = i % 2 === 1;
 
                 return (
                   <Link
                     key={s.id}
                     to={`/services/${s.slug}`}
-                    className="group relative block overflow-hidden border-b border-border py-12 transition-all duration-700 md:py-20"
+                    className="group relative flex flex-col justify-between border border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-primary/50 hover:shadow-lg rounded-none text-left"
                   >
-                    {/* Sliding background layers */}
-                    <div
-                      className={`absolute inset-0 ${bg} transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-                        fromLeft
-                          ? "-translate-x-full group-hover:translate-x-0"
-                          : "translate-x-full group-hover:translate-x-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute inset-0 bg-card transition-transform duration-1000 delay-75 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-                        fromLeft
-                          ? "-translate-x-full group-hover:translate-x-0"
-                          : "translate-x-full group-hover:translate-x-0"
-                      }`}
-                    />
-                    {/* Mobile/Tablet backdrop image */}
-                    <div className="absolute inset-0 z-0 opacity-[0.10] dark:opacity-[0.18] transition-opacity duration-500 lg:hidden group-hover:opacity-[0.16]">
-                      <img
-                        src={img.src}
-                        alt=""
-                        className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
-                      />
-                    </div>
-
-                    {/* Row content */}
-                    <div className="relative z-20 flex flex-col items-baseline gap-6 md:flex-row md:gap-16 lg:gap-24">
-                      <span className="text-xs font-semibold tabular-nums tracking-widest text-muted-foreground/70 transition-colors duration-500 group-hover:text-foreground">
-                        {num}
-                      </span>
-                      <div className="flex-1">
-                        <h2 className="text-3xl font-medium tracking-tight text-foreground transition-transform duration-500 ease-out group-hover:translate-x-4 md:text-5xl lg:text-6xl">
-                          {s.title}
-                        </h2>
-                        <div className="max-h-0 overflow-hidden opacity-0 transition-all duration-700 ease-in-out group-hover:max-h-48 group-hover:opacity-100">
-                          <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground transition-transform duration-700 delay-100 group-hover:translate-x-8 md:mt-8 md:text-lg">
-                            {s.summary}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="hidden md:block">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-full border border-border transition-all duration-500 group-hover:border-foreground group-hover:bg-foreground group-hover:text-background">
-                          <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:-rotate-45" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Parallax image — desktop only */}
-                    <div
-                      className={`pointer-events-none absolute z-30 hidden opacity-0 transition-all duration-1000 group-hover:opacity-100 lg:block ${variant.right} ${variant.top} ${variant.w} ${variant.h}`}
-                    >
-                      <div className="absolute -inset-4 -z-10 translate-x-4 translate-y-24 border border-border/60 transition-transform duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-12 group-hover:translate-y-8" />
-                      <div className="relative h-full w-full translate-y-32 overflow-hidden shadow-2xl transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:-translate-x-4 group-hover:translate-y-4">
+                    <div>
+                      {/* Top cover image for corporate visual card style */}
+                      <div className="aspect-[16/10] w-full overflow-hidden bg-muted mb-6">
                         <img
                           src={img.src}
-                          srcSet={img.srcSet}
-                          sizes="400px"
                           alt={s.title}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                           loading="lazy"
-                          decoding="async"
-                          className="h-full w-full scale-110 object-cover grayscale transition-all duration-1000 group-hover:scale-100 group-hover:grayscale-0"
                         />
                       </div>
-                      <span className="absolute -bottom-8 right-0 translate-y-12 text-[9px] uppercase italic tracking-[0.2em] text-muted-foreground/70 transition-transform duration-500 ease-out group-hover:-translate-y-4">
-                        Practice {num}
-                      </span>
+                      
+                      <h3 className="font-display text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                        {s.title}
+                      </h3>
+                      
+                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                        {s.summary}
+                      </p>
+
+                      {/* Capabilities checklist */}
+                      {s.features && s.features.length > 0 && (
+                        <ul className="mt-6 space-y-2.5 border-t border-border/50 pt-5">
+                          {s.features.slice(0, 3).map((feat, idx) => (
+                            <li key={idx} className="flex items-center gap-2.5 text-xs text-foreground/80 font-medium">
+                              <span className="text-[#0070ad] font-bold">✓</span> {feat}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    <div className="mt-8 pt-4 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#0070ad] group-hover:underline">
+                      Learn more <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                     </div>
                   </Link>
                 );
