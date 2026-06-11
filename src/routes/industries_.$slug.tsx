@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useFirebaseQuery } from "@/hooks/use-firebase-query";
-import { ArrowLeft, ArrowRight, Check, Sparkles, Briefcase, TrendingUp } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Sparkles, Briefcase, TrendingUp, ChevronRight } from "lucide-react";
 import * as Icons from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
@@ -477,25 +477,27 @@ function IndustryDetailComponent() {
                 </p>
               </div>
 
-              {/* Sourcing Stats metrics row */}
-              <div className="mt-10 grid gap-8 grid-cols-3 border-y border-border py-8 mb-16 bg-surface/10 px-4 rounded-sm">
-                {detail.sourcing_stats.map((s, idx) => (
-                  <div key={idx} className="space-y-1 text-center sm:text-left">
-                    <span className="font-display text-2xl sm:text-3xl font-bold text-foreground">
-                      {s.value}
-                    </span>
-                    <p className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">
-                      {s.label}
-                    </p>
+              {/* Sourcing Stats */}
+              <div className="mt-10 grid grid-cols-1 gap-6 border-t border-border pt-12 sm:grid-cols-3">
+                {detail.sourcing_stats.map((stat, i) => (
+                  <div key={i} className="group relative overflow-hidden bg-card border border-border rounded-none p-6 transition-all duration-300 hover:shadow-lg hover:border-primary/30">
+                    {/* Top slide-in line accent focus indicator */}
+                    <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 z-10" />
+                    <div className="font-display text-3xl font-bold text-primary transition-colors group-hover:text-primary-glow">
+                      {stat.value}
+                    </div>
+                    <div className="mt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground leading-tight">
+                      {stat.label}
+                    </div>
                   </div>
                 ))}
               </div>
 
               {/* Client value proposition / How we help section */}
-              <div className="mb-16">
-                <div className="mb-6 flex items-center gap-4">
-                  <span className="h-px w-8 bg-foreground" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+              <div className="mb-16 mt-16">
+                <div className="mb-6 flex items-center gap-3">
+                  <span className="h-px w-8 bg-primary" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                     Client Impact
                   </span>
                 </div>
@@ -512,8 +514,10 @@ function IndustryDetailComponent() {
                   {benefits.map((b: any, idx: number) => (
                     <div
                       key={idx}
-                      className="border border-border bg-card p-6 flex flex-col gap-4 rounded-lg relative overflow-hidden group hover:border-primary/50 transition-all duration-300"
+                      className="group relative flex flex-col gap-4 border border-border bg-card p-6 rounded-none transition-all duration-300 hover:shadow-lg hover:border-primary/30 overflow-hidden"
                     >
+                      {/* Top slide-in line accent focus indicator */}
+                      <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 z-10" />
                       <span className="text-2xl font-light text-primary/30 group-hover:text-primary transition duration-300">
                         0{idx + 1}
                       </span>
@@ -530,9 +534,9 @@ function IndustryDetailComponent() {
 
               {/* Capabilities list */}
               <div>
-                <div className="mb-8 flex items-center gap-4">
-                  <span className="h-px w-8 bg-foreground" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                <div className="mb-8 flex items-center gap-3">
+                  <span className="h-px w-8 bg-primary" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                     Key Capabilities
                   </span>
                 </div>
@@ -544,14 +548,14 @@ function IndustryDetailComponent() {
                   {detail.capabilities.map((c, i) => (
                     <li
                       key={i}
-                      className="group flex items-start gap-6 py-5 transition-colors hover:bg-card/50"
+                      className="group flex items-start gap-6 py-5 px-4 -mx-4 border-l-2 border-transparent hover:border-primary hover:bg-surface/50 transition-all duration-200"
                     >
-                      <span className="text-[10px] font-semibold tabular-nums tracking-widest text-muted-foreground/70">
+                      <span className="text-[10px] font-bold tabular-nums tracking-widest text-primary">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <Check className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-primary transition-transform group-hover:scale-110" />
                       <span
-                        className="flex-1 text-base text-foreground/80 font-medium"
+                        className="flex-1 text-sm text-foreground/80 font-medium"
                         style={serif}
                       >
                         {c}
@@ -563,10 +567,10 @@ function IndustryDetailComponent() {
 
               {/* Related Case Studies section */}
               {filteredCaseStudies.length > 0 && (
-                <div className="mt-16">
-                  <div className="mb-8 flex items-center gap-4">
-                    <span className="h-px w-8 bg-foreground" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                <div className="mt-16 border-t border-border pt-12">
+                  <div className="mb-8 flex items-center gap-3">
+                    <span className="h-px w-8 bg-primary" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                       Sourcing in Action
                     </span>
                   </div>
@@ -576,22 +580,27 @@ function IndustryDetailComponent() {
                       <Link
                         key={cs.id}
                         to={`/case-studies/${cs.slug}`}
-                        className="bg-card border border-border p-6 rounded-lg hover:border-primary transition group flex flex-col justify-between"
+                        className="group relative flex flex-col justify-between border border-border bg-card p-6 rounded-none transition-all duration-300 hover:shadow-lg hover:border-primary/30 overflow-hidden"
                       >
+                        {/* Top slide-in line accent focus indicator */}
+                        <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 z-10" />
+                        
                         <div>
-                          <span className="text-[9px] uppercase tracking-widest text-primary font-bold">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-primary">
                             {cs.client}
-                          </span>
-                          <h4 className="mt-2 font-display text-lg font-bold text-foreground group-hover:text-primary transition line-clamp-2">
+                          </div>
+                          <h4 className="mt-2 font-display text-lg font-bold text-foreground group-hover:text-primary transition-colors duration-300">
                             {cs.title}
                           </h4>
-                          <p className="mt-3 text-muted-foreground text-xs line-clamp-3">
+                          <p className="mt-3 text-xs text-muted-foreground leading-relaxed line-clamp-2">
                             {cs.summary}
                           </p>
                         </div>
-                        <span className="mt-6 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-foreground">
-                          View Study <ArrowRight className="h-3 w-3" />
-                        </span>
+                        
+                        <div className="mt-6 flex items-center gap-1.5 text-xs font-bold text-primary">
+                          <span className="group-hover:underline">Read Case Study</span>
+                          <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1 duration-300" />
+                        </div>
                       </Link>
                     ))}
                   </div>
@@ -601,9 +610,9 @@ function IndustryDetailComponent() {
               {/* Active Careers section */}
               {filteredJobs.length > 0 && (
                 <div className="mt-16">
-                  <div className="mb-8 flex items-center gap-4">
-                    <Briefcase className="h-4 w-4 text-primary" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                  <div className="mb-8 flex items-center gap-3">
+                    <span className="h-px w-8 bg-primary" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                       Active Careers
                     </span>
                   </div>
@@ -638,29 +647,32 @@ function IndustryDetailComponent() {
             </div>
 
             {/* Sourcing Engagement Callout */}
-            <aside className="h-fit border border-border bg-card p-8 lg:sticky lg:top-24 rounded-lg">
-              <div className="mb-6 flex items-center gap-4">
-                <span className="h-px w-8 bg-foreground" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+            <aside className="group/sidebar relative h-fit border border-border bg-card p-8 lg:sticky lg:top-24 transition-all duration-300 hover:shadow-lg rounded-none overflow-hidden">
+              {/* Top slide-in line accent focus indicator */}
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover/sidebar:scale-x-100 transition-transform origin-left duration-300 z-10" />
+              
+              <div className="mb-6 flex items-center gap-3">
+                <span className="h-px w-8 bg-primary" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                   Engage Practice
                 </span>
               </div>
-              <h3 className="text-2xl font-semibold text-foreground">Talk with a specialist</h3>
-              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+              <h3 className="text-2xl font-bold text-foreground">Talk with a specialist</h3>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                 Speak directly with a lead partner who coordinates client engagements and candidate
                 vetting in the {industry.label} field.
               </p>
               <Button
                 asChild
-                className="mt-6 w-full bg-foreground text-background py-6 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-foreground/90"
+                className="mt-6 w-full rounded-none bg-primary text-primary-foreground py-6 text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity flex items-center justify-center gap-2 group/btn"
               >
                 <Link to="/contact">
-                  Connect Now <ArrowRight className="ml-3 h-4 w-4" />
+                  Connect Now <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                 </Link>
               </Button>
               <Link
                 to="/industries"
-                className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-foreground"
+                className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-primary transition-colors"
               >
                 ← Back to all sectors
               </Link>

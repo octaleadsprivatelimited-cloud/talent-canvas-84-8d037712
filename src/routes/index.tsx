@@ -795,7 +795,7 @@ function Index() {
                           Strict Verification
                         </h5>
                         <p className="text-xs text-slate-500 mt-0.5">
-                          Every candidate is technical-screened and background-verified prior to
+                          Every candidate is technically screened and background-verified prior to
                           client presentation.
                         </p>
                       </div>
