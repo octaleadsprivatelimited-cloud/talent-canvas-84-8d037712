@@ -931,19 +931,16 @@ function Index() {
       {/* ============== CTA ============== */}
       <section id="cta" className="relative w-full py-20 md:py-28 bg-background border-t border-border">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-6xl mx-auto relative overflow-hidden bg-card border border-border rounded-2xl p-10 md:p-16 shadow-lg">
-            {/* Subtle premium corner accent */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full pointer-events-none" />
-            
+          <div className="max-w-6xl mx-auto relative overflow-hidden bg-[#f8fafc] border border-border border-l-4 border-l-[#0672cb] rounded-none p-10 md:p-16 shadow-md dark:bg-slate-900/40">
             <div className="relative grid gap-8 lg:grid-cols-12 lg:items-center">
               <div className="lg:col-span-8">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary block mb-3">
+                <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#0672cb] block mb-3 font-sans">
                   Collaboration
                 </span>
-                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-tight">
+                <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
                   {copy.cta_heading}
                 </h2>
-                <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl">
+                <p className="mt-4 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl font-sans">
                   {copy.cta_description}
                 </p>
               </div>
@@ -951,17 +948,17 @@ function Index() {
                 <Button
                   size="lg"
                   asChild
-                  className="rounded-lg px-7 py-6 text-base font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto text-center"
+                  className="rounded-none px-7 py-6 text-base font-semibold transition-colors duration-200 bg-[#0672cb] text-white hover:bg-[#005a9c] w-full sm:w-auto text-center border border-[#0672cb] shadow-none"
                 >
-                  <a href={copy.cta_primary_to} className="justify-center">{copy.cta_primary_label}</a>
+                  <a href={copy.cta_primary_to} className="justify-center font-sans">{copy.cta_primary_label}</a>
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
                   asChild
-                  className="rounded-lg px-7 py-6 text-base font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] border-border text-foreground hover:bg-muted w-full sm:w-auto text-center"
+                  className="rounded-none px-7 py-6 text-base font-semibold transition-colors duration-200 border-[#0672cb] text-[#0672cb] hover:bg-slate-100 dark:hover:bg-slate-800 w-full sm:w-auto text-center bg-transparent shadow-none"
                 >
-                  <a href={copy.cta_secondary_to} className="justify-center">{copy.cta_secondary_label}</a>
+                  <a href={copy.cta_secondary_to} className="justify-center font-sans">{copy.cta_secondary_label}</a>
                 </Button>
               </div>
             </div>
