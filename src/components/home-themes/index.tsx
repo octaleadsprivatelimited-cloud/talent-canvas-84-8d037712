@@ -38,69 +38,69 @@ export const THEMES: {
   preview: string;
   hasVideo?: boolean;
 }[] = [
-  {
-    key: "editorial",
-    name: "Editorial Bold",
-    tagline: "Sharp, angular, magazine-style collage.",
-    preview: heroTeam,
-  },
-  {
-    key: "mono",
-    name: "Crimson Bold",
-    tagline: "Crimson banner, bold headlines, floating white CTA card.",
-    preview: themeMono,
-  },
-  {
-    key: "aurora",
-    name: "Brighter Future",
-    tagline: "Blue→green gradient hero with circular portrait and warm CTA.",
-    preview: themeAurora,
-  },
-  {
-    key: "magazine",
-    name: "Service Mosaic",
-    tagline: "Clean white split with colored service tiles.",
-    preview: themeMagazine,
-  },
-  {
-    key: "noir",
-    name: "Dark Noir",
-    tagline: "Luxury black with warm gold accents.",
-    preview: themeNoir,
-  },
-  {
-    key: "cinema",
-    name: "Cinema Reel",
-    tagline: "Full-bleed video hero, dramatic serif overlay.",
-    preview: themeCinema,
-    hasVideo: true,
-  },
-  {
-    key: "pulse",
-    name: "Pulse Split",
-    tagline: "Split layout with looping video panel.",
-    preview: themePulse,
-    hasVideo: true,
-  },
-  {
-    key: "terracotta",
-    name: "Terracotta Warm",
-    tagline: "Earthy sandstone palette with sage accents.",
-    preview: themeTerracotta,
-  },
-  {
-    key: "glass",
-    name: "Glass Aurora",
-    tagline: "Iridescent pastel glassmorphism.",
-    preview: themeGlass,
-  },
-  {
-    key: "brutalist",
-    name: "Brutalist Pop",
-    tagline: "High contrast yellow + black, no apologies.",
-    preview: themeBrutalist,
-  },
-];
+    {
+      key: "editorial",
+      name: "Editorial Bold",
+      tagline: "Sharp, angular, magazine-style collage.",
+      preview: heroTeam,
+    },
+    {
+      key: "mono",
+      name: "Crimson Bold",
+      tagline: "Crimson banner, bold headlines, floating white CTA card.",
+      preview: themeMono,
+    },
+    {
+      key: "aurora",
+      name: "Brighter Future",
+      tagline: "Blue→green gradient hero with circular portrait and warm CTA.",
+      preview: themeAurora,
+    },
+    {
+      key: "magazine",
+      name: "Service Mosaic",
+      tagline: "Clean white split with colored service tiles.",
+      preview: themeMagazine,
+    },
+    {
+      key: "noir",
+      name: "Dark Noir",
+      tagline: "Luxury black with warm gold accents.",
+      preview: themeNoir,
+    },
+    {
+      key: "cinema",
+      name: "Cinema Reel",
+      tagline: "Full-bleed video hero, dramatic serif overlay.",
+      preview: themeCinema,
+      hasVideo: true,
+    },
+    {
+      key: "pulse",
+      name: "Pulse Split",
+      tagline: "Split layout with looping video panel.",
+      preview: themePulse,
+      hasVideo: true,
+    },
+    {
+      key: "terracotta",
+      name: "Terracotta Warm",
+      tagline: "Earthy sandstone palette with sage accents.",
+      preview: themeTerracotta,
+    },
+    {
+      key: "glass",
+      name: "Glass Aurora",
+      tagline: "Iridescent pastel glassmorphism.",
+      preview: themeGlass,
+    },
+    {
+      key: "brutalist",
+      name: "Brutalist Pop",
+      tagline: "High contrast yellow + black, no apologies.",
+      preview: themeBrutalist,
+    },
+  ];
 
 const DEFAULT_STATS: Stat[] = [
   { value: "USA", label: "Delaware HQ" },

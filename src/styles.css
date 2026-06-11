@@ -84,12 +84,10 @@
   --ring: oklch(0.55 0.05 270);
 
   /* Premium gradients */
-  --gradient-hero: linear-gradient(
-    135deg,
-    oklch(0.25 0.02 270) 0%,
-    oklch(0.32 0.03 270) 45%,
-    oklch(0.42 0.04 270) 100%
-  );
+  --gradient-hero: linear-gradient(135deg,
+      oklch(0.25 0.02 270) 0%,
+      oklch(0.32 0.03 270) 45%,
+      oklch(0.42 0.04 270) 100%);
   --gradient-hero-foreground: oklch(0.99 0.005 270);
   --gradient-aurora:
     radial-gradient(ellipse 80% 50% at 50% 0%, oklch(0.55 0.08 270 / 0.18), transparent 70%),
@@ -154,12 +152,10 @@ html[data-theme="editorial"] {
   --accent: oklch(0.62 0.05 270);
   --accent-foreground: oklch(0.99 0.005 270);
   --border: oklch(0.92 0.012 270);
-  --gradient-hero: linear-gradient(
-    135deg,
-    oklch(0.25 0.02 270) 0%,
-    oklch(0.32 0.03 270) 45%,
-    oklch(0.42 0.04 270) 100%
-  );
+  --gradient-hero: linear-gradient(135deg,
+      oklch(0.25 0.02 270) 0%,
+      oklch(0.32 0.03 270) 45%,
+      oklch(0.42 0.04 270) 100%);
   --gradient-hero-foreground: oklch(0.99 0.005 270);
   --font-display:
     "Segoe UI Semibold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue",
@@ -442,9 +438,11 @@ html[data-theme="brutalist"] {
   * {
     border-color: var(--color-border);
   }
+
   html {
     scroll-behavior: smooth;
   }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -457,6 +455,7 @@ html[data-theme="brutalist"] {
       radial-gradient(at 95% 8%, oklch(0.62 0.22 295 / 0.06), transparent 50%);
     background-attachment: fixed;
   }
+
   h1,
   h2,
   h3,
@@ -465,6 +464,7 @@ html[data-theme="brutalist"] {
     letter-spacing: -0.025em;
     font-weight: 600;
   }
+
   ::selection {
     background-color: oklch(0.55 0.22 275 / 0.25);
     color: var(--color-foreground);
@@ -475,56 +475,70 @@ html[data-theme="brutalist"] {
   .bg-gradient-hero {
     background-image: var(--gradient-hero);
   }
+
   .bg-gradient-accent {
     background-image: var(--gradient-accent);
   }
+
   .bg-gradient-subtle {
     background-image: var(--gradient-subtle);
   }
+
   .bg-gradient-aurora {
     background-image: var(--gradient-aurora);
   }
+
   .bg-gradient-mesh {
     background-image: var(--gradient-mesh);
   }
+
   .shadow-glow {
     box-shadow: var(--shadow-glow);
   }
+
   .shadow-elevated {
     box-shadow: var(--shadow-lg);
   }
+
   .shadow-ring {
     box-shadow: var(--shadow-ring);
   }
+
   .text-balance {
     text-wrap: balance;
   }
+
   .text-gradient {
     background: linear-gradient(135deg, var(--foreground) 30%, var(--primary-glow) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
+
   .text-gradient-accent {
     background: var(--gradient-accent);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
+
   .glass {
     background-color: color-mix(in oklab, var(--card) 70%, transparent);
     backdrop-filter: saturate(180%) blur(14px);
     -webkit-backdrop-filter: saturate(180%) blur(14px);
     border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
   }
+
   .glass-dark {
     background-color: color-mix(in oklab, oklch(0.1 0.025 275) 60%, transparent);
     backdrop-filter: saturate(180%) blur(14px);
     border: 1px solid oklch(1 0 0 / 0.08);
   }
+
   .grain {
     position: relative;
   }
+
   .grain::after {
     content: "";
     position: absolute;
@@ -534,21 +548,25 @@ html[data-theme="brutalist"] {
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
+
   .hover-lift {
     transition:
       transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
       box-shadow 300ms ease;
   }
+
   .hover-lift:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
   }
+
   .ring-premium {
     box-shadow:
       inset 0 1px 0 oklch(1 0 0 / 0.06),
       0 1px 0 oklch(0 0 0 / 0.04),
       var(--shadow-md);
   }
+
   .divider-gradient {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--border), transparent);
@@ -559,10 +577,12 @@ html[data-theme="brutalist"] {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
 }
+
 .animate-shimmer {
   background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.08), transparent);
   background-size: 200% 100%;
@@ -570,14 +590,17 @@ html[data-theme="brutalist"] {
 }
 
 @keyframes float-slow {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
 }
+
 .animate-float {
   animation: float-slow 6s ease-in-out infinite;
 }
@@ -586,10 +609,12 @@ html[data-theme="brutalist"] {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
 }
+
 .animate-marquee {
   display: flex;
   width: max-content;

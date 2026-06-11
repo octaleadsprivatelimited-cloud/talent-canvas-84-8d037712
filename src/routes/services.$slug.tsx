@@ -6,6 +6,7 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
+  ChevronRight,
   FileText,
   ArrowUpRight,
 } from "lucide-react";
@@ -260,7 +261,7 @@ function ServiceDetail() {
         </div>
         <Link
           to="/contact"
-          className="bg-[#0070ad] hover:bg-[#005c8f] text-white font-semibold px-4 py-2 transition text-[10px] uppercase tracking-wider inline-flex items-center gap-1.5"
+          className="bg-primary hover:opacity-90 text-primary-foreground font-semibold px-4 py-2 transition text-[10px] uppercase tracking-wider inline-flex items-center gap-1.5"
         >
           Get in touch <ArrowRight className="h-3 w-3" />
         </Link>
@@ -323,9 +324,9 @@ function ServiceDetail() {
                 </div>
               )}
 
-              <div className="mb-8 flex items-center gap-4">
-                <span className="h-px w-8 bg-foreground" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+              <div className="mb-8 flex items-center gap-3">
+                <span className="h-px w-8 bg-primary" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                   Overview
                 </span>
               </div>
@@ -339,11 +340,13 @@ function ServiceDetail() {
               {additions?.stats && (
                 <div className="mt-16 grid grid-cols-1 gap-6 border-t border-border pt-12 sm:grid-cols-3">
                   {additions.stats.map((stat, i) => (
-                    <div key={i} className="border border-border/60 bg-card p-6">
-                      <div className="font-display text-3xl font-bold text-accent">
+                    <div key={i} className="group relative overflow-hidden bg-card border border-border rounded-none p-6 transition-all duration-300 hover:shadow-lg hover:border-primary/30">
+                      {/* Top slide-in line accent focus indicator */}
+                      <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 z-10" />
+                      <div className="font-display text-3xl font-bold text-primary transition-colors group-hover:text-primary-glow">
                         {stat.value}
                       </div>
-                      <div className="mt-2 text-xs uppercase tracking-wider text-muted-foreground leading-tight">
+                      <div className="mt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground leading-tight">
                         {stat.label}
                       </div>
                     </div>
@@ -353,9 +356,9 @@ function ServiceDetail() {
 
               {data.features && data.features.length > 0 && (
                 <div className="mt-16">
-                  <div className="mb-8 flex items-center gap-4">
-                    <span className="h-px w-8 bg-foreground" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                  <div className="mb-8 flex items-center gap-3">
+                    <span className="h-px w-8 bg-primary" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                       What's included
                     </span>
                   </div>
@@ -363,13 +366,13 @@ function ServiceDetail() {
                     {data.features.map((f, i) => (
                       <li
                         key={i}
-                        className="group flex items-start gap-6 py-5 transition-colors hover:bg-card/50"
+                        className="group flex items-start gap-6 py-5 px-4 -mx-4 border-l-2 border-transparent hover:border-primary hover:bg-surface/50 transition-all duration-200"
                       >
-                        <span className="text-[10px] font-semibold tabular-nums tracking-widest text-muted-foreground/70">
+                        <span className="text-[10px] font-bold tabular-nums tracking-widest text-primary">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <Check className="mt-1 h-4 w-4 shrink-0 text-foreground" />
-                        <span className="flex-1 text-base text-foreground/80" style={serif}>
+                        <Check className="mt-1 h-4 w-4 shrink-0 text-primary transition-transform group-hover:scale-110" />
+                        <span className="flex-1 text-sm text-foreground/80 font-medium">
                           {f}
                         </span>
                       </li>
@@ -381,9 +384,9 @@ function ServiceDetail() {
               {/* Related Success Stories */}
               {relatedCaseStudies.length > 0 && (
                 <div className="mt-16 border-t border-border pt-12">
-                  <div className="mb-8 flex items-center gap-4">
-                    <span className="h-px w-8 bg-foreground" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                  <div className="mb-8 flex items-center gap-3">
+                    <span className="h-px w-8 bg-primary" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                       Success Stories
                     </span>
                   </div>
@@ -392,20 +395,27 @@ function ServiceDetail() {
                       <Link
                         key={cs.id}
                         to={`/case-studies/${cs.slug}`}
-                        className="group border border-border bg-card p-6 transition hover:bg-surface/50"
+                        className="group relative flex flex-col justify-between border border-border bg-card p-6 rounded-none transition-all duration-300 hover:shadow-lg hover:border-primary/30 overflow-hidden"
                       >
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-accent">
-                          {cs.client}
+                        {/* Top slide-in line accent focus indicator */}
+                        <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 z-10" />
+                        
+                        <div>
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-primary">
+                            {cs.client}
+                          </div>
+                          <h4 className="mt-2 font-display text-lg font-bold text-foreground transition-colors group-hover:text-primary">
+                            {cs.title}
+                          </h4>
+                          <p className="mt-3 text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                            {cs.summary}
+                          </p>
                         </div>
-                        <h4 className="mt-2 font-display text-lg font-bold group-hover:text-primary transition">
-                          {cs.title}
-                        </h4>
-                        <p className="mt-2 text-xs text-muted-foreground line-clamp-2">
-                          {cs.summary}
-                        </p>
-                        <span className="mt-4 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary group-hover:underline">
-                          Read Case Study <ArrowUpRight className="h-3.5 w-3.5" />
-                        </span>
+                        
+                        <div className="mt-6 flex items-center gap-1.5 text-xs font-bold text-primary">
+                          <span className="group-hover:underline">Read Case Study</span>
+                          <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1 duration-300" />
+                        </div>
                       </Link>
                     ))}
                   </div>
@@ -415,25 +425,25 @@ function ServiceDetail() {
               {/* FAQs Accordion */}
               {additions?.faqs && additions.faqs.length > 0 && (
                 <div className="mt-16 border-t border-border pt-12">
-                  <div className="mb-8 flex items-center gap-4">
-                    <span className="h-px w-8 bg-foreground" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+                  <div className="mb-8 flex items-center gap-3">
+                    <span className="h-px w-8 bg-primary" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                       Frequently Asked Questions
                     </span>
                   </div>
-                  <div className="space-y-4">
+                  <div className="divide-y divide-border border-y border-border">
                     {additions.faqs.map((faq, i) => {
                       const isOpen = openFaq === i;
                       return (
                         <div
                           key={i}
-                          className="border border-border bg-card transition-all duration-300"
+                          className="bg-transparent transition-all duration-300"
                         >
                           <button
                             onClick={() => setOpenFaq(isOpen ? null : i)}
-                            className="flex w-full items-center justify-between p-6 text-left"
+                            className="group/faq flex w-full items-center justify-between py-5 text-left transition-colors"
                           >
-                            <span className="font-display text-base font-bold text-foreground">
+                            <span className="font-display text-base font-bold text-foreground group-hover/faq:text-primary transition-colors">
                               {faq.q}
                             </span>
                             {isOpen ? (
@@ -443,7 +453,7 @@ function ServiceDetail() {
                             )}
                           </button>
                           {isOpen && (
-                            <div className="border-t border-border p-6 text-sm leading-relaxed text-muted-foreground bg-surface/20">
+                            <div className="pb-6 text-sm leading-relaxed text-muted-foreground animate-fadeIn">
                               {faq.a}
                             </div>
                           )}
@@ -455,29 +465,32 @@ function ServiceDetail() {
               )}
             </div>
 
-            <aside className="h-fit border border-border bg-card p-8 lg:sticky lg:top-24">
-              <div className="mb-6 flex items-center gap-4">
-                <span className="h-px w-8 bg-foreground" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/70">
+            <aside className="group/sidebar relative h-fit border border-border bg-card p-8 lg:sticky lg:top-24 transition-all duration-300 hover:shadow-lg rounded-none overflow-hidden">
+              {/* Top slide-in line accent focus indicator */}
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover/sidebar:scale-x-100 transition-transform origin-left duration-300 z-10" />
+              
+              <div className="mb-6 flex items-center gap-3">
+                <span className="h-px w-8 bg-primary" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                   Engage
                 </span>
               </div>
-              <h3 className="text-2xl font-semibold text-foreground">Start a conversation</h3>
+              <h3 className="text-2xl font-bold text-foreground">Start a conversation</h3>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                 Share your hiring or workforce need — a Virelix consultant will respond within one
                 business day with next steps.
               </p>
               <Button
                 asChild
-                className="mt-6 w-full rounded-none bg-foreground text-background py-6 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-foreground/90"
+                className="mt-6 w-full rounded-none bg-primary text-primary-foreground py-6 text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity flex items-center justify-center gap-2 group/btn"
               >
                 <Link to="/contact">
-                  Contact Virelix <ArrowRight className="ml-3 h-4 w-4" />
+                  Contact Virelix <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                 </Link>
               </Button>
               <Link
                 to="/services"
-                className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-foreground"
+                className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-primary transition-colors"
               >
                 ← Back to all practices
               </Link>

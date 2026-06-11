@@ -19,6 +19,7 @@ import {
   Quote,
   Star,
   PlayCircle,
+  Play,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -216,10 +217,10 @@ function Index() {
   const liveTestimonials =
     dbTestimonials && dbTestimonials.length > 0
       ? dbTestimonials.map((t: any) => ({
-          quote: t.quote,
-          name: t.author_name,
-          role: [t.author_role, t.company].filter(Boolean).join(" · "),
-        }))
+        quote: t.quote,
+        name: t.author_name,
+        role: [t.author_role, t.company].filter(Boolean).join(" · "),
+      }))
       : [];
 
   const { data: dbIndustries } = useFirebaseQuery("industries", async () => {
@@ -234,62 +235,62 @@ function Index() {
   const liveIndustries =
     dbIndustries && dbIndustries.length > 0
       ? dbIndustries.map((ind: any) => {
-          let IconComponent = Building2;
-          const iconName = ind.icon?.toLowerCase();
-          if (iconName === "cpu") IconComponent = Cpu;
-          else if (iconName === "heart" || iconName === "stethoscope") IconComponent = Stethoscope;
-          else if (iconName === "factory" || iconName === "truck") IconComponent = Factory;
-          else if (iconName === "wallet" || iconName === "banknote") IconComponent = Banknote;
-          else if (iconName === "shopping-bag") IconComponent = ShoppingBag;
+        let IconComponent = Building2;
+        const iconName = ind.icon?.toLowerCase();
+        if (iconName === "cpu") IconComponent = Cpu;
+        else if (iconName === "heart" || iconName === "stethoscope") IconComponent = Stethoscope;
+        else if (iconName === "factory" || iconName === "truck") IconComponent = Factory;
+        else if (iconName === "wallet" || iconName === "banknote") IconComponent = Banknote;
+        else if (iconName === "shopping-bag") IconComponent = ShoppingBag;
 
-          return {
-            icon: IconComponent,
-            label: ind.label,
-            slug: ind.slug,
-            description: ind.description || "",
-          };
-        })
+        return {
+          icon: IconComponent,
+          label: ind.label,
+          slug: ind.slug,
+          description: ind.description || "",
+        };
+      })
       : [
-          {
-            icon: Cpu,
-            label: "Information Technology",
-            slug: "technology-software",
-            description:
-              "Software engineering, cloud infrastructure, cybersecurity, and digital transformation talent.",
-          },
-          {
-            icon: Stethoscope,
-            label: "Healthcare",
-            slug: "healthcare-lifesciences",
-            description:
-              "Clinical, pharmaceutical, biotech, and health-tech professionals across all levels.",
-          },
-          {
-            icon: Factory,
-            label: "Engineering & Manufacturing",
-            slug: "logistics-supply-chain",
-            description:
-              "Supply chain, logistics, operations, and industrial engineering specialists.",
-          },
-          {
-            icon: Banknote,
-            label: "Finance & Accounting",
-            slug: "financial-services",
-            description: "Banking, fintech, accounting, and financial advisory talent.",
-          },
-          {
-            icon: ShoppingBag,
-            label: "Retail & E-Commerce",
-            slug: "retail-ecommerce",
-            description: "Omnichannel retail, e-commerce, and consumer goods leadership.",
-          },
-          {
-            icon: Building2,
-            label: "Professional Services",
-            slug: "professional-services",
-            description: "Consulting, legal, and business services professionals.",
-          },
-        ];
+        {
+          icon: Cpu,
+          label: "Information Technology",
+          slug: "technology-software",
+          description:
+            "Software engineering, cloud infrastructure, cybersecurity, and digital transformation talent.",
+        },
+        {
+          icon: Stethoscope,
+          label: "Healthcare",
+          slug: "healthcare-lifesciences",
+          description:
+            "Clinical, pharmaceutical, biotech, and health-tech professionals across all levels.",
+        },
+        {
+          icon: Factory,
+          label: "Engineering & Manufacturing",
+          slug: "logistics-supply-chain",
+          description:
+            "Supply chain, logistics, operations, and industrial engineering specialists.",
+        },
+        {
+          icon: Banknote,
+          label: "Finance & Accounting",
+          slug: "financial-services",
+          description: "Banking, fintech, accounting, and financial advisory talent.",
+        },
+        {
+          icon: ShoppingBag,
+          label: "Retail & E-Commerce",
+          slug: "retail-ecommerce",
+          description: "Omnichannel retail, e-commerce, and consumer goods leadership.",
+        },
+        {
+          icon: Building2,
+          label: "Professional Services",
+          slug: "professional-services",
+          description: "Consulting, legal, and business services professionals.",
+        },
+      ];
 
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string>("hero");
@@ -345,18 +346,16 @@ function Index() {
               className="group relative flex items-center"
             >
               <span
-                className={`absolute right-6 whitespace-nowrap rounded-sm bg-foreground px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-background opacity-0 transition group-hover:opacity-100 ${
-                  isActive ? "opacity-100" : ""
-                }`}
+                className={`absolute right-6 whitespace-nowrap rounded-sm bg-foreground px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-background opacity-0 transition group-hover:opacity-100 ${isActive ? "opacity-100" : ""
+                  }`}
               >
                 {sectionLabels[id]}
               </span>
               <span
-                className={`block transition-all duration-300 ${
-                  isActive
+                className={`block transition-all duration-300 ${isActive
                     ? "h-6 w-[3px] bg-accent"
                     : "h-2.5 w-2.5 rounded-full border border-foreground/40 bg-transparent hover:bg-foreground/40"
-                }`}
+                  }`}
               />
             </button>
           );
@@ -409,11 +408,10 @@ function Index() {
                   <button
                     key={ds.title}
                     onClick={() => setActiveService(idx)}
-                    className={`group relative text-left py-3 px-4 sm:py-4 sm:px-6 border-l-2 -ml-[2px] transition duration-300 ${
-                      isActive
+                    className={`group relative text-left py-3 px-4 sm:py-4 sm:px-6 border-l-2 -ml-[2px] transition duration-300 ${isActive
                         ? "border-primary bg-surface/50 text-foreground font-semibold"
                         : "border-transparent text-muted-foreground hover:text-foreground hover:bg-surface/20"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-3">
                       <span
@@ -506,40 +504,36 @@ function Index() {
       {/* ============== INDUSTRIES — IMMERSIVE SECTOR SHOWCASE ============== */}
       <section
         id="industries"
-        className="relative w-full bg-[#080a0f] text-white py-20 md:py-28 lg:py-36 overflow-hidden"
+        className="relative w-full bg-surface text-foreground py-20 md:py-28 lg:py-36 overflow-hidden"
       >
-        {/* Ambient glow effects */}
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-500/[0.04] rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/[0.03] rounded-full blur-[100px] pointer-events-none" />
-
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           {/* Section Header */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16 lg:mb-20">
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-3 mb-5">
-                <span className="h-px w-8 bg-amber-400" />
-                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] text-amber-400">
+                <span className="h-px w-8 bg-primary" />
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] text-primary">
                   {copy.industries_eyebrow}
                 </span>
               </div>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.1]">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1]">
                 {copy.industries_heading}
               </h2>
-              <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed max-w-xl">
+              <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
                 {copy.industries_intro}
               </p>
             </div>
             <Link
               to="/industries"
-              className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-400 hover:text-amber-300 transition-colors shrink-0 self-start md:self-auto"
+              className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary hover:opacity-85 transition-opacity shrink-0 self-start md:self-auto"
             >
               View all sectors
               <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          {/* Immersive Card Grid */}
-          <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Microsoft-Style Card Grid */}
+          <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {liveIndustries.map((ind: any, index: number) => {
               const INDUSTRY_PHOTOS: Record<string, string> = {
                 "technology-software": "photo-1519389950473-47ba0277781c",
@@ -549,58 +543,53 @@ function Index() {
               };
               const photoId = INDUSTRY_PHOTOS[ind.slug] || "photo-1486406146926-c627a92ad1ab";
               const imgSrc = `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=900&q=70`;
-              const num = String(index + 1).padStart(2, "0");
 
-              // First card spans 2 cols on large screens for visual interest
-              const isFeature = index === 0;
-              const colSpan = isFeature ? "sm:col-span-2 lg:col-span-2" : "";
-              const aspectClass = isFeature
-                ? "aspect-[16/9] sm:aspect-[2/1] lg:aspect-[2.4/1]"
-                : "aspect-[4/3] sm:aspect-[3/4] lg:aspect-[4/3]";
+              const IconComponent = ind.icon || Building2;
 
               return (
                 <Link
                   key={ind.slug}
                   to={`/industries/${ind.slug}`}
-                  className={`group relative overflow-hidden rounded-xl ${aspectClass} ${colSpan} w-full cursor-pointer block`}
+                  className="group relative flex flex-col justify-between bg-card border border-border rounded-none overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/30 w-full cursor-pointer"
                 >
-                  {/* Full-bleed background image */}
-                  <img
-                    src={imgSrc}
-                    alt={ind.label}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
-                  />
+                  {/* Top slide-in line accent focus indicator */}
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 z-10" />
 
-                  {/* Multi-layer gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-colors duration-500 group-hover:from-black/80 group-hover:via-black/30" />
+                  <div>
+                    {/* Top cover image */}
+                    <div className="aspect-[16/9] w-full overflow-hidden bg-muted">
+                      <img
+                        src={imgSrc}
+                        alt={ind.label}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-101"
+                      />
+                    </div>
 
-                  {/* Animated accent border on hover */}
-                  <div className="absolute inset-0 rounded-xl border border-white/0 group-hover:border-amber-400/40 transition-all duration-500" />
+                    {/* Content */}
+                    <div className="p-6 md:p-8 flex flex-col">
+                      <div className="flex items-center gap-2 mb-3">
+                        <IconComponent className="h-4 w-4 text-primary shrink-0" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">
+                          Industry Sector
+                        </span>
+                      </div>
 
-                  {/* Content */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-6 lg:p-8 z-10">
-                    {/* Index number — floats top-right */}
-                    <span className="absolute top-5 right-5 sm:top-6 sm:right-6 lg:top-8 lg:right-8 font-display text-4xl sm:text-5xl lg:text-6xl font-black text-white/[0.06] group-hover:text-amber-400/20 transition-colors duration-700 select-none leading-none">
-                      {num}
-                    </span>
-
-                    {/* Title & description */}
-                    <div>
-                      <h3 className="font-display text-lg sm:text-xl lg:text-2xl font-bold text-white group-hover:text-amber-400 transition-colors duration-300 leading-tight">
+                      <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary leading-tight">
                         {ind.label}
                       </h3>
-                      <p className="mt-2 text-xs sm:text-sm text-gray-300/80 line-clamp-2 max-w-md leading-relaxed opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
+
+                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed line-clamp-3">
                         {ind.description}
                       </p>
                     </div>
+                  </div>
 
-                    {/* Explore link — slides in on hover */}
-                    <div className="mt-4 flex items-center gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
-                      <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-amber-400">
-                        Explore sector
-                      </span>
-                      <ArrowRight className="h-3.5 w-3.5 text-amber-400 group-hover:translate-x-1 transition-transform duration-300" />
+                  {/* bottom link aligned with chevron */}
+                  <div className="px-6 pb-6 md:px-8 md:pb-8 pt-0">
+                    <div className="flex items-center gap-1.5 text-sm font-bold text-primary">
+                      <span className="group-hover:underline">Explore sector</span>
+                      <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1 duration-300" />
                     </div>
                   </div>
                 </Link>
@@ -611,71 +600,108 @@ function Index() {
       </section>
 
       {/* ============== PROCESS ============== */}
-      <section id="process" className="relative w-full py-20 md:py-28 overflow-hidden">
-        {/* Section background image */}
-        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.35] dark:opacity-[0.45] pointer-events-none">
-          <img
-            src="/how-we-work-bg.jpg"
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
-        </div>
+      <section id="process" className="relative w-full py-20 md:py-28 bg-background border-t border-border">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              <span className="h-px w-8 bg-primary" />
-              {copy.process_eyebrow}
-              <span className="h-px w-8 bg-primary" />
+          <div className="max-w-6xl mx-auto mb-16">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border pb-8">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary block mb-3">
+                  {copy.process_eyebrow || "Our Methodology"}
+                </span>
+                <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
+                  {copy.process_heading || "How We"}{" "}
+                  <span className="text-primary">{copy.process_heading_accent || "Work"}</span>
+                </h2>
+              </div>
+              <p className="text-muted-foreground max-w-md text-sm md:text-base leading-relaxed">
+                We combine industry-leading search methodology with deep technical screening to deliver top talent at scale.
+              </p>
             </div>
-            <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-              {copy.process_heading}{" "}
-              <span className="text-primary">{copy.process_heading_accent}</span>
-            </h2>
           </div>
 
-          <div className="relative mt-16 grid gap-0 border-t border-l border-border md:grid-cols-3">
-            {process.map((p) => {
-              const isOpen = activeStep === p.step;
-              return (
-                <div
-                  key={p.step}
-                  onClick={() => setActiveStep(activeStep === p.step ? null : p.step)}
-                  className="border-b border-r border-border bg-card p-8 md:p-10 cursor-pointer select-none md:cursor-default"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-baseline gap-4">
-                      <span className="font-display text-5xl font-bold text-primary/15">
-                        {p.step}
-                      </span>
-                      <p.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    {/* Expand icon for mobile only */}
-                    <div
-                      className="md:hidden text-primary transition-transform duration-300"
-                      style={{ transform: isOpen ? "rotate(90deg)" : "rotate(0deg)" }}
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </div>
-                  </div>
-                  <h3 className="mt-4 font-display text-2xl font-bold">{p.title}</h3>
-                  <div
-                    className={`transition-all duration-300 ease-in-out overflow-hidden md:max-h-none ${
-                      isOpen
-                        ? "max-h-40 mt-3 opacity-100"
-                        : "max-h-0 md:max-h-none mt-0 md:mt-3 opacity-0 md:opacity-100"
-                    }`}
-                  >
-                    <p className="text-muted-foreground">{p.desc}</p>
-                  </div>
+          <div className="max-w-6xl mx-auto grid gap-8 lg:grid-cols-3 items-stretch">
+            {/* Column 1 (Left / Step 1) - Tall vertical cover card */}
+            <div className="group relative flex flex-col justify-end overflow-hidden rounded-2xl bg-card border border-border min-h-[480px] lg:min-h-full aspect-[3/4] lg:aspect-auto transition-all duration-500 hover:shadow-xl hover:border-primary/20 cursor-pointer">
+              {/* Full-bleed background image */}
+              <img
+                src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80"
+                alt={process[0]?.title || "Discovery"}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
+              />
+              {/* Dark gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-colors duration-500 group-hover:from-black/100 group-hover:via-black/50" />
+              
+              {/* Top-right play overlay badge */}
+              <div className="absolute top-6 right-6 flex items-center justify-center h-12 w-12 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white transition-all duration-300 group-hover:bg-primary group-hover:border-primary group-hover:scale-110 shadow-lg">
+                <Play className="h-5 w-5 fill-current ml-0.5" />
+              </div>
+
+              {/* Content overlayed at bottom */}
+              <div className="relative p-8 z-10">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary block mb-2">
+                  Step {process[0]?.step || "01"} / Discovery
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight group-hover:text-primary transition-colors duration-300">
+                  {process[0]?.title || "Discovery & Workforce Planning"}
+                </h3>
+                <p className="mt-3 text-sm text-gray-300/80 leading-relaxed line-clamp-3">
+                  {process[0]?.desc || "We align with your business objectives, workforce challenges, and long-term hiring goals."}
+                </p>
+              </div>
+            </div>
+
+            {/* Column 2 (Middle / Step 2) - Top-text, bottom-image card */}
+            <div className="group flex flex-col justify-between overflow-hidden rounded-2xl bg-card border border-border p-8 transition-all duration-500 hover:shadow-xl hover:border-primary/20 cursor-pointer">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary block mb-2">
+                  Step {process[1]?.step || "02"} / Strategy
+                </span>
+                <h3 className="font-serif text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
+                  {process[1]?.title || "Talent Sourcing & Mapping"}
+                </h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                  {process[1]?.desc || "Market research, targeted sourcing, screening, and shortlisting through our global network."}
+                </p>
+              </div>
+              <div className="mt-8 overflow-hidden rounded-xl aspect-[16/10] bg-muted border border-border">
+                <img
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+                  alt={process[1]?.title || "Sourcing"}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-103"
+                />
+              </div>
+            </div>
+
+            {/* Column 3 (Right / Step 3) - Top-text, bottom-image card with play overlay */}
+            <div className="group flex flex-col justify-between overflow-hidden rounded-2xl bg-card border border-border p-8 transition-all duration-500 hover:shadow-xl hover:border-primary/20 cursor-pointer">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary block mb-2">
+                  Step {process[2]?.step || "03"} / Execution
+                </span>
+                <h3 className="font-serif text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
+                  {process[2]?.title || "Interview, Offer & Onboarding"}
+                </h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                  {process[2]?.desc || "Coordinated interviews, offer management, and onboarding support for a smooth start."}
+                </p>
+              </div>
+              <div className="relative mt-8 overflow-hidden rounded-xl aspect-[16/10] bg-muted border border-border">
+                <img
+                  src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
+                  alt={process[2]?.title || "Onboarding"}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-103"
+                />
+                <div className="absolute top-4 right-4 flex items-center justify-center h-10 w-10 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white transition-all duration-300 group-hover:bg-primary group-hover:border-primary group-hover:scale-110 shadow-lg">
+                  <Play className="h-4.5 w-4.5 fill-current ml-0.5" />
                 </div>
-              );
-            })}
+            </div>
           </div>
+        </div>
 
-          <div className="mt-12 grid gap-8 border-l-4 border-accent bg-card p-8 md:grid-cols-2 md:items-center md:p-10">
+        <div className="mt-12 grid gap-8 border-l-4 border-accent bg-card p-8 md:grid-cols-2 md:items-center md:p-10">
             <div>
               <h3 className="font-display text-2xl font-bold">{copy.why_heading}</h3>
               <p className="mt-2 text-muted-foreground">{copy.why_intro}</p>
