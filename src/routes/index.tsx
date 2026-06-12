@@ -831,77 +831,100 @@ function Index() {
         </div>
       </section>
 
-      {/* ============== TESTIMONIALS (Virelix/Who We Are style) ============== */}
+      {/* ============== TESTIMONIALS (Overlapping Who We Are style) ============== */}
       <section
         id="testimonials"
-        className="relative w-full bg-[#fcfbfa] dark:bg-slate-950/30 py-20 md:py-28 overflow-hidden border-y border-slate-200/60 dark:border-slate-800"
+        className="relative w-full bg-[#f9f8f6] dark:bg-slate-900/60 py-24 overflow-hidden border-b border-slate-200/60 dark:border-slate-800"
       >
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-3 border-l-2 border-[#0076CE] pl-3 text-xs font-bold uppercase tracking-[0.2em] text-[#0076CE] dark:text-[#38bdf8]">
-              {copy.testimonials_eyebrow}
+        <div className="container mx-auto px-4 max-w-6xl relative z-10">
+          {/* Header row offset to the right */}
+          <div className="flex justify-end mb-12">
+            <div className="w-full lg:w-2/3 text-left">
+              <span className="text-[#0076CE] dark:text-[#38bdf8] text-xs font-bold uppercase tracking-[0.2em]">
+                {copy.testimonials_eyebrow}
+              </span>
+              <h2 className="font-serif text-3xl md:text-5xl text-[#2b2b2b] dark:text-white tracking-tight mt-2 leading-tight">
+                {copy.testimonials_heading}
+              </h2>
             </div>
-            <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl leading-tight">
-              {copy.testimonials_heading}
-            </h2>
           </div>
 
-          {/* Desktop Grid Layout */}
-          <div className="mt-12 hidden md:grid gap-0 border-t border-l border-slate-200/80 dark:border-slate-800 md:grid-cols-3">
-            {liveTestimonials.map((t: any) => (
-              <figure
-                key={t.name}
-                className="flex flex-col border-b border-r border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 p-8"
-              >
-                <Quote className="h-7 w-7 text-[#0076CE]/30 dark:text-[#38bdf8]/30" />
-                <div className="mt-3 flex gap-0.5 text-[#FDB913]">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" />
-                  ))}
-                </div>
-                <blockquote className="mt-5 flex-1 text-base leading-relaxed text-slate-700 dark:text-slate-300">
-                  "{t.quote}"
-                </blockquote>
-                <figcaption className="mt-6 border-t border-slate-100 dark:border-slate-800/80 pt-4">
-                  <p className="font-semibold text-slate-900 dark:text-white">{t.name}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{t.role}</p>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+          <div className="relative">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Tall Portrait Image on Left */}
+              <div className="lg:col-span-4 rounded-lg overflow-hidden shadow-lg h-[520px] hidden lg:block border border-slate-100 dark:border-slate-800">
+                <img 
+                  src="https://images.unsplash.com/photo-1573497161161-c3e73707e25c?auto=format&fit=crop&w=600&h=900&q=80" 
+                  alt="Client success and partnership" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-          {/* Mobile Auto-Scrolling Layout */}
-          <div className="mt-8 md:hidden overflow-hidden relative w-full border-y border-slate-200/80 dark:border-slate-800 py-4">
-            <div
-              className="animate-marquee flex gap-4"
-              style={{
-                animationPlayState: isTestimonialsPaused ? "paused" : "running",
-              }}
-              onMouseEnter={() => setIsTestimonialsPaused(true)}
-              onMouseLeave={() => setIsTestimonialsPaused(false)}
-              onTouchStart={() => setIsTestimonialsPaused(true)}
-              onTouchEnd={() => setIsTestimonialsPaused(false)}
-            >
-              {[...liveTestimonials, ...liveTestimonials].map((t: any, idx: number) => (
-                <figure
-                  key={`${t.name}-${idx}`}
-                  className="flex flex-col bg-white dark:bg-slate-950 p-6 w-[280px] shrink-0 border border-slate-200/80 dark:border-slate-800 shadow-sm rounded-none"
-                >
-                  <Quote className="h-6 w-6 text-[#0076CE]/30 dark:text-[#38bdf8]/30" />
-                  <div className="mt-2 flex gap-0.5 text-[#FDB913]">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <blockquote className="mt-3 flex-1 text-sm leading-relaxed line-clamp-4 text-slate-700 dark:text-slate-300">
-                    "{t.quote}"
-                  </blockquote>
-                  <figcaption className="mt-4 border-t border-slate-100 dark:border-slate-800/80 pt-3">
-                    <p className="font-semibold text-sm text-slate-900 dark:text-white">{t.name}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{t.role}</p>
-                  </figcaption>
-                </figure>
-              ))}
+              {/* Three Overlapping Testimonial Cards */}
+              <div className="lg:col-span-8 lg:-ml-24 lg:mt-16 z-10 hidden md:grid grid-cols-1 md:grid-cols-3 gap-6">
+                {liveTestimonials.slice(0, 3).map((t: any, idx: number) => {
+                  const COVER_IMAGES = [
+                    "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&h=250&q=80",
+                    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&h=250&q=80",
+                    "https://images.unsplash.com/photo-1580894732444-8fecef2271ff?auto=format&fit=crop&w=400&h=250&q=80"
+                  ];
+                  return (
+                    <figure
+                      key={t.name}
+                      className="bg-white dark:bg-slate-950 p-0 rounded-lg shadow-md border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between min-h-[380px] hover:translate-y-[-4px] transition duration-300 overflow-hidden"
+                    >
+                      <div className="aspect-[16/10] w-full overflow-hidden bg-slate-100">
+                        <img 
+                          src={COVER_IMAGES[idx % COVER_IMAGES.length]} 
+                          alt={t.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-6 flex flex-col justify-between flex-grow">
+                        <div className="space-y-3">
+                          <div className="flex gap-0.5 text-[#FDB913]">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <Star key={i} className="h-3.5 w-3.5 fill-current" />
+                            ))}
+                          </div>
+                          <blockquote className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed font-light italic">
+                            "{t.quote}"
+                          </blockquote>
+                        </div>
+                        <figcaption className="mt-4 border-t border-slate-100 dark:border-slate-800/80 pt-3">
+                          <p className="font-semibold text-xs text-slate-900 dark:text-white">{t.name}</p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400">{t.role}</p>
+                        </figcaption>
+                      </div>
+                    </figure>
+                  );
+                })}
+              </div>
+
+              {/* Mobile and Fallback Stack for non-large views */}
+              <div className="md:hidden space-y-6">
+                {liveTestimonials.slice(0, 3).map((t: any) => (
+                  <figure
+                    key={t.name}
+                    className="bg-white dark:bg-slate-950 p-6 rounded-lg shadow-md border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex gap-0.5 text-[#FDB913]">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} className="h-3.5 w-3.5 fill-current" />
+                        ))}
+                      </div>
+                      <blockquote className="mt-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300 italic">
+                        "{t.quote}"
+                      </blockquote>
+                    </div>
+                    <figcaption className="mt-4 border-t border-slate-100 dark:border-slate-800/80 pt-3">
+                      <p className="font-semibold text-xs text-slate-900 dark:text-white">{t.name}</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400">{t.role}</p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
             </div>
           </div>
         </div>
