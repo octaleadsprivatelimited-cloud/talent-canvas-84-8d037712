@@ -1,18 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { firebase } from "@/integrations/firebase/client";
 import { toast } from "sonner";
 import { useRole } from "@/hooks/use-role";
-import { AlertTriangle, Lock, Mail, Chrome } from "lucide-react";
+import { AlertTriangle, Chrome } from "lucide-react";
 
 function LoginPage() {
   const [formSubmitting, setFormSubmitting] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [activePortal, setActivePortal] = useState<"candidate" | "admin">("candidate");
   const navigate = useNavigate();
   const { user, loading, role, hasAdminAccess } = useRole();
 
@@ -23,7 +18,7 @@ function LoginPage() {
     if (user) {
       console.log(`User authenticated: ${user.email}`);
       console.log(`Retrieved role: ${role}`);
-      console.log(`Redirecting to: ${hasAdminAccess ? "/dock" : "/candidate-dashboard"}`);
+      console.log(`Redirecting to: ${hasAdminAccess ? "/dock" : "/dashboard"}`);
       if (hasAdminAccess) {
         navigate("/dock");
       } else {
@@ -55,31 +50,6 @@ function LoginPage() {
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Authentication failed";
       toast.error(msg);
-    } finally {
-      setFormSubmitting(false);
-    }
-  };
-
-  const handlePasswordSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
-      toast.error("Please enter email and password");
-      return;
-    }
-    setFormSubmitting(true);
-    try {
-      const { data, error } = await firebase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) {
-        toast.error(error.message || "Invalid credentials");
-      } else if (data?.user) {
-        toast.success("Successfully signed in as Admin!");
-        // Redirection is handled by the useEffect redirect watcher
-      }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Sign in failed");
     } finally {
       setFormSubmitting(false);
     }
@@ -139,90 +109,18 @@ function LoginPage() {
         )}
 
         <div className="rounded-2xl border border-border/60 bg-card/70 p-8 shadow-xl backdrop-blur flex flex-col items-center">
-          {/* Toggle Tabs */}
-          <div className="flex border-b border-border/60 mb-8 w-full">
-            <button
-              onClick={() => setActivePortal("candidate")}
-              className={`flex-1 pb-3 text-[11px] font-bold uppercase tracking-[0.2em] border-b-2 transition-all cursor-pointer ${
-                activePortal === "candidate"
-                  ? "border-primary text-primary"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Candidate Portal
-            </button>
-            <button
-              onClick={() => setActivePortal("admin")}
-              className={`flex-1 pb-3 text-[11px] font-bold uppercase tracking-[0.2em] border-b-2 transition-all cursor-pointer ${
-                activePortal === "admin"
-                  ? "border-primary text-primary"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Admin Login
-            </button>
-          </div>
-
-          {activePortal === "candidate" ? (
-            /* Candidate Portal View */
-            <div className="w-full flex flex-col items-center">
-              <p className="text-xs text-center text-muted-foreground mb-8 leading-relaxed">
-                Connect your Google account to submit applications, save jobs, and manage your placement profile.
-              </p>
-              <Button
-                type="button"
-                onClick={signInWithGoogle}
-                disabled={formSubmitting}
-                className="w-full py-6 text-[11px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3 cursor-pointer"
-              >
-                <Chrome className="h-4 w-4 shrink-0" />
-                {formSubmitting ? "Connecting…" : "Sign in with Google"}
-              </Button>
-            </div>
-          ) : (
-            /* Admin Login View */
-            <form onSubmit={handlePasswordSignIn} className="w-full space-y-4">
-              <div className="space-y-1.5">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="admin.virelixconsulting@gmail.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10"
-                    required
-                  />
-                </div>
-              </div>
-
-              <Button
-                type="submit"
-                disabled={formSubmitting}
-                className="w-full py-6 mt-6 text-[11px] font-bold uppercase tracking-[0.3em] cursor-pointer"
-              >
-                {formSubmitting ? "Signing in…" : "Access Admin Panel"}
-              </Button>
-            </form>
-          )}
+          <p className="text-xs text-center text-muted-foreground mb-8 leading-relaxed">
+            Connect your Google account to access your dashboard, submit applications, and manage your placement profile.
+          </p>
+          <Button
+            type="button"
+            onClick={signInWithGoogle}
+            disabled={formSubmitting}
+            className="w-full py-6 text-[11px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3 cursor-pointer"
+          >
+            <Chrome className="h-4 w-4 shrink-0" />
+            {formSubmitting ? "Connecting…" : "Sign in with Google"}
+          </Button>
         </div>
       </div>
     </main>
