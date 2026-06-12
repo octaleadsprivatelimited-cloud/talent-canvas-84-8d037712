@@ -3,36 +3,7 @@ import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
-
-const DEFAULT_POSTS = [
-  {
-    id: "post-1",
-    title: "Navigating the Executive Talent Search in 2026",
-    slug: "navigating-executive-search-2026",
-    category: "Executive Search",
-    cover_url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=70",
-    excerpt: "Key changes in leadership hiring trends post hybrid-work stabilization, and how top organizations secure Tier-1 talent.",
-    published_at: "2026-06-01T10:00:00Z",
-  },
-  {
-    id: "post-2",
-    title: "RPO vs. Contingent Recruiting: Which Model Fits Your Scale?",
-    slug: "rpo-vs-contingent-recruiting",
-    category: "Recruitment Strategy",
-    cover_url: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=70",
-    excerpt: "An operational comparison between embedded RPO and contingent placements for high-growth hiring.",
-    published_at: "2026-06-02T12:00:00Z",
-  },
-  {
-    id: "post-3",
-    title: "USA-India Global Delivery: The Strategic Advantage",
-    slug: "usa-india-global-delivery-advantage",
-    category: "Workforce Solutions",
-    cover_url: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=70",
-    excerpt: "How leveraging global delivery hubs across North America and South Asia drives 24/7 sourcing efficiency.",
-    published_at: "2026-06-03T09:00:00Z",
-  },
-];
+import { DEFAULT_POSTS } from "@/lib/insights-data";
 
 function InsightsIndex() {
   const { data: dbData } = useFirebaseQuery(["posts"], async () => {
@@ -45,7 +16,12 @@ function InsightsIndex() {
   });
 
   const rawData = dbData ?? [];
-  const data = rawData.length > 0 ? rawData : DEFAULT_POSTS;
+  const data = [...rawData];
+  DEFAULT_POSTS.forEach((item) => {
+    if (!data.some((d) => d.slug === item.slug || d.id === item.id)) {
+      data.push(item);
+    }
+  });
 
   return (
     <>

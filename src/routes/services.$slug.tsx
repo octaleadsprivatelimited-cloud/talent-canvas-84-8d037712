@@ -14,6 +14,7 @@ import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { getServiceImage } from "@/lib/service-images";
 import { useState } from "react";
+import { DEFAULT_CASE_STUDIES } from "@/lib/case-studies-data";
 
 type Service = {
   id: string;
@@ -225,7 +226,14 @@ function ServiceDetail() {
     return <div className="container mx-auto px-4 py-20 text-center">Service not found.</div>;
 
   const additions = SERVICE_ADDITIONS[data.slug];
-  const relatedCaseStudies = (caseStudies ?? []).filter((cs: any) => {
+  const dbCaseStudies = caseStudies ?? [];
+  const mergedCaseStudies = [...dbCaseStudies];
+  DEFAULT_CASE_STUDIES.forEach((item) => {
+    if (!mergedCaseStudies.some((d: any) => d.slug === item.slug || d.id === item.id)) {
+      mergedCaseStudies.push(item);
+    }
+  });
+  const relatedCaseStudies = mergedCaseStudies.filter((cs: any) => {
     if (data.slug === "executive-search")
       return cs.slug.includes("c-suite") || cs.slug.includes("search");
     if (data.slug === "it-recruitment")

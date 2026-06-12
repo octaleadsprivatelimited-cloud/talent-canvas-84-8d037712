@@ -4,36 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { DynamicSeo } from "@/components/dynamic-seo";
-
-const DEFAULT_CASE_STUDIES = [
-  {
-    id: "case-1",
-    title: "Scaling a Unicorn Startup Engineering Team",
-    slug: "scaling-unicorn-startup",
-    client: "Vix Tech Corp",
-    industry: "Technology & Software",
-    cover_url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=70",
-    summary: "How we designed and executed an embedded RPO strategy to hire 45 software engineers in 90 days.",
-  },
-  {
-    id: "case-2",
-    title: "C-Suite Recruiting for a National Logistics Leader",
-    slug: "c-suite-logistics-recruiting",
-    client: "Delaware Supply Chain",
-    industry: "Logistics & Supply Chain",
-    cover_url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=70",
-    summary: "Placing a Chief Operating Officer (COO) and VP of Logistics within a tight 60-day schedule.",
-  },
-  {
-    id: "case-3",
-    title: "Building the Future of Medical Devices",
-    slug: "medical-device-engineering",
-    client: "BioPulse Diagnostics",
-    industry: "Healthcare & Life Sciences",
-    cover_url: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=1200&q=70",
-    summary: "Sourcing and placing highly specialized hardware and embedded software engineers for clinical diagnostic tools.",
-  },
-];
+import { DEFAULT_CASE_STUDIES } from "@/lib/case-studies-data";
 
 function CaseStudiesIndex() {
   const { data: dbData } = useFirebaseQuery(["case_studies"], async () => {
@@ -46,7 +17,12 @@ function CaseStudiesIndex() {
   });
 
   const rawData = dbData ?? [];
-  const data = rawData.length > 0 ? rawData : DEFAULT_CASE_STUDIES;
+  const data = [...rawData];
+  DEFAULT_CASE_STUDIES.forEach((item) => {
+    if (!data.some((d) => d.slug === item.slug || d.id === item.id)) {
+      data.push(item);
+    }
+  });
 
   return (
     <main className="min-h-screen bg-background relative">

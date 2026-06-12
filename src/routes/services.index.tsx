@@ -122,8 +122,8 @@ function ServicesPage() {
         {/* Subtle Dark Overlay */}
         <div className="absolute inset-0 bg-slate-950/20 pointer-events-none" />
         {/* Floating Corporate Blue Title Card */}
-        <div className="absolute left-6 md:left-12 bottom-0 w-[240px] sm:w-[320px] md:w-[420px] h-[65%] sm:h-[75%] bg-primary/95 text-primary-foreground p-6 md:p-10 flex items-end justify-start shadow-2xl z-20 border-t border-r border-white/10">
-          <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-tight text-primary-foreground leading-none">
+        <div className="absolute left-6 md:left-12 bottom-0 w-[240px] sm:w-[320px] md:w-[420px] h-[65%] sm:h-[75%] bg-[#0070ad]/95 text-white p-6 md:p-10 flex items-end justify-start shadow-2xl z-20 border-t border-r border-white/10">
+          <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-tight text-white leading-none">
             Services
           </h1>
         </div>

@@ -1,12 +1,12 @@
+import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Briefcase, Menu, X, Mail } from "lucide-react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 import { firebase } from "@/integrations/firebase/client";
 import { AnimatePresence, motion } from "framer-motion";
+import { Briefcase, Menu, X, Mail, Globe } from "lucide-react";
 
 const navItems = [
   { to: "/services", label: "What We Do" },
@@ -22,12 +22,45 @@ export function Header() {
   const { isAdmin } = useIsAdmin();
   const { data: site } = useSiteSettings();
   const [open, setOpen] = useState(false);
+  const [showTopHeader, setShowTopHeader] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 40) {
+        setShowTopHeader(false);
+      } else {
+        setShowTopHeader(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const brand = site?.brand_name ?? "Virelix Consulting";
   const logoUrl = site?.logo_url;
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background">
+      {/* Scroll-Collapsible Top Utility Header */}
+      <div
+        className={`bg-[#0076CE] text-white transition-all duration-300 overflow-hidden flex items-center ${
+          showTopHeader ? "h-8 border-b border-[#0066b2]" : "h-0 border-b-0"
+        }`}
+      >
+        <div className="container mx-auto px-4 flex justify-between items-center text-[10px] sm:text-[11px] font-medium tracking-wide">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <Mail className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-blue-100/90" />
+            <a href="mailto:info@virelixconsulting.com" className="hover:text-blue-100 transition">
+              info@virelixconsulting.com
+            </a>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <Globe className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-blue-100/90" />
+            <span className="text-white/95">Serving: USA & India</span>
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link
           to="/"
@@ -44,7 +77,6 @@ export function Header() {
               <Briefcase className="h-4 w-4 text-primary-foreground" strokeWidth={2.5} />
             </div>
           )}
-          <span className="text-gradient">{brand}</span>
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">
@@ -82,9 +114,9 @@ export function Header() {
               Sign out
             </Button>
           ) : (
-            <Button size="sm" asChild className="gap-2">
+            <Button size="sm" asChild className="gap-2 bg-[#FDB913] hover:bg-[#E5A80F] text-black font-semibold border-none shadow-sm">
               <Link to="/contact">
-                <Mail className="h-3.5 w-3.5" />
+                <Mail className="h-3.5 w-3.5 text-black" />
                 Hire with us
               </Link>
             </Button>
@@ -192,9 +224,9 @@ export function Header() {
                     Sign out
                   </Button>
                 ) : (
-                  <Button asChild className="gap-2" onClick={() => setOpen(false)}>
+                  <Button asChild className="gap-2 bg-[#FDB913] hover:bg-[#E5A80F] text-black font-semibold border-none shadow-sm" onClick={() => setOpen(false)}>
                     <Link to="/contact">
-                      <Mail className="h-4 w-4" />
+                      <Mail className="h-4 w-4 text-black" />
                       Hire with us
                     </Link>
                   </Button>

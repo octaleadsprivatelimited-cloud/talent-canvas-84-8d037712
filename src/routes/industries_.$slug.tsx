@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Check, Sparkles, Briefcase, TrendingUp, ChevronR
 import * as Icons from "lucide-react";
 import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
+import { DEFAULT_CASE_STUDIES } from "@/lib/case-studies-data";
 
 const INDUSTRY_PHOTOS: Record<string, string> = {
   "technology-software": "photo-1519389950473-47ba0277781c",
@@ -129,32 +130,7 @@ const DEFAULT_INDUSTRIES: Industry[] = [
   },
 ];
 
-const DEFAULT_CASE_STUDIES: CaseStudy[] = [
-  {
-    id: "case-1",
-    title: "Scaling a Unicorn Startup Engineering Team",
-    slug: "scaling-unicorn-startup",
-    client: "Vix Tech Corp",
-    industry: "Technology & Software",
-    summary: "How we designed and executed an embedded RPO strategy to hire 45 software engineers in 90 days.",
-  },
-  {
-    id: "case-2",
-    title: "C-Suite Recruiting for a National Logistics Leader",
-    slug: "c-suite-logistics-recruiting",
-    client: "Delaware Supply Chain",
-    industry: "Logistics & Supply Chain",
-    summary: "Placing a Chief Operating Officer (COO) and VP of Logistics within a tight 60-day schedule.",
-  },
-  {
-    id: "case-3",
-    title: "Building the Future of Medical Devices",
-    slug: "medical-device-engineering",
-    client: "BioPulse Diagnostics",
-    industry: "Healthcare & Life Sciences",
-    summary: "Sourcing and placing highly specialized hardware and embedded software engineers for clinical diagnostic tools.",
-  },
-];
+
 
 type CaseStudy = {
   id: string;
@@ -217,7 +193,13 @@ function IndustryDetailComponent() {
     );
 
   const rawRelated = dbRelated ?? { caseStudies: [], jobs: [] };
-  const relatedCaseStudiesData = rawRelated.caseStudies.length > 0 ? rawRelated.caseStudies : DEFAULT_CASE_STUDIES;
+  const dbCaseStudies = rawRelated.caseStudies ?? [];
+  const relatedCaseStudiesData = [...dbCaseStudies];
+  DEFAULT_CASE_STUDIES.forEach((item) => {
+    if (!relatedCaseStudiesData.some((d) => d.slug === item.slug || d.id === item.id)) {
+      relatedCaseStudiesData.push(item);
+    }
+  });
   const relatedJobsData = rawRelated.jobs;
 
   const serif = {};

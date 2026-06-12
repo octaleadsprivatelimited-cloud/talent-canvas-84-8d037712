@@ -388,9 +388,16 @@ function Index() {
               <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
                 {copy.services_eyebrow}
               </div>
-              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-                {copy.services_heading}{" "}
-                <span className="text-primary">{copy.services_heading_accent}</span>
+              <h2 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.2]">
+                <span className="block md:inline font-semibold">
+                  {copy.services_heading}{" "}
+                </span>
+                <span className="relative inline-block mt-1 md:mt-0">
+                  <span className="relative z-10 bg-gradient-to-r from-[#0076CE] via-blue-600 to-indigo-600 dark:from-[#38bdf8] dark:to-indigo-400 bg-clip-text text-transparent font-extrabold">
+                    {copy.services_heading_accent}
+                  </span>
+                  <span className="absolute left-0 bottom-1.5 w-full h-[6px] bg-[#FDB913]/90 rounded-sm z-0" />
+                </span>
               </h2>
             </div>
             <div className="md:col-span-5">
@@ -490,9 +497,9 @@ function Index() {
                   </div>
                   <Link
                     to="/services"
-                    className="text-xs font-bold uppercase tracking-wider text-primary hover:underline inline-flex items-center gap-1.5"
+                    className="text-xs font-bold uppercase tracking-wider text-[#FDB913] hover:text-[#E5A80F] hover:underline inline-flex items-center gap-1.5 transition-colors duration-200"
                   >
-                    Explore solutions portfolio <ArrowUpRight className="h-4 w-4" />
+                    Explore solutions portfolio <ArrowUpRight className="h-4 w-4 text-[#FDB913]" />
                   </Link>
                 </div>
               </div>
@@ -509,15 +516,23 @@ function Index() {
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           {/* Section Header */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16 lg:mb-20">
-            <div className="max-w-2xl">
+            <div className="max-w-4xl">
               <div className="inline-flex items-center gap-3 mb-5">
                 <span className="h-px w-8 bg-primary" />
                 <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] text-primary">
                   {copy.industries_eyebrow}
                 </span>
               </div>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1]">
-                {copy.industries_heading}
+              <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.8] sm:leading-[1.9] lg:leading-[2.0]">
+                <span className="inline-block whitespace-nowrap bg-[#bae6fd] text-black px-1.5 py-0 rounded shadow-sm">
+                  Deep specialization
+                </span>{" "}
+                <span className="inline sm:whitespace-nowrap">in the sectors</span>
+                <br />
+                shaping the{" "}
+                <span className="inline-block whitespace-nowrap bg-[#bae6fd] text-black px-1.5 py-0 rounded shadow-sm">
+                  next decade.
+                </span>
               </h2>
               <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
                 {copy.industries_intro}
@@ -587,9 +602,9 @@ function Index() {
 
                   {/* bottom link aligned with chevron */}
                   <div className="px-6 pb-6 md:px-8 md:pb-8 pt-0">
-                    <div className="flex items-center gap-1.5 text-sm font-bold text-primary">
-                      <span className="group-hover:underline">Explore sector</span>
-                      <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1 duration-300" />
+                    <div className="inline-flex w-full items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider bg-transparent border border-[#0076CE]/30 group-hover:border-[#0076CE] group-hover:bg-[#0076CE]/5 text-[#0076CE] py-3 px-4 rounded-lg transition-all duration-300">
+                      Explore sector
+                      <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 duration-300" />
                     </div>
                   </div>
                 </Link>
@@ -608,9 +623,11 @@ function Index() {
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary block mb-3">
                   {copy.process_eyebrow || "Our Methodology"}
                 </span>
-                <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
+                <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-foreground leading-relaxed">
                   {copy.process_heading || "How We"}{" "}
-                  <span className="text-primary">{copy.process_heading_accent || "Work"}</span>
+                  <span className="inline-block bg-[#FDB913] text-black px-3.5 py-1.5 rounded-lg font-bold shadow-sm border-none">
+                    {copy.process_heading_accent || "Work"}
+                  </span>
                 </h2>
               </div>
               <p className="text-muted-foreground max-w-md text-sm md:text-base leading-relaxed">
@@ -632,10 +649,7 @@ function Index() {
               {/* Dark gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-colors duration-500 group-hover:from-black/100 group-hover:via-black/50" />
               
-              {/* Top-right play overlay badge */}
-              <div className="absolute top-6 right-6 flex items-center justify-center h-12 w-12 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white transition-all duration-300 group-hover:bg-primary group-hover:border-primary group-hover:scale-110 shadow-lg">
-                <Play className="h-5 w-5 fill-current ml-0.5" />
-              </div>
+
 
               {/* Content overlayed at bottom */}
               <div className="relative p-8 z-10">
@@ -651,20 +665,20 @@ function Index() {
               </div>
             </div>
 
-            {/* Column 2 (Middle / Step 2) - Top-text, bottom-image card */}
-            <div className="group flex flex-col justify-between overflow-hidden rounded-2xl bg-card border border-border p-8 transition-all duration-500 hover:shadow-xl hover:border-primary/20 cursor-pointer">
+            {/* Column 2 (Middle / Step 2) - Top-text, bottom-image card in Dell blue background */}
+            <div className="group flex flex-col justify-between overflow-hidden rounded-2xl bg-[#0076CE] border border-[#0066b2] p-8 transition-all duration-500 hover:shadow-xl hover:border-[#005290] cursor-pointer">
               <div>
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary block mb-2">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-blue-100 block mb-2">
                   Step {process[1]?.step || "02"} / Strategy
                 </span>
-                <h3 className="font-serif text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
+                <h3 className="font-serif text-2xl font-bold tracking-tight text-white transition-colors duration-300">
                   {process[1]?.title || "Talent Sourcing & Mapping"}
                 </h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                <p className="mt-3 text-sm text-blue-50/90 leading-relaxed">
                   {process[1]?.desc || "Market research, targeted sourcing, screening, and shortlisting through our global network."}
                 </p>
               </div>
-              <div className="mt-8 overflow-hidden rounded-xl aspect-[16/10] bg-muted border border-border">
+              <div className="mt-8 overflow-hidden rounded-xl aspect-[16/10] bg-blue-900/40 border border-white/10">
                 <img
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
                   alt={process[1]?.title || "Sourcing"}
@@ -694,9 +708,7 @@ function Index() {
                   loading="lazy"
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-103"
                 />
-                <div className="absolute top-4 right-4 flex items-center justify-center h-10 w-10 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white transition-all duration-300 group-hover:bg-primary group-hover:border-primary group-hover:scale-110 shadow-lg">
-                  <Play className="h-4.5 w-4.5 fill-current ml-0.5" />
-                </div>
+
             </div>
           </div>
         </div>

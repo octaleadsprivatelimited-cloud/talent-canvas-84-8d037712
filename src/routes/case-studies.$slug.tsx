@@ -3,75 +3,8 @@ import { useFirebaseQuery } from "@/hooks/use-firebase-query";
 import { firebase } from "@/integrations/firebase/client";
 import { PageHero } from "@/components/page-hero";
 import { ArrowRight } from "lucide-react";
-
-const DEFAULT_CASE_STUDIES = [
-  {
-    id: "case-1",
-    title: "Scaling a Unicorn Startup Engineering Team",
-    slug: "scaling-unicorn-startup",
-    client: "Vix Tech Corp",
-    industry: "Technology & Software",
-    cover_url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=70",
-    summary: "How we designed and executed an embedded RPO strategy to hire 45 software engineers in 90 days.",
-    body: `### Background & Challenge
-Vix Tech Corp, a fast-scaling tech platform, secured their Series B funding and needed to double their engineering team. They faced severe recruitment bottlenecking and high agency fees. The goal was to hire 45 high-caliber software engineers, including senior cloud architects and frontend leads, within 90 days.
-
-### The Solution
-We deployed an embedded Recruitment Process Outsourcing (RPO) team comprising three senior recruiters and two sourcers. Our team fully integrated into Vix Tech’s Slack, Jira, and ATS systems. We established a structured vetting pipeline, streamlined interview processes, and leveraged our global talent network across the USA and India.
-
-### Results
-Within 90 days, we successfully filled all 45 engineering positions. The embedded model allowed us to build a sustainable talent pipeline and reduce recruitment agency spend by over 60%. Time-to-hire dropped from 48 days to 26 days.`,
-    results: [
-      { label: "Hires Completed", value: "45" },
-      { label: "Avg. Time to Hire", value: "26 Days" },
-      { label: "Cost Savings", value: "62%" },
-    ],
-  },
-  {
-    id: "case-2",
-    title: "C-Suite Recruiting for a National Logistics Leader",
-    slug: "c-suite-logistics-recruiting",
-    client: "Delaware Supply Chain",
-    industry: "Logistics & Supply Chain",
-    cover_url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=70",
-    summary: "Placing a Chief Operating Officer (COO) and VP of Logistics within a tight 60-day schedule.",
-    body: `### Background & Challenge
-Delaware Supply Chain, a national logistics operator, faced a sudden vacancy in their Chief Operating Officer position during a period of rapid expansion. They needed an experienced operational leader who could oversee 12 distribution centers and manage a team of 400+ personnel.
-
-### The Solution
-We launched a target-focused executive search engagement. Our senior partners conducted extensive talent mapping across competing tier-one logistics and supply chain enterprises in North America. We identified 18 highly qualified passive candidates, conducting detailed competency-based assessments and cultural alignment evaluations.
-
-### Results
-We presented a shortlist of 4 qualified candidates within 25 days. The chosen candidate, a seasoned logistics VP, accepted the COO offer and started onboarding within 50 days of contract signing. We subsequently placed their new VP of Logistics, compounding their operational leadership.`,
-    results: [
-      { label: "Positions Placed", value: "2" },
-      { label: "Search Duration", value: "42 Days" },
-      { label: "Candidate Fit Rate", value: "100%" },
-    ],
-  },
-  {
-    id: "case-3",
-    title: "Building the Future of Medical Devices",
-    slug: "medical-device-engineering",
-    client: "BioPulse Diagnostics",
-    industry: "Healthcare & Life Sciences",
-    cover_url: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=1200&q=70",
-    summary: "Sourcing and placing highly specialized hardware and embedded software engineers for clinical diagnostic tools.",
-    body: `### Background & Challenge
-BioPulse Diagnostics was developing a next-generation clinical diagnostic tool. They required a team of 6 specialist engineers with experience in FDA-regulated embedded software and microfluidics. These roles had been open for over six months due to the extreme scarcity of regional talent.
-
-### The Solution
-We initiated a global talent search utilizing our delivery hubs in both the USA and India. By searching globally, we identified candidates with the precise scientific credentials required. We managed the entire interview logistics, technical screen coordination, and immigration/relocation compliance.
-
-### Results
-All 6 engineering seats were filled within 75 days, with 4 US-based hires and 2 offshore senior systems developers. The product launch timeline remained on schedule, and BioPulse successfully completed its FDA submission.`,
-    results: [
-      { label: "Specialists Placed", value: "6" },
-      { label: "Relocation Rate", value: "100%" },
-      { label: "Retention (1 yr)", value: "95%" },
-    ],
-  },
-];
+import { DEFAULT_CASE_STUDIES } from "@/lib/case-studies-data";
+import { DynamicSeo } from "@/components/dynamic-seo";
 
 function parseMarkdown(text: string | null) {
   if (!text) return null;
@@ -142,6 +75,11 @@ function CaseStudyDetail() {
 
   return (
     <main className="min-h-screen bg-background relative">
+      <DynamicSeo
+        pageKey={`case-study:${data.slug}`}
+        fallbackTitle={`${data.title} | Case Studies — Virelix Consulting`}
+        fallbackDescription={data.summary || undefined}
+      />
       {/* Sub-header Bar (Breadcrumbs & CTA) */}
       <div className="bg-slate-900/90 dark:bg-slate-950 text-slate-300 py-3.5 px-6 md:px-12 flex justify-between items-center text-xs border-b border-slate-800">
         <div className="flex items-center gap-1.5 font-medium">
