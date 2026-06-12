@@ -730,24 +730,24 @@ function Index() {
         </div>
       </section>
 
-      {/* ============== GLOBAL PRESENCE & PHILOSOPHY (Adecco Group style) ============== */}
+      {/* ============== GLOBAL PRESENCE & PHILOSOPHY (Virelix/Who We Are style) ============== */}
       <section
         id="scale"
-        className="relative w-full bg-gradient-to-r from-[#f2f8cc] via-[#aee9bd] to-[#73aef5] py-20 md:py-28 overflow-hidden"
+        className="relative w-full bg-[#f9f8f6] dark:bg-slate-900 py-20 md:py-28 overflow-hidden border-y border-slate-200/60 dark:border-slate-800"
       >
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="mx-auto max-w-5xl bg-white text-slate-900 p-8 md:p-12 lg:p-14 shadow-2xl rounded-2xl border border-white/50">
+        <div className="container mx-auto px-4 max-w-6xl relative z-10">
+          <div className="mx-auto bg-white dark:bg-slate-950 text-foreground p-8 md:p-12 lg:p-14 shadow-md rounded-none border border-slate-200/60 dark:border-slate-800">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch">
               {/* Left Column - Main Intro & Stats */}
               <div className="lg:col-span-7 flex flex-col justify-between">
                 <div>
-                  <div className="inline-flex items-center gap-3 border-l-2 border-cyan-500 pl-3 text-xs font-bold uppercase tracking-[0.2em] text-cyan-600">
+                  <div className="inline-flex items-center gap-3 border-l-2 border-[#0076CE] pl-3 text-xs font-bold uppercase tracking-[0.2em] text-[#0076CE] dark:text-[#38bdf8]">
                     Our Scale
                   </div>
-                  <h2 className="mt-4 font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-950">
+                  <h2 className="mt-4 font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-950 dark:text-white leading-[1.25]">
                     A global infrastructure with local delivery.
                   </h2>
-                  <p className="mt-4 text-slate-600 leading-relaxed text-base">
+                  <p className="mt-4 text-slate-600 dark:text-slate-300 leading-relaxed text-base">
                     Virelix Consulting acts as a strategic bridge between high-demand Western
                     markets and global talent hubs. Headquartered in Delaware, USA, with
                     state-of-the-art delivery centers in Hyderabad, India, we provide
@@ -756,13 +756,13 @@ function Index() {
                 </div>
 
                 {/* Stats Grid */}
-                <div className="mt-10 grid grid-cols-2 gap-6 border-t border-slate-100 pt-8">
+                <div className="mt-10 grid grid-cols-2 gap-6 border-t border-slate-100 dark:border-slate-800/80 pt-8">
                   {copy.stats.map((s, i) => (
                     <div key={`${s.value}-${i}`}>
-                      <h4 className="font-display text-3xl sm:text-4xl font-bold text-cyan-600">
+                      <h4 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0076CE] dark:text-[#38bdf8]">
                         {s.value}
                       </h4>
-                      <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                      <p className="mt-2 text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
                         {s.label}
                       </p>
                     </div>
@@ -771,42 +771,42 @@ function Index() {
               </div>
 
               {/* Right Column - Sourcing Philosophy Details */}
-              <div className="lg:col-span-5 flex flex-col justify-between bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-100/80">
+              <div className="lg:col-span-5 flex flex-col justify-between bg-slate-50 dark:bg-slate-900/50 p-6 md:p-8 rounded-none border border-slate-100 dark:border-slate-800/80">
                 <div className="space-y-6">
                   <div>
-                    <h3 className="font-display text-xl font-bold text-slate-950">
+                    <h3 className="font-display text-xl font-bold text-slate-950 dark:text-white">
                       A more human approach to sourcing.
                     </h3>
-                    <p className="text-slate-600 text-sm mt-2 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-300 text-sm mt-2 leading-relaxed">
                       We believe that the best teams aren't just built on algorithms. We combine
                       automated sourcing pipelines with authentic, peer-level technical assessments.
                     </p>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-4 font-sans">
                     <div className="flex gap-4">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-100 text-cyan-700">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-950/40 text-[#0076CE] dark:text-[#38bdf8]">
                         <CheckCircle2 className="h-4 w-4" />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-slate-900 text-sm">
+                        <h5 className="font-semibold text-slate-900 dark:text-white text-sm">
                           Diversity & Inclusion Sourcing
                         </h5>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
                           We employ blind vetting and demographic-neutral pipelines to ensure equal
                           opportunity and wider access.
                         </p>
                       </div>
                     </div>
                     <div className="flex gap-4">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-100 text-cyan-700">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-950/40 text-[#0076CE] dark:text-[#38bdf8]">
                         <CheckCircle2 className="h-4 w-4" />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-slate-900 text-sm">
+                        <h5 className="font-semibold text-slate-900 dark:text-white text-sm">
                           Strict Verification
                         </h5>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
                           Every candidate is technically screened and background-verified prior to
                           client presentation.
                         </p>
@@ -815,14 +815,14 @@ function Index() {
                   </div>
                 </div>
 
-                {/* CTA Button styled like the image */}
+                {/* CTA Button styled in yellow like Virelix standard */}
                 <div className="mt-8 pt-4">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center gap-2 bg-[#00BCD4] text-white hover:bg-[#00acc1] px-6 py-3 rounded-full font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 text-sm w-full sm:w-auto justify-center group"
+                    className="inline-flex w-full items-center justify-center gap-2 bg-[#FDB913] hover:bg-[#E5A80F] text-black font-bold uppercase tracking-wider py-3.5 px-6 rounded-none shadow-sm transition-all duration-200 text-xs group border-none"
                   >
                     <span>Brief our team</span>
-                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 text-black" />
                   </Link>
                 </div>
               </div>
