@@ -629,32 +629,32 @@ function IndustryDetailComponent() {
             </div>
 
             {/* Sourcing Engagement Callout */}
-            <aside className="group/sidebar relative h-fit border border-border bg-card p-8 lg:sticky lg:top-24 transition-all duration-300 hover:shadow-lg rounded-none overflow-hidden">
+            <aside className="group/sidebar relative h-fit border border-[#0066b2] bg-[#0076CE] p-8 lg:sticky lg:top-24 transition-all duration-300 hover:shadow-lg rounded-none overflow-hidden text-white">
               {/* Top slide-in line accent focus indicator */}
-              <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover/sidebar:scale-x-100 transition-transform origin-left duration-300 z-10" />
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#FDB913] scale-x-0 group-hover/sidebar:scale-x-100 transition-transform origin-left duration-300 z-10" />
               
               <div className="mb-6 flex items-center gap-3">
-                <span className="h-px w-8 bg-primary" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                <span className="h-px w-8 bg-[#FDB913]" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#FDB913]">
                   Engage Practice
                 </span>
               </div>
-              <h3 className="text-2xl font-bold text-foreground">Talk with a specialist</h3>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              <h3 className="text-2xl font-bold text-white">Talk with a specialist</h3>
+              <p className="mt-4 text-sm leading-relaxed text-blue-100/90">
                 Speak directly with a lead partner who coordinates client engagements and candidate
                 vetting in the {industry.label} field.
               </p>
               <Button
                 asChild
-                className="mt-6 w-full rounded-none bg-primary text-primary-foreground py-6 text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity flex items-center justify-center gap-2 group/btn"
+                className="mt-6 w-full rounded-none bg-[#FDB913] hover:bg-[#E5A80F] text-black py-6 text-xs font-bold uppercase tracking-widest transition-opacity flex items-center justify-center gap-2 group/btn border-none"
               >
                 <Link to="/contact">
-                  Connect Now <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                  Connect Now <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1 text-black" />
                 </Link>
               </Button>
               <Link
                 to="/industries"
-                className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/70 hover:text-primary transition-colors"
+                className="mt-6 block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-blue-100/70 hover:text-[#FDB913] transition-colors"
               >
                 ← Back to all sectors
               </Link>
