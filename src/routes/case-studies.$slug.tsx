@@ -179,7 +179,7 @@ function CaseStudyDetail() {
                   <p className="mt-1 font-display text-2xl font-bold text-white">{r.value}</p>
                 </div>
               ))}
-              <div className="bg-[#0076CE] p-5">
+              <div className="bg-white dark:bg-slate-900 p-5">
                 <Link
                   to="/contact"
                   className="inline-flex w-full items-center justify-center gap-2 rounded bg-[#FDB913] hover:bg-[#E5A80F] text-black font-bold text-xs uppercase tracking-wider py-3.5 px-4 transition-all duration-200 shadow-sm"
