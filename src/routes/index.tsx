@@ -202,6 +202,49 @@ const detailedServices = [
   },
 ];
 
+const staticTestimonials = [
+  {
+    name: "Sarah Jenkins",
+    role: "VP of People · TechSphere",
+    quote: "Virelix Consulting transformed our engineering recruitment. We filled three VP roles in less than a month with exceptional cultural alignment.",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80",
+    cover: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&h=350&q=80",
+    rating: 5,
+  },
+  {
+    name: "David Chen",
+    role: "CEO · Delaware Supply Chain",
+    quote: "Their US-India continuous delivery loop is a game-changer. We received qualified shortlists overnight and scaled our operations team in record time.",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
+    cover: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=350&q=80",
+    rating: 5,
+  },
+  {
+    name: "Elena Rostova",
+    role: "VP of Operations · MedLink",
+    quote: "Compliance and background verification in healthcare hiring are strict. Virelix ensured 100% GCP and HIPAA compliance for all contractor placements.",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80",
+    cover: "https://images.unsplash.com/photo-1580894732444-8fecef2271ff?auto=format&fit=crop&w=600&h=350&q=80",
+    rating: 5,
+  },
+  {
+    name: "Marcus Vance",
+    role: "CTO · Nexus Labs",
+    quote: "Nexus Labs needed to scale full-stack and cloud security engineering for our Series A. Virelix mapped candidate networks and delivered prime fits.",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80",
+    cover: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&h=350&q=80",
+    rating: 5,
+  },
+  {
+    name: "Liam O'Connor",
+    role: "Director of Engineering · QuantumSaaS",
+    quote: "The RPO model from Virelix functions like our own internal HR team. It lowered our average cost-per-hire by over 45% while building a quality pipeline.",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&h=150&q=80",
+    cover: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&h=350&q=80",
+    rating: 5,
+  },
+];
+
 function Index() {
   const { data: settings } = useSiteSettings();
   const { data: copy } = usePageContent("home", HOMEPAGE_DEFAULTS);
@@ -215,14 +258,52 @@ function Index() {
       .order("sort_order");
     return data ?? [];
   });
+  
   const liveTestimonials =
     dbTestimonials && dbTestimonials.length > 0
-      ? dbTestimonials.map((t: any) => ({
-        quote: t.quote,
-        name: t.author_name,
-        role: [t.author_role, t.company].filter(Boolean).join(" · "),
-      }))
-      : [];
+      ? dbTestimonials.map((t: any, idx: number) => {
+          const fallback = staticTestimonials[idx % staticTestimonials.length];
+          return {
+            quote: t.quote || fallback.quote,
+            name: t.author_name || fallback.name,
+            role: [t.author_role, t.company].filter(Boolean).join(" · ") || fallback.role,
+            avatar: fallback.avatar,
+            cover: fallback.cover,
+            rating: 5,
+          };
+        })
+      : staticTestimonials;
+
+  const [testiIndex, setTestiIndex] = useState(0);
+  const [itemsPerView, setItemsPerView] = useState(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setItemsPerView(3);
+      } else if (window.innerWidth >= 768) {
+        setItemsPerView(2);
+      } else {
+        setItemsPerView(1);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (liveTestimonials.length === 0) return;
+    const timer = setInterval(() => {
+      setTestiIndex((prev) => {
+        const maxIndex = liveTestimonials.length - itemsPerView;
+        if (maxIndex <= 0) return 0;
+        return prev >= maxIndex ? 0 : prev + 1;
+      });
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [liveTestimonials.length, itemsPerView]);
+
 
   const { data: dbIndustries } = useFirebaseQuery("industries", async () => {
     const { data } = await firebase
@@ -899,70 +980,77 @@ function Index() {
                 />
               </div>
 
-              {/* Three Overlapping Testimonial Cards */}
-              <div className="lg:col-span-8 lg:-ml-24 lg:mt-16 z-10 hidden md:grid grid-cols-1 md:grid-cols-3 gap-6">
-                {liveTestimonials.slice(0, 3).map((t: any, idx: number) => {
-                  const COVER_IMAGES = [
-                    "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&h=250&q=80",
-                    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&h=250&q=80",
-                    "https://images.unsplash.com/photo-1580894732444-8fecef2271ff?auto=format&fit=crop&w=400&h=250&q=80"
-                  ];
-                  return (
-                    <figure
-                      key={t.name}
-                      className="bg-white dark:bg-slate-950 p-0 rounded-lg shadow-md border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between min-h-[380px] hover:translate-y-[-4px] transition duration-300 overflow-hidden"
-                    >
-                      <div className="aspect-[16/10] w-full overflow-hidden bg-slate-100">
-                        <img 
-                          src={COVER_IMAGES[idx % COVER_IMAGES.length]} 
-                          alt={t.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-6 flex flex-col justify-between flex-grow">
-                        <div className="space-y-3">
-                          <div className="flex gap-0.5 text-[#FDB913]">
-                            {Array.from({ length: 5 }).map((_, i) => (
-                              <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                            ))}
-                          </div>
-                          <blockquote className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed font-light italic">
-                            "{t.quote}"
-                          </blockquote>
-                        </div>
-                        <figcaption className="mt-4 border-t border-slate-100 dark:border-slate-800/80 pt-3">
-                          <p className="font-semibold text-xs text-slate-900 dark:text-white">{t.name}</p>
-                          <p className="text-[10px] text-slate-500 dark:text-slate-400">{t.role}</p>
-                        </figcaption>
-                      </div>
-                    </figure>
-                  );
-                })}
-              </div>
-
-              {/* Mobile and Fallback Stack for non-large views */}
-              <div className="md:hidden space-y-6">
-                {liveTestimonials.slice(0, 3).map((t: any) => (
-                  <figure
-                    key={t.name}
-                    className="bg-white dark:bg-slate-950 p-6 rounded-lg shadow-md border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between"
+              {/* Slider for Testimonials */}
+              <div className="lg:col-span-8 lg:-ml-24 lg:mt-16 z-10 w-full overflow-hidden">
+                <div className="relative w-full">
+                  <div 
+                    className="flex transition-transform duration-700 ease-in-out"
+                    style={{ 
+                      transform: `translateX(-${testiIndex * (100 / itemsPerView)}%)` 
+                    }}
                   >
-                    <div>
-                      <div className="flex gap-0.5 text-[#FDB913]">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                        ))}
+                    {liveTestimonials.map((t: any, idx: number) => (
+                      <div 
+                        key={idx} 
+                        className="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3"
+                      >
+                        <figure className="bg-white dark:bg-slate-950 p-0 rounded-lg shadow-md border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between min-h-[360px] sm:min-h-[380px] hover:translate-y-[-4px] transition duration-300 overflow-hidden">
+                          {/* Cover Photo - hidden on mobile to be compact */}
+                          <div className="hidden sm:block aspect-[16/10] w-full overflow-hidden bg-slate-100">
+                            <img 
+                              src={t.cover} 
+                              alt={t.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="p-4 sm:p-6 flex flex-col justify-between flex-grow">
+                            <div className="space-y-3">
+                              <div className="flex gap-0.5 text-[#FDB913]">
+                                {Array.from({ length: t.rating || 5 }).map((_, i) => (
+                                  <Star key={i} className="h-3.5 w-3.5 fill-current" />
+                                ))}
+                              </div>
+                              <blockquote className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-light italic">
+                                "{t.quote}"
+                              </blockquote>
+                            </div>
+                            <figcaption className="mt-4 border-t border-slate-100 dark:border-slate-800/80 pt-3">
+                              <div className="flex items-center gap-3">
+                                <img 
+                                  src={t.avatar} 
+                                  className="h-8 w-8 rounded-full object-cover shrink-0" 
+                                  alt={t.name} 
+                                />
+                                <div className="min-w-0">
+                                  <p className="font-semibold text-xs text-slate-900 dark:text-white truncate">{t.name}</p>
+                                  <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{t.role}</p>
+                                </div>
+                              </div>
+                            </figcaption>
+                          </div>
+                        </figure>
                       </div>
-                      <blockquote className="mt-3 text-xs leading-relaxed text-slate-600 dark:text-slate-300 italic">
-                        "{t.quote}"
-                      </blockquote>
-                    </div>
-                    <figcaption className="mt-4 border-t border-slate-100 dark:border-slate-800/80 pt-3">
-                      <p className="font-semibold text-xs text-slate-900 dark:text-white">{t.name}</p>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400">{t.role}</p>
-                    </figcaption>
-                  </figure>
-                ))}
+                    ))}
+                  </div>
+                </div>
+
+                {/* Dot Pagination */}
+                {liveTestimonials.length > itemsPerView && (
+                  <div className="flex justify-center gap-2 mt-8">
+                    {Array.from({ length: liveTestimonials.length - itemsPerView + 1 }).map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setTestiIndex(idx)}
+                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                          testiIndex === idx 
+                            ? "w-6 bg-[#0076CE]" 
+                            : "w-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400"
+                        }`}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
