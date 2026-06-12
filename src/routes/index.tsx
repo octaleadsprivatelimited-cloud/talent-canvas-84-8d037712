@@ -1002,40 +1002,30 @@ function Index() {
                         key={idx} 
                         className="w-full md:w-1/2 lg:w-1/3 shrink-0 px-3"
                       >
-                        <figure className="bg-white dark:bg-slate-950 p-0 rounded-lg shadow-md border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between min-h-[360px] sm:min-h-[380px] hover:translate-y-[-4px] transition duration-300 overflow-hidden">
-                          {/* Cover Photo - hidden on mobile to be compact */}
-                          <div className="hidden sm:block aspect-[16/10] w-full overflow-hidden bg-slate-100">
-                            <img 
-                              src={t.cover} 
-                              alt={t.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="p-4 sm:p-6 flex flex-col justify-between flex-grow">
-                            <div className="space-y-3">
-                              <div className="flex gap-0.5 text-[#FDB913]">
-                                {Array.from({ length: t.rating || 5 }).map((_, i) => (
-                                  <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                                ))}
-                              </div>
-                              <blockquote className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-light italic">
-                                "{t.quote}"
-                              </blockquote>
+                        <figure className="bg-white dark:bg-slate-950 p-6 rounded-lg shadow-md border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between min-h-[250px] sm:min-h-[270px] hover:translate-y-[-4px] transition duration-300">
+                          <div className="space-y-4">
+                            <div className="flex gap-0.5 text-[#FDB913]">
+                              {Array.from({ length: t.rating || 5 }).map((_, i) => (
+                                <Star key={i} className="h-4 w-4 fill-current" />
+                              ))}
                             </div>
-                            <figcaption className="mt-4 border-t border-slate-100 dark:border-slate-800/80 pt-3">
-                              <div className="flex items-center gap-3">
-                                <img 
-                                  src={t.avatar} 
-                                  className="h-8 w-8 rounded-full object-cover shrink-0" 
-                                  alt={t.name} 
-                                />
-                                <div className="min-w-0">
-                                  <p className="font-semibold text-xs text-slate-900 dark:text-white truncate">{t.name}</p>
-                                  <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{t.role}</p>
-                                </div>
-                              </div>
-                            </figcaption>
+                            <blockquote className="text-[12px] sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed font-light italic">
+                              "{t.quote}"
+                            </blockquote>
                           </div>
+                          <figcaption className="mt-6 border-t border-slate-100 dark:border-slate-800/80 pt-4">
+                            <div className="flex items-center gap-3">
+                              <img 
+                                src={t.avatar} 
+                                className="h-12 w-12 rounded-full object-cover shrink-0 border border-slate-200 dark:border-slate-700" 
+                                alt={t.name} 
+                              />
+                              <div className="min-w-0">
+                                  <p className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white truncate">{t.name}</p>
+                                  <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">{t.role}</p>
+                              </div>
+                            </div>
+                          </figcaption>
                         </figure>
                       </div>
                     ))}
