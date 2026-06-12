@@ -5,6 +5,8 @@ import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { getServiceImage } from "@/lib/service-images";
 import { DynamicSeo } from "@/components/dynamic-seo";
+import servicesHeroConsulting from "@/assets/services-hero-consulting.png";
+
 
 type Service = {
   id: string;
@@ -114,7 +116,7 @@ function ServicesPage() {
       <section className="relative w-full h-[280px] sm:h-[360px] md:h-[420px] overflow-hidden">
         {/* Generic High-Quality Corporate Team/Office Banner Image */}
         <img
-          src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80"
+          src={servicesHeroConsulting}
           alt="Services Capabilities"
           className="h-full w-full object-cover"
           decoding="async"
