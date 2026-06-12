@@ -22,6 +22,7 @@ import {
   Play,
   ChevronLeft,
   ChevronRight,
+  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HomeHero, type ThemeKey } from "@/components/home-themes";
