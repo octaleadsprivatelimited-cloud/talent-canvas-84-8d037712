@@ -170,17 +170,20 @@ function CaseStudyDetail() {
             </div>
 
             {/* Results Sidebar Panel */}
-            <aside className="h-fit space-y-px border border-border bg-border">
+            <aside className="h-fit flex flex-col border border-[#005c8f] rounded-none overflow-hidden shadow-md">
               {results.map((r, i) => (
-                <div key={i} className="bg-surface p-5">
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                <div key={i} className="bg-[#0076CE] p-5 border-b border-[#005c8f] text-white">
+                  <p className="text-xs uppercase tracking-wider text-blue-100/90 font-medium">
                     {r.label}
                   </p>
-                  <p className="mt-1 font-display text-2xl font-bold">{r.value}</p>
+                  <p className="mt-1 font-display text-2xl font-bold text-white">{r.value}</p>
                 </div>
               ))}
-              <div className="bg-background p-5">
-                <Link to="/contact" className="text-sm font-medium text-primary hover:underline">
+              <div className="bg-[#0076CE] p-5">
+                <Link
+                  to="/contact"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded bg-[#FDB913] hover:bg-[#E5A80F] text-black font-bold text-xs uppercase tracking-wider py-3.5 px-4 transition-all duration-200 shadow-sm"
+                >
                   Start a similar search →
                 </Link>
               </div>
