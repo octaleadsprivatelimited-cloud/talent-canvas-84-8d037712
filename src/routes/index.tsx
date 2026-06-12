@@ -750,7 +750,11 @@ function Index() {
 
         <div className="mt-12 grid gap-8 border-l-4 border-accent bg-card p-8 md:grid-cols-2 md:items-center md:p-10">
             <div>
-              <h3 className="font-display text-2xl font-bold">{copy.why_heading}</h3>
+              <h3 className="font-display text-2xl font-bold">
+                <span className="bg-red-600 text-white px-3 py-1 rounded-md inline-block">
+                  {copy.why_heading}
+                </span>
+              </h3>
               <p className="mt-2 text-muted-foreground">{copy.why_intro}</p>
             </div>
             <ul className="grid gap-3 sm:grid-cols-2">
@@ -806,13 +810,13 @@ function Index() {
               </div>
 
               {/* Right Column - Sourcing Philosophy Details */}
-              <div className="lg:col-span-5 flex flex-col justify-between bg-slate-50 dark:bg-slate-900/50 p-6 md:p-8 rounded-none border border-slate-100 dark:border-slate-800/80">
+              <div className="lg:col-span-5 flex flex-col justify-between bg-black p-6 md:p-8 rounded-none border border-neutral-900">
                 <div className="space-y-6">
                   <div>
-                    <h3 className="font-display text-xl font-bold text-slate-950 dark:text-white">
+                    <h3 className="font-display text-xl font-bold text-white">
                       A more human approach to sourcing.
                     </h3>
-                    <p className="text-slate-600 dark:text-slate-300 text-sm mt-2 leading-relaxed">
+                    <p className="text-neutral-300 text-sm mt-2 leading-relaxed">
                       We believe that the best teams aren't just built on algorithms. We combine
                       automated sourcing pipelines with authentic, peer-level technical assessments.
                     </p>
@@ -820,28 +824,28 @@ function Index() {
 
                   <div className="space-y-4 font-sans">
                     <div className="flex gap-4">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-950/40 text-[#0076CE] dark:text-[#38bdf8]">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neutral-900 text-[#0076CE] dark:text-[#38bdf8]">
                         <CheckCircle2 className="h-4 w-4" />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-slate-900 dark:text-white text-sm">
+                        <h5 className="font-semibold text-white text-sm">
                           Diversity & Inclusion Sourcing
                         </h5>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+                        <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">
                           We employ blind vetting and demographic-neutral pipelines to ensure equal
                           opportunity and wider access.
                         </p>
                       </div>
                     </div>
                     <div className="flex gap-4">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-950/40 text-[#0076CE] dark:text-[#38bdf8]">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neutral-900 text-[#0076CE] dark:text-[#38bdf8]">
                         <CheckCircle2 className="h-4 w-4" />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-slate-900 dark:text-white text-sm">
+                        <h5 className="font-semibold text-white text-sm">
                           Strict Verification
                         </h5>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+                        <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">
                           Every candidate is technically screened and background-verified prior to
                           client presentation.
                         </p>
