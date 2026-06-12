@@ -259,20 +259,28 @@ function Index() {
     return data ?? [];
   });
   
-  const liveTestimonials =
-    dbTestimonials && dbTestimonials.length > 0
-      ? dbTestimonials.map((t: any, idx: number) => {
-          const fallback = staticTestimonials[idx % staticTestimonials.length];
-          return {
-            quote: t.quote || fallback.quote,
-            name: t.author_name || fallback.name,
-            role: [t.author_role, t.company].filter(Boolean).join(" · ") || fallback.role,
-            avatar: fallback.avatar,
-            cover: fallback.cover,
-            rating: 5,
-          };
-        })
-      : staticTestimonials;
+  const filteredDbTestimonials = (dbTestimonials || []).filter((t: any) => {
+    if (!t.author_name || t.author_name.toLowerCase() === "test") return false;
+    if (!t.quote || t.quote.toLowerCase() === "test") return false;
+    return true;
+  });
+
+  const liveTestimonials = [
+    ...filteredDbTestimonials.map((t: any, idx: number) => {
+      const fallback = staticTestimonials[idx % staticTestimonials.length];
+      return {
+        quote: t.quote || fallback.quote,
+        name: t.author_name || fallback.name,
+        role: [t.author_role, t.company].filter(Boolean).join(" · ") || fallback.role,
+        avatar: fallback.avatar,
+        cover: fallback.cover,
+        rating: 5,
+      };
+    }),
+    ...staticTestimonials
+  ].filter((t, index, self) => 
+    self.findIndex((item) => item.name === t.name) === index
+  );
 
   const [testiIndex, setTestiIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(3);
