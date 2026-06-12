@@ -61,7 +61,12 @@ function InsightDetail() {
           </p>
         )}
         <div className="prose prose-lg max-w-none whitespace-pre-line text-foreground/90">
-          {data.body}
+          {data.body
+            ? data.body
+                .replace(/^###\s+/gm, "")
+                .replace(/###/g, "")
+                .replace(/\*\*/g, "")
+            : ""}
         </div>
         <div className="mt-12 border-t border-border pt-6">
           <Link to="/insights" className="text-sm text-muted-foreground hover:text-foreground">
