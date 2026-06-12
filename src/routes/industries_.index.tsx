@@ -34,6 +34,20 @@ const DEFAULT_INDUSTRIES = [
     description: "Global supply chains, logistics operations, warehouse management systems, and procurement.",
     icon: "Truck",
   },
+  {
+    id: "ind-5",
+    label: "Retail & E-Commerce",
+    slug: "retail-ecommerce",
+    description: "Omnichannel retail, e-commerce platforms, and consumer goods distribution.",
+    icon: "ShoppingBag",
+  },
+  {
+    id: "ind-6",
+    label: "Professional Services",
+    slug: "professional-services",
+    description: "Management consulting, corporate legal advisory, and business operations.",
+    icon: "Building2",
+  },
 ];
 
 function IndustriesPage() {
@@ -47,7 +61,14 @@ function IndustriesPage() {
   });
 
   const rawData = dbData ?? [];
-  const data = rawData.length > 0 ? rawData : DEFAULT_INDUSTRIES;
+  const mergedData = [...rawData];
+  DEFAULT_INDUSTRIES.forEach((defInd) => {
+    if (!mergedData.some((x: any) => x.slug === defInd.slug)) {
+      mergedData.push(defInd);
+    }
+  });
+  const displayedData = mergedData.slice(0, 5);
+
   const Lucide = Icons as unknown as Record<
     string,
     React.ComponentType<{ className?: string; strokeWidth?: number }>
@@ -133,8 +154,8 @@ function IndustriesPage() {
             </div>
 
             {/* Grid List */}
-            <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">
-              {data?.map((ind: any) => {
+            <div className="grid gap-px bg-border dark:bg-slate-800 md:grid-cols-2 lg:grid-cols-3">
+              {displayedData.map((ind: any) => {
                 let iconKey = ind.icon || "";
                 if (iconKey && iconKey.length > 0) {
                   iconKey = iconKey.charAt(0).toUpperCase() + iconKey.slice(1);
@@ -142,7 +163,7 @@ function IndustriesPage() {
                 const Icon = Lucide[iconKey] || Icons.Building2;
                 return (
                   <Link
-                    key={ind.id}
+                    key={ind.id || ind.slug}
                     to={`/industries/${ind.slug}`}
                     className="flex flex-col gap-3 bg-background p-8 hover:bg-surface/50 transition group"
                   >
@@ -152,16 +173,37 @@ function IndustriesPage() {
                         strokeWidth={1.5}
                       />
                     </div>
-                    <h3 className="font-display text-xl font-bold group-hover:text-primary transition">
+                    <h3 className="font-display text-xl font-bold group-hover:text-primary transition text-foreground">
                       {ind.label}
                     </h3>
-                    <p className="text-sm text-muted-foreground">{ind.description}</p>
-                    <span className="mt-6 text-xs font-semibold text-primary/80 group-hover:text-primary flex items-center gap-1 transition">
+                    <p className="text-sm text-muted-foreground leading-relaxed">{ind.description}</p>
+                    <span className="mt-6 text-xs font-semibold text-[#0076CE] group-hover:text-[#005c8f] flex items-center gap-1 transition">
                       Explore Sector <Icons.ArrowRight className="h-3 w-3" />
                     </span>
                   </Link>
                 );
               })}
+
+              {/* 6th Card - Contact Us (hidden on mobile, visible on tablet and desktop) */}
+              <div className="hidden md:flex flex-col justify-between bg-[#0076CE] p-8 text-white min-h-[300px] border border-transparent">
+                <div className="flex flex-col gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center border border-white/20 bg-white/10">
+                    <Icons.Mail className="h-5 w-5 text-[#FDB913]" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="font-display text-xl font-bold text-white leading-tight">
+                    Need specialized talent for your sector?
+                  </h3>
+                  <p className="text-sm text-blue-100/90 leading-relaxed">
+                    Virelix coordinates customized global sourcing pipelines for enterprises and high-growth firms. Contact us today to brief our industry specialists.
+                  </p>
+                </div>
+                <Link
+                  to="/contact"
+                  className="inline-flex w-full items-center justify-center gap-2 bg-[#FDB913] hover:bg-[#E5A80F] text-black font-bold uppercase tracking-wider py-3.5 px-4 transition-all duration-200 text-xs shadow-sm rounded-none border-none"
+                >
+                  Contact Us <Icons.ArrowRight className="h-4 w-4 text-black" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
