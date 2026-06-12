@@ -549,7 +549,7 @@ function Index() {
 
           {/* Microsoft-Style Card Grid */}
           <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {liveIndustries.map((ind: any, index: number) => {
+            {liveIndustries.slice(0, 5).map((ind: any, index: number) => {
               const INDUSTRY_PHOTOS: Record<string, string> = {
                 "technology-software": "photo-1519389950473-47ba0277781c",
                 "healthcare-lifesciences": "photo-1576091160550-2173dba999ef",
@@ -610,6 +610,40 @@ function Index() {
                 </Link>
               );
             })}
+
+            {/* 6th Card - Contact Us (hidden on mobile, visible on tablet and desktop) */}
+            <div className="hidden md:flex flex-col justify-between bg-[#0076CE] text-white border border-[#0066b2] rounded-none overflow-hidden transition-all duration-300 hover:shadow-lg w-full p-8 relative min-h-[350px] group/contact">
+              {/* Top slide-in line accent focus indicator */}
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#FDB913] scale-x-0 group-hover/contact:scale-x-100 transition-transform origin-left duration-300 z-10" />
+              
+              <div className="flex flex-col h-full justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Mail className="h-4 w-4 text-[#FDB913] shrink-0 animate-pulse" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-100/90">
+                      Partner With Us
+                    </span>
+                  </div>
+
+                  <h3 className="font-display text-2xl font-bold tracking-tight text-white leading-tight">
+                    Need specialized talent for your sector?
+                  </h3>
+
+                  <p className="mt-4 text-sm text-blue-100/95 leading-relaxed">
+                    Virelix coordinates customized global sourcing pipelines for enterprises and high-growth firms. Contact us today to brief our industry specialists.
+                  </p>
+                </div>
+
+                <div className="mt-8">
+                  <Link
+                    to="/contact"
+                    className="inline-flex w-full items-center justify-center gap-2 bg-[#FDB913] hover:bg-[#E5A80F] text-black font-bold uppercase tracking-wider py-3.5 px-4 transition-all duration-200 text-xs shadow-sm rounded-none border-none group-hover/contact:scale-[1.01]"
+                  >
+                    Contact Us <ArrowRight className="h-4 w-4 text-black" />
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
