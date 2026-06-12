@@ -831,58 +831,47 @@ function Index() {
         </div>
       </section>
 
-      {/* ============== TESTIMONIALS ============== */}
+      {/* ============== TESTIMONIALS (Virelix/Who We Are style) ============== */}
       <section
         id="testimonials"
-        className="relative w-full bg-surface py-20 md:py-28 overflow-hidden"
+        className="relative w-full bg-[#fcfbfa] dark:bg-slate-950/30 py-20 md:py-28 overflow-hidden border-y border-slate-200/60 dark:border-slate-800"
       >
-        {/* Section background image */}
-        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden opacity-[0.12] dark:opacity-[0.20] pointer-events-none">
-          <img
-            src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1920&q=70"
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-cover mix-blend-luminosity filter blur-[1px]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-surface via-transparent to-surface" />
-        </div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-3 border-l-2 border-primary pl-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+            <div className="inline-flex items-center gap-3 border-l-2 border-[#0076CE] pl-3 text-xs font-bold uppercase tracking-[0.2em] text-[#0076CE] dark:text-[#38bdf8]">
               {copy.testimonials_eyebrow}
             </div>
-            <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
+            <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl leading-tight">
               {copy.testimonials_heading}
             </h2>
           </div>
 
           {/* Desktop Grid Layout */}
-          <div className="mt-12 hidden md:grid gap-0 border-t border-l border-border md:grid-cols-3">
+          <div className="mt-12 hidden md:grid gap-0 border-t border-l border-slate-200/80 dark:border-slate-800 md:grid-cols-3">
             {liveTestimonials.map((t: any) => (
               <figure
                 key={t.name}
-                className="flex flex-col border-b border-r border-border bg-card p-8"
+                className="flex flex-col border-b border-r border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 p-8"
               >
-                <Quote className="h-7 w-7 text-primary/30" />
-                <div className="mt-3 flex gap-0.5 text-accent">
+                <Quote className="h-7 w-7 text-[#0076CE]/30 dark:text-[#38bdf8]/30" />
+                <div className="mt-3 flex gap-0.5 text-[#FDB913]">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-current" />
                   ))}
                 </div>
-                <blockquote className="mt-5 flex-1 text-base leading-relaxed">
+                <blockquote className="mt-5 flex-1 text-base leading-relaxed text-slate-700 dark:text-slate-300">
                   "{t.quote}"
                 </blockquote>
-                <figcaption className="mt-6 border-t border-border pt-4">
-                  <p className="font-semibold">{t.name}</p>
-                  <p className="text-sm text-muted-foreground">{t.role}</p>
+                <figcaption className="mt-6 border-t border-slate-100 dark:border-slate-800/80 pt-4">
+                  <p className="font-semibold text-slate-900 dark:text-white">{t.name}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{t.role}</p>
                 </figcaption>
               </figure>
             ))}
           </div>
 
           {/* Mobile Auto-Scrolling Layout */}
-          <div className="mt-8 md:hidden overflow-hidden relative w-full border-y border-border py-4">
+          <div className="mt-8 md:hidden overflow-hidden relative w-full border-y border-slate-200/80 dark:border-slate-800 py-4">
             <div
               className="animate-marquee flex gap-4"
               style={{
@@ -896,20 +885,20 @@ function Index() {
               {[...liveTestimonials, ...liveTestimonials].map((t: any, idx: number) => (
                 <figure
                   key={`${t.name}-${idx}`}
-                  className="flex flex-col bg-card p-6 w-[280px] shrink-0 border border-border shadow-sm rounded-none"
+                  className="flex flex-col bg-white dark:bg-slate-950 p-6 w-[280px] shrink-0 border border-slate-200/80 dark:border-slate-800 shadow-sm rounded-none"
                 >
-                  <Quote className="h-6 w-6 text-primary/30" />
-                  <div className="mt-2 flex gap-0.5 text-accent">
+                  <Quote className="h-6 w-6 text-[#0076CE]/30 dark:text-[#38bdf8]/30" />
+                  <div className="mt-2 flex gap-0.5 text-[#FDB913]">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star key={i} className="h-3.5 w-3.5 fill-current" />
                     ))}
                   </div>
-                  <blockquote className="mt-3 flex-1 text-sm leading-relaxed line-clamp-4">
+                  <blockquote className="mt-3 flex-1 text-sm leading-relaxed line-clamp-4 text-slate-700 dark:text-slate-300">
                     "{t.quote}"
                   </blockquote>
-                  <figcaption className="mt-4 border-t border-border pt-3">
-                    <p className="font-semibold text-sm">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">{t.role}</p>
+                  <figcaption className="mt-4 border-t border-slate-100 dark:border-slate-800/80 pt-3">
+                    <p className="font-semibold text-sm text-slate-900 dark:text-white">{t.name}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{t.role}</p>
                   </figcaption>
                 </figure>
               ))}
