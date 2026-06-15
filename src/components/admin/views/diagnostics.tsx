@@ -1,13 +1,34 @@
-import { Shield, ShieldAlert, UserCheck, KeyRound, Fingerprint, Database } from "lucide-react";
+import { Shield, ShieldAlert, UserCheck, KeyRound, Fingerprint, Database, GitBranch } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useState } from "react";
 import { firebase } from "@/integrations/firebase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { seedDeployments } from "@/lib/github-seeder";
 
 export function DiagnosticsPage() {
   const [seeding, setSeeding] = useState(false);
+  const [syncingDeployments, setSyncingDeployments] = useState(false);
+  const [deploymentsLogs, setDeploymentsLogs] = useState<string[]>([]);
+
+  const handleSyncDeployments = async () => {
+    setSyncingDeployments(true);
+    setDeploymentsLogs([]);
+    try {
+      await seedDeployments((msg) => {
+        setDeploymentsLogs((prev) => [...prev, msg]);
+      });
+      toast.success("Successfully synced deployments from GitHub!");
+    } catch (err) {
+      console.error(err);
+      const msg = err instanceof Error ? err.message : String(err);
+      toast.error("Failed to sync deployments: " + msg);
+      setDeploymentsLogs((prev) => [...prev, `Error: ${msg}`]);
+    } finally {
+      setSyncingDeployments(false);
+    }
+  };
 
   const handleSeed = async () => {
     setSeeding(true);
@@ -592,6 +613,13 @@ This model reduces search cycle times by 30-40%. Additionally, it allows our cli
         await firebase.from("posts").upsert(p);
       }
 
+      // 11. Seed deployments from GitHub
+      try {
+        await seedDeployments();
+      } catch (e) {
+        console.warn("Main seeder: Soft failed seeding deployments:", e);
+      }
+
       toast.success("Successfully seeded database with all demo content!");
     } catch (err) {
       console.error(err);
@@ -730,6 +758,39 @@ This model reduces search cycle times by 30-40%. Additionally, it allows our cli
           >
             {seeding ? "Populating database..." : "Seed Firebase Database"}
           </Button>
+        </div>
+      )}
+
+      {isAuthenticated && (
+        <div className="mt-8 rounded-lg border border-border bg-surface p-5">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex rounded-md p-1.5 bg-sky-500/10">
+              <GitBranch className="h-4 w-4 text-sky-500" />
+            </span>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+              Sync GitHub Deployments
+            </h2>
+          </div>
+          <p className="mt-4 text-sm leading-relaxed text-slate-500">
+            Fetch recent deployments and environment statuses from the GitHub API and seed them into the <code>deployments</code> Firestore collection.
+          </p>
+          <Button
+            onClick={handleSyncDeployments}
+            disabled={syncingDeployments}
+            className="mt-6 rounded-none bg-sky-900 px-8 py-5 text-[11px] font-bold uppercase tracking-[0.25em] text-white hover:bg-sky-800 disabled:opacity-50"
+          >
+            {syncingDeployments ? "Syncing..." : "Sync Deployments from GitHub"}
+          </Button>
+
+          {deploymentsLogs.length > 0 && (
+            <div className="mt-6 max-h-40 overflow-y-auto rounded border border-border bg-slate-950 p-4 font-mono text-xs text-slate-300">
+              {deploymentsLogs.map((log, idx) => (
+                <div key={idx} className="border-b border-slate-900 pb-1 last:border-0 last:pb-0">
+                  {log}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

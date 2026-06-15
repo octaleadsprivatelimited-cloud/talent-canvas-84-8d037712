@@ -20,6 +20,7 @@ import {
   X,
   Briefcase,
   ShieldCheck,
+  GitBranch,
 } from "lucide-react";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { AnimatePresence, motion } from "framer-motion";
@@ -44,6 +45,7 @@ import {
 } from "@/components/admin/views/crud-views";
 import { SubmissionsAdmin } from "@/components/admin/views/submissions";
 import { DiagnosticsPage } from "@/components/admin/views/diagnostics";
+import { DeploymentsAdmin } from "@/components/admin/views/deployments";
 
 type Section = {
   key: string;
@@ -69,6 +71,7 @@ const sections: Section[] = [
   { key: "testimonials", label: "Testimonials", icon: Quote, permission: "manage:content" },
   { key: "jobs", label: "Jobs", icon: Briefcase, permission: "manage:jobs" },
   { key: "submissions", label: "Contact Inbox", icon: Inbox, permission: "view:submissions" },
+  { key: "deployments", label: "Deployments", icon: GitBranch, permission: "view:diagnostics" },
   { key: "diagnostics", label: "Diagnostics", icon: Activity, permission: "view:diagnostics" },
 ];
 
@@ -186,6 +189,8 @@ function AdminLayout() {
         return <JobsView />;
       case "submissions":
         return <SubmissionsAdmin />;
+      case "deployments":
+        return <DeploymentsAdmin />;
       case "diagnostics":
         return <DiagnosticsPage />;
       default:
