@@ -24,6 +24,7 @@ service cloud.firestore {
     function isEditor()    { return isAdmin() || hasAnyRole(['admin', 'editor']); }
     function isModerator() { return isAdmin() || hasAnyRole(['admin', 'moderator']); }
     function isRecruiter() { return isAdmin() || hasAnyRole(['admin', 'recruiter']); }
+    function isStaff()     { return isAdmin() || hasAnyRole(['admin', 'editor', 'recruiter', 'employer', 'moderator']); }
 
     function isPublished() {
       return resource.data.published == true;
@@ -75,12 +76,12 @@ service cloud.firestore {
     }
 
     // ---------- Public CMS content (read public-published; admin writes) ----------
-    match /industries/{id}   { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
-    match /services/{id}     { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
-    match /case_studies/{id} { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
-    match /posts/{id}        { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
-    match /testimonials/{id} { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
-    match /custom_pages/{id} { allow read: if isPublished() || isEditor(); allow write: if isEditor(); }
+    match /industries/{id}   { allow read: if isPublished() || isStaff(); allow write: if isEditor(); }
+    match /services/{id}     { allow read: if isPublished() || isStaff(); allow write: if isEditor(); }
+    match /case_studies/{id} { allow read: if isPublished() || isStaff(); allow write: if isEditor(); }
+    match /posts/{id}        { allow read: if isPublished() || isStaff(); allow write: if isEditor(); }
+    match /testimonials/{id} { allow read: if isPublished() || isStaff(); allow write: if isEditor(); }
+    match /custom_pages/{id} { allow read: if isPublished() || isStaff(); allow write: if isEditor(); }
     match /page_content/{id} { allow read: if true; allow write: if isEditor(); }
 
     // ---------- team_members ----------
@@ -90,7 +91,7 @@ service cloud.firestore {
     // of any document whose `published == true` if it is not meant to be
     // public-facing.
     match /team_members/{id} {
-      allow read: if isPublished() || isEditor();
+      allow read: if isPublished() || isStaff();
       allow write: if isEditor();
     }
 
@@ -101,14 +102,15 @@ service cloud.firestore {
                      )
                      && request.resource.data.email is string
                      && request.resource.data.message is string;
-      allow read, update, delete: if isAdmin();
+      allow read: if isStaff();
+      allow update, delete: if isAdmin();
     }
 
     // ---------- Jobs ----------
     match /jobs/{jobId} {
       allow read: if (resource.data.published == true)
                   || (resource.data.status == 'published')
-                  || isRecruiter() || isEditor();
+                  || isStaff();
       allow create, update, delete: if isRecruiter() || isEditor();
     }
 
